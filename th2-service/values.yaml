@@ -21,7 +21,7 @@ infraEditor:
 infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.0.14
+    tag: 2.0.16
 
 infraMgr:
   git:
@@ -53,7 +53,7 @@ infraMgr:
       - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.8.5
+    tag: 0.8.6
 
 ingress:
   host:
