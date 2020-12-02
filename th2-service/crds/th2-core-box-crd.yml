@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: th2genericboxes.th2.exactpro.com
+  name: th2coreboxes.th2.exactpro.com
 spec:
   additionalPrinterColumns:
     - JSONPath: .status.subResourceName
@@ -22,10 +22,10 @@ spec:
       type: date
   group: th2.exactpro.com
   names:
-    kind: Th2GenericBox
-    listKind: Th2GenericBoxList
-    plural: th2genericboxes
-    singular: th2genericbox
+    kind: Th2CoreBox
+    listKind: Th2CoreBoxList
+    plural: th2coreboxes
+    singular: th2corebox
   scope: Namespaced
   preserveUnknownFields: false
   validation:
@@ -33,13 +33,13 @@ spec:
       type: object
       required:
         - spec
-      description: Th2GenericBox defines generic Th2 component instance
+      description: Th2CoreBox defines Th2 core component instance
       properties:
         apiVersion:
-          description: ''
+          description: ""
           type: string
         kind:
-          description: ''
+          description: ""
           type: string
         metadata:
           type: object
@@ -53,17 +53,30 @@ spec:
               type: string
             type:
               type: string
-              enum: [th2-act, th2-codec, th2-conn, th2-rpt-data-provider,
-                     th2-rpt-viewer, th2-check1, th2-check2-bookcheсk,
-                     th2-check2-recon, th2-script, th2-sim, th2-hand,
-                     th2-read, th2-util, th2-cradle-viewer]
+              enum:
+                [
+                  th2-act,
+                  th2-codec,
+                  th2-conn,
+                  th2-rpt-data-provider,
+                  th2-rpt-viewer,
+                  th2-check1,
+                  th2-check2-bookche?k,
+                  th2-check2-recon,
+                  th2-script,
+                  th2-sim,
+                  th2-hand,
+                  th2-read,
+                  th2-util,
+                  th2-cradle-viewer,
+                ]
             extended-settings:
               type: object
-              description: ''
+              description: ""
               properties:
                 chart-cfg:
                   type: object
-                  description: ''
+                  description: ""
                   properties:
                     ref:
                       type: string
@@ -71,7 +84,7 @@ spec:
                       type: string
                 service:
                   type: object
-                  description: ''
+                  description: ""
                   properties:
                     enabled:
                       type: string
@@ -86,11 +99,11 @@ spec:
                   type: string
                 resources:
                   type: object
-                  description: ''
+                  description: ""
                   properties:
                     limits:
                       type: object
-                      description: ''
+                      description: ""
                       properties:
                         memory:
                           type: string
@@ -98,7 +111,7 @@ spec:
                           type: string
                     requests:
                       type: object
-                      description: ''
+                      description: ""
                       properties:
                         memory:
                           type: string
@@ -106,10 +119,10 @@ spec:
                           type: string
                 mounting:
                   type: array
-                  description: ''
+                  description: ""
                   items:
                     type: object
-                    description: ''
+                    description: ""
                     properties:
                       pvcName:
                         type: string
@@ -124,7 +137,7 @@ spec:
               description: List of generic parameters
               items:
                 type: object
-                description: ''
+                description: ""
                 properties:
                   name:
                     type: string
@@ -138,7 +151,7 @@ spec:
               description: List of connection pins
               items:
                 type: object
-                description: ''
+                description: ""
                 properties:
                   name:
                     type: string
@@ -147,7 +160,7 @@ spec:
                     enum: [mq, grpc]
                   settings:
                     type: object
-                    description: ''
+                    description: ""
                     properties:
                       storageOnDemand:
                         type: string
@@ -159,17 +172,17 @@ spec:
                       type: string
                   filters:
                     type: array
-                    description: ''
+                    description: ""
                     items:
                       type: object
-                      description: ''
+                      description: ""
                       properties:
                         metadata:
                           type: array
-                          description: ''
+                          description: ""
                           items:
                             type: object
-                            description: ''
+                            description: ""
                             properties:
                               field-name:
                                 type: string
@@ -184,10 +197,10 @@ spec:
                               - operation
                         message:
                           type: array
-                          description: ''
+                          description: ""
                           items:
                             type: object
-                            description: ''
+                            description: ""
                             properties:
                               field-name:
                                 type: string
@@ -221,22 +234,26 @@ spec:
                   - type
                 properties:
                   lastTransitionTime:
-                    description: LastTransitionTime is the timestamp corresponding
+                    description:
+                      LastTransitionTime is the timestamp corresponding
                       to the last status change of this condition.
                     type: string
                     format: date-time
                   lastUpdateTime:
-                    description: LastUpdateTime is the timestamp corresponding to
+                    description:
+                      LastUpdateTime is the timestamp corresponding to
                       the last status update of this condition.
                     type: string
                     format: date-time
                   message:
                     nullable: true
-                    description: Message is a human readable description of the details
+                    description:
+                      Message is a human readable description of the details
                       of the last transition, complementing reason.
                     type: string
                   reason:
-                    description: Reason is a brief machine readable explanation for
+                    description:
+                      Reason is a brief machine readable explanation for
                       the condition's last transition.
                     type: string
                   status:
