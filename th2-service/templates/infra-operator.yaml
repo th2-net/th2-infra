@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-operator
+spec:
+  selector:
+    matchLabels:
+      app: infra-operator
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: infra-operator
+    spec:
+      imagePullSecrets:
+        - name: th2-core
+        - name: th2-solution
+      serviceAccountName: infra-operator-service
+      containers:
+      - name: infra-operator
+        image: {{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}
+        volumeMounts:
+          - name: configs
+            mountPath: /var/th2/config/
+        env:
+        - name: RABBITMQ_MNG_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.rabbitmq.fullnameOverride | default "rabbitmq" }}
+              key: rabbitmq-management-password
+        - name: RABBITMQ_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.rabbitmq.fullnameOverride | default "rabbitmq" }}
+              key: rabbitmq-password
+      volumes:
+        - name: configs
+          projected:
+            sources:
+            - configMap:
+                name: rabbit-mq-app-config
+            - configMap:
+                name: rabbitmq-mng-params
+            - configMap: 
+                name: infra-operator

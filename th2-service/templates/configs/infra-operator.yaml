@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infra-operator
+data:
+  infra-operator.json: |
+    {
+        "git": {{ .Values.infraOperator.chart.git | quote }},
+        "ref": {{ .Values.infraOperator.chart.ref | quote }},
+        "path": {{ .Values.infraOperator.chart.path | quote }}
+    }

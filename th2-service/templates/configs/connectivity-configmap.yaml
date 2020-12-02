@@ -1,0 +1,8 @@
+# deprecated config, should be removed in the future
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: connectivity-config
+data:
+  TH2_CONNECTIVITY_ADDRESSES: ''

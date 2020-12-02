@@ -1,0 +1,19 @@
+infraOperator:
+  persistence: true
+  chart:
+    git: https://github.com/th2-net/th2-infra.git
+    ref: master
+    path: custom-component
+
+infraMgr:
+  git:
+    repository: git@github.com:th2-net/th2-infra-demo-configuration.git
+
+rabbitmq:
+  prometheus:
+    operator:
+      enabled: false
+
+cassandra:
+  internal: false
+  host: <cassandra-host>

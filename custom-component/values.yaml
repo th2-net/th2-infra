@@ -1,0 +1,23 @@
+component:
+  image: 
+  name: comp1
+#nodePort is optional
+  nodePort: 
+  custom:
+    # prod:
+    #   value: dskgfsdgf
+    # test:
+    #   value: example
+  routerMq:
+    # sprod:
+    #   value: 2222
+  grpcRouter:
+    # sprod:
+    #   value: 3333
+  dictionaries:
+    # - name: FIX5-0
+    #   type: SINGLE
+    #   data: ABC
+    # - name: FIX
+    #   type: LEVEL1
+    #   data: XYZ

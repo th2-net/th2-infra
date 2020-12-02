@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: connectivity-queues-config
+data:
+  TH2_CONNECTIVITY_QUEUE_NAMES: ''

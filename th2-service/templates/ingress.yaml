@@ -1,0 +1,33 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: ingress-service
+spec:
+  rules:
+  {{- if .Values.ingress.host }}
+  - host: "{{ .Values.ingress.host -}}"
+    http:
+  {{- else }}
+  - http:
+  {{- end }}
+      paths:
+      - backend:
+          serviceName: infra-editor
+          servicePort: 8080
+        path: /editor/(.*)
+      - backend:
+          serviceName: infra-mgr
+          servicePort: 8080
+        # path: /infra-mgr(\/|$)(.*)
+        # path: /backend/(schemas$|schema$|/.*)
+        path: /editor/backend/(.*)
+      - backend:
+          serviceName: rabbitmq-discovery
+          servicePort: 15672
+        path: /rabbitmq/(.*)
