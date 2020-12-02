@@ -61,7 +61,7 @@ spec:
                   th2-rpt-data-provider,
                   th2-rpt-viewer,
                   th2-check1,
-                  th2-check2-bookche?k,
+                  th2-check2-bookcheck,
                   th2-check2-recon,
                   th2-script,
                   th2-sim,
