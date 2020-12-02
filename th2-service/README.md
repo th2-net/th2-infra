@@ -2,7 +2,7 @@ th2
 ===
 th2 service Helm chart
 
-Current chart version is `0.1.10`
+Current chart version is `1.0.0`
 
 
 
