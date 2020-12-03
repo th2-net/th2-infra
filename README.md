@@ -145,7 +145,7 @@ If you would like to include read components into your configuration, you also n
 
 ### Create secret with th2 credentials
 
-Create secrets.yaml in `./` folder (*do not commit into git*). Please provide valid credentials to access to Cassandra DB. Example:
+Create secrets.yaml in `./` folder (*do not commit into git*). Please provide valid credentials for Cassandra DB. Example:
 ```
 # reguired only if images in private repository
 # productRegistry:
