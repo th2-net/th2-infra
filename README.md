@@ -20,7 +20,7 @@ The following steps should be performed on the operator-box for th2-infra deploy
 
 ## th2 git repositories
 Installation of th2 infra requires two git repositories. The information regarding this repository and its usage can be found in this guide below:
-* https://github.com/th2-net/th2-infra - consists charts and its values for deployment infrastructure components. The repository is common for everyone, but you can fork or clone it if you need to customize values.
+* https://github.com/th2-net/th2-infra - consists of charts and its values for deployment infrastructure components. The repository is common for everyone, but you can fork or clone it if you need to customize values.
 * https://github.com/th2-net/th2-infra-schema-demo - schema repository. It's used by `th2-infra-mgr`.
 
 The first step that should be done in the th2 deployment process is copying th2-infra repository into your operator-box:
@@ -78,7 +78,7 @@ In the output you should see the names of these namespaces:
 ```
 
 ### Set namespace `service` as a current
-It's an optional step, but it gets slightly simpler checking result of installation. In all installation commands we explicitly define namespaces to avoid possible mistakes.
+It's an optional step, but it gets slightly simpler checking the result of installation. In all installation commands we explicitly define namespaces to avoid possible mistakes.
 ```
 kubectl config set-context --current --namespace=service
 ```
@@ -102,7 +102,7 @@ Create secret for git access (only for private repositories)
 ```
 kubectl -n service create secret generic git-chart-creds --from-literal=username=git-username --from-literal=password=git-password
 ```
-If you use a private repository for charts of project (for some security reasons i.e.) instead of public, you should provide valid credentials for `git-username` and `git-password` in the command above. Using Personal Access Token(PAT) is the better choice instead of using clear password.
+If you use a private repository for charts of project (for some security reasons i.e.) instead of public, you should provide valid credentials for `git-username` and `git-password` in the command above. Using a Personal Access Token(PAT) is the better choice instead of plain password.
 Read more about this:
 * [Creating a personal access token on Github](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
 * [Creating a deployment token on Gitlab](https://docs.gitlab.com/ee/user/project/deploy_tokens/#creating-a-deploy-token)
@@ -136,16 +136,16 @@ ingress:
 ```
 
 ### Create directories on the particular node for PersistentVolumes:
-Note: we use HostPath type of [Persistent Volume(PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) to store data only for demo deployment, but this type isn't recommended for production deployment. Please read documentation to chose appropriated type for your environment.<br>
+Note: we use HostPath type of [Persistent Volume(PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) to store data only for demo deployment, but this type isn't recommended for production deployment. Please read documentation to choose appropriate type for your environment.<br>
 Next command requires root permissions.
 ```
 mkdir /opt/prometheus /opt/grafana /opt/loki /opt/rabbitmq /opt/components
 ```
-If you would like to include read components into your configuration, you also need to set up dedicated PersistentVolume for th2-read log directory. Details can be found in th2-read-log [README.md](https://github.com/th2-net/th2-read-log#configuration) 
+If you would like to include read components into your configuration, you also need to set up a dedicated PersistentVolume for th2-read log directory. Details can be found in th2-read-log [README.md](https://github.com/th2-net/th2-read-log#configuration) 
 
 ### Create secret with th2 credentials
 
-Create secrets.yaml in `./` folder (*do not commit into git*). Please provide valid credentials to access to cassandra DB. Example:
+Create secrets.yaml in `./` folder (*do not commit into git*). Please provide valid credentials to access to Cassandra DB. Example:
 ```
 # reguired only if images in private repository
 # productRegistry:
