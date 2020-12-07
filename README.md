@@ -60,23 +60,22 @@ image
 
 ## Monitoring deployment
 * Create namespace
-
-Commands:
-```
-kubectl create namespace monitoring
-```
-You can check result using this command:
-```
-kubectl get namespaces 
-```
-In the output you should see the names of these namespaces:
-```
-    NAME              STATUS   AGE
-    .......
-    monitoring        Active   15s
-    service           Active   7s
-    .......
-```
+    * command:
+    ```
+    kubectl create namespace monitoring
+    ```
+    * You can check result using this command:
+    ```
+    kubectl get namespaces 
+    ```
+    * In the output you should see the names of these namespaces:
+    ```
+        NAME              STATUS   AGE
+        .......
+        monitoring        Active   15s
+        service           Active   7s
+        .......
+    ```
 
 * Switch namespace to monitoring.
 _Note: It's an optional step, but it gets slightly simpler checking the result of installation. In all installation commands we explicitly define namespaces to avoid possible mistakes._
