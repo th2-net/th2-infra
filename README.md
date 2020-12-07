@@ -66,36 +66,30 @@ _Note: Examples below use HostPath type of [Persistent Volume(PV)](https://kuber
 
 Steps:
 
-* Next command can require root permissions, create directory on th2 node:
+* the following command can require root permissions, create directory on th2 node:
 ```
-mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq /opt/components
+mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq
 ```
-* Set node name in `./values/persistence/pv.yaml`
-* Create PVs and PVCs:
+* set node name in `./values/pvs.yaml`
+* create PVs and PVCs:
     ```
     kubectl apply -f ./values/pvs.yaml
     kubectl apply -f ./values/pvcs.yaml
     ```
 
-```
-mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq
-```
-* Set node name in `./values/pvs.yaml`
-* Create PVs and PVCs:
-    ```
-    kubectl apply -f ./values/persistence/pv.yaml
-    kubectl apply -f ./values/persistence/pvc.yaml
-    ```
 If you would like to include th2 read components into your configuration, you also have to set up a dedicated PersistentVolume for th2-read log directory.
-You should add PersistentVolume mapped to /opt/components directory created before and then create PersistentVolumeClaim once a schema namespace installed. PV and PVC examples can be found here [./values/persistence/](./values/persistence/)
+You should add PersistentVolume mapped to /opt/components directory and then create PersistentVolumeClaim once a schema namespace installed. PV and PVC examples can be found here [./values/persistence/](./values/persistence/)
 
 ```
 mkdir /opt/components
 ```
-* Set node name in `./values/pvs.yaml`
-* Create PVs and PVCs:
+* set node name in `./values/persistence/pv.yaml`
+* create PV:
     ```
     kubectl apply -f ./values/persistence/pv.yaml
+    ```
+* create 
+    ```
     kubectl apply -f ./values/persistence/pvc.yaml
     ```
 
