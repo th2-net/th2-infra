@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
  name: components
- namespace: 
+ namespace: <namespace>
 spec:
  accessModes:
    - ReadWriteMany
