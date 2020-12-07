@@ -29,6 +29,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
+          storageClassName: local-storage
           selector:
             matchLabels:
               app: prometheus
