@@ -26,17 +26,3 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: local-storage
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
- name: components
- namespace: 
-spec:
- accessModes:
-   - ReadWriteMany
- volumeMode: Filesystem
- resources:
-   requests:
-     storage: 10Gi
- storageClassName: local-storage
