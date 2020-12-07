@@ -287,9 +287,10 @@ helm install th2-infra-base -n service ./th2-service/ -f ./values/service.values
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
 
-# Links:
+## th2 infra links:
 - Kubernetes dashboard http://your-host:30000/dashboard/
 - Grafana http://your-host:30000/grafana/
 - th2-infra-editor http://your-host:30000/editor/
-- th2-reports http://your-host:30000/your-namespace/
 - RabbitMQ http://your-host:30000/rabbitmq/
+- th2-reports http://your-host:30000/your-namespace/
+
