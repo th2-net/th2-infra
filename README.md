@@ -58,6 +58,49 @@ The following picture describes th2-infra cluster configuration:
 
 image
 
+## Data persistence
+
+Data persistence is required for the following components: Grafana, Prometheus, Loki, RabbitMQ components and should be set up on this step.
+
+_Note: Examples below use HostPath type of [Persistent Volume(PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). Please read the documentation to choose an appropriate PV type for your environment_
+
+Steps:
+
+* Next command can require root permissions, create directory on th2 node:
+```
+mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq /opt/components
+```
+* Set node name in `./values/persistence/pv.yaml`
+* Create PVs and PVCs:
+    ```
+    kubectl apply -f ./values/pvs.yaml
+    kubectl apply -f ./values/pvcs.yaml
+    ```
+
+```
+mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq
+```
+* Set node name in `./values/pvs.yaml`
+* Create PVs and PVCs:
+    ```
+    kubectl apply -f ./values/persistence/pv.yaml
+    kubectl apply -f ./values/persistence/pvc.yaml
+    ```
+If you would like to include th2 read components into your configuration, you also have to set up a dedicated PersistentVolume for th2-read log directory.
+You should add PersistentVolume mapped to /opt/components directory created before and then create PersistentVolumeClaim once a schema namespace installed. PV and PVC examples can be found here [./values/persistence/](./values/persistence/)
+
+```
+mkdir /opt/components
+```
+* Set node name in `./values/pvs.yaml`
+* Create PVs and PVCs:
+    ```
+    kubectl apply -f ./values/persistence/pv.yaml
+    kubectl apply -f ./values/persistence/pvc.yaml
+    ```
+
+Details for th2-read-log [README.md](https://github.com/th2-net/th2-read-log#configuration)
+
 ## Monitoring deployment
 * Create namespace
     * command:
@@ -87,12 +130,6 @@ kubectl config set-context --current --namespace=monitoring
     ```
     helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
     helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./values/dashboard.values.yaml
-    ```
-* Set node name in `./values/pvs.yaml`
-* Create PVs and PVCs:
-    ```
-    kubectl apply -f ./values/pvs.yaml
-    kubectl apply -f ./values/pvcs.yaml
     ```
 * Deploy components
     ```
@@ -188,24 +225,6 @@ Please add `ingress.hostname` value if required into [./values/service.values.ya
 ingress:
   host: example.com
 ```
-
-### Create directories on the particular node for PersistentVolumes:
-Note: we use HostPath type of [Persistent Volume(PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) to store data only for demo deployment, but this type isn't recommended for production deployment. Please read the documentation to choose an appropriate type for your environment.<br>
-
-Next command can require root permissions
-```
-mkdir /opt/rabbitmq /opt/components
-```
-If you would like to include th2 read components into your configuration, you also have to set up a dedicated PersistentVolume for th2-read log directory.
-You should add PersistentVolume mapped to /opt/components directory created before and then create PersistentVolumeClaim after schema namespace installed. PV and PVC examples can be found here [./values/persistence/](./values/persistence/)
-Details can be found in th2-read-log [README.md](https://github.com/th2-net/th2-read-log#configuration)
-
-* Set node name in `./values/persistence/pv.yaml`
-* Create PVs and PVCs:
-    ```
-    kubectl apply -f ./values/persistence/pv.yaml
-    kubectl apply -f ./values/persistence/pvc.yaml
-    ```
 
 ### Create secret with th2 credentials
 
