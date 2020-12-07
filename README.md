@@ -12,9 +12,9 @@ All th2 components are deployed via Helm charts by [Helm](https://helm.sh/) and 
 The following steps should be performed on the operator-box for th2-infra deployment:
 <!--ts-->
    * [Download th2 git repositories](#th2-git-repositories)
+   * [Monitoring deployment](#monitoring-deployment)
    * [Cluster configuration](#cluster-configuration)
    * [th2 deployment](#th2-deployment)
-   * [Monitoring deployment](#monitoring-deployment)
 <!--te-->
 
 
@@ -34,6 +34,57 @@ cd ./th2-infra
 Then https://github.com/th2-net/th2-infra-schema-demo should be created in your git as a fork or template:
   * [how to create template](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template)
   * [how to fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo#fork-an-example-repository)
+
+## Monitoring deployment
+* Switch namespace to monitoring
+  ```
+  kubectl config set-context --current --namespace=monitoring
+  ```
+
+* Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
+    ```
+    helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+    helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./values/dashboard.values.yaml
+    ```
+* Set node name in `./values/pvs.yaml`
+* Create PVs and PVCs:
+    ```
+    kubectl apply -f ./values/pvs.yaml
+    kubectl apply -f ./values/pvcs.yaml
+    ```
+* Deploy components
+    ```
+    helm repo add loki https://grafana.github.io/loki/charts
+    helm repo add stable https://charts.helm.sh/stable
+    helm upgrade --install loki --namespace=monitoring loki/loki-stack -f ./values/loki.values.yaml
+    helm upgrade --install prometheus stable/prometheus-operator -n monitoring -f ./values/prometheus-operator.values.yaml
+    ```
+* Check result:
+    * command:
+        ```
+        kubectl get pods
+        ```
+    * output:
+        ```
+        NAME                                                     READY   STATUS    RESTARTS   AGE
+        ........
+        pod/dashboard-kubernetes-dashboard-77d85586db-j9v8f   1/1     Running   0          56s
+        alertmanager-prometheus-prometheus-oper-alertmanager-0   2/2     Running   0          75s
+        loki-0                                                   1/1     Running   0          4m47s
+        loki-promtail-wqfml                                      1/1     Running   0          4m47s
+        prometheus-grafana-68f8dd6d57-2gtns                      2/2     Running   0          82s
+        prometheus-kube-state-metrics-75d4cc9dbd-psb88           1/1     Running   0          82s
+        prometheus-prometheus-node-exporter-gfzp6                1/1     Running   0          82s
+        prometheus-prometheus-oper-operator-df668d457-snxks      1/1     Running   0          82s
+        prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1          65s        
+        ........
+        ```
+
+default password in Grafana: admin/prom-operator. Need to be changed
+Add loki Datasource as http://loki:3100 and import Dashboard from ./values/components-logs.json
+
+* Check access to Grafana _(default user/password: `admin/prom-operator`. Need to be changed)_: <br>
+  http://your-host:30000/grafana/login
 
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster. The following picture describes th2-infra cluster configuration:
@@ -206,57 +257,6 @@ helm install th2-infra-base -n service ./th2-service/ -f ./values/service.values
 ```
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
-
-## Monitoring deployment
-* Switch namespace to monitoring
-  ```
-  kubectl config set-context --current --namespace=monitoring
-  ```
-
-* Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-    ```
-    helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-    helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./values/dashboard.values.yaml
-    ```
-* Set node name in `./values/pvs.yaml`
-* Create PVs and PVCs:
-    ```
-    kubectl apply -f ./values/pvs.yaml
-    kubectl apply -f ./values/pvcs.yaml
-    ```
-* Deploy components
-    ```
-    helm repo add loki https://grafana.github.io/loki/charts
-    helm repo add stable https://charts.helm.sh/stable
-    helm upgrade --install loki --namespace=monitoring loki/loki-stack -f ./values/loki.values.yaml
-    helm upgrade --install prometheus stable/prometheus-operator -n monitoring -f ./values/prometheus-operator.values.yaml
-    ```
-* Check result:
-    * command:
-        ```
-        kubectl get pods
-        ```
-    * output:
-        ```
-        NAME                                                     READY   STATUS    RESTARTS   AGE
-        ........
-        pod/dashboard-kubernetes-dashboard-77d85586db-j9v8f   1/1     Running   0          56s
-        alertmanager-prometheus-prometheus-oper-alertmanager-0   2/2     Running   0          75s
-        loki-0                                                   1/1     Running   0          4m47s
-        loki-promtail-wqfml                                      1/1     Running   0          4m47s
-        prometheus-grafana-68f8dd6d57-2gtns                      2/2     Running   0          82s
-        prometheus-kube-state-metrics-75d4cc9dbd-psb88           1/1     Running   0          82s
-        prometheus-prometheus-node-exporter-gfzp6                1/1     Running   0          82s
-        prometheus-prometheus-oper-operator-df668d457-snxks      1/1     Running   0          82s
-        prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1          65s        
-        ........
-        ```
-
-default password in Grafana: admin/prom-operator. Need to be changed
-Add loki Datasource as http://loki:3100 and import Dashboard from ./values/components-logs.json
-
-* Check access to Grafana _(default user/password: `admin/prom-operator`. Need to be changed)_: <br>
-  http://your-host:30000/grafana/login
 
 # Links:
 - Kubernetes dashboard http://your-host:30000/dashboard/
