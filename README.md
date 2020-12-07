@@ -17,7 +17,6 @@ The following steps should be performed on the operator-box for th2-infra deploy
    * [th2 deployment](#th2-deployment)
 <!--te-->
 
-
 ## th2 git repositories
 Installation of th2 infra requires two git repositories. The information regarding this repository and its usage can be found in this guide below:
 * https://github.com/th2-net/th2-infra - consists of charts and its values for deployment infrastructure components. The repository is common for everyone, but you can fork or clone it if you need to customize values.
@@ -35,11 +34,55 @@ Then https://github.com/th2-net/th2-infra-schema-demo should be created in your 
   * [how to create template](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template)
   * [how to fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo#fork-an-example-repository)
 
+
+## th2 infra namespaces
+th2 infra components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
+
+Next components of prometheus and grafana monitoring stack are deployed into _`monitoring`_ namespace:
+  * [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
+  * [grafana](https://grafana.com/oss/grafana/)
+  * [loki](https://grafana.com/oss/loki/)
+  * [prometheus](https://grafana.com/oss/prometheus/)
+
+The _`service`_ namespace is used for core services of this project:
+  * [RabbitMQ](https://www.rabbitmq.com/)
+  * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
+  * [Helm Operator](https://github.com/fluxcd/helm-operator)
+  
+and for infrastructure components:
+  * [th2-infra-editor]()
+  * [th2-infra-operator](https://github.com/th2-net/th2-infra-operator)
+  * [th2-infra-mgr](https://github.com/th2-net/th2-infra-mgr)
+  
+The following picture describes th2-infra cluster configuration:
+
+image
+
 ## Monitoring deployment
-* Switch namespace to monitoring
-  ```
-  kubectl config set-context --current --namespace=monitoring
-  ```
+* Create namespace
+
+Commands:
+```
+kubectl create namespace monitoring
+```
+You can check result using this command:
+```
+kubectl get namespaces 
+```
+In the output you should see the names of these namespaces:
+```
+    NAME              STATUS   AGE
+    .......
+    monitoring        Active   15s
+    service           Active   7s
+    .......
+```
+
+* Switch namespace to monitoring.
+_Note: It's an optional step, but it gets slightly simpler checking the result of installation. In all installation commands we explicitly define namespaces to avoid possible mistakes._
+```
+kubectl config set-context --current --namespace=monitoring
+```
 
 * Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
     ```
@@ -87,51 +130,12 @@ Add loki Datasource as http://loki:3100 and import Dashboard from ./values/compo
   http://your-host:30000/grafana/login
 
 ## Cluster configuration
-Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster. The following picture describes th2-infra cluster configuration:
+Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.
 
-image
+### Create namespace
 
-th2 infra components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
-
-Next components of prometheus and grafana monitoring stack are deployed into _`monitoring`_ namespace:
-  * [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-  * [grafana](https://grafana.com/oss/grafana/)
-  * [loki](https://grafana.com/oss/loki/)
-  * [prometheus](https://grafana.com/oss/prometheus/)
-
-The _`service`_ namespace is used for core services of this project:
-  * [RabbitMQ](https://www.rabbitmq.com/)
-  * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
-  * [Helm Operator](https://github.com/fluxcd/helm-operator)
-  
-and for infrastructure components:
-  * [th2-infra-editor]()
-  * [th2-infra-operator](https://github.com/th2-net/th2-infra-operator)
-  * [th2-infra-mgr](https://github.com/th2-net/th2-infra-mgr)
-
-### Create namespaces
-Commands:
 ```
-kubectl create namespace monitoring
 kubectl create namespace service
-```
-You can check result using this command:
-```
-kubectl get namespaces 
-```
-In the output you should see the names of these namespaces:
-```
-    NAME              STATUS   AGE
-    .......
-    monitoring        Active   15s
-    service           Active   7s
-    .......
-```
-
-### Set namespace `service` as a current
-It's an optional step, but it gets slightly simpler checking the result of installation. In all installation commands we explicitly define namespaces to avoid possible mistakes.
-```
-kubectl config set-context --current --namespace=service
 ```
 
 ### Set up access to Git repositories
