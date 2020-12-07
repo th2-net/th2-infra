@@ -167,6 +167,9 @@ Once all of the required software is installed on your test-box and operator-box
 ```
 kubectl create namespace service
 ```
+```
+kubectl config set-context --current --namespace=service
+```
 
 ### Set up access to Git repositories
 Two types of access to repositories are used in th2 - via `https` and `ssh`. The `ssh` access is required by **th2-infra-mgr** component and `https` by **helm-operator**. So, we need to set up both of them.
