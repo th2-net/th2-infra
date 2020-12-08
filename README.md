@@ -56,7 +56,7 @@ and for infrastructure components:
   
 The following picture describes th2-infra cluster configuration:
 
-image
+![th2-infra](https://user-images.githubusercontent.com/690243/101453864-0c7b5980-3941-11eb-8616-11f00095ea99.png)
 
 * Create namespaces
     * command:
