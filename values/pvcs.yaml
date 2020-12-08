@@ -30,13 +30,13 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
- name: components
- namespace: 
+  name: rabbitmq
+  namespace: service
 spec:
- accessModes:
-   - ReadWriteMany
- volumeMode: Filesystem
- resources:
-   requests:
-     storage: 10Gi
- storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: local-storage
