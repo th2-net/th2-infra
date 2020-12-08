@@ -58,6 +58,26 @@ The following picture describes th2-infra cluster configuration:
 
 image
 
+* Create namespaces
+    * command:
+    ```
+    kubectl create namespace monitoring
+    kubectl create namespace service
+    ```
+    * You can check result using this command:
+    ```
+    kubectl get namespaces 
+    ```
+    * In the output you should see the names of these namespaces:
+    ```
+        NAME              STATUS   AGE
+        .......
+        monitoring        Active   15s
+        service           Active   7s
+        .......
+    ```
+
+
 ## Data persistence
 
 Data persistence is required for the following components: Grafana, Prometheus, Loki, RabbitMQ components and should be set up on this step.
@@ -96,26 +116,9 @@ mkdir /opt/components
 Details for th2-read-log [README.md](https://github.com/th2-net/th2-read-log#configuration)
 
 ## Monitoring deployment
-* Create namespace
-    * command:
-    ```
-    kubectl create namespace monitoring
-    ```
-    * You can check result using this command:
-    ```
-    kubectl get namespaces 
-    ```
-    * In the output you should see the names of these namespaces:
-    ```
-        NAME              STATUS   AGE
-        .......
-        monitoring        Active   15s
-        service           Active   7s
-        .......
-    ```
 
-* Switch namespace to monitoring.
 _Note: It's an optional step, but it gets slightly simpler checking the result of installation. In all installation commands we explicitly define namespaces to avoid possible mistakes._
+* Switch namespace to monitoring
 ```
 kubectl config set-context --current --namespace=monitoring
 ```
@@ -162,11 +165,7 @@ Add loki Datasource as http://loki:3100 and import Dashboard from ./values/compo
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.
 
-### Create namespace
-
-```
-kubectl create namespace service
-```
+* Switch namespace to service:
 ```
 kubectl config set-context --current --namespace=service
 ```
