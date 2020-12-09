@@ -18,7 +18,7 @@ spec:
       serviceAccountName: infra-operator-service
       containers:
       - name: infra-operator
-        image: {{ .Values.infraOperator.image }}
+        image: "{{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}"
         volumeMounts:
           - name: configs
             mountPath: /var/th2/config/

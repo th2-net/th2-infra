@@ -32,7 +32,7 @@ spec:
         app: infra-editor
     spec:
       containers:
-      - image: {{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}
+      - image: "{{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}"
         name: infra-editor
         resources:
           limits:

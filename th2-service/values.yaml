@@ -19,9 +19,29 @@ infraEditor:
     tag: 1.0.29
 
 infraOperator:
-  image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.0.16
+  tag: 2.1.2-external-configs-merged-03
+  config:
+    chart:
+      git: https://gitlab.exactpro.com/vivarium/th2/charts.git
+      ref: TH-1036
+      path: custom-component
+    namespacePrefixes: 
+    - "schema-"
+    k8sUrl: "<kubernetes-external-entrypoint>"
+    schemaSecrets:
+      rabbitMQ: rabbitmq
+      cassandra: cassandra
+    rabbitMQManagement:
+      host: "rabbitmq-discovery.service.svc.cluster.local"
+      port: "15672"
+      username: "th2"
+      password: "${RABBITMQ_PASS}"
+      persistence: true
+      schemaPermissions:
+        configure: ""
+        read: ".*"
+        write: ".*"
 
 infraMgr:
   git:
@@ -43,20 +63,21 @@ infraMgr:
     configMaps:
       logging: java-logging-config
       rabbitmq: rabbit-mq-app-config
+      rabbitmq-ext: rabbit-mq-external-app-config
       rabbitmqManagement: rabbitmq-mng-params
       cassandra: cradle
+      cassandra-ext: cradle-external
+      prometheus: prometheus-app-config
     secrets:
       - chart-secrets
       - git-chart-creds
       - th2-core 
       - th2-solution
+      - th2-proprietary
       - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.8.6
-
-ingress:
-  host:
+    tag: 0.10.0
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
@@ -76,6 +97,28 @@ rabbitmq:
   rabbitmqExchange: th2-exchange
   replicaCount: 1
   podAntiAffinity: hard
+  livenessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - -ec
+        - rabbitmq-diagnostics -q check_running
+    initialDelaySeconds: 120
+    timeoutSeconds: 20
+    periodSeconds: 30
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - -ec
+        - rabbitmq-diagnostics -q check_running
+    initialDelaySeconds: 10
+    timeoutSeconds: 20
+    periodSeconds: 30
+    failureThreshold: 3
+    successThreshold: 1
   service:
     type: "NodePort"
     amqpNodePort: 32000
