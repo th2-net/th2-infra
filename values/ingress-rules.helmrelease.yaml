@@ -14,5 +14,6 @@ spec:
       name: git-chart-creds
     skipDepUpdate: true
   values:
+    # Entrypoint hostname
     ingress:
       host:
