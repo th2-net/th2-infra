@@ -19,7 +19,7 @@ infraEditor:
     tag: 1.0.29
 
 infraOperator:
-    repository: ghcr.io/th2-net/th2-infra-operator
+  repository: ghcr.io/th2-net/th2-infra-operator
   tag: 2.1.2-external-configs-merged-03
   config:
     chart:
