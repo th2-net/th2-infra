@@ -23,8 +23,8 @@ infraOperator:
   tag: 2.1.2-external-configs-merged-03
   config:
     chart:
-      git: https://gitlab.exactpro.com/vivarium/th2/charts.git
-      ref: TH-1036
+      git: https://github.com/th2-net/th2-infra.git
+      ref: dev
       path: custom-component
     namespacePrefixes: 
     - "schema-"
