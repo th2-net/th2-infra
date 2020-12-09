@@ -30,10 +30,10 @@ spec:
       description: Th2Mstore defines th2 message store instance
       properties:
         apiVersion:
-          description: ''
+          description: ""
           type: string
         kind:
-          description: ''
+          description: ""
           type: string
         metadata:
           type: object
@@ -50,11 +50,11 @@ spec:
               enum: [th2-message-store]
             extended-settings:
               type: object
-              description: ''
+              description: ""
               properties:
                 chart-cfg:
                   type: object
-                  description: ''
+                  description: ""
                   properties:
                     ref:
                       type: string
@@ -62,7 +62,7 @@ spec:
                       type: string
                 service:
                   type: object
-                  description: ''
+                  description: ""
                   properties:
                     enabled:
                       type: string
@@ -70,18 +70,40 @@ spec:
                       type: string
                     nodePort:
                       type: string
+                    endpoints:
+                      type: array
+                      description: ""
+                      items:
+                        type: object
+                        description: ""
+                        properties:
+                          name:
+                            type: string
+                            enum: ["grpc", "other"]
+                          targetPort:
+                            type: string
+                          nodePort:
+                            type: string
+                        required:
+                          - name
+                          - targetPort
+                          - nodePort
                 envVariables:
                   type: object
                   x-kubernetes-preserve-unknown-fields: true
                 externalBox:
                   type: string
+                  enum: ["false", "true"]
+                hostNetwork:
+                  type: string
+                  enum: ["false", "true"]
                 resources:
                   type: object
-                  description: ''
+                  description: ""
                   properties:
                     limits:
                       type: object
-                      description: ''
+                      description: ""
                       properties:
                         memory:
                           type: string
@@ -89,7 +111,7 @@ spec:
                           type: string
                     requests:
                       type: object
-                      description: ''
+                      description: ""
                       properties:
                         memory:
                           type: string
@@ -97,15 +119,25 @@ spec:
                           type: string
                 mounting:
                   type: array
-                  description: ''
+                  description: ""
                   items:
                     type: object
-                    description: ''
+                    description: ""
                     properties:
                       pvcName:
                         type: string
                       path:
                         type: string
+            prometheus:
+              type: object
+              properties:
+                host:
+                  type: string
+                port:
+                  type: string
+                enabled:
+                  type: string
+                  enum: ["false", "true"]
             custom-config:
               type: object
               description: this is custom configuration
@@ -115,7 +147,7 @@ spec:
               description: List of generic parameters
               items:
                 type: object
-                description: ''
+                description: ""
                 properties:
                   name:
                     type: string
@@ -141,22 +173,26 @@ spec:
                   - type
                 properties:
                   lastTransitionTime:
-                    description: LastTransitionTime is the timestamp corresponding
+                    description:
+                      LastTransitionTime is the timestamp corresponding
                       to the last status change of this condition.
                     type: string
                     format: date-time
                   lastUpdateTime:
-                    description: LastUpdateTime is the timestamp corresponding to
+                    description:
+                      LastUpdateTime is the timestamp corresponding to
                       the last status update of this condition.
                     type: string
                     format: date-time
                   message:
                     nullable: true
-                    description: Message is a human readable description of the details
+                    description:
+                      Message is a human readable description of the details
                       of the last transition, complementing reason.
                     type: string
                   reason:
-                    description: Reason is a brief machine readable explanation for
+                    description:
+                      Reason is a brief machine readable explanation for
                       the condition's last transition.
                     type: string
                   status:

@@ -92,11 +92,33 @@ spec:
                       type: string
                     nodePort:
                       type: string
+                    endpoints:
+                      type: array
+                      description: ""
+                      items:
+                        type: object
+                        description: ""
+                        properties:
+                          name:
+                            type: string
+                            enum: ["grpc", "other"]
+                          targetPort:
+                            type: string
+                          nodePort:
+                            type: string
+                        required:
+                          - name
+                          - targetPort
+                          - nodePort
                 envVariables:
                   type: object
                   x-kubernetes-preserve-unknown-fields: true
                 externalBox:
                   type: string
+                  enum: ["false", "true"]
+                hostNetwork:
+                  type: string
+                  enum: ["false", "true"]
                 resources:
                   type: object
                   description: ""
@@ -128,6 +150,16 @@ spec:
                         type: string
                       path:
                         type: string
+            prometheus:
+              type: object
+              properties:
+                host:
+                  type: string
+                port:
+                  type: string
+                enabled:
+                  type: string
+                  enum: ["false", "true"]
             custom-config:
               type: object
               description: this is custom configuration
