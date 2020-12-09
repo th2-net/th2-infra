@@ -18,28 +18,29 @@ spec:
       serviceAccountName: infra-operator-service
       containers:
       - name: infra-operator
-        image: {{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}
+        image: {{ .Values.infraOperator.image }}
         volumeMounts:
           - name: configs
             mountPath: /var/th2/config/
         env:
-        - name: RABBITMQ_MNG_PASS
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.rabbitmq.fullnameOverride | default "rabbitmq" }}
-              key: rabbitmq-management-password
         - name: RABBITMQ_PASS
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.rabbitmq.fullnameOverride | default "rabbitmq" }}
+              {{- if .Values.rabbitmq }}
+              {{- if .Values.rabbitmq.fullnameOverride }}
+              name: {{ .Values.rabbitmq.fullnameOverride }}
+              {{ else }}
+              name: rabbitmq
+              {{- end }}
+              {{ else }}
+              name: rabbitmq
+              {{- end }}
               key: rabbitmq-password
       volumes:
         - name: configs
           projected:
             sources:
             - configMap:
-                name: rabbit-mq-app-config
-            - configMap:
-                name: rabbitmq-mng-params
+                name: java-logging-config
             - configMap: 
                 name: infra-operator

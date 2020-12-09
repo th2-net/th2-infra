@@ -33,7 +33,7 @@ spec:
       serviceAccountName: infra-mgr-service
       containers:
       - name: infra-mgr
-        image: "{{ .Values.infraMgr.image.repository }}:{{ .Values.infraMgr.image.tag }}"
+        image: {{ .Values.infraMgr.image.repository }}
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -50,10 +50,6 @@ spec:
       - name: configs
         projected:
           sources:
-          - configMap:
-              name: rabbit-mq-app-config
-          - configMap:
-              name: rabbitmq-mng-params
           - configMap:
               name: java-logging-config
           - configMap:
