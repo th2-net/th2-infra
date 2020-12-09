@@ -33,7 +33,7 @@ spec:
       serviceAccountName: infra-mgr-service
       containers:
       - name: infra-mgr
-        image: {{ .Values.infraMgr.image.repository }}
+        image: "{{ .Values.infraMgr.image.repository }}:{{ .Values.infraMgr.image.tag }}"
         ports:
         - containerPort: 8080
         volumeMounts:
