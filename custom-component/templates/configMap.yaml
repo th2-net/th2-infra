@@ -16,3 +16,7 @@ data:
     {{ .Values.component.grpcRouter | toJson }}
   mq.json: |
     {{ .Values.component.routerMq | toJson }}
+  {{- if .Values.component.prometheus }}
+  prometheus.json: |
+    {{ .Values.component.prometheus | toJson }}
+  {{- end }}

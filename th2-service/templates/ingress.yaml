@@ -7,6 +7,9 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(/editor)$ $scheme://$http_host$1/ redirect;
+      rewrite ^(/rabbitmq)$ $scheme://$http_host$1/ redirect;
   name: ingress-service
 spec:
   rules:

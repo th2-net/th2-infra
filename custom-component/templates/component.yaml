@@ -1,26 +1,3 @@
----
-{{- if .Values.component.extendedSettings.service.enabled }}
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.component.name }}
-  {{- if .Values.annotations }}
-  annotations:
-    th2.exactpro.com/antecedent : {{ .Values.annotations }}
-  {{- end }}
-spec:
-  selector:
-    app: {{ .Values.component.name }}
-  type: NodePort
-  ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: {{ .Values.component.extendedSettings.service.targetPort | default "8080" }}
-    {{- if .Values.component.extendedSettings.service.nodePort }}
-    nodePort: {{ .Values.component.extendedSettings.service.nodePort }}
-    {{- end }}
-{{- end }}
----
 {{- if not .Values.component.extendedSettings.externalBox }}
 apiVersion: apps/v1
 kind: Deployment
@@ -51,6 +28,21 @@ spec:
       containers:
       - image: {{ .Values.component.image }}
         name: {{ .Values.component.name }}
+        {{- if not .Values.component.prometheus }}
+        ports:
+        - name: metrics
+          containerPort: 9752
+        {{- else }}      
+        {{- if .Values.component.prometheus.enabled }}
+        ports:
+        - name: metrics
+          {{- if .Values.component.prometheus.port }}
+          containerPort: {{ .Values.component.prometheus.port }}
+          {{- else }}
+          containerPort: 9752
+          {{- end }}
+        {{- end }}
+        {{- end }}
         resources:
           limits:
             memory: {{ .Values.component.extendedSettings.resources.limits.memory | default "200Mi" }}
@@ -97,10 +89,17 @@ spec:
       - name: configs
         projected:
           sources:
+          {{- if .Values.component.extendedSettings.hostNetwork }}
+          - configMap:
+              name: rabbit-mq-external-app-config
+          - configMap:
+              name: cradle-external
+          {{ else }}
           - configMap:
               name: rabbit-mq-app-config
           - configMap:
               name: cradle
+          {{- end }}
           - configMap:
               name: {{ .Values.component.name }}-app-config
           {{- range $dictionary := .Values.component.dictionaries }}
@@ -112,5 +111,9 @@ spec:
       - name: th2-core
       - name: th2-proprietary
       - name: th2-schema-test
+      {{- if .Values.component.extendedSettings.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
   revisionHistoryLimit: 2
 {{- end }}
