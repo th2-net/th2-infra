@@ -119,9 +119,23 @@ Details for th2-read-log [README.md](https://github.com/th2-net/th2-read-log#con
 
 _Note: It's an optional step, but it gets slightly simpler checking the result of installation. In all installation commands we explicitly define namespaces to avoid possible mistakes._
 * Switch namespace to monitoring
-```
-kubectl config set-context --current --namespace=monitoring
-```
+  ```
+  kubectl config set-context --current --namespace=monitoring
+  ```
+* Define Grafana and Dashboard host names:
+  * in the [./values/dashboard.values.yaml](./values/dashboard.values.yaml) file
+    ```
+    ingress:
+      hosts:
+        - <host name>
+    ```
+  * in the [./values/prometheus-operator.values.yaml](./values/prometheus-operator.values.yaml) file
+    ```
+    grafana:
+      ingress:
+        hosts:
+          - <host name>
+    ```
 
 * Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
     ```
