@@ -127,14 +127,14 @@ _Note: It's an optional step, but it gets slightly simpler checking the result o
     ```
     ingress:
       hosts:
-        - <host name>
+        - <dashboard_host_name>
     ```
   * in the [./values/prometheus-operator.values.yaml](./values/prometheus-operator.values.yaml) file
     ```
     grafana:
       ingress:
         hosts:
-          - <host name>
+          - <grafana_host_name>
     ```
 
 * Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
@@ -293,10 +293,19 @@ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./
         ```
 
 ### Install infrastructure components and ingress-rules via Helm and HelmOperator release in service namespace
-```
-kubectl apply -n service -f ./values/ingress-rules.helmrelease.yaml
-helm install th2-infra-base -n service ./th2-service/ -f ./values/service.values.yaml -f ./secrets.yaml
-```
+* Define host name in the [./values/ingress-rules.helmrelease.yaml](./values/ingress-rules.helmrelease.yaml)
+  ```
+  ...
+  spec:
+    values:
+      ingress:
+        host: <hostname>
+  ```
+* Install components
+  ```
+  kubectl apply -n service -f ./values/ingress-rules.helmrelease.yaml
+  helm install th2-infra-base -n service ./th2-service/ -f ./values/service.values.yaml -f ./secrets.yaml
+  ```
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
 

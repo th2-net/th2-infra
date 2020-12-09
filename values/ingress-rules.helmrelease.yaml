@@ -14,4 +14,5 @@ spec:
       name: git-chart-creds
     skipDepUpdate: true
   values:
-    dummy:
+    ingress:
+      host:
