@@ -7,38 +7,7 @@ infraOperator:
 
 infraMgr:
   git:
-    secretName: infra-mgr
-    privateKeyFileSecret: infra-mgr
-    secretMountPath: /home/service/keys
-    repository: git@gitlab.exactpro.com:vivarium/th2/schema-phase2.git
-    repositoryLocalCache: /home/service/repository
-  rabbitmq:
-    vHostPrefix: schema-
-    usernamePrefix: schema-user-
-    secret: rabbitmq
-    passwordLength: 24
-  cassandra:
-    keyspacePrefix: schema_
-  kubernetes:
-    namespacePrefix: schema-
-    ingress: ingress-rules
-    configMaps:
-      logging: java-logging-config
-      rabbitmq: rabbit-mq-app-config
-      rabbitmq-ext: rabbit-mq-external-app-config
-      rabbitmqManagement: rabbitmq-mng-params
-      cassandra: cradle
-      cassandra-ext: cradle-external
-      prometheus: prometheus-app-config
-    secrets:
-      - chart-secrets
-      - git-chart-creds
-      - th2-core
-      - th2-solution
-      - th2-proprietary
-      - cassandra
-  image:
-    repository: ghcr.io/th2-net/th2-infra-mgr:0.10.0
+    repository: git@github.com:th2-net/th2-infra-demo-configuration.git
 
 rabbitmq:
   prometheus:
