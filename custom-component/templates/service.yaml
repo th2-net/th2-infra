@@ -5,14 +5,14 @@ metadata:
   name: {{ .Values.component.name }}
   {{- if .Values.annotations }}
   annotations:
-    th2.exactpro.com/antecedent : {{ .Values.annotations }}
+    th2.exactpro.com/antecedent: {{ .Values.annotations }}
   {{- end }}
 spec:
   selector:
     app: {{ .Values.component.name }}
 
   {{- if .Values.component.extendedSettings.service.nodePort }}
-    type: NodePort
+  type: NodePort
   ports:
   - protocol: TCP
     port: 8080
