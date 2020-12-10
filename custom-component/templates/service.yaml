@@ -12,7 +12,7 @@ spec:
     app: {{ .Values.component.name }}
 
   {{- if .Values.component.extendedSettings.service.nodePort }}
-    type: NodePort
+  type: NodePort
   ports:
   - protocol: TCP
     port: 8080
