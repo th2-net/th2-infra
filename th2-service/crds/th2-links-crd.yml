@@ -17,10 +17,10 @@ spec:
       description: Th2link defines th2 link instance
       properties:
         apiVersion:
-          description: ""
+          description: ''
           type: string
         kind:
-          description: ""
+          description: ''
           type: string
         metadata:
           type: object
@@ -30,20 +30,20 @@ spec:
           properties:
             boxes-relation:
               type: object
-              description: ""
+              description: ''
               properties:
                 router-mq:
                   type: array
                   description: List of mq connection pins
                   items:
                     type: object
-                    description: ""
+                    description: ''
                     properties:
                       name:
                         type: string
                       from:
                         type: object
-                        description: ""
+                        description: ''
                         properties:
                           box:
                             type: string
@@ -54,7 +54,7 @@ spec:
                           - pin
                       to:
                         type: object
-                        description: ""
+                        description: ''
                         properties:
                           box:
                             type: string
@@ -72,13 +72,13 @@ spec:
                   description: List of grpc connection pins
                   items:
                     type: object
-                    description: ""
+                    description: ''
                     properties:
                       name:
                         type: string
                       from:
                         type: object
-                        description: ""
+                        description: ''
                         properties:
                           service-class:
                             type: string
@@ -94,7 +94,7 @@ spec:
                           - pin
                       to:
                         type: object
-                        description: ""
+                        description: ''
                         properties:
                           service-class:
                             type: string
@@ -117,7 +117,7 @@ spec:
               description: List of dictionary relations
               items:
                 type: object
-                description: ""
+                description: ''
                 properties:
                   name:
                     type: string
@@ -125,7 +125,7 @@ spec:
                     type: string
                   dictionary:
                     type: object
-                    description: ""
+                    description: ''
                     properties:
                       name:
                         type: string
@@ -147,9 +147,9 @@ spec:
       served: true
       storage: true
 
-    # subresources describes the subresources for custom resources.
+   # subresources describes the subresources for custom resources.
   subresources:
-    # status enables the status subresource.
+     # status enables the status subresource.
     status: {}
 status:
   acceptedNames:

@@ -66,6 +66,8 @@ spec:
                   properties:
                     enabled:
                       type: string
+                    type:
+                      type: string
                     targetPort:
                       type: string
                     nodePort:

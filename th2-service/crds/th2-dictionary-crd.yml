@@ -17,10 +17,10 @@ spec:
       description: Th2Dictionary defines th2 dictionary instance
       properties:
         apiVersion:
-          description: ""
+          description: ''
           type: string
         kind:
-          description: ""
+          description: ''
           type: string
         metadata:
           type: object
@@ -41,9 +41,9 @@ spec:
       served: true
       storage: true
 
-    # subresources describes the subresources for custom resources.
+   # subresources describes the subresources for custom resources.
   subresources:
-    # status enables the status subresource.
+     # status enables the status subresource.
     status: {}
 status:
   acceptedNames:
