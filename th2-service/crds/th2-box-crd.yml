@@ -219,6 +219,7 @@ spec:
                     properties:
                       storageOnDemand:
                         type: string
+                        enum: ["false", "true"]
                       queueLength:
                         type: string
                   attributes:
