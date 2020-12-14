@@ -93,10 +93,9 @@ spec:
       - name: th2-solution
       - name: th2-core
       - name: th2-proprietary
-      - name: th2-schema-test
       {{- if .component.extendedSettings.hostNetwork }}
       hostNetwork: true
-      dnsPolicy: ClusterFirst
+      dnsPolicy: ClusterFirstWithHostNet
       {{- end }}
   revisionHistoryLimit: 2
 {{- end }}
