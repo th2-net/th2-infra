@@ -12,6 +12,8 @@ component:
         memory:
         cpu:
       requests:
+        memory:
+        cpu:
     envVariables:
   custom:
     # prod:
