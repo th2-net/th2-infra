@@ -6,7 +6,9 @@ component:
   nodePort:
   extendedSettings:
     service:
-      enabled:
+    resources:
+      limits:
+      requests:
   custom:
     # prod:
     #   value: dskgfsdgf
