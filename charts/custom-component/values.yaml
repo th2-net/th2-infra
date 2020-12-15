@@ -6,9 +6,13 @@ component:
   nodePort:
   extendedSettings:
     service:
+      enabled:
     resources:
       limits:
+        memory:
+        cpu:
       requests:
+    envVariables:
   custom:
     # prod:
     #   value: dskgfsdgf
