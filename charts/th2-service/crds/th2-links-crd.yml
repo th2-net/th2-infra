@@ -1,0 +1,159 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: th2links.th2.exactpro.com
+spec:
+  group: th2.exactpro.com
+  names:
+    kind: Th2Link
+    listKind: Th2LinkList
+    plural: th2links
+    singular: th2link
+  scope: Namespaced
+  preserveUnknownFields: false
+  validation:
+    openAPIV3Schema:
+      description: Th2link defines th2 link instance
+      properties:
+        apiVersion:
+          description: ''
+          type: string
+        kind:
+          description: ''
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: Specification of desired links
+          type: object
+          properties:
+            boxes-relation:
+              type: object
+              description: ''
+              properties:
+                router-mq:
+                  type: array
+                  description: List of mq connection pins
+                  items:
+                    type: object
+                    description: ''
+                    properties:
+                      name:
+                        type: string
+                      from:
+                        type: object
+                        description: ''
+                        properties:
+                          box:
+                            type: string
+                          pin:
+                            type: string
+                        required:
+                          - box
+                          - pin
+                      to:
+                        type: object
+                        description: ''
+                        properties:
+                          box:
+                            type: string
+                          pin:
+                            type: string
+                        required:
+                          - box
+                          - pin
+                    required:
+                      - name
+                      - from
+                      - to
+                router-grpc:
+                  type: array
+                  description: List of grpc connection pins
+                  items:
+                    type: object
+                    description: ''
+                    properties:
+                      name:
+                        type: string
+                      from:
+                        type: object
+                        description: ''
+                        properties:
+                          service-class:
+                            type: string
+                          strategy:
+                            type: string
+                          box:
+                            type: string
+                          pin:
+                            type: string
+                        required:
+                          - strategy
+                          - box
+                          - pin
+                      to:
+                        type: object
+                        description: ''
+                        properties:
+                          service-class:
+                            type: string
+                          strategy:
+                            type: string
+                          box:
+                            type: string
+                          pin:
+                            type: string
+                        required:
+                          - strategy
+                          - box
+                          - pin
+                    required:
+                      - name
+                      - from
+                      - to
+            dictionaries-relation:
+              type: array
+              description: List of dictionary relations
+              items:
+                type: object
+                description: ''
+                properties:
+                  name:
+                    type: string
+                  box:
+                    type: string
+                  dictionary:
+                    type: object
+                    description: ''
+                    properties:
+                      name:
+                        type: string
+                      type:
+                        type: string
+                        enum: [MAIN, LEVEL1, LEVEL2, INCOMING, OUTGOING]
+                    required:
+                      - name
+                required:
+                  - name
+                  - box
+                  - dictionary
+      required:
+        - spec
+      type: object
+  version: v1
+  versions:
+    - name: v1
+      served: true
+      storage: true
+
+   # subresources describes the subresources for custom resources.
+  subresources:
+     # status enables the status subresource.
+    status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

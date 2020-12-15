@@ -1,0 +1,112 @@
+# Default values for th2-core.
+
+# Image repositories and credentials to create pull secrets
+productRegistry:
+  secret: th2-core
+  name: 
+  username:
+  password:
+
+solutionRegistry:
+  secret: th2-solution
+  registry: 
+  username:
+  password:
+
+infraEditor:
+  image:
+    repository: ghcr.io/th2-net/th2-infra-editor
+    tag: 1.0.29
+
+infraOperator:
+  image:
+    repository: ghcr.io/th2-net/th2-infra-operator
+    tag: 2.0.16
+
+infraMgr:
+  git:
+    secretName: infra-mgr
+    privateKeyFileSecret: infra-mgr
+    secretMountPath: /home/service/keys
+    repository: git@github.com:th2-net/th2-demo-configuration.git
+    repositoryLocalCache: /home/service/repository
+  rabbitmq:
+    vHostPrefix: schema-
+    usernamePrefix: schema-user-
+    secret: rabbitmq
+    passwordLength: 24
+  cassandra:
+    keyspacePrefix: schema_
+  kubernetes:
+    namespacePrefix: schema-
+    ingress: ingress-rules
+    configMaps:
+      logging: java-logging-config
+      rabbitmq: rabbit-mq-app-config
+      rabbitmqManagement: rabbitmq-mng-params
+      cassandra: cradle
+    secrets:
+      - chart-secrets
+      - git-chart-creds
+      - th2-core 
+      - th2-solution
+      - cassandra
+  image:
+    repository: ghcr.io/th2-net/th2-infra-mgr
+    tag: 0.8.6
+
+ingress:
+  host:
+
+# If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
+# otherwise service will be deployed as a chart dependency
+rabbitmq:
+  internal: true
+  rabbitmqMemoryHighWatermark: 1024MB
+  #it is not required if the service internal
+#  host: ""
+  fullnameOverride: rabbitmq
+  rabbitmqVhost: th2
+  rabbitmqUsername: th2
+  managementUsername: th2-mng
+  # will be generated if empty
+  rabbitmqPassword: ""
+  managementPassword: ""
+  rabbitmqErlangCookie: ""
+  rabbitmqExchange: th2-exchange
+  replicaCount: 1
+  podAntiAffinity: hard
+  service:
+    type: "NodePort"
+    amqpNodePort: 32000
+  rabbitmqPrometheusPlugin:
+    enabled: true
+  prometheus:
+    exporter:
+      enabled: false
+    operator:
+      enabled: true
+      alerts:
+       enabled: true
+      serviceMonitor:
+        selector:
+          release: prometheus
+
+# If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
+# otherwise service will be deployed as a chart dependency
+cassandra:
+  internal: true
+  #it is not required if the service internal
+#  host: ""
+  fullnameOverride: cassandra
+  cluster:
+    datacenter: datacenter1
+  dbUser:
+    user: cassandra
+    # will be generated if empty
+    password: ""
+  keyspace: cradle
+  persistence:
+    enabled: false
+    storageClass: local-storage
+    size: 50Gi

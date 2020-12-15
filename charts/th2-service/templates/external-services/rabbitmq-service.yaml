@@ -1,0 +1,9 @@
+{{- if not .Values.rabbitmq.internal -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  type: ExternalName
+  externalName: {{ .Values.rabbitmq.host }}
+{{ end }}

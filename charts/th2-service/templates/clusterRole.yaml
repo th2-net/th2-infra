@@ -1,0 +1,61 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: th2main-role
+rules:
+  - apiGroups:
+      - ""
+      - apps
+      - extensions
+      - th2.exactpro.com
+      - helm.fluxcd.io
+      - apiextensions.k8s.io
+    resources:
+      - "*"
+    verbs: ["*"]
+#      - create
+#      - delete
+#      - get
+#      - list
+#      - patch
+#      - update
+#      - watch
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: infra-operator-service
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: infra-mgr-service
+imagePullSecrets:
+- name: th2-solution
+- name: th2-core
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: infra-operator-binding
+roleRef:
+  kind: ClusterRole
+  name: th2main-role
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: infra-operator-service
+    namespace: {{ .Release.Namespace }}
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: infra-mgr-binding
+roleRef:
+  kind: ClusterRole
+  name: th2main-role
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: infra-mgr-service
+    namespace: {{ .Release.Namespace }}
