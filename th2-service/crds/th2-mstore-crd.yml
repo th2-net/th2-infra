@@ -47,7 +47,7 @@ spec:
               type: string
             type:
               type: string
-              enum: [th2-message-store]
+              enum: [th2-mstore]
             extended-settings:
               type: object
               description: ""
@@ -69,6 +69,7 @@ spec:
                       enum: ["false", "true"]
                     type:
                       type: string
+                      enum: [ClusterIP, NodePort, LoadBalancer, ExternalName]
                     targetPort:
                       type: string
                     nodePort:
@@ -82,7 +83,6 @@ spec:
                         properties:
                           name:
                             type: string
-                            enum: ["grpc", "other"]
                           targetPort:
                             type: string
                           nodePort:
@@ -90,7 +90,6 @@ spec:
                         required:
                           - name
                           - targetPort
-                          - nodePort
                 envVariables:
                   type: object
                   x-kubernetes-preserve-unknown-fields: true
