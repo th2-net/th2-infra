@@ -3,7 +3,10 @@ component:
   image: 
   name: comp1
 #nodePort is optional
-  nodePort: 
+  nodePort:
+  extendedSettings:
+    service:
+      enabled:
   custom:
     # prod:
     #   value: dskgfsdgf
