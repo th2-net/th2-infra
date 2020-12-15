@@ -87,7 +87,7 @@ rabbitmq:
     operator:
       enabled: true
       alerts:
-       enabled: true
+        enabled: true
       serviceMonitor:
         selector:
           release: prometheus
