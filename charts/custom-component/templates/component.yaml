@@ -1,0 +1,116 @@
+---
+{{- if .Values.component.extendedSettings.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.component.name }}
+  {{- if .Values.annotations }}
+  annotations:
+    th2.exactpro.com/antecedent : {{ .Values.annotations }}
+  {{- end }}
+spec:
+  selector:
+    app: {{ .Values.component.name }}
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: {{ .Values.component.extendedSettings.service.targetPort | default "8080" }}
+    {{- if .Values.component.extendedSettings.service.nodePort }}
+    nodePort: {{ .Values.component.extendedSettings.service.nodePort }}
+    {{- end }}
+{{- end }}
+---
+{{- if not .Values.component.extendedSettings.externalBox }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.component.name }}
+  name: {{ .Values.component.name }}
+  annotations:
+    fluxcd.io/automated: 'true'
+    {{- if .Values.annotations }}
+    th2.exactpro.com/antecedent : {{ .Values.annotations }}
+    {{- end }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.component.name }}
+  template:
+    metadata:
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+        {{- if .Values.annotations }}
+        th2.exactpro.com/antecedent : {{ .Values.annotations }}
+        {{- end }}
+      labels:
+        app: {{ .Values.component.name }}
+    spec:
+      containers:
+      - image: {{ .Values.component.image }}
+        name: {{ .Values.component.name }}
+        resources:
+          limits:
+            memory: {{ .Values.component.extendedSettings.resources.limits.memory | default "200Mi" }}
+            cpu: {{ .Values.component.extendedSettings.resources.limits.cpu | default "200m" }}
+          requests:
+            memory: {{ .Values.component.extendedSettings.resources.requests.memory | default "100Mi" }}
+            cpu: {{ .Values.component.extendedSettings.resources.requests.cpu | default "50m" }}
+        env:
+        {{- if .Values.component.extendedSettings.envVariables }}
+        {{- range $envName, $envValue := .Values.component.extendedSettings.envVariables }}
+        - name: {{ $envName }}
+          value: {{ $envValue | quote }}
+        {{- end }}
+        {{- end }}
+        - name: RABBITMQ_PASS
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq
+              key: rabbitmq-password
+        - name: CASSANDRA_PASS
+          valueFrom:
+            secretKeyRef:
+              name: cassandra
+              key: cassandra-password
+        volumeMounts:
+        - name: logging-volume
+          mountPath: /home/etc/log4j.properties
+          subPath: log4j.properties
+        - name: configs
+          mountPath: /var/th2/config/
+        {{- range $volume := .Values.component.extendedSettings.mounting }}
+        - name: {{ $volume.pvcName | lower }}
+          mountPath: {{ $volume.path | quote }}
+        {{- end }}
+      volumes:
+      {{- range $volume := .Values.component.extendedSettings.mounting }}
+      - name: {{ $volume.pvcName | lower }}
+        persistentVolumeClaim:
+          claimName: {{ $volume.pvcName }}
+      {{- end }}
+      - name: logging-volume
+        configMap:
+          name: java-logging-config
+      - name: configs
+        projected:
+          sources:
+          - configMap:
+              name: rabbit-mq-app-config
+          - configMap:
+              name: cradle
+          - configMap:
+              name: {{ .Values.component.name }}-app-config
+          {{- range $dictionary := .Values.component.dictionaries }}
+          - configMap:
+              name: {{ $.Values.component.name }}-{{ $dictionary.name | lower }}-dictionary
+          {{- end }}
+      imagePullSecrets:
+      - name: th2-solution
+      - name: th2-core
+      - name: th2-proprietary
+      - name: th2-schema-test
+  revisionHistoryLimit: 2
+{{- end }}
