@@ -1,10 +1,12 @@
 name: Release Charts
 
 on:
-  push:
-    branches:
-      - charts-publication
-
+  on:
+  workflow_run:
+    workflows: ["Lint and Test Charts"]
+    branches: [charts-publication]
+    types: 
+      - completed
 jobs:
   release:
     needs: lint-test
