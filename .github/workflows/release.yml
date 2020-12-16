@@ -3,7 +3,7 @@ name: Release Charts
 on:
   push:
     branches:
-      - charts-publication-off
+      - charts-publication
 
 jobs:
   release:
