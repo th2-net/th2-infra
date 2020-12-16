@@ -1,7 +1,6 @@
 name: Release Charts
 
 on:
-  on:
   workflow_run:
     workflows: ["Lint and Test Charts"]
     branches: [charts-publication]
