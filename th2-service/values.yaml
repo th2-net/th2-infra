@@ -1,3 +1,4 @@
+---
 # Default values for th2-core.
 
 # Image repositories and credentials to create pull secrets
@@ -22,7 +23,8 @@ infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 2.0.16
-
+  chart:
+    git:
 infraMgr:
   git:
     secretName: infra-mgr
@@ -87,7 +89,7 @@ rabbitmq:
     operator:
       enabled: true
       alerts:
-       enabled: true
+        enabled: true
       serviceMonitor:
         selector:
           release: prometheus
