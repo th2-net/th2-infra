@@ -1,0 +1,6 @@
+# Default values for th2-ingress.
+
+# Entrypoint hostname
+ingress:
+  enabled: true
+  host:
