@@ -240,14 +240,14 @@ ingress:
 
 Create secrets.yaml in `./` folder (*do not commit into git*). Please provide valid credentials for Cassandra DB. Example:
 ```
-# reguired only if images in private repository
-# productRegistry:
+#reguired only if images in private repository
+#productRegistry:
 #  username: user
 #  password: password
 #  name: registry.example.com # core components registry
 
-# reguired only if images in private repository
-# solutionRegistry:
+#reguired only if images in private repository
+#solutionRegistry:
 #  username: user
 #  password: password
 #  name: private-registry.example.com # components registry
