@@ -6,6 +6,7 @@ on:
     branches: [charts-publication]
     types: 
       - completed
+      - requested
 jobs:
   release:
     needs: lint-test
