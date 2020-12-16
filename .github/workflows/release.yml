@@ -1,15 +1,12 @@
 name: Release Charts
-
 on:
   workflow_run:
     workflows: ["Lint and Test Charts"]
     branches: [charts-publication]
     types: 
       - completed
-      - requested
 jobs:
   release:
-    needs: lint-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
