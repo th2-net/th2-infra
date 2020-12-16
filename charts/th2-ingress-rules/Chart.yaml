@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: th2-ingress-rules
 description: th2 ingress rules Helm chart
