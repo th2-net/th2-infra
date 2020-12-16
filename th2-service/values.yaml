@@ -53,6 +53,7 @@ infraMgr:
       - th2-core 
       - th2-solution
       - cassandra
+      - th2-proprietary
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
     tag: 0.8.6

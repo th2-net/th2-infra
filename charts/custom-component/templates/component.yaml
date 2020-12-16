@@ -111,6 +111,5 @@ spec:
       - name: th2-solution
       - name: th2-core
       - name: th2-proprietary
-      - name: th2-schema-test
   revisionHistoryLimit: 2
 {{- end }}
