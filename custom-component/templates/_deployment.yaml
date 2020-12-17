@@ -43,12 +43,12 @@ spec:
         - name: RABBITMQ_PASS
           valueFrom:
             secretKeyRef:
-              name: rabbitmq
+              name: {{ .component.secrets.rabbitmq }}
               key: rabbitmq-password
         - name: CASSANDRA_PASS
           valueFrom:
             secretKeyRef:
-              name: cassandra
+              name: {{ .component.secrets.cassandra }}
               key: cassandra-password
         volumeMounts:
         - name: logging-volume
