@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.component.name }}
   {{- if .Values.annotations }}
   annotations:
-    th2.exactpro.com/antecedent : {{ .Values.annotations }}
+    th2.exactpro.com/antecedent: {{ .Values.annotations }}
   {{- end }}
 spec:
   selector:

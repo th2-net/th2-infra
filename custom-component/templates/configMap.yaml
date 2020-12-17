@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   {{- if .Values.annotations }}
   annotations:
-    th2.exactpro.com/antecedent : {{ .Values.annotations }}
+    th2.exactpro.com/antecedent: {{ .Values.annotations }}
   {{- end }}
   name: {{ .Values.component.name }}-app-config
   labels:

@@ -88,8 +88,10 @@ spec:
                   properties:
                     enabled:
                       type: string
+                      enum: ["false", "true"]
                     type:
                       type: string
+                      enum: [ClusterIP, NodePort, LoadBalancer, ExternalName]
                     targetPort:
                       type: string
                     nodePort:
@@ -103,7 +105,6 @@ spec:
                         properties:
                           name:
                             type: string
-                            enum: ["grpc", "other"]
                           targetPort:
                             type: string
                           nodePort:
@@ -111,13 +112,32 @@ spec:
                         required:
                           - name
                           - targetPort
-                          - nodePort
                 envVariables:
                   type: object
                   x-kubernetes-preserve-unknown-fields: true
                 externalBox:
-                  type: string
-                  enum: ["false", "true"]
+                  type: object
+                  description: ""
+                  properties:
+                    enabled:
+                      type: string
+                      enum: ["false", "true"]
+                    address:
+                      type: string
+                    endpoints:
+                      type: array
+                      description: ""
+                      items:
+                        type: object
+                        description: ""
+                        properties:
+                          name:
+                            type: string
+                          targetPort:
+                            type: string
+                        required:
+                          - name
+                          - targetPort
                 hostNetwork:
                   type: string
                   enum: ["false", "true"]
@@ -198,6 +218,7 @@ spec:
                     properties:
                       storageOnDemand:
                         type: string
+                        enum: ["false", "true"]
                       queueLength:
                         type: string
                   attributes:
