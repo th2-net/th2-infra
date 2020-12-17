@@ -43,3 +43,4 @@ Generating resources section for k8
             {{- end }}
           {{- end }}
 {{- end }}
+
