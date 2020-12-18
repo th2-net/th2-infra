@@ -43,7 +43,7 @@ spec:
         - name: RABBITMQ_PASS
           valueFrom:
             secretKeyRef:
-              name: {{ .component.secrets.rabbitmq }}
+              name: {{ .component.secrets.rabbitMQ }}
               key: rabbitmq-password
         - name: CASSANDRA_PASS
           valueFrom:
