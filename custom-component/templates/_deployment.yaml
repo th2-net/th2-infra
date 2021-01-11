@@ -96,7 +96,7 @@ spec:
       - name: th2-schema-test
       {{- if .component.extendedSettings.hostNetwork }}
       hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
+      dnsPolicy: ClusterFirst
       {{- end }}
   revisionHistoryLimit: 2
 {{- end }}
