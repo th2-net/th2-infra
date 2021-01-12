@@ -11,3 +11,10 @@ jobs:
         uses: helm/kind-action@v1.1.0
         with:
           config: ./.github/workflows/cluster.yaml
+      - name: Run deployment playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: deploy-e2e-playbook.yml
+          directory: ./
+          options: |
+            --verbose
