@@ -10,11 +10,6 @@ jobs:
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.1.0
         with:
-          config: ./.github/workflows/cluster.yaml
-      - name: Run deployment playbook
-        uses: dawidd6/action-ansible-playbook@v2
-        with:
-          playbook: e2e-deploy-playbook.yaml
-          directory: ./.github/workflows/
-          options: |
-            --verbose
+                config: ./.github/workflows/cluster.yaml
+      - name: Run Ansible Playbook
+        run: ansible-playbook -v ./.github/workflows/e2e-deploy-playbook.yaml
