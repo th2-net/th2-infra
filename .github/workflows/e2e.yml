@@ -12,6 +12,8 @@ jobs:
 #         with:
 #           config: ./.github/workflows/cluster.yaml
       - name: Install dependencies
-        run: ansible-galaxy collection install community.crypto community.kubernetes
+        run: |
+          ansible-galaxy collection install community.crypto community.kubernetes
+          pip install openshift
       - name: Run Ansible Playbook
         run: ansible-playbook -v ./.github/workflows/e2e-deploy-playbook.yaml
