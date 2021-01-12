@@ -14,7 +14,7 @@ jobs:
       - name: Run deployment playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: deploy-e2e-playbook.yml
-          directory: ./
+          playbook: e2e-deploy-playbook.yaml
+          directory: ./.github/workflows/
           options: |
             --verbose
