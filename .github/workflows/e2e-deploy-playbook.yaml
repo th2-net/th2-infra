@@ -1,0 +1,141 @@
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  name: th2 deployment
+
+  tasks:
+    - name: Add helm repositories
+      community.kubernetes.helm_repository:
+        name: "{{ item.key }}"
+        repo_url: "{{ item.value }}"
+      with_dict:
+        kubernetes-dashboard: https://kubernetes.github.io/dashboard/
+        flux: https://charts.fluxcd.io
+        ingress-nginx: https://kubernetes.github.io/ingress-nginx
+        loki: https://grafana.github.io/loki/charts
+        stable: https://charts.helm.sh/stable
+
+    - name: Ensure k8s namespaces exist
+      community.kubernetes.k8s:
+        api_version: v1
+        kind: Namespace
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - service
+        - monitoring
+
+    - name: Git clone th2-infra
+      ansible.builtin.git:
+        version: v1.0.1
+        repo: "https://github.com/th2-net/th2-infra"
+        dest: ./th2-infra
+
+    - name: Deploy kubernetes dashboard
+      community.kubernetes.helm:
+        name: dashboard
+        chart_ref: kubernetes-dashboard/kubernetes-dashboard
+        chart_version: 3.0.1
+        release_namespace: monitoring
+        values_files:
+          - ./th2-infra/values/dashboard.values.yaml
+        create_namespace: true
+        wait: true
+
+    - name: Deploy ingress-nginx controller
+      community.kubernetes.helm:
+        name: ingress
+        chart_ref: ingress-nginx/ingress-nginx
+        chart_version: 3.12.0
+        release_namespace: service
+        values_files:
+          - ./th2-infra/values/ingress.values.yaml
+        create_namespace: true
+        wait: true
+
+    - name: Deploy HelmOperator
+      community.kubernetes.helm:
+        name: helm-operator
+        chart_ref: fluxcd/helm-operator
+        chart_version: 1.2.0
+        release_namespace: service
+        values_files:
+          - ./th2-infra/values/helm-operator.values.yaml
+        create_namespace: true
+        wait: true
+
+    - name: Generate an OpenSSH keypair
+      community.crypto.openssl_privatekey:
+        path: ./deployment_key_ssh_rsa
+
+    - name: Generate an OpenSSL public key in OpenSSH format
+      community.crypto.openssl_publickey:
+        format: OpenSSH
+        path: ./deployment_key_ssh_rsa.pub
+        privatekey_path: ./deployment_key_ssh_rsa
+
+    - name: Create infra-mgr secret
+      community.kubernetes.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Secret
+          type: Opaque
+          metadata:
+            name: infra-mgr
+            namespace: service
+          data:
+            infra-mgr: "{{ lookup('template', './deployment_key_ssh_rsa' ) | b64encode }}"
+
+    - name: Create git-chart-creds secret
+      community.kubernetes.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Secret
+          type: Opaque
+          metadata:
+            name: git-chart-creds
+            namespace: service
+          data:
+            username: ""
+            password: ""
+
+    - name: Deploy th2-infra-base
+      community.kubernetes.helm:
+        name: th2-infra-base
+        chart_ref: ./th2-infra/th2-service/
+        release_namespace: service
+        release_values:
+          infraOperator:
+            chart:
+              git: https://github.com/th2-net/th2-infra.git
+              ref: v1.0.1
+              path: custom-component
+          rabbitmq:
+            rabbitmqUser: th2
+            rabbitmqPassword: test
+          cassandra:
+            # livenessProbe:
+            #   enabled: false
+            # readinessProbe:
+            #   enabled: false
+            jvm:
+              maxHeapSize: 1G
+              newHeapSize: 800M
+            internal: true
+          infraMgr:
+            git:
+              repository: git@github.com:bop0hz/th2-infra-schema-demo.git
+        values_files:
+          - ./th2-infra/values/service.values.yaml
+          # - ./secrets.yaml
+        create_namespace: true
+        wait: true
+        wait_timeout:
+
+    - name: Create a Deployment by reading the definition from a local file
+      community.kubernetes.k8s:
+        state: present
+        src: ./th2-infra/values/ingress-rules.helmrelease.yaml
