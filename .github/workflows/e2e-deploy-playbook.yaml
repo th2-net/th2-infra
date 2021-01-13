@@ -57,7 +57,7 @@
     - name: Deploy HelmOperator
       community.kubernetes.helm:
         name: helm-operator
-        chart_ref: fluxcd/helm-operator
+        chart_ref: flux/helm-operator
         chart_version: 1.2.0
         release_namespace: service
         values_files:
