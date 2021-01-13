@@ -39,7 +39,7 @@ func validFunc(t *testing.T, substr string) func(int, string) bool {
 func TestRabbitMQEndpoint(t *testing.T) {
 	// t.Parallel()
 	options := k8s.NewKubectlOptions("", "", "service")
-	k8s.WaitUntilServiceAvailable(t, options, "cassandra", 10, 1*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, "cassandra", 10, 3*time.Second)
 
 	validator := validFunc(t, "<title>RabbitMQ Management</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/rabbitmq/", nil, 0, time.Second, validator)

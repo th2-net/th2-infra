@@ -7,23 +7,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # - name: Create k8s Kind Cluster
-      #   uses: helm/kind-action@v1.1.0
-      #   with:
-      #     config: ./ci/kind-cluster.yaml
-      #   run: kubectl cluster-info
-      # - name: Install python and ansible dependencies
-      #   run: |
-      #     ansible-galaxy collection install community.crypto community.kubernetes
-      #     pip install openshift
-      # - name: Run th2-infra deployment via Ansible
-      #   run: ansible-playbook -v ./ci/e2e-deploy-playbook.yaml
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.1.0
+        with:
+          config: ./ci/kind-cluster.yaml
+        run: kubectl cluster-info
+      - name: Install python and ansible dependencies
+        run: |
+          ansible-galaxy collection install community.crypto community.kubernetes
+          pip install openshift
+      - name: Run th2-infra deployment via Ansible
+        run: |
+          ansible-playbook -v ./ci/e2e-deploy-playbook.yaml
+          kubectl get pods --all-namespaces
       - name: Testing
         run: |
-          # while [[ $(kubectl -n service get pods cassandra-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]
-          # do
-          #   echo "Waiting for Cassandra is ready" && sleep 5
-          # done
-          # kubectl get pods --all-namespaces
           cd ./ci
           go test th2_infra_test.go -v
