@@ -71,3 +71,12 @@ func TestInfraMgrEndpoint(t *testing.T) {
 	validator := validFunc(t, "<title>Kubernetes Dashboard</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/editor/backend/", nil, 0, time.Second, validator)
 }
+
+func TestNamespaceReportEndpoint(t *testing.T) {
+	// t.Parallel()
+	options := k8s.NewKubectlOptions("", "", "service")
+	k8s.WaitUntilServiceAvailable(t, options, "infra-mgr", 10, 1*time.Second)
+
+	validator := validFunc(t, "<title>TH2 Report</title>")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/", nil, 10, 3*time.Second, validator)
+}
