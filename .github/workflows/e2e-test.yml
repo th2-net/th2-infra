@@ -3,7 +3,7 @@ name: e2e test with kind
 on: push
 
 jobs:
-  create-cluster:
+  deploy-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -11,7 +11,7 @@ jobs:
         uses: helm/kind-action@v1.1.0
         with:
           config: ./ci/kind-cluster.yaml
-      - name: Install dependencies
+      - name: Install python and ansible dependencies
         run: |
           ansible-galaxy collection install community.crypto community.kubernetes
           pip install openshift
@@ -20,6 +20,10 @@ jobs:
       - name: Testing
         run: |
           kubectl cluster-info
-          while [[ $(kubectl -n service get pods cassandra-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 3; done
+          while [[ $(kubectl -n service get pods cassandra-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]
+          do
+            echo "Waiting for Cassandra is ready" && sleep 5
+          done
           kubectl get pods --all-namespaces
-          curl -v http://localhost:30000/rabbitmq/
+          cd ./ci
+          go test ./ci/th2_infra_test.go -v
