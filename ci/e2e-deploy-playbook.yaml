@@ -65,15 +65,15 @@
         create_namespace: true
         wait: true
 
-    - name: Generate an OpenSSH keypair
-      community.crypto.openssl_privatekey:
-        path: ./deployment_key_ssh_rsa
+    # - name: Generate an OpenSSH keypair
+    #   community.crypto.openssl_privatekey:
+    #     path: ./deployment_key_ssh_rsa
 
-    - name: Generate an OpenSSL public key in OpenSSH format
-      community.crypto.openssl_publickey:
-        format: OpenSSH
-        path: ./deployment_key_ssh_rsa.pub
-        privatekey_path: ./deployment_key_ssh_rsa
+    # - name: Generate an OpenSSL public key in OpenSSH format
+    #   community.crypto.openssl_publickey:
+    #     format: OpenSSH
+    #     path: ./deployment_key_ssh_rsa.pub
+    #     privatekey_path: ./deployment_key_ssh_rsa
 
     - name: Create infra-mgr secret
       community.kubernetes.k8s:
@@ -86,7 +86,7 @@
             name: infra-mgr
             namespace: service
           data:
-            infra-mgr: "{{ lookup('template', './deployment_key_ssh_rsa' ) | b64encode }}"
+            infra-mgr: "{{ lookup('env','E2E_PRIVATE_KEY') | b64encode }}"
 
     - name: Create git-chart-creds secret
       community.kubernetes.k8s:
@@ -117,25 +117,20 @@
             rabbitmqUser: th2
             rabbitmqPassword: test
           cassandra:
-            # livenessProbe:
-            #   enabled: false
-            # readinessProbe:
-            #   enabled: false
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
             internal: true
           infraMgr:
             git:
-              repository: git@github.com:bop0hz/th2-infra-schema-demo.git
+              repository: git@github.com:th2-net/th2-infra-schema-demo.git
         values_files:
           - ./th2-infra/values/service.values.yaml
           # - ./secrets.yaml
         create_namespace: true
         wait: true
-        wait_timeout:
 
-    - name: Create a Deployment by reading the definition from a local file
+    - name: Create ingress-rules HelmRelease
       community.kubernetes.k8s:
         state: present
         src: ./th2-infra/values/ingress-rules.helmrelease.yaml
