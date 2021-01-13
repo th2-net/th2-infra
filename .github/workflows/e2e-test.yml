@@ -11,7 +11,6 @@ jobs:
         uses: helm/kind-action@v1.1.0
         with:
           config: ./ci/kind-cluster.yaml
-        run: kubectl cluster-info
       - name: Install python and ansible dependencies
         run: |
           ansible-galaxy collection install community.crypto community.kubernetes
