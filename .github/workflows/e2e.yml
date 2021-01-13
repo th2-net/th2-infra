@@ -15,5 +15,9 @@ jobs:
         run: |
           ansible-galaxy collection install community.crypto community.kubernetes
           pip install openshift
-      - name: Run Ansible Playbook
+      - name: Run th2-infra deployment via Ansible
         run: ansible-playbook -v ./.github/workflows/e2e-deploy-playbook.yaml
+      - name: Testing
+        run: |
+          kubectl cluster-info
+          kubectl get pods --all-namespaces
