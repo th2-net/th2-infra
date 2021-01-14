@@ -7,20 +7,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.1.0
         with:
           config: ./ci/kind-cluster.yaml
+
       - name: Install python and ansible dependencies
         run: |
           ansible-galaxy collection install community.crypto community.kubernetes
           pip install openshift
+
       - name: Run th2-infra deployment via Ansible
         env:
           E2E_PRIVATE_KEY: ${{ secrets.E2E_PRIVATE_KEY }}
         run: |
-          ansible-playbook -v ./ci/e2e-deploy-playbook.yaml
+          ansible-playbook ./ci/e2e-deploy-playbook.yaml
           kubectl get pods --all-namespaces
+
       - name: Testing
         run: |
           cd ./ci
@@ -30,10 +34,11 @@ jobs:
         if: always()
         run: |
           kubectl -n service logs deployment/infra-mgr > infra-mgr.log
+          kubectl -n service exec deployment/infra-mgr ls conf/infra-mgr
+          kubectl -n service exec deployment/infra-mgr cat conf/infra-mgr
           kubectl -n service logs deployment/infra-operator > infra-operator.log
-          kubectl -n service get secrets infra-mgr -o yaml > test.log
 
-      - name: Archive logs
+      - name: Uploading logs
         if: always()
         uses: actions/upload-artifact@v2
         with:
