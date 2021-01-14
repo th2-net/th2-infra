@@ -75,8 +75,8 @@ func TestInfraMgrEndpoint(t *testing.T) {
 func TestNamespaceReportEndpoint(t *testing.T) {
 	// t.Parallel()
 	options := k8s.NewKubectlOptions("", "", "e2e")
-	k8s.WaitUntilServiceAvailable(t, options, "rpt-data-viewer", 10, 1*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, "rpt-data-viewer", 10, 5*time.Second)
 
 	validator := validFunc(t, "<title>TH2 Report</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/", nil, 10, 5*time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/", nil, 0, 0*time.Second, validator)
 }
