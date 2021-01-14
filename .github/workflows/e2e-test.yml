@@ -17,7 +17,7 @@ jobs:
           pip install openshift
       - name: Run th2-infra deployment via Ansible
         run: |
-          ansible-playbook ./ci/e2e-deploy-playbook.yaml
+          ansible-playbook -v ./ci/e2e-deploy-playbook.yaml
           kubectl get pods --all-namespaces
       - name: Testing
         run: |
