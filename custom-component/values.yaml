@@ -1,8 +1,14 @@
 component:
-  image: 
+  secrets:
+    rabbitMQ: rabbitMQ
+    cassandra: cassandra
+  image:
   name: comp1
-#nodePort is optional
-  nodePort: 
+  extendedSettings:
+    service:
+      enabled: false
+  prometheus:
+    enabled: false
   custom:
     # prod:
     #   value: dskgfsdgf

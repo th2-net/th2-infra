@@ -10,22 +10,22 @@ metadata:
 spec:
   selector:
     app: {{ .Values.component.name }}
-
-  {{- if .Values.component.extendedSettings.service.nodePort }}
-  type: NodePort
-  ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: {{ .Values.component.extendedSettings.service.targetPort | default "8080" }}
-    {{- if .Values.component.extendedSettings.service.nodePort }}
-    nodePort: {{ .Values.component.extendedSettings.service.nodePort }}
+    {{- if not .Values.component.prometheus }}
+    monitoring-pod: "true"
+    {{- else }}
+    {{- if .Values.component.prometheus.enabled }}
+    monitoring-pod: "true"
+    {{- end }}
     {{- end }}
 
+  {{- if not .Values.component.extendedSettings.service.type }}
+  ports:
+    - protocol: TCP
+      name: app-default
+      port: 8080
+      targetPort: 8080
   {{- else }}
-
-  {{- if .Values.component.extendedSettings.service.type }}
   type: {{ .Values.component.extendedSettings.service.type }}
-  {{- end }}
   ports:
     {{- range $key, $val := .Values.component.extendedSettings.service.endpoints }}
     - protocol: TCP
@@ -34,14 +34,23 @@ spec:
       {{ $keyName }}: {{ $keyValue }}
       {{- end }}
     {{- end }}
-    
+
   {{- end }}
 
-  {{- if not .Values.component.extendedSettings.service.nodePort }} {{ if not .Values.component.extendedSettings.service.type }}
-  ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: 8080
-  {{- end }} {{ end }}
+
+
+  {{- if not .Values.component.prometheus }}
+    - name: metrics
+      port: 9752
+      protocol: TCP
+      targetPort: metrics
+  {{- else }}
+  {{- if .Values.component.prometheus.enabled }}
+    - name: metrics
+      port: 9752
+      protocol: TCP
+      targetPort: metrics
+  {{- end }}
+  {{- end }}
 
 {{- end }}

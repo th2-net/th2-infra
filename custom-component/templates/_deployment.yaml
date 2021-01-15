@@ -27,6 +27,13 @@ spec:
         {{- end }}
       labels:
         app: {{ .component.name }}
+        {{- if not .component.prometheus }}
+        monitoring-pod: "true"
+        {{- else }}
+        {{- if .component.prometheus.enabled }}
+        monitoring-pod: "true"
+        {{- end }}
+        {{- end }}
     spec:
       containers:
       - image: {{ .component.image }}
