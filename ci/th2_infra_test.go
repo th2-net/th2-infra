@@ -86,5 +86,5 @@ func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	k8s.WaitUntilServiceAvailable(t, options, "rpt-data-provider", 30, 5*time.Second)
 
 	validator := validFunc(t, 200, "[]")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/backend/messageStreams", nil, 10, 5*time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/backend/search/events?timestampFrom=0&timestampTo=0", nil, 10, 5*time.Second, validator)
 }
