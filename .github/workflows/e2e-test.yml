@@ -35,8 +35,13 @@ jobs:
         run: |
           kubectl -n service logs deployment/infra-mgr > infra-mgr.log
           kubectl -n service logs deployment/infra-operator > infra-operator.log
+          echo "Pods:"
           kubectl get pods --all-namespaces
-          kubectl get ingress --all-namespaces
+          echo "Services:"
+          kubectl get svc --all-namespaces
+          echo "Ingress:"
+          kubectl describe ingress --all-namespaces
+          echo "HelmReleases:"
           kubectl get hr --all-namespaces
 
       - name: Uploading logs
