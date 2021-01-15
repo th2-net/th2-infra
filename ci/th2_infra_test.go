@@ -77,5 +77,5 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 	k8s.WaitUntilServiceAvailable(t, options, "rpt-data-viewer", 10, 5*time.Second)
 
 	validator := validFunc(t, "<title>TH2 Report</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/", nil, 0, 0*time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/", nil, 10, 5*time.Second, validator)
 }
