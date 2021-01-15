@@ -36,22 +36,21 @@ func validFunc(t *testing.T, substr string) func(int, string) bool {
 	}
 }
 
-func TestRabbitMQEndpoint(t *testing.T) {
-	// t.Parallel()
-	options := k8s.NewKubectlOptions("", "", "service")
-	k8s.WaitUntilServiceAvailable(t, options, "cassandra", 10, 3*time.Second)
-
-	validator := validFunc(t, "<title>RabbitMQ Management</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/rabbitmq/", nil, 0, time.Second, validator)
-}
-
 func TestDashboardEndpoint(t *testing.T) {
 	// t.Parallel()
 	options := k8s.NewKubectlOptions("", "", "service")
-	k8s.WaitUntilServiceAvailable(t, options, "cassandra", 10, 1*time.Second)
-
+	k8s.WaitUntilServiceAvailable(t, options, "ingress-ingress-nginx-controller", 10, 3*time.Second)
 	validator := validFunc(t, "<title>Kubernetes Dashboard</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/dashboard/", nil, 0, time.Second, validator)
+}
+
+func TestRabbitMQEndpoint(t *testing.T) {
+	// t.Parallel()
+	options := k8s.NewKubectlOptions("", "", "service")
+	k8s.WaitUntilServiceAvailable(t, options, "rabbitmq-discovery", 10, 3*time.Second)
+
+	validator := validFunc(t, "<title>RabbitMQ Management</title>")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/rabbitmq/", nil, 0, time.Second, validator)
 }
 
 func TestInfraEditorEndpoint(t *testing.T) {
@@ -68,13 +67,13 @@ func TestInfraMgrEndpoint(t *testing.T) {
 	options := k8s.NewKubectlOptions("", "", "service")
 	k8s.WaitUntilServiceAvailable(t, options, "infra-mgr", 10, 1*time.Second)
 
-	validator := validFunc(t, "<title>Kubernetes Dashboard</title>")
+	validator := validFunc(t, "{\"status_code\":404,\"error_code\":\"NOT_FOUND\",\"message\":\"Not Found\"}")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/editor/backend/", nil, 0, time.Second, validator)
 }
 
 func TestNamespaceReportEndpoint(t *testing.T) {
 	// t.Parallel()
-	options := k8s.NewKubectlOptions("", "", "e2e")
+	options := k8s.NewKubectlOptions("", "", "schema-e2e")
 	k8s.WaitUntilServiceAvailable(t, options, "rpt-data-viewer", 10, 5*time.Second)
 
 	validator := validFunc(t, "<title>TH2 Report</title>")
