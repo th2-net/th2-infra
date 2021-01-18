@@ -1,6 +1,6 @@
 name: e2e test with kind
 
-on: push
+on: [push, pull_request]
 
 jobs:
   deploy-and-test:

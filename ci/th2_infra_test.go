@@ -1,6 +1,7 @@
 package test
 
 import (
+	"fmt"
 	"os"
 	"strings"
 	"testing"
@@ -87,9 +88,9 @@ func TestInfraMgrEndpoint(t *testing.T) {
 
 func TestNamespaceReportEndpoint(t *testing.T) {
 	// t.Parallel()
-	endpoint := "http://localhost:30000/schema-e2e/"
+	endpoint := fmt.Sprintf("http://localhost:30000/%s/", schemaNamespace)
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, reportViewerSvc, 30, 5*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, reportViewerSvc, 30, 10*time.Second)
 
 	validator := validFunc(t, 200, "<title>TH2 Report</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 3*time.Second, validator)
@@ -97,7 +98,7 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 
 func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	// t.Parallel()
-	endpoint := "http://localhost:30000/schema-e2e/backend/search/events?timestampFrom=0&timestampTo=0"
+	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/search/events?timestampFrom=0&timestampTo=0", schemaNamespace)
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, 30, 10*time.Second)
 
