@@ -10,6 +10,7 @@ rules:
       - th2.exactpro.com
       - helm.fluxcd.io
       - apiextensions.k8s.io
+      - ingress
     resources:
       - "*"
     verbs: ["*"]

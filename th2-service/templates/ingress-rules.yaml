@@ -17,11 +17,11 @@ spec:
   - http:
   {{- end }}
       paths:
-      - path: /{{ .Release.Namespace }}/backend/(rootEvents$|messageStreams$|((search|message|event)/.*))
+      - path: /${SCHEMA_NAMESPACE}/backend/(rootEvents$|messageStreams$|((search|message|event)/.*))
         backend:
           serviceName: rpt-data-provider
           servicePort: 8080
-      - path: /{{ .Release.Namespace }}/(.*)
+      - path: /${SCHEMA_NAMESPACE}/(.*)
         backend:
           serviceName: rpt-data-viewer
           servicePort: 8080

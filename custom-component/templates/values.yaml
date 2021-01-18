@@ -1,0 +1,61 @@
+annotations: schema-schema-qa:Th2Mstore/mstore
+component:
+  secrets:
+    rabbitMQ: rabbitMQ
+    cassandra: cassandra
+  custom: {}
+  extendedSettings:
+    envVariables:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="5000milliseconds"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 20m
+        memory: 100Mi
+    service:
+      enabled: true
+      type: NodePort
+      endpoints:
+        - name: 'grpc'
+          targetPort: 8080
+          nodePort: 31204
+  grpcRouter:
+    server:
+      host: null
+      port: 8080
+      workers: 5
+    services: {}
+  image: nexus.exactpro.com:9000/th2-mstore:2.2.2
+  name: mstore
+  prometheus:
+    enabled: true
+    host: 
+    port: 
+  routerMq:
+    queues:
+      estore-pin:
+        attributes:
+        - subscribe
+        - event
+        exchange: demo_exchange
+        filters: []
+        name: not_necessary
+        queue: queue_schema-schema-qa_mstore[estore-pin]
+      mstore-pin-parsed:
+        attributes:
+        - subscribe
+        - parsed
+        exchange: demo_exchange
+        filters: []
+        name: not_necessary
+        queue: queue_schema-schema-qa_mstore[mstore-pin-parsed]
+      mstore-pin-raw:
+        attributes:
+        - subscribe
+        - raw
+        exchange: demo_exchange
+        filters: []
+        name: not_necessary
+        queue: queue_schema-schema-qa_mstore[mstore-pin-raw]
