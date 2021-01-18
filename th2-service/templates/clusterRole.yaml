@@ -4,13 +4,14 @@ metadata:
   name: th2main-role
 rules:
   - apiGroups:
-      - ""
-      - apps
-      - extensions
-      - th2.exactpro.com
-      - helm.fluxcd.io
-      - apiextensions.k8s.io
-      - ingress
+      -'*'
+#      - ""
+#      - apps
+#      - extensions
+#      - th2.exactpro.com
+#      - helm.fluxcd.io
+#      - apiextensions.k8s.io
+#      - ingress
     resources:
       - "*"
     verbs: ["*"]
