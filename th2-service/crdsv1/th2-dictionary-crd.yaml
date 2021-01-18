@@ -28,6 +28,11 @@ spec:
           spec:
             description: Specification of desired dictionary
             properties:
+              compressed:
+                type: string
+                enum:
+                  - "false"
+                  - "true"
               data:
                 type: string
             required:
