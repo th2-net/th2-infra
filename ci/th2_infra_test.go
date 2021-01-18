@@ -77,14 +77,15 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 	k8s.WaitUntilServiceAvailable(t, options, "rpt-data-viewer", 30, 5*time.Second)
 
 	validator := validFunc(t, 200, "<title>TH2 Report</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/", nil, 10, 5*time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/", nil, 10, 3*time.Second, validator)
 }
 
 func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	// t.Parallel()
+	endpoint := "http://localhost:30000/schema-e2e/backend/search/events?timestampFrom=0&timestampTo=0"
 	options := k8s.NewKubectlOptions("", "", "schema-e2e")
-	k8s.WaitUntilServiceAvailable(t, options, "rpt-data-provider", 30, 5*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, "rpt-data-provider", 30, 10*time.Second)
 
 	validator := validFunc(t, 200, "[]")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, "http://localhost:30000/schema-e2e/backend/search/events?timestampFrom=0&timestampTo=0", nil, 10, 5*time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 3*time.Second, validator)
 }
