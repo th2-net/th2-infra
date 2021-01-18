@@ -22,7 +22,7 @@ jobs:
         env:
           E2E_PRIVATE_KEY: ${{ secrets.E2E_PRIVATE_KEY }}
         run: |
-          ansible-playbook ./ci/e2e-deploy-playbook.yaml
+          ansible-playbook ./ci/e2e-via-ssh-deployment-playbook
           kubectl get pods --all-namespaces
 
       - name: Testing
