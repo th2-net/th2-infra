@@ -36,3 +36,13 @@ Repository with schema is set in values in e2e-via-ssh-deployment-playbook.yaml 
         repository: git@github.com:th2-net/th2-infra-schema-demo.git
 ```
 Private key is set as Secret in the current repository and passed as E2E_PRIVATE_KEY env variable to playbook. Public key is set as e2e-test deploy key in the schema repository.
+
+Chart version must be set accordingly in th2-service chart default values:
+```
+infraOperator:
+  ...
+  chart:
+    git: https://github.com/th2-net/th2-infra.git
+    ref: v1.0.1
+    path: custom-component
+```
