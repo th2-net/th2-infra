@@ -113,11 +113,6 @@
         chart_ref: ./th2-infra/th2-service/
         release_namespace: service
         release_values:
-          infraOperator:
-            chart:
-              git: https://github.com/th2-net/th2-infra.git
-              ref: v1.0.1
-              path: custom-component
           rabbitmq:
             rabbitmqUser: th2
             rabbitmqPassword: test
