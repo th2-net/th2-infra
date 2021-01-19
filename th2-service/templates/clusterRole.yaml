@@ -4,8 +4,8 @@ metadata:
   name: th2main-role
 rules:
   - apiGroups:
-      -'*'
-#      - ""
+#      -'*'
+      - "*"
 #      - apps
 #      - extensions
 #      - th2.exactpro.com
