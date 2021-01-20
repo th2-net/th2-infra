@@ -22,6 +22,7 @@ infraEditor:
     tag: 1.0.38
 
 infraOperator:
+  image:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 2.2.1
   config:
@@ -82,10 +83,14 @@ infraMgr:
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
 <<<<<<< HEAD
+<<<<<<< HEAD
     tag: 0.10.3
 =======
     tag: 0.10.0
 >>>>>>> values merged
+=======
+    tag: 0.10.3
+>>>>>>> Versions updated
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
