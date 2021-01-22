@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   {{- if $.Values.annotations }}
   annotations:
-    th2.exactpro.com/antecedent : {{ $.Values.annotations }}
+    th2.exactpro.com/antecedent: {{ $.Values.annotations }}
   {{- end }}
   name: {{ $.Values.component.name }}-{{ $dictionary.name | lower }}-dictionary
   labels:
