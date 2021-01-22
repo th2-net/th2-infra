@@ -28,7 +28,7 @@ infraOperator:
   config:
     chart:
       git: https://github.com/th2-net/th2-infra.git
-      ref: dev
+      ref: v1.1.0
       path: custom-component
     namespacePrefixes: 
     - "schema-"
