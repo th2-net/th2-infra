@@ -12,9 +12,11 @@ data:
 
     rabbitmq:
       vhostPrefix: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
+      usernamePrefix: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
+      secret: {{ .Values.infraMgr.rabbitmq.secret }}
+      passwordLength: {{ .Values.infraMgr.rabbitmq.passwordLength }}
 
     cassandra:
-      password: "${CASSANDRA_PASSWORD}"
       keyspacePrefix: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
 
     kubernetes:

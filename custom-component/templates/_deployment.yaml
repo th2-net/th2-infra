@@ -1,0 +1,101 @@
+{{/* 
+Generating deployment for k8
+*/}}
+{{- define "deployment" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .component.name }}
+  name: {{ .component.name }}
+  annotations:
+    fluxcd.io/automated: 'true'
+    {{- if .annotations }}
+    th2.exactpro.com/antecedent: {{ .annotations }}
+    {{- end }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .component.name }}
+  template:
+    metadata:
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+        {{- if .annotations }}
+        th2.exactpro.com/antecedent : {{ .annotations }}
+        {{- end }}
+      labels:
+        app: {{ .component.name }}
+    spec:
+      containers:
+      - image: {{ .component.image }}
+        name: {{ .component.name }}
+        {{- include "prometheus-deploy" . }}
+        {{- include "resources" . }}
+        env:
+        {{- if .component.extendedSettings.envVariables }}
+        {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
+        - name: {{ $envName }}
+          value: {{ $envValue | quote }}
+        {{- end }}
+        {{- end }}
+        - name: RABBITMQ_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .component.secrets.rabbitMQ }}
+              key: rabbitmq-password
+        - name: CASSANDRA_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .component.secrets.cassandra }}
+              key: cassandra-password
+        volumeMounts:
+        - name: logging-volume
+          mountPath: /home/etc/log4j.properties
+          subPath: log4j.properties
+        - name: configs
+          mountPath: /var/th2/config/
+        {{- range $volume := .component.extendedSettings.mounting }}
+        - name: {{ $volume.pvcName | lower }}
+          mountPath: {{ $volume.path | quote }}
+        {{- end }}
+      volumes:
+      {{- range $volume := .component.extendedSettings.mounting }}
+      - name: {{ $volume.pvcName | lower }}
+        persistentVolumeClaim:
+          claimName: {{ $volume.pvcName }}
+      {{- end }}
+      - name: logging-volume
+        configMap:
+          name: java-logging-config
+      - name: configs
+        projected:
+          sources:
+          {{- if .component.extendedSettings.hostNetwork }}
+          - configMap:
+              name: rabbit-mq-external-app-config
+          - configMap:
+              name: cradle-external
+          {{ else }}
+          - configMap:
+              name: rabbit-mq-app-config
+          - configMap:
+              name: cradle
+          {{- end }}
+          - configMap:
+              name: {{ .component.name }}-app-config
+          {{- range $dictionary := .component.dictionaries }}
+          - configMap:
+              name: {{ $.component.name }}-{{ $dictionary.name | lower }}-dictionary
+          {{- end }}
+      imagePullSecrets:
+      - name: th2-solution
+      - name: th2-core
+      - name: th2-proprietary
+      {{- if .component.extendedSettings.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+  revisionHistoryLimit: 2
+{{- end }}
