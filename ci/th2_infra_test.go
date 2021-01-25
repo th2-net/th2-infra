@@ -81,7 +81,7 @@ func TestInfraEditorEndpoint(t *testing.T) {
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, infraEditorSvc, 10, 1*time.Second)
 
-	validator := validFunc(t, 200, "<title>Schema editor</title>")
+	validator := validFunc(t, 200, "<title>Infra editor</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
 }
 
