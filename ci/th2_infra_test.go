@@ -13,14 +13,15 @@ import (
 )
 
 const (
-	schemaNamespace  = "schema-e2e-v101"
-	serviceNamespace = "service"
-	rabbitmqSvc      = "rabbitmq-discovery"
-	dataProviderSvc  = "rpt-data-provider"
-	reportViewerSvc  = "rpt-data-viewer"
-	infraMgrSvc      = "infra-mgr"
-	infraEditorSvc   = "infra-editor"
-	dashboardSvc     = "dashboard-kubernetes-dashboard"
+	schemaNamespace     = "schema-e2e-v101"
+	serviceNamespace    = "service"
+	monitoringNamespace = "monitoring"
+	rabbitmqSvc         = "rabbitmq-discovery"
+	dataProviderSvc     = "rpt-data-provider"
+	reportViewerSvc     = "rpt-data-viewer"
+	infraMgrSvc         = "infra-mgr"
+	infraEditorSvc      = "infra-editor"
+	dashboardSvc        = "dashboard-kubernetes-dashboard"
 )
 
 func TestMain(m *testing.M) {
@@ -51,7 +52,7 @@ func validFunc(t *testing.T, code int, substr string) func(int, string) bool {
 func TestDashboardEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard/"
-	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
 	validator := validFunc(t, 200, "<title>Kubernetes Dashboard</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
@@ -60,7 +61,7 @@ func TestDashboardEndpoint(t *testing.T) {
 func TestDashboardRedirectEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard"
-	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
 	validator := validFunc(t, 301, "<title>Kubernetes Dashboard</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
