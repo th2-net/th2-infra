@@ -19,8 +19,9 @@ infraEditor:
     tag: 1.0.29
 
 infraOperator:
-  repository: ghcr.io/th2-net/th2-infra-operator
-  tag: 2.1.2-external-configs-merged-03
+  image:
+    repository: ghcr.io/th2-net/th2-infra-operator
+    tag: 2.1.2-external-configs-merged-03
   config:
     chart:
       git: https://github.com/th2-net/th2-infra.git
@@ -43,6 +44,9 @@ infraOperator:
         read: ".*"
         write: ".*"
 
+ingress:
+  host: host
+
 infraMgr:
   git:
     secretName: infra-mgr
@@ -50,6 +54,8 @@ infraMgr:
     secretMountPath: /home/service/keys
     repository: git@github.com:th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
+    httpAuthUsername: "" #should be stored in secret th2-git-access-schemas 
+    httpAuthPassword: "" #should be stored in secret th2-git-access-schemas
   rabbitmq:
     vHostPrefix: schema-
     usernamePrefix: schema-user-
