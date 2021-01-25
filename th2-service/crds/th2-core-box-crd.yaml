@@ -224,6 +224,8 @@ spec:
                       type: array
                     name:
                       type: string
+                      pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
+                      maxLength: 31
                     settings:
                       properties:
                         queueLength:
@@ -339,20 +341,9 @@ spec:
       status: {}
 status:
   acceptedNames:
-    kind: Th2CoreBox
-    listKind: Th2CoreBoxList
-    plural: th2coreboxes
-    singular: th2corebox
-  conditions:
-  - lastTransitionTime: "2020-12-04T12:13:24Z"
-    message: no conflicts found
-    reason: NoConflicts
-    status: "True"
-    type: NamesAccepted
-  - lastTransitionTime: "2020-12-04T12:13:24Z"
-    message: the initial names have been accepted
-    reason: InitialNamesAccepted
-    status: "True"
-    type: Established
-  storedVersions:
-  - v1
+    kind: ""
+    listKind: ""
+    plural: ""
+    singular: ""
+  conditions: []
+  storedVersions: []

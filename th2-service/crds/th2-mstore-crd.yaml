@@ -247,20 +247,9 @@ spec:
       status: {}
 status:
   acceptedNames:
-    kind: Th2Mstore
-    listKind: Th2MstoreList
-    plural: th2mstores
-    singular: th2mstore
-  conditions:
-  - lastTransitionTime: "2020-12-04T12:14:49Z"
-    message: no conflicts found
-    reason: NoConflicts
-    status: "True"
-    type: NamesAccepted
-  - lastTransitionTime: "2020-12-04T12:14:49Z"
-    message: the initial names have been accepted
-    reason: InitialNamesAccepted
-    status: "True"
-    type: Established
-  storedVersions:
-  - v1
+    kind: ""
+    listKind: ""
+    plural: ""
+    singular: ""
+  conditions: []
+  storedVersions: []

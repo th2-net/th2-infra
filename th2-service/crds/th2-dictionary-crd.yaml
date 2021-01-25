@@ -47,20 +47,9 @@ spec:
       status: {}
 status:
   acceptedNames:
-    kind: Th2Dictionary
-    listKind: Th2DictionaryList
-    plural: th2dictionaries
-    singular: th2dictionary
-  conditions:
-  - lastTransitionTime: "2020-10-09T08:38:39Z"
-    message: no conflicts found
-    reason: NoConflicts
-    status: "True"
-    type: NamesAccepted
-  - lastTransitionTime: "2020-10-09T08:38:39Z"
-    message: the initial names have been accepted
-    reason: InitialNamesAccepted
-    status: "True"
-    type: Established
-  storedVersions:
-  - v1
+    kind: ""
+    listKind: ""
+    plural: ""
+    singular: ""
+  conditions: []
+  storedVersions: []
