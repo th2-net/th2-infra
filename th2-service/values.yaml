@@ -13,19 +13,22 @@ solutionRegistry:
   username:
   password:
 
+ingress:	
+  host:
+
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.29
+    tag: 1.0.38
 
 infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.1.2-external-configs-merged-03
+    tag: 2.2.1
   config:
     chart:
       git: https://github.com/th2-net/th2-infra.git
-      ref: dev
+      ref: v1.1.0
       path: custom-component
     namespacePrefixes: 
     - "schema-"
@@ -79,11 +82,11 @@ infraMgr:
       - git-chart-creds
       - th2-core 
       - th2-solution
-      - th2-proprietary
       - cassandra
+      - th2-proprietary
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.10.0
+    tag: 0.10.3
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
