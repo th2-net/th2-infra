@@ -1,0 +1,55 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: th2dictionaries.th2.exactpro.com
+spec:
+  conversion:
+    strategy: None
+  group: th2.exactpro.com
+  names:
+    kind: Th2Dictionary
+    listKind: Th2DictionaryList
+    plural: th2dictionaries
+    singular: th2dictionary
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: Th2Dictionary defines th2 dictionary instance
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Specification of desired dictionary
+            properties:
+              compressed:
+                type: string
+                enum:
+                  - "false"
+                  - "true"
+              data:
+                type: string
+            required:
+            - data
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    listKind: ""
+    plural: ""
+    singular: ""
+  conditions: []
+  storedVersions: []

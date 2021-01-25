@@ -26,7 +26,7 @@ Generating resources section for k8
             {{- else }}
             cpu: {{ .component.extendedSettings.resources.limits.cpu }}
             {{- end }}
-	      {{- end }}
+          {{- end }}
           requests:
           {{- if not .component.extendedSettings.resources.requests }}
             memory: 100Mi
@@ -40,8 +40,8 @@ Generating resources section for k8
             {{- if not .component.extendedSettings.resources.requests.cpu }}
             cpu: 20m
             {{- else }}
-            cpu: {{ .component.extendedSettings.resources.limits.cpu }}
+            cpu: {{ .component.extendedSettings.resources.requests.cpu }}
             {{- end }}
           {{- end }}
-		{{- end }}
+          {{- end }}
 {{- end }}

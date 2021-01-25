@@ -27,12 +27,22 @@ spec:
         {{- end }}
       labels:
         app: {{ .component.name }}
+        {{- if not .component.prometheus }}
+        monitoring-pod: "true"
+        {{- else }}
+        {{- if .component.prometheus.enabled }}
+        monitoring-pod: "true"
+        {{- end }}
+        {{- end }}
     spec:
       containers:
       - image: {{ .component.image }}
         name: {{ .component.name }}
         {{- include "prometheus-deploy" . }}
         {{- include "resources" . }}
+{{/*
+#        {{- include "probes-deploy" . }}
+*/}}
         env:
         {{- if .component.extendedSettings.envVariables }}
         {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
@@ -95,7 +105,7 @@ spec:
       - name: th2-proprietary
       {{- if .component.extendedSettings.hostNetwork }}
       hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
+      dnsPolicy: ClusterFirst
       {{- end }}
   revisionHistoryLimit: 2
 {{- end }}
