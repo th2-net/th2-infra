@@ -65,20 +65,25 @@
         create_namespace: true
         wait: true
 
-    - name: Deploy Prometheus operator
-      community.kubernetes.helm:
-        name: prometheus
-        chart_ref: stable/prometheus-operator
-        release_namespace: monitoring
-        values_files:
-          - ./th2-infra/values/prometheus-operator.values.yaml
-        create_namespace: true
-        wait: true
+    - name: Mocking Prometheus operator
+      k8s:
+        definition: "{{ item }}"
+      with_items: '{{ lookup("url", "https://raw.githubusercontent.com/helm/charts/master/stable/prometheus-operator/crds/crd-servicemonitor.yaml", split_lines=False) | from_yaml_all | list }}'
 
-    - name: Create ingress-rules HelmRelease
-      community.kubernetes.k8s:
-        state: present
-        src: ./th2-infra/values/ingress-rules.helmrelease.yaml
+    # - name: Deploy Prometheus operator
+    #   community.kubernetes.helm:
+    #     name: prometheus
+    #     chart_ref: stable/prometheus-operator
+    #     release_namespace: monitoring
+    #     values_files:
+    #       - ./th2-infra/values/prometheus-operator.values.yaml
+    #     create_namespace: true
+    #     wait: true
+
+    # - name: Create ingress-rules HelmRelease
+    #   community.kubernetes.k8s:
+    #     state: present
+    #     src: ./th2-infra/values/ingress-rules.helmrelease.yaml
 
     # - name: Generate an OpenSSH keypair
     #   community.crypto.openssl_privatekey:
