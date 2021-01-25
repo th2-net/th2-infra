@@ -8,12 +8,11 @@ spec:
   releaseName: ingress-rules
   chart:
     git: https://github.com/th2-net/th2-infra.git
-    ref: master
+    ref: v1.0.0
     path: th2-ingress-rules
     secretRef:
       name: git-chart-creds
     skipDepUpdate: true
   values:
-    # Entrypoint hostname
     ingress:
       host:
