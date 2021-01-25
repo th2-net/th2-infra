@@ -80,10 +80,10 @@
     #     create_namespace: true
     #     wait: true
 
-    # - name: Create ingress-rules HelmRelease
-    #   community.kubernetes.k8s:
-    #     state: present
-    #     src: ./th2-infra/values/ingress-rules.helmrelease.yaml
+    - name: Create ingress-rules HelmRelease
+      community.kubernetes.k8s:
+        state: present
+        src: ./th2-infra/values/ingress-rules.helmrelease.yaml
 
     # - name: Generate an OpenSSH keypair
     #   community.crypto.openssl_privatekey:
