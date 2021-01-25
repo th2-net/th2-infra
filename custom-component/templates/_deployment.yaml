@@ -40,7 +40,9 @@ spec:
         name: {{ .component.name }}
         {{- include "prometheus-deploy" . }}
         {{- include "resources" . }}
-        {{- include "probes-deploy" . }}
+{{/*
+#        {{- include "probes-deploy" . }}
+*/}}
         env:
         {{- if .component.extendedSettings.envVariables }}
         {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
