@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	schemaNamespace     = "schema-e2e-v101"
+	schemaNamespace     = "schema-e2e-v110"
 	serviceNamespace    = "service"
 	monitoringNamespace = "monitoring"
 	rabbitmqSvc         = "rabbitmq-discovery"
@@ -67,16 +67,6 @@ func TestDashboardRedirectEndpoint(t *testing.T) {
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
 }
 
-func TestRabbitMQEndpoint(t *testing.T) {
-	// t.Parallel()
-	endpoint := "http://localhost:30000/rabbitmq/"
-	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, rabbitmqSvc, 10, 3*time.Second)
-
-	validator := validFunc(t, 200, "<title>RabbitMQ Management</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
-}
-
 func TestInfraEditorEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/editor/"
@@ -84,6 +74,16 @@ func TestInfraEditorEndpoint(t *testing.T) {
 	k8s.WaitUntilServiceAvailable(t, options, infraEditorSvc, 10, 1*time.Second)
 
 	validator := validFunc(t, 200, "<title>Infra editor</title>")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
+}
+
+func TestRabbitMQEndpoint(t *testing.T) {
+	// t.Parallel()
+	endpoint := "http://localhost:30000/rabbitmq/"
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilServiceAvailable(t, options, rabbitmqSvc, 10, 3*time.Second)
+
+	validator := validFunc(t, 200, "<title>RabbitMQ Management</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
 }
 
