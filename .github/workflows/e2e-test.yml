@@ -41,6 +41,7 @@ jobs:
           echo -e "\n[Services]" && kubectl get svc --all-namespaces
           echo -e "\n[Ingresses]" && kubectl describe ingress --all-namespaces
           echo -e "\n[HelmReleases]" && kubectl get hr --all-namespaces
+          kubectl describe nodes
 
       - name: Uploading logs
         if: always()
