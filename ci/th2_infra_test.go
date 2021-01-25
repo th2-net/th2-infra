@@ -20,6 +20,7 @@ const (
 	reportViewerSvc  = "rpt-data-viewer"
 	infraMgrSvc      = "infra-mgr"
 	infraEditorSvc   = "infra-editor"
+	dashboardSvc     = "dashboard-kubernetes-dashboard"
 )
 
 func TestMain(m *testing.M) {
@@ -51,7 +52,7 @@ func TestDashboardEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard/"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, "ingress-ingress-nginx-controller", 10, 3*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
 	validator := validFunc(t, 200, "<title>Kubernetes Dashboard</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
 }
@@ -60,7 +61,7 @@ func TestDashboardRedirectEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, "ingress-ingress-nginx-controller", 10, 3*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
 	validator := validFunc(t, 301, "<title>Kubernetes Dashboard</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
 }
