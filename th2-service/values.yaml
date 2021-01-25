@@ -13,6 +13,9 @@ solutionRegistry:
   username:
   password:
 
+ingress:	
+  host:
+
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
@@ -43,9 +46,6 @@ infraOperator:
         configure: ""
         read: ".*"
         write: ".*"
-
-ingress:
-  host: host
 
 infraMgr:
   git:
