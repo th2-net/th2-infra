@@ -28,7 +28,7 @@
 
     - name: Git clone th2-infra
       ansible.builtin.git:
-        version: v1.0.1
+        version: v1.1.0
         repo: "https://github.com/th2-net/th2-infra"
         dest: ./th2-infra
 

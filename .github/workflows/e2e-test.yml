@@ -28,7 +28,7 @@ jobs:
       - name: Testing
         run: |
           cd ./ci
-          go test th2_infra_test.go -v
+          go test th2_infra_test.go
 
       - name: Getting logs
         if: always()

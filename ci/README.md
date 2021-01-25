@@ -37,7 +37,12 @@ Repository with schema is set as a value in e2e-via-ssh-deployment-playbook.yaml
       git:
         repository: git@github.com:th2-net/th2-infra-schema-demo.git
 ```
-
+Ref (version) in git clone
+```
+    - name: Git clone th2-infra
+      ansible.builtin.git:
+        version: v1.1.1
+```
 Chart version for infra-operator must be set accordingly in th2-service chart default values:
 ```
 infraOperator:
