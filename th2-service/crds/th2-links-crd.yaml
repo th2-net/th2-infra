@@ -34,6 +34,10 @@ spec:
                     description: List of grpc connection pins
                     items:
                       properties:
+                        name:
+                          type: string
+                          pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
+                          maxLength: 31
                         from:
                           properties:
                             box:
@@ -49,8 +53,6 @@ spec:
                           - box
                           - pin
                           type: object
-                        name:
-                          type: string
                         to:
                           properties:
                             box:
@@ -76,6 +78,10 @@ spec:
                     description: List of mq connection pins
                     items:
                       properties:
+                        name:
+                          type: string
+                          pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
+                          maxLength: 31
                         from:
                           properties:
                             box:
@@ -86,8 +92,6 @@ spec:
                           - box
                           - pin
                           type: object
-                        name:
-                          type: string
                         to:
                           properties:
                             box:
@@ -109,6 +113,10 @@ spec:
                 description: List of dictionary relations
                 items:
                   properties:
+                    name:
+                      type: string
+                      pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
+                      maxLength: 31
                     box:
                       type: string
                     dictionary:
@@ -126,8 +134,6 @@ spec:
                       required:
                       - name
                       type: object
-                    name:
-                      type: string
                   required:
                   - name
                   - box
@@ -144,20 +150,9 @@ spec:
       status: {}
 status:
   acceptedNames:
-    kind: Th2Link
-    listKind: Th2LinkList
-    plural: th2links
-    singular: th2link
-  conditions:
-  - lastTransitionTime: "2020-09-29T16:05:12Z"
-    message: no conflicts found
-    reason: NoConflicts
-    status: "True"
-    type: NamesAccepted
-  - lastTransitionTime: "2020-09-29T16:05:12Z"
-    message: the initial names have been accepted
-    reason: InitialNamesAccepted
-    status: "True"
-    type: Established
-  storedVersions:
-  - v1
+    kind: ""
+    listKind: ""
+    plural: ""
+    singular: ""
+  conditions: []
+  storedVersions: []
