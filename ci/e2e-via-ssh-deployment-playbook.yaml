@@ -65,6 +65,16 @@
         create_namespace: true
         wait: true
 
+    - name: Deploy Prometheus operator
+      community.kubernetes.helm:
+        name: prometheus
+        chart_ref: stable/prometheus-operator
+        release_namespace: monitoring
+        values_files:
+          - ./th2-infra/values/prometheus-operator.values.yaml
+        create_namespace: true
+        wait: true
+
     - name: Create ingress-rules HelmRelease
       community.kubernetes.k8s:
         state: present
