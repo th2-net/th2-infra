@@ -63,7 +63,7 @@ func TestDashboardRedirectEndpoint(t *testing.T) {
 	endpoint := "http://localhost:30000/dashboard"
 	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
-	validator := validFunc(t, 301, "<title>Kubernetes Dashboard</title>")
+	validator := validFunc(t, 301, "")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
 }
 
