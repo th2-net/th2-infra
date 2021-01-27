@@ -24,10 +24,11 @@ Output:
 ## Settings and variables
 Repository with schema contains version branch from which th2 namespace will be deployed, e.g. e2e-v101 https://github.com/th2-net/th2-infra-schema-demo/tree/e2e-v101.
 
-Namespace with schema is set as a constant in go tests.
+Namespace with schema must be set as SCHEMA_NAMESPACE variable in the workflow.
 
 ```
-schemaNamespace  = "schema-e2e-v101"
+env:
+  SCHEMA_NAMESPACE: schema-e2e-v101
 ```
 **Note**: _CRs with any API changes must be allocated in a new versioned branch!_
 
