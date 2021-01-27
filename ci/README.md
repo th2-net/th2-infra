@@ -8,7 +8,7 @@ Coverage:
 * http endpoint from schema namespace
 
 Output:
-* action logs
+* workflow logs
 * artifact logs attached to the job
 
 ## Structure
