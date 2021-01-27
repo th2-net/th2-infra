@@ -114,5 +114,5 @@ func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, 30, 10*time.Second)
 
 	validator := validFunc(t, 200, "[]")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 3*time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 10*time.Second, validator)
 }
