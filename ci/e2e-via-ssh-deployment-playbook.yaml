@@ -32,7 +32,7 @@
         chart_ref: kubernetes-dashboard/kubernetes-dashboard
         chart_version: 3.0.1
         release_namespace: monitoring
-        values_files: "{{ playbook_dir }}../values/dashboard.values.yaml"
+        values_files: "{{ playbook_dir }}/../values/dashboard.values.yaml"
         create_namespace: true
         wait: true
 
@@ -42,7 +42,7 @@
         chart_ref: ingress-nginx/ingress-nginx
         chart_version: 3.12.0
         release_namespace: service
-        values_files: "{{ playbook_dir }}../values/ingress.values.yaml"
+        values_files: "{{ playbook_dir }}/../values/ingress.values.yaml"
         create_namespace: true
         wait: true
 
@@ -52,7 +52,7 @@
         chart_ref: flux/helm-operator
         chart_version: 1.2.0
         release_namespace: service
-        values_files: "{{ playbook_dir }}../values/helm-operator.values.yaml"
+        values_files: "{{ playbook_dir }}/../values/helm-operator.values.yaml"
         create_namespace: true
         wait: true
 
@@ -67,14 +67,14 @@
     #     chart_ref: stable/prometheus-operator
     #     release_namespace: monitoring
     #     values_files:
-    #       {{ playbook_dir }}../values/prometheus-operator.values.yaml
+    #       {{ playbook_dir }}/../values/prometheus-operator.values.yaml
     #     create_namespace: true
     #     wait: true
 
     - name: Create ingress-rules HelmRelease
       community.kubernetes.k8s:
         state: present
-        src: "{{ playbook_dir }}../values/ingress-rules.helmrelease.yaml"
+        src: "{{ playbook_dir }}/../values/ingress-rules.helmrelease.yaml"
 
     # - name: Generate an OpenSSH keypair
     #   community.crypto.openssl_privatekey:
@@ -116,7 +116,7 @@
     - name: Deploy th2-infra-base
       community.kubernetes.helm:
         name: th2-infra-base
-        chart_ref: "{{ playbook_dir }}../th2-service/"
+        chart_ref: "{{ playbook_dir }}/../th2-service/"
         release_namespace: service
         release_values:
           rabbitmq:
@@ -132,7 +132,7 @@
             git:
               repository: git@github.com:th2-net/th2-infra-schema-demo.git
         values_files:
-          "{{ playbook_dir }}../values/service.values.yaml"
+          "{{ playbook_dir }}/../values/service.values.yaml"
           # - ./secrets.yaml
         create_namespace: true
         wait: true
