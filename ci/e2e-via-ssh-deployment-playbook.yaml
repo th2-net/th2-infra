@@ -26,12 +26,6 @@
         - service
         - monitoring
 
-    - name: Git clone th2-infra
-      ansible.builtin.git:
-        version: v1.1.0
-        repo: "https://github.com/th2-net/th2-infra"
-        dest: ./th2-infra
-
     - name: Deploy kubernetes dashboard
       community.kubernetes.helm:
         name: dashboard
@@ -39,7 +33,7 @@
         chart_version: 3.0.1
         release_namespace: monitoring
         values_files:
-          - ./th2-infra/values/dashboard.values.yaml
+          - ./values/dashboard.values.yaml
         create_namespace: true
         wait: true
 
@@ -50,7 +44,7 @@
         chart_version: 3.12.0
         release_namespace: service
         values_files:
-          - ./th2-infra/values/ingress.values.yaml
+          - ./values/ingress.values.yaml
         create_namespace: true
         wait: true
 
@@ -61,7 +55,7 @@
         chart_version: 1.2.0
         release_namespace: service
         values_files:
-          - ./th2-infra/values/helm-operator.values.yaml
+          - ./values/helm-operator.values.yaml
         create_namespace: true
         wait: true
 
@@ -76,7 +70,7 @@
     #     chart_ref: stable/prometheus-operator
     #     release_namespace: monitoring
     #     values_files:
-    #       - ./th2-infra/values/prometheus-operator.values.yaml
+    #       - ./values/prometheus-operator.values.yaml
     #     create_namespace: true
     #     wait: true
 
@@ -141,7 +135,7 @@
             git:
               repository: git@github.com:th2-net/th2-infra-schema-demo.git
         values_files:
-          - ./th2-infra/values/service.values.yaml
+          - ./values/service.values.yaml
           # - ./secrets.yaml
         create_namespace: true
         wait: true

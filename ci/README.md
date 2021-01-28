@@ -5,7 +5,7 @@ Coverage:
 * deployment th2-infra components
 * deployment schema components from git via ssh
 * http endpoints from service namespace
-* http endpoint from schema namespace
+* http endpoints from schema namespace
 
 Output:
 * workflow logs
@@ -26,7 +26,7 @@ Repository with schema contains version branch from which th2 namespace will be 
 
 Namespace with schema must be set as SCHEMA_NAMESPACE variable in the workflow.
 
-```
+```yaml
 env:
   SCHEMA_NAMESPACE: schema-e2e-v101
 ```
@@ -38,19 +38,14 @@ Repository with schema is set as a value in e2e-via-ssh-deployment-playbook.yaml
       git:
         repository: git@github.com:th2-net/th2-infra-schema-demo.git
 ```
-Ref (version) in git clone
-```
-    - name: Git clone th2-infra
-      ansible.builtin.git:
-        version: v1.1.1
-```
+
 Chart version for infra-operator must be set accordingly in th2-service chart default values:
-```
+```yaml
 infraOperator:
   ...
   chart:
     git: https://github.com/th2-net/th2-infra.git
-    ref: v1.0.1
+    ref: v1.1.1
     path: custom-component
 ```
 
