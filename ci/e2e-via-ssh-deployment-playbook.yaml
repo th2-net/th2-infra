@@ -16,15 +16,15 @@
         loki: https://grafana.github.io/loki/charts
         stable: https://charts.helm.sh/stable
 
-    - name: Ensure k8s namespaces exist
-      community.kubernetes.k8s:
-        api_version: v1
-        kind: Namespace
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - service
-        - monitoring
+    # - name: Ensure k8s namespaces exist
+    #   community.kubernetes.k8s:
+    #     api_version: v1
+    #     kind: Namespace
+    #     name: "{{ item }}"
+    #     state: present
+    #   with_items:
+    #     - service
+    #     - monitoring
 
     - name: Deploy kubernetes dashboard
       community.kubernetes.helm:
@@ -32,8 +32,7 @@
         chart_ref: kubernetes-dashboard/kubernetes-dashboard
         chart_version: 3.0.1
         release_namespace: monitoring
-        values_files:
-          - ./th2-infra/values/dashboard.values.yaml
+        values_files: "{{ playbook_dir }}/values/dashboard.values.yaml"
         create_namespace: true
         wait: true
 
@@ -43,8 +42,7 @@
         chart_ref: ingress-nginx/ingress-nginx
         chart_version: 3.12.0
         release_namespace: service
-        values_files:
-          - ./th2-infra/values/ingress.values.yaml
+        values_files: "{{ playbook_dir }}/values/ingress.values.yaml"
         create_namespace: true
         wait: true
 
@@ -54,8 +52,7 @@
         chart_ref: flux/helm-operator
         chart_version: 1.2.0
         release_namespace: service
-        values_files:
-          - ./th2-infra/values/helm-operator.values.yaml
+        values_files: "{{ playbook_dir }}/values/helm-operator.values.yaml"
         create_namespace: true
         wait: true
 
@@ -70,14 +67,14 @@
     #     chart_ref: stable/prometheus-operator
     #     release_namespace: monitoring
     #     values_files:
-    #       - ./th2-infra/values/prometheus-operator.values.yaml
+    #       {{ playbook_dir }}/values/prometheus-operator.values.yaml
     #     create_namespace: true
     #     wait: true
 
     - name: Create ingress-rules HelmRelease
       community.kubernetes.k8s:
         state: present
-        src: ./th2-infra/values/ingress-rules.helmrelease.yaml
+        src: "{{ playbook_dir }}/values/ingress-rules.helmrelease.yaml"
 
     # - name: Generate an OpenSSH keypair
     #   community.crypto.openssl_privatekey:
@@ -119,7 +116,7 @@
     - name: Deploy th2-infra-base
       community.kubernetes.helm:
         name: th2-infra-base
-        chart_ref: ./th2-infra/th2-service/
+        chart_ref: "{{ playbook_dir }}/th2-service/"
         release_namespace: service
         release_values:
           rabbitmq:
@@ -135,7 +132,7 @@
             git:
               repository: git@github.com:th2-net/th2-infra-schema-demo.git
         values_files:
-          - ./th2-infra/values/service.values.yaml
+          "{{ playbook_dir }}/values/service.values.yaml"
           # - ./secrets.yaml
         create_namespace: true
         wait: true
