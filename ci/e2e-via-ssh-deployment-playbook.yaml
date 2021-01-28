@@ -16,15 +16,15 @@
         loki: https://grafana.github.io/loki/charts
         stable: https://charts.helm.sh/stable
 
-    # - name: Ensure k8s namespaces exist
-    #   community.kubernetes.k8s:
-    #     api_version: v1
-    #     kind: Namespace
-    #     name: "{{ item }}"
-    #     state: present
-    #   with_items:
-    #     - service
-    #     - monitoring
+    - name: Ensure k8s namespaces exist
+      community.kubernetes.k8s:
+        api_version: v1
+        kind: Namespace
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - service
+        - monitoring
 
     - name: Deploy kubernetes dashboard
       community.kubernetes.helm:
