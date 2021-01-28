@@ -23,10 +23,6 @@ infraEditor:
 
 infraOperator:
   persistence: true
-  chart:
-    git: https://github.com/th2-net/th2-infra.git
-    ref: v1.0.1
-    path: custom-component
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 2.2.1
