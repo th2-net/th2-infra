@@ -132,7 +132,7 @@
             git:
               repository: git@github.com:th2-net/th2-infra-schema-demo.git
         values_files:
-          "{{ playbook_dir }}../values/service.values.yaml"gi
+          "{{ playbook_dir }}../values/service.values.yaml"
           # - ./secrets.yaml
         create_namespace: true
         wait: true
