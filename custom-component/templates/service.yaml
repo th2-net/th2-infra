@@ -7,17 +7,13 @@ metadata:
   annotations:
     th2.exactpro.com/antecedent: {{ .Values.annotations }}
   {{- end }}
+  {{- if .Values.component.prometheus.enabled }}
+  labels:
+    monitoring-pod: "true"
+  {{- end }}
 spec:
   selector:
     app: {{ .Values.component.name }}
-    {{- if not .Values.component.prometheus }}
-    monitoring-pod: "true"
-    {{- else }}
-    {{- if .Values.component.prometheus.enabled }}
-    monitoring-pod: "true"
-    {{- end }}
-    {{- end }}
-
   {{- if not .Values.component.extendedSettings.service.type }}
   ports:
     - protocol: TCP
