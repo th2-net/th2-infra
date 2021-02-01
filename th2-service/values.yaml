@@ -23,13 +23,14 @@ infraEditor:
     tag: 1.0.38
 
 infraOperator:
+  persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 2.2.1
   config:
     chart:
       git: https://github.com/th2-net/th2-infra.git
-      ref: v1.1.0
+      ref: v1.1.1
       path: custom-component
     namespacePrefixes: 
     - "schema-"
@@ -82,7 +83,7 @@ infraMgr:
       - th2-proprietary
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.10.3
+    tag: 0.10.4
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
