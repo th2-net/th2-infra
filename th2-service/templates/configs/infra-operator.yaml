@@ -3,9 +3,27 @@ kind: ConfigMap
 metadata:
   name: infra-operator
 data:
-  infra-operator.json: |
-    {
-        "git": {{ .Values.infraOperator.chart.git | quote }},
-        "ref": {{ .Values.infraOperator.chart.ref | quote }},
-        "path": {{ .Values.infraOperator.chart.path | quote }}
-    }
+  infra-operator.yml: |
+    chart:
+      git: {{ .Values.infraOperator.config.chart.git | quote }}
+      ref: {{ .Values.infraOperator.config.chart.ref | quote }}
+      path: {{ .Values.infraOperator.config.chart.path | quote }}
+{{- with .Values.infraOperator.config.namespacePrefixes }}
+    namespacePrefixes:
+{{- toYaml . | nindent 8 }}
+{{- end }}  
+    k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}
+    schemaSecrets:
+      rabbitMQ: {{ .Values.infraOperator.config.schemaSecrets.rabbitMQ | quote }}
+      cassandra: {{ .Values.infraOperator.config.schemaSecrets.cassandra | quote }}
+    rabbitMQManagement:
+      host: {{ .Values.infraOperator.config.rabbitMQManagement.host | quote }}
+      port: {{ .Values.infraOperator.config.rabbitMQManagement.port | quote }}
+      username: {{ .Values.infraOperator.config.rabbitMQManagement.username | quote }}
+      password: {{ .Values.infraOperator.config.rabbitMQManagement.password | quote }}
+      persistence: {{ .Values.infraOperator.config.rabbitMQManagement.persistence | quote }}
+      schemaPermissions:
+        configure: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.configure | quote }}
+        read: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.read | quote }}
+        write: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.write | quote }}
+

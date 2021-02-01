@@ -51,10 +51,6 @@ spec:
         projected:
           sources:
           - configMap:
-              name: rabbit-mq-app-config
-          - configMap:
-              name: rabbitmq-mng-params
-          - configMap:
               name: java-logging-config
           - configMap:
               name: infra-mgr

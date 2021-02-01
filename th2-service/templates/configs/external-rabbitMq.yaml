@@ -1,17 +1,18 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rabbit-mq-app-config
+  name: rabbit-mq-external-app-config
 data:
   rabbitMQ.json: |
     {
     {{- if .Values.rabbitmq.host }}
     "host": {{ .Values.rabbitmq.host | quote }},
+    "port": "5672",
     {{- else }}
-    "host": "{{ .Values.rabbitmq.fullnameOverride }}-discovery.service.svc.cluster.local",
+    "host": {{ .Values.ingress.host | quote }},
+    "port": {{ .Values.rabbitmq.service.amqpNodePort | quote }},
     {{- end }}
     "vHost": "",
-    "port": "5672",
     "username": "",
     "password": "${RABBITMQ_PASS}",
     "exchangeName": {{ .Values.rabbitmq.rabbitmqExchange | quote }}

@@ -1,0 +1,47 @@
+{{- if .Values.component.extendedSettings.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.component.name }}
+  {{- if .Values.annotations }}
+  annotations:
+    th2.exactpro.com/antecedent: {{ .Values.annotations }}
+  {{- end }}
+spec:
+  selector:
+    app: {{ .Values.component.name }}
+
+  {{- if .Values.component.extendedSettings.service.nodePort }}
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: {{ .Values.component.extendedSettings.service.targetPort | default "8080" }}
+    {{- if .Values.component.extendedSettings.service.nodePort }}
+    nodePort: {{ .Values.component.extendedSettings.service.nodePort }}
+    {{- end }}
+
+  {{- else }}
+
+  {{- if .Values.component.extendedSettings.service.type }}
+  type: {{ .Values.component.extendedSettings.service.type }}
+  {{- end }}
+  ports:
+    {{- range $key, $val := .Values.component.extendedSettings.service.endpoints }}
+    - protocol: TCP
+      port: 8080
+      {{- range $keyName, $keyValue := $val }}
+      {{ $keyName }}: {{ $keyValue }}
+      {{- end }}
+    {{- end }}
+    
+  {{- end }}
+
+  {{- if not .Values.component.extendedSettings.service.nodePort }} {{ if not .Values.component.extendedSettings.service.type }}
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  {{- end }} {{ end }}
+
+{{- end }}

@@ -14,17 +14,40 @@ solutionRegistry:
   username:
   password:
 
+ingress:	
+  host:
+
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.29
+    tag: 1.0.38
 
 infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.0.16
-  chart:
-    git:
+    tag: 2.2.1
+  config:
+    chart:
+      git: https://github.com/th2-net/th2-infra.git
+      ref: v1.1.0
+      path: custom-component
+    namespacePrefixes: 
+    - "schema-"
+    k8sUrl: "<kubernetes-external-entrypoint>"
+    schemaSecrets:
+      rabbitMQ: rabbitmq
+      cassandra: cassandra
+    rabbitMQManagement:
+      host: "rabbitmq-discovery.service.svc.cluster.local"
+      port: "15672"
+      username: "th2"
+      password: "${RABBITMQ_PASS}"
+      persistence: true
+      schemaPermissions:
+        configure: ""
+        read: ".*"
+        write: ".*"
+
 infraMgr:
   git:
     secretName: infra-mgr
@@ -45,8 +68,11 @@ infraMgr:
     configMaps:
       logging: java-logging-config
       rabbitmq: rabbit-mq-app-config
+      rabbitmq-ext: rabbit-mq-external-app-config
       rabbitmqManagement: rabbitmq-mng-params
       cassandra: cradle
+      cassandra-ext: cradle-external
+      prometheus: prometheus-app-config
     secrets:
       - chart-secrets
       - git-chart-creds
@@ -56,10 +82,7 @@ infraMgr:
       - th2-proprietary
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.8.6
-
-ingress:
-  host:
+    tag: 0.10.3
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
@@ -79,6 +102,28 @@ rabbitmq:
   rabbitmqExchange: th2-exchange
   replicaCount: 1
   podAntiAffinity: hard
+  livenessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - -ec
+        - rabbitmq-diagnostics -q check_running
+    initialDelaySeconds: 120
+    timeoutSeconds: 20
+    periodSeconds: 30
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - -ec
+        - rabbitmq-diagnostics -q check_running
+    initialDelaySeconds: 10
+    timeoutSeconds: 20
+    periodSeconds: 30
+    failureThreshold: 3
+    successThreshold: 1
   service:
     type: "NodePort"
     amqpNodePort: 32000

@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: pods-monitoring
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      monitoring-pod: "true"
+  endpoints:
+  - port: metrics
+    interval: 10s
+  namespaceSelector:
+    any: true
