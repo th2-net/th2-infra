@@ -292,18 +292,10 @@ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./
         ........
         ```
 
-### Install infrastructure components and ingress-rules via Helm and HelmOperator release in service namespace
-* Define host name in the [./values/ingress-rules.helmrelease.yaml](./values/ingress-rules.helmrelease.yaml)
-  ```
-  ...
-  spec:
-    values:
-      ingress:
-        host: <hostname>
-  ```
+### Install infrastructure components in service namespace
+
 * Install components
   ```
-  kubectl apply -n service -f ./values/ingress-rules.helmrelease.yaml
   helm install th2-infra-base -n service ./th2-service/ -f ./values/service.values.yaml -f ./secrets.yaml
   ```
 

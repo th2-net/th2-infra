@@ -6,6 +6,7 @@ rules:
   - apiGroups:
       - ""
       - apps
+      - networking.k8s.io
       - extensions
       - th2.exactpro.com
       - helm.fluxcd.io

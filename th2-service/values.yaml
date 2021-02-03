@@ -82,7 +82,7 @@ infraMgr:
       - th2-proprietary
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.10.4
+    tag: 0.11.1
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
