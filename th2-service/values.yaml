@@ -29,9 +29,9 @@ infraOperator:
     tag: 2.2.1
   config:
     chart:
-      git: https://github.com/th2-net/th2-infra.git
-      ref: v1.1.1
-      path: custom-component
+      git: https://github.com/th2-net/infra-operator-tpl
+      ref: v0.1.0
+      path: ./
     namespacePrefixes: 
     - "schema-"
     k8sUrl: "<kubernetes-external-entrypoint>"
@@ -83,7 +83,7 @@ infraMgr:
       - th2-proprietary
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.10.4
+    tag: 0.11.1
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
