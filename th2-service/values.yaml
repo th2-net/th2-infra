@@ -22,14 +22,15 @@ infraEditor:
     tag: 1.0.54
 
 infraOperator:
+  persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 2.6.3
   config:
     chart:
-      git: https://github.com/th2-net/th2-infra.git
-      ref: stable-qa
-      path: custom-component
+      git: https://github.com/th2-net/infra-operator-tpl
+      ref: v0.1.0
+      path: ./
     namespacePrefixes: 
     - "schema-"
     k8sUrl: "<kubernetes-external-entrypoint>"
