@@ -27,9 +27,9 @@ infraOperator:
     tag: 2.6.3
   config:
     chart:
-      git: https://github.com/th2-net/th2-infra.git
-      ref: stable-qa
-      path: custom-component
+      git: https://github.com/th2-net/infra-operator-tpl.git
+      ref: dev
+      path:
     namespacePrefixes: 
     - "schema-"
     k8sUrl: "<kubernetes-external-entrypoint>"
@@ -102,6 +102,10 @@ rabbitmq:
   rabbitmqErlangCookie: ""
   rabbitmqExchange: th2-exchange
   replicaCount: 1
+  persistentVolume:
+    enabled: true
+    storageClass: local-storage
+    size: 10Gi
   podAntiAffinity: hard
   livenessProbe:
     exec:
