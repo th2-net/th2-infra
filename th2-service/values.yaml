@@ -29,7 +29,7 @@ infraOperator:
   config:
     chart:
       git: https://github.com/th2-net/infra-operator-tpl
-      ref: stable-qa
+      ref: v0.2.0
       path: ./
     namespacePrefixes: 
     - "schema-"
