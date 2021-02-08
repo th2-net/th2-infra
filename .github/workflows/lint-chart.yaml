@@ -29,7 +29,7 @@ jobs:
 
       - name: Run chart-testing (lint)
         run: |
-          helm repo add rabbitmq-ha https://kubernetes-charts.storage.googleapis.com/
+          helm repo add rabbitmq-ha https://charts.helm.sh/stable
           helm repo add cassandra https://charts.bitnami.com/bitnami 
           ct lint \
             --lint-conf=ci/cfg/lint-cfg.yml \
