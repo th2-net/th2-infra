@@ -1,0 +1,74 @@
+name: Lint and Test Charts
+on:
+  push:
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.1
+
+      # Python is required because `ct lint` runs Yamale (https://github.com/23andMe/Yamale) and
+      # yamllint (https://github.com/adrienverge/yamllint) which require Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.0.1
+        with:
+          version: v3.3.0
+
+      - name: Run chart-testing (lint)
+        run: |
+          ct lint \
+            --lint-conf=ci/cfg/lint-cfg.yml \
+            --check-version-increment \
+            --validate-maintainers=false --debug --charts ./th2-service
+
+  release:
+    needs: lint-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+          path: infra-operator-tpl
+
+      - name: Checkout Helm repository
+        uses: actions/checkout@v2.3.4
+        with:
+          repository: th2-net/th2-net.github.io
+          ref: master
+          token: ${{ secrets.PAT_CI_ACTION }}
+          path: th2-net.github.io
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.1
+
+      - name: Create package and index
+        run: |
+          helm package ./th2-service/ --destination ./th2-net.github.io/
+          cd ./th2-net.github.io/
+          helm repo index --merge ./index.yaml .
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          directory: ./th2-net.github.io/
+          repository: th2-net/th2-net.github.io
+          author_name: ${{ github.actor }}
+          author_email: ${{ github.actor }}@users.noreply.github.com
+          github_token: ${{ secrets.PAT_CI_ACTION }}
