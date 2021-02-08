@@ -9,6 +9,8 @@ data:
       localRepositoryRoot: {{ .Values.infraMgr.git.repositoryLocalCache }}
       privateKeyFile: {{ .Values.infraMgr.git.secretMountPath }}/{{ .Values.infraMgr.git.privateKeyFileSecret }}
       ignoreInsecureHosts: true
+      httpAuthUsername: "${HTTPS_AUTH_USERNAME}"
+      httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
 
     rabbitmq:
       vhostPrefix: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}

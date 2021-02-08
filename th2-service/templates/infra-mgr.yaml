@@ -43,6 +43,16 @@ spec:
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.secretMountPath }}
         env:
+          - name: HTTPS_AUTH_USERNAME 
+            valueFrom:
+              secretKeyRef:
+                name: th2-git-access-schemas
+                key: httpAuthUsername
+          - name: HTTPS_AUTH_PASSWORD 
+            valueFrom:
+              secretKeyRef:
+                name: th2-git-access-schemas
+                key: httpAuthPassword
       volumes:
       - name : secrets
         secret:
