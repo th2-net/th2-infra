@@ -29,7 +29,7 @@ infraOperator:
     tag: 2.6.7
   config:
     chart:
-      repository: https://th2-net.github.io/
+      repository: https://th2-net.github.io
       version: 0.2.0
       name: infra-operator-tpl
     namespacePrefixes: 
