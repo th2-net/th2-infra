@@ -29,9 +29,9 @@ infraOperator:
     tag: 2.6.7
   config:
     chart:
-      git: https://github.com/th2-net/infra-operator-tpl
-      ref: v0.2.0
-      path: ./
+      repository: https://th2-net.github.io/
+      version: 0.2.0
+      name: infra-operator-tpl
     namespacePrefixes: 
     - "schema-"
     k8sUrl: "<kubernetes-external-entrypoint>"
