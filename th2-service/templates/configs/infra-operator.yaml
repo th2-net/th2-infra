@@ -4,10 +4,10 @@ metadata:
   name: infra-operator
 data:
   infra-operator.yml: |
+{{- with .Values.infraOperator.config.chart }}
     chart:
-      git: {{ .Values.infraOperator.config.chart.git | quote }}
-      ref: {{ .Values.infraOperator.config.chart.ref | quote }}
-      path: {{ .Values.infraOperator.config.chart.path | quote }}
+{{- toYaml . | nindent 6 }}
+{{- end }} 
 {{- with .Values.infraOperator.config.namespacePrefixes }}
     namespacePrefixes:
 {{- toYaml . | nindent 8 }}
