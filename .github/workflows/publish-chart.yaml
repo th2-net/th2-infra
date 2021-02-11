@@ -1,5 +1,6 @@
 name: Publish chart
 on:
+  workflow_dispatch:
   create:
     tags:
       - v*
