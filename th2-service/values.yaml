@@ -78,7 +78,6 @@ infraMgr:
       prometheus: prometheus-app-config
     secrets:
     - chart-secrets
-    - git-chart-creds
     - th2-core 
     - th2-solution
     - cassandra
