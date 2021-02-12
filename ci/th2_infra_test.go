@@ -100,12 +100,12 @@ func TestRabbitMQEndpoint(t *testing.T) {
 
 func TestInfraMgrEndpoint(t *testing.T) {
 	// t.Parallel()
-	endpoint := "http://localhost:30000/editor/backend/"
+	endpoint := "http://localhost:30000/editor/backend/actuator/health"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, infraMgrSvc, 10, 1*time.Second)
 
-	validator := validFunc(t, 404, "{\"status_code\":404,\"error_code\":\"NOT_FOUND\",\"message\":\"Not Found\"}")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
+	validator := validFunc(t, 200, "{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 3*time.Second, validator)
 }
 
 func TestNamespaceReportEndpoint(t *testing.T) {
