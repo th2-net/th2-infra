@@ -46,9 +46,9 @@ func setUp() {
 
 func tearDown() {}
 
-func validFunc(t *testing.T, code int, substr string) func(int, string) bool {
+func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool {
 	return func(code int, body string) bool {
-		if code != code {
+		if testCode != code {
 			logger.Logf(t, "Incorrect response code")
 			return false
 		}
