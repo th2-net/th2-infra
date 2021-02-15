@@ -224,7 +224,7 @@ spec:
                       type: array
                     name:
                       type: string
-                      pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
+                      pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
                       maxLength: 31
                     settings:
                       properties:
