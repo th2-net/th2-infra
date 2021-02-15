@@ -13,7 +13,7 @@ jobs:
         image: bitnami/cassandra:3.11.10-debian-10-r13
         ports:
           - 9042:9042
-        options: --health-cmd "cqlsh --debug" --health-interval 5s --health-retries 10
+        options: --health-cmd "nodetool status | grep -E \"^UN\\s+${POD_IP}\"" --health-interval 5s --health-retries 10
     steps:
       - uses: actions/checkout@v2
 
