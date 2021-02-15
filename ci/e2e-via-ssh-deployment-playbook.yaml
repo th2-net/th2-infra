@@ -121,7 +121,7 @@
             dbUser:
               user: cassandra
               password: cassandra
-            host: localhost
+            host: cassandra
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
