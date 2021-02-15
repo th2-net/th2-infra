@@ -118,11 +118,14 @@
             rabbitmqUser: th2
             rabbitmqPassword: test
           cassandra:
-            host: cassandra.service.svc.cluster.local
+            dbUser:
+              user: cassandra
+              password: cassandra
+            host: localhost
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
-            internal: true
+            internal: false
           infraMgr:
             git:
               repository: git@github.com:th2-net/th2-infra-schema-demo.git
