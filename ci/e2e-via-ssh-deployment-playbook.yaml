@@ -118,7 +118,7 @@
             rabbitmqUser: th2
             rabbitmqPassword: test
           cassandra:
-            host: cassandra.service.svc.cluster.local
+            host: cassandra-headless.service.svc.cluster.local
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
