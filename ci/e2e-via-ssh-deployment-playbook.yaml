@@ -125,7 +125,7 @@
             internal: true
           infraMgr:
             git:
-              repository: git@github.com:th2-net/th2-infra-schema-demo.git
+              repository: git@github.com:th2-net/e2e-test-schema.git
         values_files:
           "{{ playbook_dir }}/../values/service.values.yaml"
           # - ./secrets.yaml
