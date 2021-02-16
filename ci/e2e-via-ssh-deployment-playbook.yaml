@@ -121,14 +121,14 @@
             dbUser:
               user: cassandra
               password: cassandra
-            host: cassandra
+            host: cassandra-headless.service.svc.cluster.local
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
-            internal: false
+            internal: true
           infraMgr:
             git:
-              repository: git@github.com:th2-net/th2-infra-schema-demo.git
+              repository: git@github.com:th2-net/e2e-test-schema.git
         values_files:
           "{{ playbook_dir }}/../values/service.values.yaml"
           # - ./secrets.yaml

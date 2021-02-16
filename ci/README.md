@@ -36,17 +36,17 @@ Repository with schema is set as a value in e2e-via-ssh-deployment-playbook.yaml
 ```
     infraMgr:
       git:
-        repository: git@github.com:th2-net/th2-infra-schema-demo.git
+        repository: git@github.com:th2-net/e2e-test-schema.git
 ```
 
-Chart version for infra-operator must be set accordingly in th2-service chart default values:
+If it is required to test infra operator template chart, then it can be changed in th2-service values.yaml:
 ```yaml
 infraOperator:
   ...
   chart:
-    git: https://github.com/th2-net/th2-infra.git
-    ref: v1.1.1
-    path: custom-component
+    git: https://github.com/th2-net/infra-operator-tpl.git
+    ref: v0.2.0
+    path: ./
 ```
 
 Private key for infra-mgr is set as a repository secret and passed as E2E_PRIVATE_KEY env variable to playbook. Public key is set as e2e-test deploy key in the schema repository.

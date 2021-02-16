@@ -3,7 +3,7 @@ name: e2e test with kind
 on: [pull_request]
 
 env:
-  SCHEMA_NAMESPACE: schema-e2e-v110
+  SCHEMA_NAMESPACE: schema-v1-3-0
 
 jobs:
   deploy-and-test:
