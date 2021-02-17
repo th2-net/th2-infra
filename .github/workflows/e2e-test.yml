@@ -1,6 +1,6 @@
 name: e2e test with kind
 
-on: [pull_request]
+on: [pull_request, workflow_dispatch]
 
 env:
   SCHEMA_NAMESPACE: schema-v1-3-0
