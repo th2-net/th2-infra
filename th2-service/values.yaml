@@ -161,3 +161,4 @@ cassandra:
     enabled: false
     storageClass: local-storage
     size: 50Gi
+  initDBConfigMap: cassandra-init
