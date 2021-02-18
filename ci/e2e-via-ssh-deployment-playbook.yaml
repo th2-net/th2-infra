@@ -58,6 +58,7 @@
 
     - name: Deploy ScyllaDB
       community.kubernetes.k8s:
+        namespace: service
         state: present
         src: "{{ playbook_dir }}/scylla.yaml"
 
