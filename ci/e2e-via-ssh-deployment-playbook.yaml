@@ -56,6 +56,12 @@
         create_namespace: true
         wait: true
 
+    - name: Deploy ScyllaDB
+      community.kubernetes.k8s:
+        namespace: service
+        state: present
+        src: "{{ playbook_dir }}/scylla.yaml"
+
     - name: Mocking Prometheus operator
       k8s:
         definition: "{{ item }}"
@@ -118,11 +124,11 @@
             rabbitmqUser: th2
             rabbitmqPassword: test
           cassandra:
-            host: cassandra.service.svc.cluster.local
+            host: scylla-headless.service.svc.cluster.local
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
-            internal: true
+            internal: false
           infraMgr:
             git:
               repository: git@github.com:th2-net/th2-infra-schema-demo.git
