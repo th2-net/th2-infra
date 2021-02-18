@@ -58,14 +58,9 @@
         wait: true
 
     - name: Deploy ScyllaDB
-      community.kubernetes.helm:
-        name: scylla-operator
-        chart_ref: scylla/scylla-operator
-        chart_version: 1.2.0
-        release_namespace: service
-        values_files: "{{ playbook_dir }}/scylla-operator.values.yaml"
-        create_namespace: true
-        wait: true
+      community.kubernetes.k8s:
+        state: present
+        src: "{{ playbook_dir }}/scylla.yaml"
 
     - name: Mocking Prometheus operator
       k8s:
