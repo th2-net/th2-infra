@@ -8,5 +8,5 @@ rabbitmq:
       enabled: false
 
 cassandra:
-  internal: false
-  host: <cassandra-host>
+  internal: true
+  host: cassandra-headless.svc.cluster.local

@@ -108,6 +108,12 @@
             username: ""
             password: ""
 
+    - name: Create cassandra configMap
+      community.kubernetes.k8s:
+        state: present
+        src: "{{ playbook_dir }}/cassandra-configmap.yaml"
+        namespace: service
+
     - name: Deploy th2-infra-base
       community.kubernetes.helm:
         name: th2-infra-base
@@ -118,6 +124,7 @@
             rabbitmqUser: th2
             rabbitmqPassword: test
           cassandra:
+            existingConfiguration: cassandra-configuration
             dbUser:
               user: cassandra
               password: cassandra
