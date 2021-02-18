@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: cassandra
-  serviceName: cassandra-headless
+  serviceName: scylla-headless
   replicas: 1
   updateStrategy:
     type: OnDelete
@@ -76,7 +76,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cassandra
+  name: scylla-headless
   labels:
     app: cassandra
 spec:
