@@ -77,11 +77,10 @@ infraMgr:
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
     secrets:
-    - chart-secrets
     - th2-core 
     - th2-solution
-    - cassandra
     - th2-proprietary
+    - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
     tag: 0.12.2
