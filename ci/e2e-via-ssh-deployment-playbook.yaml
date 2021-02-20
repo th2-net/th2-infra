@@ -124,7 +124,7 @@
             rabbitmqUser: th2
             rabbitmqPassword: test
           cassandra:
-            existingConfiguration: cassandra-configuration
+            # existingConfiguration: cassandra-configuration
             dbUser:
               user: cassandra
               password: cassandra
