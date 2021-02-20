@@ -306,7 +306,7 @@ Wait for all pods in service namespace are up and running, once completed procee
 ### Upgrade/migration th2-infra
 
 * Set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2 to delete it.
-*  Uninstall th2-infra-base release:
+* Uninstall th2-infra-base release:
 ```
 helm -n service uninstall th2-infra-base
 ```
