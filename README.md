@@ -292,14 +292,50 @@ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./
         ........
         ```
 
-### Install infrastructure components in service namespace
+### Install th2-infra components in the service namespace
 
 * Install components
+
   ```
-  helm install th2-infra-base -n service ./th2-service/ -f ./values/service.values.yaml -f ./secrets.yaml
+  helm repo add th2 https://th2-net.github.io
+  helm install --version=1.3.0 -n service install th2-infra-base th2/th2 -f ./values/service.values.yaml -f ./secrets.yaml
   ```
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
+
+### Upgrade/migration th2-infra
+
+* Set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2 to delete it.
+* Uninstall th2-infra-base release:
+```
+helm -n service uninstall th2-infra-base
+```
+* Revise "Custom resource" files for namespaces according to the release documentation (if required).
+* Delete CRDs:
+```
+kubectl delete customresourcedefinitions th2boxes.th2.exactpro.com th2coreboxes.th2.exactpro.com th2dictionaries.th2.exactpro.com th2estores.th2.exactpro.com th2links.th2.exactpro.com th2mstores.th2.exactpro.com
+```
+ _Note_: the list can be various, please see the full list in documentation or in k8s with the following command:
+```
+kubectl get customresourcedefinitions | grep "^th2"
+```
+* Change th2-service values file according to the th2-infra release notes (if required):
+* Check the state of pv in k8s.
+```
+kubectl get pv
+```
+It has to be availalble, if Released:
+```
+kubectl patch pv <pv-name> -p '{"spec":{"claimRef": null}}'
+```
+  
+* Install th2-infra:
+```
+helm repo add th2 https://th2-net.github.io
+helm install --version=<new_version> -n service install th2-infra-base th2/th2 -f ./values/service.values.yaml -f ./secrets.yaml
+```
+
+* Apply PVC in th2 namespaces (if required)
 
 ## th2 infra links:
 - Kubernetes dashboard http://your-host:30000/dashboard/
