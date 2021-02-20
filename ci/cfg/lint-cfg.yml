@@ -1,0 +1,10 @@
+extends: default
+
+rules:
+  comments: disable
+  comments-indentation: disable
+  trailing-spaces: disable
+  indentation:
+    level: error
+    indent-sequences: consistent
+  line-length: disable
