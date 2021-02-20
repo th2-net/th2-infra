@@ -130,7 +130,7 @@
               password: cassandra
             host: cassandra-headless.service.svc.cluster.local
             jvm:
-              maxHeapSize: 2G
+              maxHeapSize: 1G
               newHeapSize: 200M
             internal: true
           infraMgr:
