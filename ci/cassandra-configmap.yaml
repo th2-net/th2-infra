@@ -429,7 +429,7 @@ data:
         parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          - seeds: "cassandra-0.cassandra-headless.default.svc.cluster.local"
+          - seeds: "cassandra-headless.service.svc.cluster.local"
 
     # For workloads with more data than can fit in memory, Cassandra's
     # bottleneck will be reads that need to fetch data from
