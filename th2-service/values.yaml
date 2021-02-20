@@ -16,6 +16,9 @@ solutionRegistry:
 ingress:	
   host:
 
+externalRabbitMQHost:
+  host: localhost
+
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
