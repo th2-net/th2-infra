@@ -324,7 +324,10 @@ kubectl get customresourcedefinitions | grep "^th2"
 ```
 kubectl get pv
 ```
-  It has to be availalble. Change it if required, apply
+It has to be availalble, if Released:
+```
+kubectl patch pv <pv-name> -p '{"spec":{"claimRef": null}}'
+```
   
 * Install th2-infra:
 ```
