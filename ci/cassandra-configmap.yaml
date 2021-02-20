@@ -49,7 +49,7 @@ data:
 
     # See http://wiki.apache.org/cassandra/HintedHandoff
     # May either be "true" or "false" to enable globally
-    hinted_handoff_enabled: true
+    hinted_handoff_enabled: false
 
     # When hinted_handoff_enabled is true, a black list of data centers that will not
     # perform hinted handoff
@@ -293,7 +293,7 @@ data:
     # NOTE: if you reduce the size, you may not get you hottest keys loaded on startup.
     #
     # Default value is empty to make it "auto" (min(5% of Heap (in MB), 100MB)). Set to 0 to disable key cache.
-    key_cache_size_in_mb:
+    key_cache_size_in_mb: 0
 
     # Duration in seconds after which Cassandra should
     # save the key cache. Caches are saved to saved_caches_directory as
@@ -442,8 +442,8 @@ data:
     # On the other hand, since writes are almost never IO bound, the ideal
     # number of "concurrent_writes" is dependent on the number of cores in
     # your system; (8 * number_of_cores) is a good rule of thumb.
-    concurrent_reads: 32
-    concurrent_writes: 32
+    concurrent_reads: 2
+    concurrent_writes: 2
     concurrent_counter_writes: 32
 
     # For materialized view writes, as there is a read involved, so this should
@@ -749,8 +749,8 @@ data:
     # encouraged to set a maximum that makes sense for you in production, but do keep in mind that
     # rpc_max_threads represents the maximum number of client requests this server may execute concurrently.
     #
-    # rpc_min_threads: 16
-    rpc_max_threads: 128
+    rpc_min_threads: 1
+    rpc_max_threads: 1
 
     # uncomment to set socket buffer sizes on rpc connections
     # rpc_send_buff_size_in_bytes:
@@ -828,7 +828,7 @@ data:
     #
     # If your data directories are backed by SSD, you should increase this
     # to the number of cores.
-    #concurrent_compactors: 1
+    concurrent_compactors: 1
 
     # Throttles compaction to the given total throughput across the entire
     # system. The faster you insert data, the faster you need to compact in
@@ -836,7 +836,7 @@ data:
     # 16 to 32 times the rate you are inserting data is more than sufficient.
     # Setting this to 0 disables throttling. Note that this account for all types
     # of compaction, including validation compaction.
-    compaction_throughput_mb_per_sec: 16
+    compaction_throughput_mb_per_sec: 0
 
     # When compacting, the replacement sstable(s) can be opened before they
     # are completely written, and used in place of the prior sstables for
