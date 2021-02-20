@@ -114,6 +114,12 @@
         src: "{{ playbook_dir }}/cassandra-configmap.yaml"
         namespace: service
 
+    - name: Cassandra Init
+      community.kubernetes.k8s:
+        state: present
+        src: "{{ playbook_dir }}/initdb.yaml"
+        namespace: service
+
     - name: Deploy th2-infra-base
       community.kubernetes.helm:
         name: th2-infra-base
@@ -125,6 +131,7 @@
             rabbitmqPassword: test
           cassandra:
             existingConfiguration: cassandra-configuration
+            initDBConfigMap: cassandra-init
             dbUser:
               user: cassandra
               password: cassandra
