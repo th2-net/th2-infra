@@ -737,7 +737,7 @@ data:
     #
     # Alternatively,  can provide your own RPC server by providing the fully-qualified class name
     # of an o.a.c.t.TServerFactory that can create an instance of it.
-    rpc_server_type: sync
+    rpc_server_type: hsha
 
     # Uncomment rpc_min|max_thread to set request pool size limits.
     #
@@ -791,7 +791,7 @@ data:
     # or dropping of column families. The STRONGLY advised default of true
     # should be used to provide data safety. If you set this flag to false, you will
     # lose data on truncation or drop.
-    auto_snapshot: true
+    auto_snapshot: false
 
     # Granularity of the collation index of rows within a partition.
     # Increase if your rows are large, or if you have a very large
