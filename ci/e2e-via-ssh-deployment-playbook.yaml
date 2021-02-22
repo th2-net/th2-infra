@@ -94,6 +94,32 @@
           data:
             infra-mgr: "{{ lookup('env','E2E_PRIVATE_KEY') | b64encode }}"
 
+    - name: Create git-chart-creds secret
+      community.kubernetes.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Secret
+          type: Opaque
+          metadata:
+            name: git-chart-creds
+            namespace: service
+          data:
+            username: ""
+            password: ""
+
+    - name: Create cassandra configMap
+      community.kubernetes.k8s:
+        state: present
+        src: "{{ playbook_dir }}/cassandra/cassandra-configmap.yaml"
+        namespace: service
+
+    - name: Cassandra Init
+      community.kubernetes.k8s:
+        state: present
+        src: "{{ playbook_dir }}/cassandra/initdb.yaml"
+        namespace: service
+
     - name: Deploy th2-infra-base
       community.kubernetes.helm:
         name: th2-infra-base
@@ -104,7 +130,12 @@
             rabbitmqUser: th2
             rabbitmqPassword: test
           cassandra:
-            host: cassandra.service.svc.cluster.local
+            # existingConfiguration: cassandra-configuration
+            initDBConfigMap: cassandra-init
+            dbUser:
+              user: cassandra
+              password: cassandra
+            host: cassandra-headless.service.svc.cluster.local
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
