@@ -111,13 +111,13 @@
     - name: Create cassandra configMap
       community.kubernetes.k8s:
         state: present
-        src: "{{ playbook_dir }}/cassandra-configmap.yaml"
+        src: "{{ playbook_dir }}/cassandra/cassandra-configmap.yaml"
         namespace: service
 
     - name: Cassandra Init
       community.kubernetes.k8s:
         state: present
-        src: "{{ playbook_dir }}/initdb.yaml"
+        src: "{{ playbook_dir }}/cassandra/initdb.yaml"
         namespace: service
 
     - name: Deploy th2-infra-base
