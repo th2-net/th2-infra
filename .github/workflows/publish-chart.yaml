@@ -1,9 +1,9 @@
 name: Publish chart
 on:
   workflow_dispatch:
-  create:
+  push:
     tags:
-      - v*
+      - "v*"
 
 jobs:
   release:
