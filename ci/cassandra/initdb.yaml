@@ -4,8 +4,8 @@ metadata:
     name: cassandra-init
 data:
     init.cql: |
-        CREATE KEYSPACE schema_v130 WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
-        CREATE TABLE schema_v130.time_test_events (
+        CREATE KEYSPACE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }} WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.time_test_events (
             instance_id uuid,
             start_date date,
             start_time time,
@@ -36,7 +36,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.messages_test_events (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.messages_test_events (
             instance_id uuid,
             message_id text,
             test_event_id text,
@@ -57,7 +57,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.root_test_events (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.root_test_events (
             instance_id uuid,
             start_date date,
             start_time time,
@@ -85,7 +85,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.test_events_children_dates (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.test_events_children_dates (
             instance_id uuid,
             parent_id text,
             start_date date,
@@ -105,7 +105,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.time_messages (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.time_messages (
             instance_id uuid,
             stream_name text,
             direction text,
@@ -128,7 +128,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.messages (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.messages (
             instance_id uuid,
             stream_name text,
             direction text,
@@ -159,7 +159,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.test_events_messages (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.test_events_messages (
             instance_id uuid,
             test_event_id text,
             message_ids frozen<set<text>>,
@@ -179,7 +179,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.instances (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.instances (
             name text PRIMARY KEY,
             id uuid
         ) WITH bloom_filter_fp_chance = 0.01
@@ -196,7 +196,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.test_events_children (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.test_events_children (
             instance_id uuid,
             parent_id text,
             start_date date,
@@ -227,7 +227,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.test_events (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.test_events (
             instance_id uuid,
             id text,
             compressed boolean,
@@ -260,7 +260,7 @@ data:
             AND min_index_interval = 128
             AND read_repair_chance = 0.0
             AND speculative_retry = '99PERCENTILE';
-        CREATE TABLE schema_v130.processed_messages (
+        CREATE TABLE {{ lookup('env','SCHEMA_NAMESPACE') | replace('-', '_') }}.processed_messages (
             instance_id uuid,
             stream_name text,
             direction text,
