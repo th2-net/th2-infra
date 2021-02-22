@@ -185,35 +185,42 @@ kubectl config set-context --current --namespace=service
 ```
 
 ### Set up access to Git repositories
-Two types of access to repositories are used in th2 - via `https` and `ssh`. The `ssh` access is required by **th2-infra-mgr** component and `https` by **helm-operator**. So, we need to set up both of them.
-#### 1. SSH access:
 
-1. Generate keys without passphrase  
+`ssh` access is required by **th2-infra-mgr** component
+
+* Generate keys without passphrase  
     ```
     ssh-keygen -t rsa -m pem -f ~/.ssh/id_gh_rsa
     ``` 
-2. [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
-3. Create infra-mgr secret from private key:
+* [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
+* Create infra-mgr secret from the private key:
    ```
    kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=$HOME/.ssh/id_gh_rsa
    ```
      
-#### 2. HTTPS access for charts (part of th2-infra repository):
+### Git access for infra-operator-tpl chart:
+
+Generally, Helm Operator fetches infra-operator-tpl chart from th2 https://th2-net.github.io Helm repository, but if it is required - chart can be fetched from Git repository.
+
+<details>
+  <summary>Set up Helm Opertor charts fetching from a git repository</summary>
+
+If you need to use a private repository for infra-operator-tpl chart (for some security reasons i.e.) instead of public, you should provide valid credentials for "git-username" and "git-password" in the command above. Using a Personal Access Token(PAT) is the better choice instead of plain password. Read more about this:
+* [Creating a personal access token on Github](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
+* [Creating a deployment token on Gitlab](https://docs.gitlab.com/ee/user/project/deploy_tokens/#creating-a-deploy-token)
+
 Create secret for git access (only for private repositories)
 ```
 kubectl -n service create secret generic git-chart-creds --from-literal=username=git-username --from-literal=password=git-password
 ```
-If you use a private repository for charts of project (for some security reasons i.e.) instead of public, you should provide valid credentials for `git-username` and `git-password` in the command above. Using a Personal Access Token(PAT) is the better choice instead of plain password.
-Read more about this:
-* [Creating a personal access token on Github](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
-* [Creating a deployment token on Gitlab](https://docs.gitlab.com/ee/user/project/deploy_tokens/#creating-a-deploy-token)
 
-If you use a public repository for the charts of project, you can keep the values for `git-username` and `git-password` as is or use empty values like this:
+If you need to use a public repository (Github e.g.) for infra-operator-tpl chart, create secret with empty credentials:
 ```
 kubectl -n service create secret generic git-chart-creds --from-literal=username= --from-literal=password=
 ```
+</details>
 
-### Set the repository with configuration
+### Set the repository with schema configuration
 * set `infraMgr.git.repository` value in the [./values/service.values.yaml](./values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
 ```
 infraMgr:
