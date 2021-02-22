@@ -5,9 +5,9 @@ metadata:
 data:
   infra-operator.yml: |
     chart:
-{{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
+      {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
     namespacePrefixes:
-{{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 8 }}
+      {{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 6 }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}
     schemaSecrets:
       rabbitMQ: {{ .Values.infraOperator.config.schemaSecrets.rabbitMQ | quote }}
