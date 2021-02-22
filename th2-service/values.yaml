@@ -34,7 +34,7 @@ infraOperator:
     chart:
       git: https://github.com/th2-net/infra-operator-tpl.git
       ref: dev
-      path:
+      path: ./
     namespacePrefixes: 
     - "schema-"
     k8sUrl: "<kubernetes-external-entrypoint>"
