@@ -108,6 +108,18 @@
             username: ""
             password: ""
 
+    - name: Create cassandra configMap
+      community.kubernetes.k8s:
+        state: present
+        src: "{{ playbook_dir }}/cassandra/cassandra-configmap.yaml"
+        namespace: service
+
+    - name: Cassandra Init
+      community.kubernetes.k8s:
+        state: present
+        src: "{{ playbook_dir }}/cassandra/initdb.yaml"
+        namespace: service
+
     - name: Deploy th2-infra-base
       community.kubernetes.helm:
         name: th2-infra-base
@@ -118,14 +130,19 @@
             rabbitmqUser: th2
             rabbitmqPassword: test
           cassandra:
-            host: cassandra.service.svc.cluster.local
+            # existingConfiguration: cassandra-configuration
+            initDBConfigMap: cassandra-init
+            dbUser:
+              user: cassandra
+              password: cassandra
+            host: cassandra-headless.service.svc.cluster.local
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
             internal: true
           infraMgr:
             git:
-              repository: git@github.com:th2-net/th2-infra-schema-demo.git
+              repository: git@github.com:th2-net/e2e-test-schema.git
         values_files:
           "{{ playbook_dir }}/../values/service.values.yaml"
           # - ./secrets.yaml

@@ -46,9 +46,9 @@ func setUp() {
 
 func tearDown() {}
 
-func validFunc(t *testing.T, code int, substr string) func(int, string) bool {
+func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool {
 	return func(code int, body string) bool {
-		if code != code {
+		if testCode != code {
 			logger.Logf(t, "Incorrect response code")
 			return false
 		}
@@ -69,14 +69,14 @@ func TestDashboardEndpoint(t *testing.T) {
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
 }
 
-func TestDashboardRedirectEndpoint(t *testing.T) {
-	// t.Parallel()
-	endpoint := "http://localhost:30000/dashboard"
-	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
-	validator := validFunc(t, 301, "")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
-}
+// func TestDashboardRedirectEndpoint(t *testing.T) {
+// 	// t.Parallel()
+// 	endpoint := "http://localhost:30000/dashboard"
+// 	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
+// 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
+// 	validator := validFunc(t, 301, "")
+// 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
+// }
 
 func TestInfraEditorEndpoint(t *testing.T) {
 	// t.Parallel()
@@ -100,12 +100,12 @@ func TestRabbitMQEndpoint(t *testing.T) {
 
 func TestInfraMgrEndpoint(t *testing.T) {
 	// t.Parallel()
-	endpoint := "http://localhost:30000/editor/backend/"
+	endpoint := "http://localhost:30000/editor/backend/actuator/health"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, infraMgrSvc, 10, 1*time.Second)
 
-	validator := validFunc(t, 404, "{\"status_code\":404,\"error_code\":\"NOT_FOUND\",\"message\":\"Not Found\"}")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
+	validator := validFunc(t, 200, "{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 3*time.Second, validator)
 }
 
 func TestNamespaceReportEndpoint(t *testing.T) {
