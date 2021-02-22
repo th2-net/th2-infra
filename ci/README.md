@@ -16,6 +16,8 @@ Output:
 ├── .github
 |   └── e2e-test.yml                         - e2e testing Github Action
 └── ci
+    ├── cassandra
+    |   └── initdb.yaml                      - ConfigMap with Cassandra init cql script
     ├── e2e-via-ssh-deployment-playbook.yaml - ansible playbook to deploy th2 with infra-mgr gitops via ssh
     ├── th2_infra_test.go                    - tests written in Go with Terratest module
     └── kind-cluster.yaml                    - kind cluster config
