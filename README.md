@@ -184,9 +184,9 @@ Once all of the required software is installed on your test-box and operator-box
 kubectl config set-context --current --namespace=service
 ```
 
-### Set up access to Git repositories
+### Access for infra-mgr th2 schema git repository:
 
-`ssh` access is required by **th2-infra-mgr** component
+`ssh` access with write permissions is required by **th2-infra-mgr** component
 
 * Generate keys without passphrase  
     ```
@@ -198,7 +198,7 @@ kubectl config set-context --current --namespace=service
    kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=$HOME/.ssh/id_gh_rsa
    ```
      
-### Git access for infra-operator-tpl chart:
+### Access for infra-operator-tpl chart in git repository:
 
 Generally, Helm Operator fetches infra-operator-tpl chart from th2 https://th2-net.github.io Helm repository, but if it is required - chart can be fetched from Git repository.
 
