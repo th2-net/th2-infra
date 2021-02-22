@@ -117,7 +117,7 @@
     - name: Cassandra Init
       community.kubernetes.k8s:
         state: present
-        src: "{{ playbook_dir }}/cassandra/initdb.yaml"
+        template: "{{ playbook_dir }}/cassandra/initdb.yaml"
         namespace: service
 
     - name: Deploy th2-infra-base
