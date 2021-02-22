@@ -131,7 +131,7 @@
             rabbitmqPassword: test
           cassandra:
             # existingConfiguration: cassandra-configuration
-            #initDBConfigMap: cassandra-init
+            initDBConfigMap: cassandra-init
             dbUser:
               user: cassandra
               password: cassandra
