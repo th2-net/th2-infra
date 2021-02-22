@@ -1,0 +1,44 @@
+name: Publish chart
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+          path: th2-infra
+
+      - name: Checkout Helm repository
+        uses: actions/checkout@v2.3.4
+        with:
+          repository: th2-net/th2-net.github.io
+          ref: master
+          token: ${{ secrets.PAT_CI_ACTION }}
+          path: th2-net.github.io
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.1
+
+      - name: Create package and index
+        run: |
+          helm package ./th2-infra/th2-service/ --destination ./th2-net.github.io/
+          cd ./th2-net.github.io/
+          helm repo index --merge ./index.yaml .
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          directory: ./th2-net.github.io/
+          repository: th2-net/th2-net.github.io
+          author_name: ${{ github.actor }}
+          author_email: ${{ github.actor }}@users.noreply.github.com
+          github_token: ${{ secrets.PAT_CI_ACTION }}

@@ -1,9 +1,9 @@
 dependencies:
 - name: rabbitmq-ha
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 1.44.4
 - name: cassandra
   repository: https://charts.bitnami.com/bitnami
-  version: 5.4.1
-digest: sha256:0853d8f347d3a39a4c6d8b6153867a38ed19187ecb6f39a6a0ecab9939e1d271
-generated: "2020-06-18T17:25:09.750157971+03:00"
+  version: 5.6.7
+digest: sha256:8e0b4bb96cc2d29632ea1f362690a3afab3f65549ac9795ecdd5dab546348b74
+generated: "2021-02-21T00:58:01.692070521+03:00"

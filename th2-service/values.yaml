@@ -1,3 +1,4 @@
+---
 # Default values for th2-core.
 
 # Image repositories and credentials to create pull secrets
@@ -13,7 +14,7 @@ solutionRegistry:
   username:
   password:
 
-ingress:	
+ingress:
   host:
 
 externalRabbitMQHost:
@@ -25,6 +26,7 @@ infraEditor:
     tag: 1.0.56
 
 infraOperator:
+  persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 2.7.1
@@ -78,12 +80,10 @@ infraMgr:
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
     secrets:
-      - chart-secrets
-      - git-chart-creds
-      - th2-core 
-      - th2-solution
-      - cassandra
-      - th2-proprietary
+    - th2-core 
+    - th2-solution
+    - th2-proprietary
+    - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
     tag: 0.14.1
@@ -113,9 +113,9 @@ rabbitmq:
   livenessProbe:
     exec:
       command:
-        - /bin/bash
-        - -ec
-        - rabbitmq-diagnostics -q check_running
+      - /bin/bash
+      - -ec
+      - rabbitmq-diagnostics -q check_running
     initialDelaySeconds: 120
     timeoutSeconds: 20
     periodSeconds: 30
@@ -124,9 +124,9 @@ rabbitmq:
   readinessProbe:
     exec:
       command:
-        - /bin/bash
-        - -ec
-        - rabbitmq-diagnostics -q check_running
+      - /bin/bash
+      - -ec
+      - rabbitmq-diagnostics -q check_running
     initialDelaySeconds: 10
     timeoutSeconds: 20
     periodSeconds: 30
@@ -143,7 +143,7 @@ rabbitmq:
     operator:
       enabled: true
       alerts:
-       enabled: true
+        enabled: true
       serviceMonitor:
         selector:
           release: prometheus

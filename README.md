@@ -184,36 +184,43 @@ Once all of the required software is installed on your test-box and operator-box
 kubectl config set-context --current --namespace=service
 ```
 
-### Set up access to Git repositories
-Two types of access to repositories are used in th2 - via `https` and `ssh`. The `ssh` access is required by **th2-infra-mgr** component and `https` by **helm-operator**. So, we need to set up both of them.
-#### 1. SSH access:
+### Access for infra-mgr th2 schema git repository:
 
-1. Generate keys without passphrase  
+`ssh` access with write permissions is required by **th2-infra-mgr** component
+
+* Generate keys without passphrase  
     ```
     ssh-keygen -t rsa -m pem -f ~/.ssh/id_gh_rsa
     ``` 
-2. [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
-3. Create infra-mgr secret from private key:
+* [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
+* Create infra-mgr secret from the private key:
    ```
    kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=$HOME/.ssh/id_gh_rsa
    ```
      
-#### 2. HTTPS access for charts (part of th2-infra repository):
+### Access for infra-operator-tpl chart in git repository:
+
+Generally, Helm Operator fetches infra-operator-tpl chart from th2 https://th2-net.github.io Helm repository, but if it is required - chart can be fetched from Git repository.
+
+<details>
+  <summary>Set up Helm Opertor charts fetching from a git repository</summary>
+
+If you need to use a private repository for infra-operator-tpl chart (for some security reasons i.e.) instead of public, you should provide valid credentials for "git-username" and "git-password" in the command above. Using a Personal Access Token(PAT) is the better choice instead of plain password. Read more about this:
+* [Creating a personal access token on Github](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
+* [Creating a deployment token on Gitlab](https://docs.gitlab.com/ee/user/project/deploy_tokens/#creating-a-deploy-token)
+
 Create secret for git access (only for private repositories)
 ```
 kubectl -n service create secret generic git-chart-creds --from-literal=username=git-username --from-literal=password=git-password
 ```
-If you use a private repository for charts of project (for some security reasons i.e.) instead of public, you should provide valid credentials for `git-username` and `git-password` in the command above. Using a Personal Access Token(PAT) is the better choice instead of plain password.
-Read more about this:
-* [Creating a personal access token on Github](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
-* [Creating a deployment token on Gitlab](https://docs.gitlab.com/ee/user/project/deploy_tokens/#creating-a-deploy-token)
 
-If you use a public repository for the charts of project, you can keep the values for `git-username` and `git-password` as is or use empty values like this:
+If you need to use a public repository (Github e.g.) for infra-operator-tpl chart, create secret with empty credentials:
 ```
 kubectl -n service create secret generic git-chart-creds --from-literal=username= --from-literal=password=
 ```
+</details>
 
-### Set the repository with configuration
+### Set the repository with schema configuration
 * set `infraMgr.git.repository` value in the [./values/service.values.yaml](./values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
 ```
 infraMgr:
@@ -292,22 +299,50 @@ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./
         ........
         ```
 
-### Install infrastructure components and ingress-rules via Helm and HelmOperator release in service namespace
-* Define host name in the [./values/ingress-rules.helmrelease.yaml](./values/ingress-rules.helmrelease.yaml)
-  ```
-  ...
-  spec:
-    values:
-      ingress:
-        host: <hostname>
-  ```
+### Install th2-infra components in the service namespace
+
 * Install components
+
   ```
-  kubectl apply -n service -f ./values/ingress-rules.helmrelease.yaml
-  helm install th2-infra-base -n service ./th2-service/ -f ./values/service.values.yaml -f ./secrets.yaml
+  helm repo add th2 https://th2-net.github.io
+  helm install --version=1.3.0 -n service install th2-infra-base th2/th2 -f ./values/service.values.yaml -f ./secrets.yaml
   ```
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
+
+### Upgrade/migration th2-infra
+
+* Set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2 to delete it.
+* Uninstall th2-infra-base release:
+```
+helm -n service uninstall th2-infra-base
+```
+* Revise "Custom resource" files for namespaces according to the release documentation (if required).
+* Delete CRDs:
+```
+kubectl delete customresourcedefinitions th2boxes.th2.exactpro.com th2coreboxes.th2.exactpro.com th2dictionaries.th2.exactpro.com th2estores.th2.exactpro.com th2links.th2.exactpro.com th2mstores.th2.exactpro.com
+```
+ _Note_: the list can be various, please see the full list in documentation or in k8s with the following command:
+```
+kubectl get customresourcedefinitions | grep "^th2"
+```
+* Change th2-service values file according to the th2-infra release notes (if required):
+* Check the state of pv in k8s.
+```
+kubectl get pv
+```
+It has to be availalble, if Released:
+```
+kubectl patch pv <pv-name> -p '{"spec":{"claimRef": null}}'
+```
+  
+* Install th2-infra:
+```
+helm repo add th2 https://th2-net.github.io
+helm install --version=<new_version> -n service install th2-infra-base th2/th2 -f ./values/service.values.yaml -f ./secrets.yaml
+```
+
+* Apply PVC in th2 namespaces (if required)
 
 ## th2 infra links:
 - Kubernetes dashboard http://your-host:30000/dashboard/
