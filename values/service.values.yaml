@@ -6,6 +6,10 @@ rabbitmq:
   prometheus:
     operator:
       enabled: false
+  persistentVolume:
+    enabled: true
+    storageClass: local-storage
+    size: 10Gi
 
 cassandra:
   internal: false
