@@ -5,13 +5,9 @@ metadata:
 data:
   infra-operator.yml: |
     chart:
-      git: {{ .Values.infraOperator.config.chart.git | quote }}
-      ref: {{ .Values.infraOperator.config.chart.ref | quote }}
-      path: {{ .Values.infraOperator.config.chart.path | quote }}
-{{- with .Values.infraOperator.config.namespacePrefixes }}
+      {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
     namespacePrefixes:
-{{- toYaml . | nindent 8 }}
-{{- end }}  
+      {{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 6 }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}
     schemaSecrets:
       rabbitMQ: {{ .Values.infraOperator.config.schemaSecrets.rabbitMQ | quote }}

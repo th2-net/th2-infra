@@ -24,13 +24,13 @@ Output:
 ```
 
 ## Settings and variables
-Repository with schema contains version branch from which th2 namespace will be deployed, e.g. e2e-v101 https://github.com/th2-net/th2-infra-schema-demo/tree/e2e-v101.
+Repository with schema contains version branch from which th2 namespace will be deployed, e.g. v130 https://github.com/th2-net/e2e-test-schema/tree/v130.
 
 Namespace with schema must be set as SCHEMA_NAMESPACE variable in the workflow.
 
 ```yaml
 env:
-  SCHEMA_NAMESPACE: schema-e2e-v101
+  SCHEMA_NAMESPACE: schema-v130
 ```
 **Note**: _CRs with any API changes must be allocated in a new versioned branch!_
 
@@ -41,14 +41,13 @@ Repository with schema is set as a value in e2e-via-ssh-deployment-playbook.yaml
         repository: git@github.com:th2-net/e2e-test-schema.git
 ```
 
-If it is required to test infra operator template chart, then it can be changed in th2-service values.yaml:
+If it is required to test infra operator template chart from git, then it can be set in e2e-via-ssh-deployment-playbook.yaml > "Deploy th2-infra-base":
 ```yaml
-infraOperator:
-  ...
-  chart:
-    git: https://github.com/th2-net/infra-operator-tpl.git
-    ref: v0.2.0
-    path: ./
+          # infraOperator:
+          #   chart:
+          #     git: https://github.com/th2-net/infra-operator-tpl.git
+          #     ref: v0.2.0
+          #     path: ./
 ```
 
 Private key for infra-mgr is set as a repository secret and passed as E2E_PRIVATE_KEY env variable to playbook. Public key is set as e2e-test deploy key in the schema repository.

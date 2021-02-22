@@ -29,9 +29,9 @@ infraOperator:
     tag: 2.6.7
   config:
     chart:
-      git: https://github.com/th2-net/infra-operator-tpl
-      ref: v0.2.0
-      path: ./
+      repository: https://th2-net.github.io
+      version: 0.2.0
+      name: infra-operator-tpl
     namespacePrefixes: 
     - "schema-"
     k8sUrl: "<kubernetes-external-entrypoint>"
@@ -77,12 +77,10 @@ infraMgr:
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
     secrets:
-    - chart-secrets
-    - git-chart-creds
     - th2-core 
     - th2-solution
-    - cassandra
     - th2-proprietary
+    - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
     tag: 0.12.2

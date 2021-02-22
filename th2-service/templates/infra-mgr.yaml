@@ -28,8 +28,7 @@ spec:
         app: infra-mgr
     spec:
       imagePullSecrets:
-        - name: th2-core
-        - name: th2-solution
+      - name: th2-core
       serviceAccountName: infra-mgr-service
       containers:
       - name: infra-mgr

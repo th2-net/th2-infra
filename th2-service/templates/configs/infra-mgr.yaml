@@ -27,12 +27,17 @@ data:
 
       ingress: {{ .Values.infraMgr.kubernetes.ingress }}
 
-{{- with .Values.infraMgr.kubernetes.secrets }}
       secretNames:
-{{- toYaml . | nindent 8 }}
-{{- end }}
+      {{- if .Values.infraOperator.config.chart.git }}
+        {{- with list "git-chart-creds" }}
+          {{- toYaml . | nindent 6 }}
+        {{- end }}
+      {{- end }}
+      {{- with .Values.infraMgr.kubernetes.secrets }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
 
-{{- with .Values.infraMgr.kubernetes.configMaps }}
       configMaps:
-{{- toYaml . | nindent 8 }}
-{{- end }}
+      {{- with .Values.infraMgr.kubernetes.configMaps }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
