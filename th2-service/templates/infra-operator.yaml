@@ -14,6 +14,7 @@ spec:
     spec:
       imagePullSecrets:
       - name: th2-core
+      - name: th2-solution
       serviceAccountName: infra-operator-service
       containers:
       - name: infra-operator
