@@ -170,8 +170,8 @@ _Note: It's an optional step, but it gets slightly simpler checking the result o
         ........
         ```
 
-default password in Grafana: admin/prom-operator. Need to be changed
-Add loki Datasource as http://loki:3100 and import Dashboard from ./values/components-logs.json
+*Note:* default password in Grafana: admin/prom-operator. Need to be changed.
+Add loki Datasource as http://loki:3100 and import Dashboard from ./values/components-logs.json and RabbitMQ Overview from here: https://grafana.com/grafana/dashboards/10991
 
 * Check access to Grafana _(default user/password: `admin/prom-operator`. Need to be changed)_: <br>
   http://your-host:30000/grafana/login
