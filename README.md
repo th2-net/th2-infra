@@ -219,7 +219,7 @@ If you need to use a public repository (Github e.g.) for infra-operator-tpl char
 kubectl -n service create secret generic git-chart-creds --from-literal=username= --from-literal=password=
 ```
 
-git-chart-creds secret has to be added in infraMgr.kubernetes.secrets list:
+git-chart-creds secret has to be added in infraMgr.kubernetes.secrets list value:
 ```
 infraMgr:
   kubernetes:
@@ -230,7 +230,6 @@ infraMgr:
     - cassandra
     - git-chart-creds
 ```
-infraMgr.
 
 </details>
 
