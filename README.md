@@ -247,17 +247,23 @@ ingress:
 
 Create secrets.yaml in `./` folder (*do not commit into git*). Please provide valid credentials for Cassandra DB. Example:
 ```
-# reguired only if images in private repository
+# reguired only for images from a private registry, will be attached as the first PullSecret to deployments
 #productRegistry:
 #  username: user
 #  password: password
-#  name: registry.example.com # core components registry
+#  name: private-registry-1.example.com # core components registry
 
-# reguired only if images in private repository
+# reguired only for images from a private registry, will be attached as the second PullSecret to deployments
 #solutionRegistry:
 #  username: user
 #  password: password
-#  name: private-registry.example.com # components registry
+#  name: private-registry-2.example.com # components registry
+
+# reguired only for images from a private registry, will be attached as the third PullSecret to deployments
+#proprietaryRegistry:
+#  username: user
+#  password: password
+#  name: private-registry-3.example.com # components registry
 
 cassandra:
 # set Cassandra credentials for existing Cassandra cluster
@@ -266,7 +272,7 @@ cassandra:
     password: <password>
 
 rabbitmq:
-# set admin rabbitmq user and password, it will be created during deployment
+# set admin user credentials, it will be created during deployment
   rabbitmqUsername: th2
   rabbitmqPassword: rab-pass
   # must be random string
