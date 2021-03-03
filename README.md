@@ -108,7 +108,7 @@ _Note: It's an optional step, but it gets slightly simpler checking the result o
 ```
 $ kubectl config set-context --current --namespace=monitoring
 ```
-* Define Grafana and Dashboard host names (the name must be resolved from th2 ):
+* Define Grafana and Dashboard host names (the name must be resolved from QA boxes):
   * in the [./values/dashboard.values.yaml](./values/dashboard.values.yaml) file
     ```
     ingress:
@@ -152,10 +152,9 @@ prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1    
 ........
 ```
 
-*Note:* default password in Grafana: admin/prom-operator. Need to be changed.
 Add loki Datasource as http://loki:3100 and import Dashboard from ./values/components-logs.json and RabbitMQ Overview from here: https://grafana.com/grafana/dashboards/10991
 
-* Check access to Grafana _(default user/password: `admin/prom-operator`. Need to be changed)_: <br>
+* Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
   http://your-host:30000/grafana/login
 
 ## Cluster configuration
@@ -232,7 +231,7 @@ cassandra:
 ```
 
 ### Define th2 ingress hostname
-Please add `ingress.hostname` value if required into [./values/service.values.yaml](./values/service.values.yaml) file otherwise th2 http services will be available on node IP address
+Add `ingress.hostname` value if required into [./values/service.values.yaml](./values/service.values.yaml) file otherwise th2 http services will be available on node IP address
 ```
 ingress:
   host: example.com
@@ -240,7 +239,7 @@ ingress:
 
 ### Create secret with th2 credentials
 
-Create secrets.yaml in `./` folder (*do not commit into git*). Please provide valid credentials for Cassandra DB. Example:
+Create secrets.yaml in `./` folder (*do not commit into git*). Example:
 ```
 # reguired only for images from a private registry, will be attached as the first PullSecret to deployments
 #productRegistry:
@@ -315,7 +314,7 @@ $ helm -n service uninstall th2-infra-base
 ```
 $ kubectl delete customresourcedefinitions th2boxes.th2.exactpro.com th2coreboxes.th2.exactpro.com th2dictionaries.th2.exactpro.com th2estores.th2.exactpro.com th2links.th2.exactpro.com th2mstores.th2.exactpro.com
 ```
- _Note_: the list can be various, please see the full list in documentation or in k8s with the following command:
+ _Note_: the list can be various, see the full list in documentation or in k8s with the following command:
 ```
 $ kubectl get customresourcedefinitions | grep "^th2"
 ```
