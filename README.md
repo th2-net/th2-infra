@@ -279,7 +279,7 @@ Create secrets.yaml in `./` folder (*do not commit into git*). Please provide va
 #  name: private-registry-3.example.com # components registry
 
 cassandra:
-# set Cassandra credentials for existing Cassandra cluster
+# set credentials for existing Cassandra cluster
   dbUser:
     user: <user-name>
     password: <password>
