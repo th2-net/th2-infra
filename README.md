@@ -199,19 +199,14 @@ If you need to use a public repository (Github e.g.) for infra-operator-tpl char
 ```
 $ kubectl -n service create secret generic git-chart-creds --from-literal=username= --from-literal=password=
 ```
-
-git-chart-creds secret has to be added in infraMgr.kubernetes.secrets list value:
+then define values for th2-service chart, example:
 ```
-infraMgr:
-  kubernetes:
-    secrets:
-    - th2-core 
-    - th2-solution
-    - th2-proprietary
-    - cassandra
-    - git-chart-creds
+infraOperator:
+  chart:
+    git: git@some.server.com:some/repository
+    ref: branch
+    path: /path/to/charts
 ```
-
 </details>
 
 ### Set the repository with schema configuration
