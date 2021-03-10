@@ -75,7 +75,6 @@ infraMgr:
       logging: java-logging-config
       rabbitmq: rabbit-mq-app-config
       rabbitmq-ext: rabbit-mq-external-app-config
-      rabbitmqManagement: rabbitmq-mng-params
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
@@ -98,10 +97,8 @@ rabbitmq:
   fullnameOverride: rabbitmq
   rabbitmqVhost: th2
   rabbitmqUsername: th2
-  managementUsername: th2-mng
   # will be generated if empty
   rabbitmqPassword: ""
-  managementPassword: ""
   rabbitmqErlangCookie: ""
   rabbitmqExchange: th2-exchange
   replicaCount: 1
