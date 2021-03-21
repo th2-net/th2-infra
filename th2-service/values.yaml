@@ -29,7 +29,7 @@ infraOperator:
   persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.7.1
+    tag: 2.7.2
   config:
     chart:
       git: https://github.com/th2-net/infra-operator-tpl.git
@@ -85,7 +85,7 @@ infraMgr:
     - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.14.1
+    tag: 0.14.6
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
