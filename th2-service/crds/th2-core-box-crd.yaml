@@ -14,331 +14,338 @@ spec:
     singular: th2corebox
   scope: Namespaced
   versions:
-  - additionalPrinterColumns:
-    - jsonPath: .status.subResourceName
-      name: HelmRelease
-      type: string
-    - jsonPath: .spec.type
-      name: Type
-      type: string
-    - jsonPath: .status.phase
-      name: Status
-      type: string
-    - jsonPath: .status.message
-      name: Message
-      type: string
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date
-    name: v1
-    schema:
-      openAPIV3Schema:
-        description: Th2CoreBox defines Th2 core component instance
-        properties:
-          apiVersion:
-            type: string
-          kind:
-            type: string
-          metadata:
-            type: object
-          spec:
-            description: Specification of desired box
-            properties:
-              custom-config:
-                description: this is custom configuration
-                type: object
-                x-kubernetes-preserve-unknown-fields: true
-              extended-settings:
-                properties:
-                  chart-cfg:
-                    properties:
-                      path:
-                        type: string
-                      ref:
-                        type: string
-                    type: object
-                  envVariables:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  externalBox:
-                    properties:
-                      address:
-                        type: string
-                      enabled:
-                        enum:
-                        - "false"
-                        - "true"
-                        type: string
-                      endpoints:
-                        items:
-                          properties:
-                            name:
-                              type: string
-                            targetPort:
-                              type: string
-                          required:
-                          - name
-                          - targetPort
-                          type: object
-                        type: array
-                    type: object
-                  hostNetwork:
-                    enum:
-                    - "false"
-                    - "true"
-                    type: string
-                  mounting:
-                    items:
+    - additionalPrinterColumns:
+        - jsonPath: .status.subResourceName
+          name: HelmRelease
+          type: string
+        - jsonPath: .spec.type
+          name: Type
+          type: string
+        - jsonPath: .status.phase
+          name: Status
+          type: string
+        - jsonPath: .status.message
+          name: Message
+          type: string
+        - jsonPath: .metadata.creationTimestamp
+          name: Age
+          type: date
+      name: v1
+      schema:
+        openAPIV3Schema:
+          description: Th2CoreBox defines Th2 core component instance
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              description: Specification of desired box
+              properties:
+                custom-config:
+                  description: this is custom configuration
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+                extended-settings:
+                  properties:
+                    chart-cfg:
                       properties:
                         path:
                           type: string
-                        pvcName:
+                        ref:
                           type: string
                       type: object
-                    type: array
-                  resources:
-                    properties:
-                      limits:
-                        properties:
-                          cpu:
-                            type: string
-                          memory:
-                            type: string
-                        type: object
-                      requests:
-                        properties:
-                          cpu:
-                            type: string
-                          memory:
-                            type: string
-                        type: object
-                    type: object
-                  service:
-                    properties:
-                      enabled:
-                        enum:
+                    envVariables:
+                      type: object
+                      x-kubernetes-preserve-unknown-fields: true
+                    externalBox:
+                      properties:
+                        address:
+                          type: string
+                        enabled:
+                          enum:
+                            - "false"
+                            - "true"
+                          type: string
+                        endpoints:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              targetPort:
+                                type: string
+                            required:
+                              - name
+                              - targetPort
+                            type: object
+                          type: array
+                      type: object
+                    hostNetwork:
+                      enum:
                         - "false"
                         - "true"
-                        type: string
-                      endpoints:
-                        items:
-                          properties:
-                            name:
-                              type: string
-                            nodePort:
-                              type: string
-                            targetPort:
-                              type: string
-                          required:
-                          - name
-                          - targetPort
-                          type: object
-                        type: array
-                      nodePort:
-                        type: string
-                      targetPort:
-                        type: string
-                      type:
-                        enum:
-                        - ClusterIP
-                        - NodePort
-                        - LoadBalancer
-                        - ExternalName
-                        type: string
-                    type: object
-                type: object
-              image-name:
-                type: string
-              image-version:
-                type: string
-              params:
-                description: List of generic parameters
-                items:
-                  properties:
-                    name:
                       type: string
-                    value:
-                      type: string
-                  required:
-                  - name
-                  - value
-                  type: object
-                type: array
-              pins:
-                description: List of connection pins
-                items:
-                  properties:
-                    attributes:
-                      items:
-                        type: string
-                      type: array
-                    connection-type:
-                      enum:
-                      - mq
-                      - grpc
-                      type: string
-                    filters:
+                    mounting:
                       items:
                         properties:
-                          message:
-                            items:
-                              properties:
-                                expected-value:
-                                  type: string
-                                field-name:
-                                  type: string
-                                operation:
-                                  enum:
-                                  - EQUAL
-                                  - NOT_EQUAL
-                                  - EMPTY
-                                  - NOT_EMPTY
-                                  type: string
-                              required:
-                              - field-name
-                              - expected-value
-                              - operation
-                              type: object
-                            type: array
-                          metadata:
-                            items:
-                              properties:
-                                expected-value:
-                                  type: string
-                                field-name:
-                                  type: string
-                                operation:
-                                  enum:
-                                  - EQUAL
-                                  - NOT_EQUAL
-                                  - EMPTY
-                                  - NOT_EMPTY
-                                  type: string
-                              required:
-                              - field-name
-                              - expected-value
-                              - operation
-                              type: object
-                            type: array
+                          path:
+                            type: string
+                          pvcName:
+                            type: string
                         type: object
                       type: array
-                    name:
-                      type: string
-                      pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
-                      maxLength: 31
-                    settings:
+                    resources:
                       properties:
-                        queueLength:
-                          type: string
-                        storageOnDemand:
+                        limits:
+                          properties:
+                            cpu:
+                              type: string
+                            memory:
+                              type: string
+                          type: object
+                        requests:
+                          properties:
+                            cpu:
+                              type: string
+                            memory:
+                              type: string
+                          type: object
+                      type: object
+                    service:
+                      properties:
+                        enabled:
                           enum:
-                          - "false"
-                          - "true"
+                            - "false"
+                            - "true"
+                          type: string
+                        endpoints:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              nodePort:
+                                type: string
+                              targetPort:
+                                type: string
+                            required:
+                              - name
+                              - targetPort
+                            type: object
+                          type: array
+                        nodePort:
+                          type: string
+                        targetPort:
+                          type: string
+                        type:
+                          enum:
+                            - ClusterIP
+                            - NodePort
+                            - LoadBalancer
+                            - ExternalName
                           type: string
                       type: object
-                  required:
-                  - name
-                  - connection-type
                   type: object
-                type: array
-              prometheus:
-                properties:
-                  enabled:
-                    enum:
-                    - "false"
-                    - "true"
-                    type: string
-                  host:
-                    type: string
-                  port:
-                    type: string
-                type: object
-              type:
-                enum:
-                - th2-act
-                - th2-codec
-                - th2-conn
-                - th2-rpt-data-provider
-                - th2-rpt-viewer
-                - th2-check1
-                - th2-check2-bookcheck
-                - th2-check2-recon
-                - th2-script
-                - th2-sim
-                - th2-hand
-                - th2-read
-                - th2-util
-                - th2-cradle-viewer
-                type: string
-            required:
-            - image-name
-            - image-version
-            - type
-            type: object
-          status:
-            description: contains status information about this resource
-            properties:
-              conditions:
-                description: Conditions contains observations of the resource's state
-                items:
+                image-name:
+                  type: string
+                image-version:
+                  type: string
+                params:
+                  description: List of generic parameters
+                  items:
+                    properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
+                    required:
+                      - name
+                      - value
+                    type: object
+                  type: array
+                pins:
+                  description: List of connection pins
+                  items:
+                    properties:
+                      attributes:
+                        items:
+                          type: string
+                        type: array
+                      connection-type:
+                        enum:
+                          - mq
+                          - grpc
+                        type: string
+                      filters:
+                        items:
+                          properties:
+                            message:
+                              items:
+                                properties:
+                                  expected-value:
+                                    type: string
+                                  field-name:
+                                    type: string
+                                  operation:
+                                    enum:
+                                      - EQUAL
+                                      - NOT_EQUAL
+                                      - EMPTY
+                                      - NOT_EMPTY
+                                    type: string
+                                required:
+                                  - field-name
+                                  - expected-value
+                                  - operation
+                                type: object
+                              type: array
+                            metadata:
+                              items:
+                                properties:
+                                  expected-value:
+                                    type: string
+                                  field-name:
+                                    type: string
+                                  operation:
+                                    enum:
+                                      - EQUAL
+                                      - NOT_EQUAL
+                                      - EMPTY
+                                      - NOT_EMPTY
+                                    type: string
+                                required:
+                                  - field-name
+                                  - expected-value
+                                  - operation
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                      name:
+                        type: string
+                        pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                        maxLength: 31
+                      settings:
+                        properties:
+                          queueLength:
+                            type: string
+                          storageOnDemand:
+                            enum:
+                              - "false"
+                              - "true"
+                            type: string
+                        type: object
+                    required:
+                      - name
+                      - connection-type
+                    type: object
+                  type: array
+                prometheus:
                   properties:
-                    lastTransitionTime:
-                      description: LastTransitionTime is the timestamp corresponding
-                        to the last status change of this condition.
-                      format: date-time
-                      type: string
-                    lastUpdateTime:
-                      description: LastUpdateTime is the timestamp corresponding to
-                        the last status update of this condition.
-                      format: date-time
-                      type: string
-                    message:
-                      description: Message is a human readable description of the
-                        details of the last transition, complementing reason.
-                      nullable: true
-                      type: string
-                    reason:
-                      description: Reason is a brief machine readable explanation
-                        for the condition's last transition.
-                      type: string
-                    status:
-                      description: Status of the condition, one of ('True', 'False',
-                        'Unknown').
+                    enabled:
                       enum:
-                      - "True"
-                      - "False"
-                      - Unknown
+                        - "false"
+                        - "true"
                       type: string
-                    type:
-                      description: Type of the condition
-                      enum:
-                      - Deployed
-                      - Enqueued
+                    host:
                       type: string
-                  required:
-                  - status
-                  - type
+                    port:
+                      type: string
                   type: object
-                type: array
-              message:
-                description: Message describe current state of this resource
-                type: string
-              phase:
-                description: ComponentStatus is the status as given by Operator for
-                  this resource
-                type: string
-              subResourceName:
-                description: SubResourceName is the name of produced helmrelease tied
-                  with this resource
-                type: string
-            type: object
-        required:
-        - spec
-        type: object
-    served: true
-    storage: true
-    subresources:
-      status: {}
+                type:
+                  enum:
+                    - th2-act
+                    - th2-codec
+                    - th2-conn
+                    - th2-rpt-data-provider
+                    - th2-rpt-viewer
+                    - th2-check1
+                    - th2-check2-bookcheck
+                    - th2-check2-recon
+                    - th2-script
+                    - th2-sim
+                    - th2-hand
+                    - th2-read
+                    - th2-util
+                    - th2-cradle-viewer
+                  type: string
+              required:
+                - image-name
+                - image-version
+                - type
+              type: object
+            status:
+              description: contains status information about this resource
+              properties:
+                conditions:
+                  description: Conditions contains observations of the resource's state
+                  items:
+                    properties:
+                      lastTransitionTime:
+                        description:
+                          LastTransitionTime is the timestamp corresponding
+                          to the last status change of this condition.
+                        format: date-time
+                        type: string
+                      lastUpdateTime:
+                        description:
+                          LastUpdateTime is the timestamp corresponding to
+                          the last status update of this condition.
+                        format: date-time
+                        type: string
+                      message:
+                        description:
+                          Message is a human readable description of the
+                          details of the last transition, complementing reason.
+                        nullable: true
+                        type: string
+                      reason:
+                        description:
+                          Reason is a brief machine readable explanation
+                          for the condition's last transition.
+                        type: string
+                      status:
+                        description:
+                          Status of the condition, one of ('True', 'False',
+                          'Unknown').
+                        enum:
+                          - "True"
+                          - "False"
+                          - Unknown
+                        type: string
+                      type:
+                        description: Type of the condition
+                        enum:
+                          - Deployed
+                          - Enqueued
+                        type: string
+                    required:
+                      - status
+                      - type
+                    type: object
+                  type: array
+                message:
+                  description: Message describe current state of this resource
+                  type: string
+                phase:
+                  description:
+                    ComponentStatus is the status as given by Operator for
+                    this resource
+                  type: string
+                subResourceName:
+                  description:
+                    SubResourceName is the name of produced helmrelease tied
+                    with this resource
+                  type: string
+              type: object
+          required:
+            - spec
+          type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
 status:
   acceptedNames:
     kind: ""
