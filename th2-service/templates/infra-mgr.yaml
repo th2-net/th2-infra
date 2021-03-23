@@ -42,6 +42,8 @@ spec:
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.secretMountPath }}
         env:
+          - name: JAVA_TOOL_OPTIONS
+            value: -XX:MaxHeapSize=2048m
           - name: HTTPS_AUTH_USERNAME 
             valueFrom:
               secretKeyRef:
