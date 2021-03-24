@@ -33,7 +33,7 @@ infraOperator:
   config:
     chart:
       repository: https://th2-net.github.io
-      version: 0.3.0
+      version: v0.3.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "schema-"
@@ -151,7 +151,7 @@ cassandra:
   cluster:
     datacenter: datacenter1
   dbUser:
-    user: cassandra
+    user: th2
     # will be generated if empty
     password: ""
   keyspace: cradle
