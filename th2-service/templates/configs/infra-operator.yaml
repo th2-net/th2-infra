@@ -1,3 +1,4 @@
+--
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -24,4 +25,3 @@ data:
         configure: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.configure | quote }}
         read: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.read | quote }}
         write: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.write | quote }}
-
