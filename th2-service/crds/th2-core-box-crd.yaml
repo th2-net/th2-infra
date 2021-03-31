@@ -151,8 +151,6 @@ spec:
                 type: string
               image-version:
                 type: string
-              version-range:
-                type: string
               params:
                 description: List of generic parameters
                 items:
@@ -227,7 +225,7 @@ spec:
                     name:
                       type: string
                       pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                      maxLength: 128
+                      maxLength: 71
                     settings:
                       properties:
                         queueLength:
