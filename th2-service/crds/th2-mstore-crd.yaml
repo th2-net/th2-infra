@@ -148,6 +148,8 @@ spec:
                 type: string
               image-version:
                 type: string
+              version-range:
+                type: string
               params:
                 description: List of generic parameters
                 items:

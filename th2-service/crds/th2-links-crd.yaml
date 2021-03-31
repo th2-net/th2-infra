@@ -14,140 +14,140 @@ spec:
     singular: th2link
   scope: Namespaced
   versions:
-    - name: v1
-      schema:
-        openAPIV3Schema:
-          description: Th2link defines th2 link instance
-          properties:
-            apiVersion:
-              type: string
-            kind:
-              type: string
-            metadata:
-              type: object
-            spec:
-              description: Specification of desired links
-              properties:
-                boxes-relation:
-                  properties:
-                    router-grpc:
-                      description: List of grpc connection pins
-                      items:
-                        properties:
-                          name:
-                            type: string
-                            pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                            maxLength: 31
-                          from:
-                            properties:
-                              box:
-                                type: string
-                              pin:
-                                type: string
-                              service-class:
-                                type: string
-                              strategy:
-                                type: string
-                            required:
-                              - strategy
-                              - box
-                              - pin
-                            type: object
-                          to:
-                            properties:
-                              box:
-                                type: string
-                              pin:
-                                type: string
-                              service-class:
-                                type: string
-                              strategy:
-                                type: string
-                            required:
-                              - strategy
-                              - box
-                              - pin
-                            type: object
-                        required:
-                          - name
-                          - from
-                          - to
-                        type: object
-                      type: array
-                    router-mq:
-                      description: List of mq connection pins
-                      items:
-                        properties:
-                          name:
-                            type: string
-                            pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                            maxLength: 31
-                          from:
-                            properties:
-                              box:
-                                type: string
-                              pin:
-                                type: string
-                            required:
-                              - box
-                              - pin
-                            type: object
-                          to:
-                            properties:
-                              box:
-                                type: string
-                              pin:
-                                type: string
-                            required:
-                              - box
-                              - pin
-                            type: object
-                        required:
-                          - name
-                          - from
-                          - to
-                        type: object
-                      type: array
-                  type: object
-                dictionaries-relation:
-                  description: List of dictionary relations
-                  items:
-                    properties:
-                      name:
-                        type: string
-                        pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                        maxLength: 31
-                      box:
-                        type: string
-                      dictionary:
-                        properties:
-                          name:
-                            type: string
-                          type:
-                            enum:
-                              - MAIN
-                              - LEVEL1
-                              - LEVEL2
-                              - INCOMING
-                              - OUTGOING
-                            type: string
-                        required:
-                          - name
-                        type: object
-                    required:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: Th2link defines th2 link instance
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Specification of desired links
+            properties:
+              boxes-relation:
+                properties:
+                  router-grpc:
+                    description: List of grpc connection pins
+                    items:
+                      properties:
+                        name:
+                          type: string
+                          pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                          maxLength: 128
+                        from:
+                          properties:
+                            box:
+                              type: string
+                            pin:
+                              type: string
+                            service-class:
+                              type: string
+                            strategy:
+                              type: string
+                          required:
+                          - strategy
+                          - box
+                          - pin
+                          type: object
+                        to:
+                          properties:
+                            box:
+                              type: string
+                            pin:
+                              type: string
+                            service-class:
+                              type: string
+                            strategy:
+                              type: string
+                          required:
+                          - strategy
+                          - box
+                          - pin
+                          type: object
+                      required:
                       - name
-                      - box
-                      - dictionary
-                    type: object
-                  type: array
-              type: object
-          required:
-            - spec
-          type: object
-      served: true
-      storage: true
-      subresources:
-        status: {}
+                      - from
+                      - to
+                      type: object
+                    type: array
+                  router-mq:
+                    description: List of mq connection pins
+                    items:
+                      properties:
+                        name:
+                          type: string
+                          pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                          maxLength: 128
+                        from:
+                          properties:
+                            box:
+                              type: string
+                            pin:
+                              type: string
+                          required:
+                          - box
+                          - pin
+                          type: object
+                        to:
+                          properties:
+                            box:
+                              type: string
+                            pin:
+                              type: string
+                          required:
+                          - box
+                          - pin
+                          type: object
+                      required:
+                      - name
+                      - from
+                      - to
+                      type: object
+                    type: array
+                type: object
+              dictionaries-relation:
+                description: List of dictionary relations
+                items:
+                  properties:
+                    name:
+                      type: string
+                      pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                      maxLength: 128
+                    box:
+                      type: string
+                    dictionary:
+                      properties:
+                        name:
+                          type: string
+                        type:
+                          enum:
+                          - MAIN
+                          - LEVEL1
+                          - LEVEL2
+                          - INCOMING
+                          - OUTGOING
+                          type: string
+                      required:
+                      - name
+                      type: object
+                  required:
+                  - name
+                  - box
+                  - dictionary
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
 status:
   acceptedNames:
     kind: ""
