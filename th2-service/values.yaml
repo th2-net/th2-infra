@@ -33,7 +33,7 @@ infraOperator:
   config:
     chart:
       repository: https://th2-net.github.io
-      version: v0.3.0
+      version: 0.3.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "schema-"
