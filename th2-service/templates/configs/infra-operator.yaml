@@ -4,6 +4,7 @@ metadata:
   name: infra-operator
 data:
   infra-operator.yml: |
+    ingressHost: {{ .Values.ingress.host | quote }}
     chartComponent:
       {{- toYaml .Values.infraOperator.config.chartComponent | nindent 6 }}
     chartDictionary:
