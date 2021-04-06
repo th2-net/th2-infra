@@ -36,13 +36,13 @@ infraOperator:
       version: v0.3.0
       name: infra-operator-tpl
     namespacePrefixes: 
-    - "schema-"
+    - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
     schemaSecrets:
       rabbitMQ: rabbitmq
       cassandra: cassandra
     rabbitMQManagement:
-      host: "rabbitmq-discovery.service.svc.cluster.local"
+#      host: "rabbitmq-discovery.service.svc.cluster.local" - deprecated. host is taken from rabbitmq config
       port: "15672"
       username: "th2"
       password: "${RABBITMQ_PASS}"
@@ -69,7 +69,7 @@ infraMgr:
   cassandra:
     keyspacePrefix: schema_
   kubernetes:
-    namespacePrefix: schema-
+    namespacePrefix: "th2-" # must be not more than 5 symbols
     ingress: ingress-rules
     configMaps:
       logging: java-logging-config
