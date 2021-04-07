@@ -159,3 +159,9 @@ cassandra:
     enabled: false
     storageClass: local-storage
     size: 50Gi
+
+#If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster    
+git-ssh:
+  internal: false
+  #  port: 32600
+  #  node:

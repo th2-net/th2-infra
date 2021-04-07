@@ -1,3 +1,0 @@
-image: nexus.exactpro.com:12000/th2-net/git-ssh:v0.1.0
-port: 32600
-hostname: localhost
