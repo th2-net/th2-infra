@@ -1,3 +1,5 @@
+{{ include "infraMgr-config" . }}
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -24,6 +26,8 @@ spec:
       app: infra-mgr
   template:
     metadata:
+      annotations:
+        checksum/configmap: {{ include "infraMgr-config" . | sha256sum }}
       labels:
         app: infra-mgr
     spec:
@@ -42,6 +46,8 @@ spec:
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.secretMountPath }}
         env:
+          - name: JAVA_TOOL_OPTIONS
+            value: -XX:MaxHeapSize=2048m
           - name: HTTPS_AUTH_USERNAME 
             valueFrom:
               secretKeyRef:

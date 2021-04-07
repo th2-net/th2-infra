@@ -54,6 +54,8 @@ spec:
                       ref:
                         type: string
                     type: object
+                  replicas:
+                    type: string
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -142,11 +144,20 @@ spec:
                         - LoadBalancer
                         - ExternalName
                         type: string
+                      ingress:
+                        type: object
+                        properties:
+                          urlPaths:
+                            type: array
+                            items:
+                              type: string
                     type: object
                 type: object
               image-name:
                 type: string
               image-version:
+                type: string
+              version-range:
                 type: string
               params:
                 description: List of generic parameters

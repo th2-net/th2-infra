@@ -7,9 +7,11 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^(/editor)$ $scheme://$http_host$1/ redirect;
-      rewrite ^(/rabbitmq)$ $scheme://$http_host$1/ redirect;
+    nginx.ingress.kubernetes.io/configuration-snippet:
+      if ($request_uri ~ "^/rabbitmq(/.*)") {
+        proxy_pass http://upstream_balancer$1;
+        break;
+      }
   name: ingress-service
 spec:
   rules:

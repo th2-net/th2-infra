@@ -1,3 +1,7 @@
+{{/*
+Generating configMap for k8
+*/}}
+{{- define "infraMgr-config" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -15,7 +19,11 @@ data:
     rabbitmq:
       vhostPrefix: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
       usernamePrefix: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
+      {{- if .Values.rabbitmq.fullnameOverride }}
+      secret: {{ .Values.rabbitmq.fullnameOverride }}
+      {{- else }}
       secret: {{ .Values.infraMgr.rabbitmq.secret }}
+      {{- end }}
       passwordLength: {{ .Values.infraMgr.rabbitmq.passwordLength }}
 
     cassandra:
@@ -41,3 +49,4 @@ data:
       {{- with .Values.infraMgr.kubernetes.configMaps }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}

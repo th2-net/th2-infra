@@ -29,20 +29,20 @@ infraOperator:
   persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.7.1
+    tag: 2.7.2
   config:
     chart:
-      git: https://github.com/th2-net/infra-operator-tpl.git
-      ref: dev
-      path: ./
+      repository: https://th2-net.github.io
+      version: v0.3.0
+      name: infra-operator-tpl
     namespacePrefixes: 
-    - "schema-"
+    - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
     schemaSecrets:
       rabbitMQ: rabbitmq
       cassandra: cassandra
     rabbitMQManagement:
-      host: "rabbitmq-discovery.service.svc.cluster.local"
+#      host: "rabbitmq-discovery.service.svc.cluster.local" - deprecated. host is taken from rabbitmq config
       port: "15672"
       username: "th2"
       password: "${RABBITMQ_PASS}"
@@ -69,7 +69,7 @@ infraMgr:
   cassandra:
     keyspacePrefix: schema_
   kubernetes:
-    namespacePrefix: schema-
+    namespacePrefix: "th2-" # must be not more than 5 symbols
     ingress: ingress-rules
     configMaps:
       logging: java-logging-config
@@ -85,7 +85,7 @@ infraMgr:
     - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.14.1
+    tag: 0.14.6
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
@@ -151,7 +151,7 @@ cassandra:
   cluster:
     datacenter: datacenter1
   dbUser:
-    user: cassandra
+    user: th2
     # will be generated if empty
     password: ""
   keyspace: cradle
