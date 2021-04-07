@@ -12,7 +12,7 @@ spec:
     - protocol: TCP
       port: 22
       targetPort: 22
-      nodePort: {{ .Values.git-ssh.port | defaulte 32600 }}
+      nodePort: {{ .Values.git-ssh.port | default 32600 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
