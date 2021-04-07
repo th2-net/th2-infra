@@ -36,8 +36,8 @@ spec:
                       properties:
                         name:
                           type: string
-                          pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
-                          maxLength: 31
+                          pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                          maxLength: 256
                         from:
                           properties:
                             box:
@@ -80,8 +80,8 @@ spec:
                       properties:
                         name:
                           type: string
-                          pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
-                          maxLength: 31
+                          pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                          maxLength: 256
                         from:
                           properties:
                             box:
@@ -115,8 +115,8 @@ spec:
                   properties:
                     name:
                       type: string
-                      pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
-                      maxLength: 31
+                      pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                      maxLength: 256
                     box:
                       type: string
                     dictionary:

@@ -129,6 +129,8 @@
           rabbitmq:
             rabbitmqUser: th2
             rabbitmqPassword: test
+            persistentVolume:
+              enabled: false
           cassandra:
             # existingConfiguration: cassandra-configuration
             initDBConfigMap: cassandra-init

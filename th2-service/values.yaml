@@ -17,6 +17,9 @@ solutionRegistry:
 ingress:
   host:
 
+externalRabbitMQHost:
+  host: localhost
+
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
@@ -26,11 +29,11 @@ infraOperator:
   persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.6.7
+    tag: 2.7.2
   config:
     chart:
       repository: https://th2-net.github.io
-      version: 0.2.0
+      version: 0.3.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "schema-"
@@ -82,7 +85,7 @@ infraMgr:
     - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.12.2
+    tag: 0.14.17
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
