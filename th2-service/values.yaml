@@ -68,7 +68,7 @@ infraMgr:
     passwordLength: 24
   cassandra:
     keyspacePrefix: schema_
-    cassandra: cassandra
+    secret: cassandra
   kubernetes:
     namespacePrefix: schema-
     ingress: ingress-rules
