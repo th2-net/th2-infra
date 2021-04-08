@@ -176,7 +176,7 @@ $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 * [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
 * Create infra-mgr secret from the private key:
 ```
-$ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=$HOME/.ssh/id_gh_rsa
+$ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
 ```
      
 ### Access for infra-operator-tpl chart in git repository:
