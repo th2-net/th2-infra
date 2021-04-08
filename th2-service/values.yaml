@@ -68,6 +68,7 @@ infraMgr:
     passwordLength: 24
   cassandra:
     keyspacePrefix: schema_
+    cassandra: cassandra
   kubernetes:
     namespacePrefix: schema-
     ingress: ingress-rules
@@ -82,7 +83,6 @@ infraMgr:
     - th2-core 
     - th2-solution
     - th2-proprietary
-    - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
     tag: 0.14.17
