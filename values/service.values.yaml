@@ -15,7 +15,7 @@ cassandra:
   internal: false
   host: <cassandra-host>
 
-git-ssh:
+gitSsh:
   internal: false
 #  port: 
 #  node: 

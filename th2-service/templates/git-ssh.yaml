@@ -1,4 +1,4 @@
-{{- if .Values.git-ssh.internal true }}
+{{- if .Values.gitSsh.internal true }}
 ---
 apiVersion: v1
 kind: Service
@@ -12,7 +12,7 @@ spec:
     - protocol: TCP
       port: 22
       targetPort: 22
-      nodePort: {{ .Values.git-ssh.port | default 32600 }}
+      nodePort: {{ .Values.gitSsh.port | default 32600 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -85,7 +85,7 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - {{ .Values.git-ssh.node }}
+                - {{ .Values.gitSsh.node }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
