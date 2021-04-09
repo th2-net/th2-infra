@@ -19,15 +19,12 @@ data:
     rabbitmq:
       vhostPrefix: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
       usernamePrefix: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
-      {{- if .Values.rabbitmq.fullnameOverride }}
-      secret: {{ .Values.rabbitmq.fullnameOverride }}
-      {{- else }}
-      secret: {{ .Values.infraMgr.rabbitmq.secret }}
-      {{- end }}
+      secret: {{ default .Values.infraMgr.rabbitmq.secret .Values.rabbitmq.fullnameOverride }}
       passwordLength: {{ .Values.infraMgr.rabbitmq.passwordLength }}
 
     cassandra:
       keyspacePrefix: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
+      secret: {{ default .Values.cassandra.secret .Values.cassandra.fullnameOverride }}
 
     kubernetes:
       useCustomConfig: false
