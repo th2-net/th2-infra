@@ -3,38 +3,38 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: git-ssh
+  name: infra-git
 spec:
   selector:
-    app: git-ssh
+    app: infra-git
   type: NodePort
   ports:
     - protocol: TCP
       port: 22
       targetPort: 22
-      nodePort: {{ .Values.gitSsh.port | default 32600 }}
+      nodePort: {{ .Values.infraGit.port }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: git-ssh
-  name: git-ssh
+    app: infra-git
+  name: infra-git
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: git-ssh
+      app: infra-git
   template:
     metadata:
       labels:
-        app: git-ssh
+        app: infra-git
     spec:
       securityContext:
         fsGroup: 1000
       containers:
         - image: ghcr.io/th2-net/git-ssh:v0.1.0
-          name: git-ssh
+          name: infra-git
           volumeMounts:
             - name: repos-volume
               mountPath: /home/git/repo/
@@ -63,42 +63,17 @@ spec:
   revisionHistoryLimit: 2
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: repos-volume
-  labels:
-    app: repos-volume
-spec:
-  capacity:
-    storage: 10Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
-  local:
-    path: /opt/git
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - {{ .Values.gitSsh.node }}
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: repos-volume
 spec:
   accessModes:
-    - ReadWriteMany
+    - {{ .Values.infraGit.pvc.accessModes  }}
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 5Gi
-  storageClassName: local-storage
+      storage: {{ .Values.infraGit.pvc.storage  }}
+  storageClassName: {{ .values.infraGit.pvc.storageClassName  }}
   selector:
     matchLabels:
       app: repos-volume

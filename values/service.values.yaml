@@ -15,7 +15,10 @@ cassandra:
   internal: false
   host: <cassandra-host>
 
-gitSsh:
+infraGit:
   internal: false
 #  port: 
-#  node: 
+#  pvc:
+#    accessModes: 
+#    storageClassName: 
+#    storage: 
