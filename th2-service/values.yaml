@@ -29,11 +29,11 @@ infraOperator:
   persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.7.2
+    tag: 
   config:
     chart:
       repository: https://th2-net.github.io
-      version: v0.3.0
+      version: v0.4.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
@@ -68,6 +68,7 @@ infraMgr:
     passwordLength: 24
   cassandra:
     keyspacePrefix: schema_
+    secret: cassandra
   kubernetes:
     namespacePrefix: "th2-" # must be not more than 5 symbols
     ingress: ingress-rules
@@ -82,10 +83,9 @@ infraMgr:
     - th2-core 
     - th2-solution
     - th2-proprietary
-    - cassandra
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.14.6
+    tag: 
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
