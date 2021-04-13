@@ -29,8 +29,6 @@ spec:
       - backend:
           serviceName: infra-mgr
           servicePort: 8080
-        # path: /infra-mgr(\/|$)(.*)
-        # path: /backend/(schemas$|schema$|/.*)
         path: /editor/backend/(.*)
       - backend:
           {{- if not .Values.rabbitmq.fullnameOverride }}
