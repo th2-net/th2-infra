@@ -57,9 +57,21 @@ spec:
                       ref:
                         type: string
                     type: object
+                  logFile:
+                    items:
+                      type: string
+                    type: array
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  sharedMemory:
+                    type: object
+                    properties:
+                      enabled:
+                        enum:
+                          - "false"
+                          - "true"
+                        type: string
                   replicas:
                     type: string
                   externalBox:
@@ -239,13 +251,21 @@ spec:
                       maxLength: 71
                     settings:
                       properties:
+                        overloadStrategy:
+                          type: string
+                          enum:
+                            - "drop-head"
+                            - "reject-publish"
+                          default: "drop-head"
                         queueLength:
                           type: string
+                          default: "1000"
                         storageOnDemand:
+                          type: string
                           enum:
                           - "false"
                           - "true"
-                          type: string
+                          default: "false"
                       type: object
                   required:
                   - name
