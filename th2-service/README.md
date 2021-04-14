@@ -1,6 +1,6 @@
 # th2
 
-![Version: 1.3.1](https://img.shields.io/badge/Version-1.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.4.2](https://img.shields.io/badge/Version-1.4.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 th2 service Helm chart
 
@@ -24,6 +24,7 @@ th2 service Helm chart
 | cassandra.persistence.enabled | bool | `false` |  |
 | cassandra.persistence.size | string | `"50Gi"` |  |
 | cassandra.persistence.storageClass | string | `"local-storage"` |  |
+| externalRabbitMQHost.host | string | `"localhost"` |  |
 | infraEditor.image.repository | string | `"ghcr.io/th2-net/th2-infra-editor"` |  |
 | infraEditor.image.tag | string | `"1.0.56"` |  |
 | infraMgr.cassandra.keyspacePrefix | string | `"schema_"` |  |
@@ -35,7 +36,7 @@ th2 service Helm chart
 | infraMgr.git.secretMountPath | string | `"/home/service/keys"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"0.12.2"` |  |
+| infraMgr.image.tag | string | `"0.14.17"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
 | infraMgr.kubernetes.configMaps.logging | string | `"java-logging-config"` |  |
@@ -54,7 +55,7 @@ th2 service Helm chart
 | infraMgr.rabbitmq.vHostPrefix | string | `"schema-"` |  |
 | infraOperator.config.chart.name | string | `"infra-operator-tpl"` |  |
 | infraOperator.config.chart.repository | string | `"https://th2-net.github.io"` |  |
-| infraOperator.config.chart.version | string | `"0.2.0"` |  |
+| infraOperator.config.chart.version | string | `"0.3.0"` |  |
 | infraOperator.config.k8sUrl | string | `"<kubernetes-external-entrypoint>"` |  |
 | infraOperator.config.namespacePrefixes[0] | string | `"schema-"` |  |
 | infraOperator.config.rabbitMQManagement.host | string | `"rabbitmq-discovery.service.svc.cluster.local"` |  |
@@ -68,7 +69,7 @@ th2 service Helm chart
 | infraOperator.config.schemaSecrets.cassandra | string | `"cassandra"` |  |
 | infraOperator.config.schemaSecrets.rabbitMQ | string | `"rabbitmq"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"2.6.7"` |  |
+| infraOperator.image.tag | string | `"2.7.2"` |  |
 | infraOperator.persistence | bool | `true` |  |
 | ingress.host | string | `nil` |  |
 | productRegistry.name | string | `nil` |  |
