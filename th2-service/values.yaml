@@ -26,14 +26,17 @@ infraEditor:
     tag: 1.0.56
 
 infraOperator:
-  persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 3.0.6-prerelease-v3.0.0-745106063
   config:
-    chart:
+    chartComponent:
       repository: https://th2-net.github.io
-      version: release-v0.4.0
+      version: v0.4.0
+      name: infra-operator-tpl
+    chartDictionary:
+      repository: https://th2-net.github.io
+      version: v0.4.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
@@ -53,6 +56,9 @@ infraOperator:
         write: ".*"
 
 infraMgr:
+  image:
+    repository: ghcr.io/th2-net/th2-infra-mgr
+    tag: 1.0.1-prerelease-v1.0.0-730539856
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -83,9 +89,6 @@ infraMgr:
     - th2-core 
     - th2-solution
     - th2-proprietary
-  image:
-    repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.0.1-prerelease-v1.0.0-730539856
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
