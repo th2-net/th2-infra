@@ -26,23 +26,26 @@ infraEditor:
     tag: 1.0.56
 
 infraOperator:
-  persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.0.3-prerelease-v3.0.0-711984422
+    tag: 3.0.6-prerelease-v3.0.0-745106063
   config:
-    chart:
+    chartComponent:
+      repository: https://th2-net.github.io
+      version: v0.4.0
+      name: infra-operator-tpl
+    chartDictionary:
       repository: https://th2-net.github.io
       version: v0.4.0
       name: infra-operator-tpl
     namespacePrefixes: 
-    - "schema-"
+    - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
     schemaSecrets:
-      rabbitMQ: rabbitmq
-      cassandra: cassandra
+      rabbitMQ: 
+      cassandra: 
     rabbitMQManagement:
-      host: "rabbitmq-discovery.service.svc.cluster.local"
+#      host: "rabbitmq-discovery.service.svc.cluster.local" - deprecated. host is taken from rabbitmq config
       port: "15672"
       username: "th2"
       password: "${RABBITMQ_PASS}"
@@ -53,6 +56,9 @@ infraOperator:
         write: ".*"
 
 infraMgr:
+  image:
+    repository: ghcr.io/th2-net/th2-infra-mgr
+    tag: 1.0.1-prerelease-v1.0.0-730539856
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -62,14 +68,15 @@ infraMgr:
     httpAuthUsername: "" #should be stored in secret th2-git-access-schemas 
     httpAuthPassword: "" #should be stored in secret th2-git-access-schemas
   rabbitmq:
-    vHostPrefix: schema-
-    usernamePrefix: schema-user-
+    vHostPrefix: th2-
+    usernamePrefix: th2-user-
     secret: rabbitmq
     passwordLength: 24
   cassandra:
     keyspacePrefix: schema_
+    secret: cassandra
   kubernetes:
-    namespacePrefix: schema-
+    namespacePrefix: "th2-" # must be not more than 5 symbols
     ingress: ingress-rules
     configMaps:
       logging: java-logging-config
@@ -82,10 +89,6 @@ infraMgr:
     - th2-core 
     - th2-solution
     - th2-proprietary
-    - cassandra
-  image:
-    repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.0.0-prerelease-v1.0.0-711070107
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency

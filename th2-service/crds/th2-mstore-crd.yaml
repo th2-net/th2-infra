@@ -56,9 +56,21 @@ spec:
                     type: object
                   replicas:
                     type: string
+                  logFile:
+                    items:
+                      type: string
+                    type: array
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  sharedMemory:
+                    type: object
+                    properties:
+                      enabled:
+                        enum:
+                          - "false"
+                          - "true"
+                        type: string
                   externalBox:
                     properties:
                       address:

@@ -1,3 +1,7 @@
+{{/*
+Generating configMap for k8
+*/}}
+{{- define "infraOperator-config" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -13,10 +17,14 @@ data:
       {{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 6 }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}
     schemaSecrets:
-      rabbitMQ: {{ .Values.infraOperator.config.schemaSecrets.rabbitMQ | quote }}
-      cassandra: {{ .Values.infraOperator.config.schemaSecrets.cassandra | quote }}
+      rabbitMQ: {{ default "rabbitmq" .Values.infraMgr.rabbitmq.secret }}
+      cassandra: {{ default "cassandra" .Values.infraMgr.cassandra.secret }}
     rabbitMQManagement:
-      host: {{ .Values.infraOperator.config.rabbitMQManagement.host | quote }}
+      {{- if .Values.rabbitmq.host }}
+      host: {{ .Values.rabbitmq.host | quote }}
+      {{- else }}
+      host: "{{ .Values.rabbitmq.fullnameOverride }}-discovery.service.svc.cluster.local"
+      {{- end }}
       port: {{ .Values.infraOperator.config.rabbitMQManagement.port | quote }}
       username: {{ .Values.infraOperator.config.rabbitMQManagement.username | quote }}
       password: {{ .Values.infraOperator.config.rabbitMQManagement.password | quote }}
@@ -25,3 +33,4 @@ data:
         configure: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.configure | quote }}
         read: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.read | quote }}
         write: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.write | quote }}
+{{ end }}
