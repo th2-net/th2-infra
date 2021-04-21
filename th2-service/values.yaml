@@ -79,7 +79,7 @@ infraMgr:
     namespacePrefix: "th2-" # must be not more than 5 symbols
     ingress: ingress-rules
     configMaps:
-      logging: java-logging-config
+      logging: logging-config
       rabbitmq: rabbit-mq-app-config
       rabbitmq-ext: rabbit-mq-external-app-config
       cassandra: cradle
