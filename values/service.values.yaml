@@ -1,13 +1,9 @@
 infraOperator:
   config:
-    chartComponent:
+    chart:
       git: https://github.com/th2-net/infra-operator-tpl.git
       ref: release-v0.4.0
-      path: ./component/
-    chartDictionary:
-      git: https://github.com/th2-net/infra-operator-tpl.git
-      ref: release-v0.4.0
-      path: ./dictionary/
+      path: ./
 
 infraMgr:
   git:
