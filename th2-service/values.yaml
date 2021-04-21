@@ -30,7 +30,11 @@ infraOperator:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 3.0.6-prerelease-v3.0.0-745106063
   config:
-    chart:
+    chartComponent:
+      repository: https://th2-net.github.io
+      version: v0.4.0
+      name: infra-operator-tpl
+    chartDictionary:
       repository: https://th2-net.github.io
       version: v0.4.0
       name: infra-operator-tpl
