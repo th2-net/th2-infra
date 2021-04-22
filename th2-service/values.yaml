@@ -28,13 +28,9 @@ infraEditor:
 infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.0.6-prerelease-v3.0.0-745106063
+    tag: 3.0.7-prerelease-v3.0.0-773588895
   config:
-    chartComponent:
-      repository: https://th2-net.github.io
-      version: v0.4.0
-      name: infra-operator-tpl
-    chartDictionary:
+    chart:
       repository: https://th2-net.github.io
       version: v0.4.0
       name: infra-operator-tpl
@@ -58,7 +54,7 @@ infraOperator:
 infraMgr:
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.0.1-prerelease-v1.0.0-730539856
+    tag: 1.0.2-prerelease-v1.0.0-770253386
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
