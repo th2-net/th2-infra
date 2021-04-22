@@ -9,10 +9,8 @@ metadata:
 data:
   infra-operator.yml: |
     ingressHost: {{ .Values.ingress.host | quote }}
-    chartComponent:
-      {{- toYaml .Values.infraOperator.config.chartComponent | nindent 6 }}
-    chartDictionary:
-      {{- toYaml .Values.infraOperator.config.chartDictionary | nindent 6 }}
+    chart:
+      {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
     namespacePrefixes:
       {{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 6 }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}

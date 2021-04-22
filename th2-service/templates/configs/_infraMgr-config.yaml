@@ -33,7 +33,7 @@ data:
       ingress: {{ .Values.infraMgr.kubernetes.ingress }}
 
       secretNames:
-      {{- if or .Values.infraOperator.config.chartComponent.git .Values.infraOperator.config.chartDictionary.git }}
+      {{- if .Values.infraOperator.config.chart.git }}
         {{- with list "git-chart-creds" }}
           {{- toYaml . | nindent 6 }}
         {{- end }}

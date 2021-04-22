@@ -44,6 +44,6 @@ spec:
           projected:
             sources:
             - configMap:
-                name: java-logging-config
+                name: logging-config
             - configMap: 
                 name: infra-operator
