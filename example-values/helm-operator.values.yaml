@@ -3,4 +3,3 @@ helm:
 image:
   pullPolicy: IfNotPresent
   repository: fluxcd/helm-operator
-  tag: 1.1.0
