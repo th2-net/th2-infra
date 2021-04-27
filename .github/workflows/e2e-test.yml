@@ -3,7 +3,7 @@ name: e2e test with kind
 on: [pull_request, workflow_dispatch]
 
 env:
-  SCHEMA_NAMESPACE: schema-v130
+  SCHEMA_NAMESPACE: th2-v130
 
 jobs:
   deploy-and-test:
