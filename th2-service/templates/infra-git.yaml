@@ -70,13 +70,10 @@ spec:
   accessModes:
     - {{ .Values.infraGit.pvc.accessModes  }}
   volumeMode: Filesystem
+  volumeName: repos-volume
   resources:
     requests:
       storage: {{ .Values.infraGit.pvc.storage  }}
   storageClassName: {{ .values.infraGit.pvc.storageClassName  }}
-  selector:
-    matchLabels:
-      app: {{ template "infra-git.name" . }}
-      release: {{ .Release.Name }}
 ---
 {{- end }}

@@ -164,7 +164,6 @@ cassandra:
 infraGit:
   internal: false
 #    nodePort: 32600
-#    node:
 #  pvc:
 #    accessModes:
 #    storage:

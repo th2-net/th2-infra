@@ -272,37 +272,10 @@ rabbitmq:
 
 If you have any restrictions to get access to any external repositories from the k8s cluster git service can be deployed according to the following instruction:
 
-*  Create volume /opt/git on node
-*  Generate key for ssh access without passphase
+*  Create PersistentVolume "repos-volume" on node, example is presented in the ./example-values/persistence/pv.yaml;
+*  Create configmap "keys-repo" from publick part of key from paragrafe "Access for infra-mgr th2 schema git repository":
 ```
-$ ssh-keygen -t rsa -m pem -f ~/.ssh/infra_mgr
-```
-*  Create configmap keys-repo:
-```
-$ kubectl -n service create configmap keys-repo –from-file=git_keys=~/.ssh/infra_mgr.pub
-```
-*  Create configmap ssh-config:
-```
-$ kubectl -n service create configmap ssh-config –from-file=config=~/git-ssh/ssh-config
-```
-The following text should be placed in the file “ssh-config”:
-```
-Host *
-StrictHostKeyChecking no
-IdentityFile /etc/fluxd/ssh/identity
-IdentityFile /var/fluxd/keygen/identity
-LogLevel error
-```
-*  Create secret helm-operator:
-```
-$ kubectl -n service create secret generic helm-operator –from-file=identity=~/.ssh/infra_mgr
-```
-* In the helm-operator.values.yaml file should be added the following strings:
-```
-git:
-  ssh:
-    secretName: helm-operator
-    configMapName: ssh-config
+$ kubectl -n service create configmap keys-repo –from-file=git_keys=~/.ssh/infra-mgr-rsa.pub
 ```
 *  Define configs for infra-git in services.valuse.yaml. 
 
