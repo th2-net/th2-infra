@@ -20,6 +20,7 @@ data:
 
     cassandra:
       keyspacePrefix: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
+      secret: {{ .Values.infraMgr.cassandra.secret }}
 
     kubernetes:
       useCustomConfig: false

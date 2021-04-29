@@ -17,10 +17,10 @@ The following steps should be performed on the operator-box for th2-infra deploy
    * [th2 deployment](#th2-deployment)
 <!--te-->
 
-## th2 git repositories
-Installation of th2 infra requires two git repositories. The information regarding this repository and its usage can be found in this guide below:
-* https://github.com/th2-net/th2-infra - consists of charts and its values for deployment infrastructure components. The repository is common for everyone, but you can fork or clone it if you need to customize values.
-* https://github.com/th2-net/th2-infra-schema-demo - schema repository. It's used by `th2-infra-mgr`.
+## th2 Git repository
+Installation of th2 infra requires a Git repository for maintaining th2 schema configuration. The information regarding this repository and its usage can be found in the guide further.
+* https://github.com/th2-net/th2-infra-schema-demo - can be used as a starter kit for schema repository
+* https://github.com/th2-net/th2-infra/example-values - can be used as a starter kit for th2 infra, we also recommend to store these values in a separate git repository
 
 The first step that should be done in the th2 deployment process is copying th2-infra repository into your operator-box:
 ```
@@ -28,7 +28,7 @@ $ git clone https://github.com/th2-net/th2-infra.git
 ```
 change the current directory
 ```
-$ cd ./th2-infra
+$ cd ./th2-infra/example-values
 ```
 Then https://github.com/th2-net/th2-infra-schema-demo should be created in your git as a fork or template:
 * [how to create template](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template)
@@ -76,27 +76,27 @@ _Note: Examples below use HostPath type of [Persistent Volume(PV)](https://kuber
 ```
 $ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq
 ```
-* set node name in `./values/pvs.yaml`
+* set node name in `pvs.yaml`
 * create PVs and PVCs:
 ```
-$ kubectl apply -f ./values/pvs.yaml
-$ kubectl apply -f ./values/pvcs.yaml
+$ kubectl apply -f ./pvs.yaml
+$ kubectl apply -f ./pvcs.yaml
 ```
 
 If you would like to include th2 read components into your configuration, you also have to set up a dedicated PersistentVolume for th2-read log directory.
-You should add PersistentVolume mapped to /opt/components directory and then create PersistentVolumeClaim once a schema namespace installed. PV and PVC examples can be found here [./values/persistence/](./values/persistence/)
+You should add PersistentVolume mapped to /opt/components directory and then create PersistentVolumeClaim once a schema namespace installed. PV and PVC examples can be found here [persistence/](./example-values/persistence/)
 
 ```
 $ mkdir /opt/components
 ```
-* set node name in `./values/persistence/pv.yaml`
+* set node name in `persistence/pv.yaml`
 * create PV:
 ```
-$ kubectl apply -f ./values/persistence/pv.yaml
+$ kubectl apply -f ./persistence/pv.yaml
 ```
 * create PVC:
 ```
-$ kubectl apply -f ./values/persistence/pvc.yaml
+$ kubectl apply -f ./persistence/pvc.yaml
 ```
 
 Details for th2-read-log [README.md](https://github.com/th2-net/th2-read-log#configuration)
@@ -109,13 +109,13 @@ _Note: It's an optional step, but it gets slightly simpler checking the result o
 $ kubectl config set-context --current --namespace=monitoring
 ```
 * Define Grafana and Dashboard host names (the name must be resolved from QA boxes):
-  * in the [./values/dashboard.values.yaml](./values/dashboard.values.yaml) file
+  * in the [dashboard.values.yaml](./example-values/dashboard.values.yaml) file
     ```
     ingress:
       hosts:
         - <th2_host_name>
     ```
-  * in the [./values/prometheus-operator.values.yaml](./values/prometheus-operator.values.yaml) file
+  * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
     ```
     grafana:
       ingress:
@@ -126,14 +126,14 @@ $ kubectl config set-context --current --namespace=monitoring
 * Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 ```
 $ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-$ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./values/dashboard.values.yaml
+$ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./dashboard.values.yaml
 ```
 * Deploy components
 ```
 $ helm repo add loki https://grafana.github.io/loki/charts
 $ helm repo add stable https://charts.helm.sh/stable
-$ helm upgrade --install loki --namespace=monitoring loki/loki-stack -f ./values/loki.values.yaml
-$ helm upgrade --install prometheus stable/prometheus-operator -n monitoring -f ./values/prometheus-operator.values.yaml
+$ helm upgrade --install loki --namespace=monitoring loki/loki-stack -f ./loki.values.yaml
+$ helm upgrade --install prometheus stable/prometheus-operator -n monitoring -f ./prometheus-operator.values.yaml
 ```
 * Check result:
 ```
@@ -152,7 +152,7 @@ prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1    
 ........
 ```
 
-Add loki Datasource as http://loki:3100 and import Dashboard from ./values/components-logs.json and RabbitMQ Overview from here: https://grafana.com/grafana/dashboards/10991
+Add loki Datasource as http://loki:3100 and import Dashboard from components-logs.json and RabbitMQ Overview from here: https://grafana.com/grafana/dashboards/10991
 
 * Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
   http://your-host:30000/grafana/login
@@ -171,12 +171,12 @@ $ kubectl config set-context --current --namespace=service
 
 * Generate keys without passphrase  
 ```
-$ ssh-keygen -t rsa -m pem -f ~/.ssh/id_gh_rsa
+$ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ``` 
 * [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
 * Create infra-mgr secret from the private key:
 ```
-$ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=$HOME/.ssh/id_gh_rsa
+$ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
 ```
      
 ### Access for infra-operator-tpl chart in git repository:
@@ -210,7 +210,7 @@ infraOperator:
 </details>
 
 ### Set the repository with schema configuration
-* set `infraMgr.git.repository` value in the [./values/service.values.yaml](./values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
+* set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
 ```
 infraMgr:
   git:
@@ -218,7 +218,7 @@ infraMgr:
 ```
 
 ### Define cassandra host name
-* set `cassandra.host` value for cassandra in the [./values/service.values.yaml](./values/service.values.yaml) file.
+* set `cassandra.host` value for cassandra in the [service.values.yaml](./example-values/service.values.yaml) file.
 ```
 cassandra:
   internal: false
@@ -226,7 +226,7 @@ cassandra:
 ```
 
 ### Define th2 ingress hostname
-Add `ingress.hostname` value if required into [./values/service.values.yaml](./values/service.values.yaml) file otherwise th2 http services will be available on node IP address
+Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
 ```
 ingress:
   host: example.com
@@ -310,13 +310,13 @@ git:
 ### Install helm-operator 
 ```
 $ helm repo add fluxcd https://charts.fluxcd.io
-$ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./values/helm-operator.values.yaml
+$ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./helm-operator.values.yaml
 ```
 
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-$ helm install -n service --version=3.12.0 ingress ingress-nginx/ingress-nginx -f ./values/ingress.values.yaml
+$ helm install -n service --version=3.12.0 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
 ```
 Check:
 ```
@@ -330,7 +330,7 @@ ingress-ingress-nginx-controller-7979dcdd85-mw42w   1/1     Running   0         
 ### Install th2-infra components in the service namespace
 ```
 $ helm repo add th2 https://th2-net.github.io
-$ helm install -n service --version=1.3.1 th2-infra-base th2/th2 -f ./values/service.values.yaml -f ./secrets.yaml
+$ helm install -n service --version=1.3.1 th2-infra-base th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
@@ -364,7 +364,7 @@ $ kubectl patch pv <pv-name> -p '{"spec":{"claimRef": null}}'
 * Install th2-infra:
 ```
 $ helm repo add th2 https://th2-net.github.io
-$ helm install -n service --version=<new_version> th2-infra-base th2/th2 -f ./values/service.values.yaml -f ./secrets.yaml
+$ helm install -n service --version=<new_version> th2-infra-base th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
 
 * Apply PVC in th2 namespaces (if required)
