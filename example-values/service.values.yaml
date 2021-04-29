@@ -15,10 +15,3 @@ cassandra:
   internal: false
   host: <cassandra-host>
 
-infraGit:
-  internal: false
-#  port: 
-#  pvc:
-#    accessModes: 
-#    storageClassName: 
-#    storage: 

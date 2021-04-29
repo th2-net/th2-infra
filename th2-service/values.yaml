@@ -163,5 +163,9 @@ cassandra:
 #If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster
 infraGit:
   internal: false
-  #  port: 32600
-  #  node:
+#    nodePort: 32600
+#    node:
+#  pvc:
+#    accessModes:
+#    storage:
+#    storageClassName:

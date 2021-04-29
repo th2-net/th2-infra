@@ -1,4 +1,4 @@
-{{- if .Values.gitSsh.internal }}
+{{- if .Values.infraGit.internal }}
 ---
 apiVersion: v1
 kind: Service
@@ -12,7 +12,7 @@ spec:
     - protocol: TCP
       port: 22
       targetPort: 22
-      nodePort: {{ .Values.infraGit.port }}
+      nodePort: {{ .Values.infraGit.nodePort }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -76,6 +76,7 @@ spec:
   storageClassName: {{ .values.infraGit.pvc.storageClassName  }}
   selector:
     matchLabels:
-      app: repos-volume
+      app: {{ template "infra-git.name" . }}
+      release: {{ .Release.Name }}
 ---
 {{- end }}
