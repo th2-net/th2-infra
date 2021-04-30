@@ -272,12 +272,12 @@ rabbitmq:
 
 If you have any restrictions to get access to any external repositories from the k8s cluster git service can be deployed according to the following instruction:
 
-*  Create PersistentVolume "repos-volume" on node, example is presented in the ./example-values/persistence/pv.yaml;
-*  Create configmap "keys-repo" from publick part of key from paragrafe "Access for infra-mgr th2 schema git repository":
+*  Create PersistentVolume "repos-volume", example is presented in the ./example-values/persistence/pv.yaml;
+*  Create configmap "keys-repo" from public part of key from point "Access for infra-mgr th2 schema git repository":
 ```
 $ kubectl -n service create configmap keys-repo –from-file=git_keys=~/.ssh/infra-mgr-rsa.pub
 ```
-*  Define configs for infra-git in services.valuse.yaml. 
+*  Define configs for infra-git in services.values.yaml. 
 
 ## th2 deployment
 ### Install helm-operator 
