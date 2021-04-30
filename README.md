@@ -292,7 +292,7 @@ ingress-ingress-nginx-controller-7979dcdd85-mw42w   1/1     Running   0         
 ### Install th2-infra components in the service namespace
 ```
 $ helm repo add th2 https://th2-net.github.io
-$ helm install -n service --version=1.3.1 th2-infra-base th2/th2 -f ./service.values.yaml -f ./secrets.yaml
+$ helm install -n service --version=<version> th2-infra-base th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
