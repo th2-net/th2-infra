@@ -145,11 +145,11 @@
           infraMgr:
             git:
               repository: git@github.com:th2-net/e2e-test-schema.git
-          # infraOperator:
-          #   chart:
-          #     git: https://github.com/th2-net/infra-operator-tpl.git
-          #     ref: v0.2.0
-          #     path: ./
+#           infraOperator:
+#             chart:
+#               git: https://github.com/th2-net/infra-operator-tpl.git
+#               ref: release-v0.3.2
+#               path: ./
         values_files:
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml
