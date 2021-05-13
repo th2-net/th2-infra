@@ -28,10 +28,8 @@ spec:
         app: infra-repo
     spec:
       containers:
-        - image:
-            repository: {{ .Values.infraRepo.image.repository }}
-            tag: {{ .Values.infraRepo.image.tag }}
-          name: infra-repo
+        - name: infra-repo
+          image: "{{ .Values.infraRepo.image.repository }}:{{ .Values.infraRepo.image.tag }}"
           livenessProbe:
             tcpSocket:
               port: 8080
