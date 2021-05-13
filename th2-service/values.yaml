@@ -20,6 +20,14 @@ ingress:
 externalRabbitMQHost:
   host: localhost
 
+helmoperator:
+  helm:
+    versions: v3
+  image:
+    pullPolicy: IfNotPresent
+  fullnameOverride: helm-operator
+  nameOverrde: helm-operator
+
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
