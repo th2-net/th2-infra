@@ -91,55 +91,25 @@ infraMgr:
 # otherwise service will be deployed as a chart dependency
 rabbitmq:
   internal: true
-  rabbitmqMemoryHighWatermark: 1024MB
+  memoryHighWatermark:
+    enable: true
+    type: absolute
+    value: 1024MB
   #it is not required if the service internal
 #  host: ""
   fullnameOverride: rabbitmq
-  rabbitmqVhost: th2
-  rabbitmqUsername: th2
-  # will be generated if empty
-  rabbitmqPassword: ""
-  rabbitmqErlangCookie: ""
+  extraConfiguration:
+    default_vhost: th2
+  auth:
+    username: th2
+    password: ""
+    erlangCookie: ""
   rabbitmqExchange: th2-exchange
   replicaCount: 1
-  podAntiAffinity: hard
-  livenessProbe:
-    exec:
-      command:
-      - /bin/bash
-      - -ec
-      - rabbitmq-diagnostics -q check_running
-    initialDelaySeconds: 120
-    timeoutSeconds: 20
-    periodSeconds: 30
-    failureThreshold: 6
-    successThreshold: 1
-  readinessProbe:
-    exec:
-      command:
-      - /bin/bash
-      - -ec
-      - rabbitmq-diagnostics -q check_running
-    initialDelaySeconds: 10
-    timeoutSeconds: 20
-    periodSeconds: 30
-    failureThreshold: 3
-    successThreshold: 1
+  podAntiAffinityPreset: hard
   service:
     type: "NodePort"
-    amqpNodePort: 32000
-  rabbitmqPrometheusPlugin:
-    enabled: true
-  prometheus:
-    exporter:
-      enabled: false
-    operator:
-      enabled: true
-      alerts:
-        enabled: true
-      serviceMonitor:
-        selector:
-          release: prometheus
+    empdNodePort: 32000
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
