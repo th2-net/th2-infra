@@ -37,9 +37,9 @@ infraOperator:
     namespacePrefixes: 
     - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
-    schemaSecrets:
-      rabbitMQ: 
-      cassandra: 
+    #    schemaSecrets:
+    #      rabbitMQ: rabbitmq 
+    #      cassandra: cassandra
     rabbitMQManagement:
 #      host: "rabbitmq-discovery.service.svc.cluster.local" - deprecated. host is taken from rabbitmq config
       port: "15672"
