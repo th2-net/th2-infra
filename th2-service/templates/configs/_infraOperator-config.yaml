@@ -15,8 +15,8 @@ data:
       {{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 6 }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}
     schemaSecrets:
-      rabbitMQ: {{ default "rabbitmq" .Values.infraMgr.rabbitmq.secret }}
-      cassandra: {{ default "cassandra" .Values.infraMgr.cassandra.secret }}
+      rabbitMQ: {{ default "rabbitmq" .Values.infraOperator.schemaSecrets.rabbitMQ }}
+      cassandra: {{ default "cassandra" .Values.infraOperator.schemaSecrets.cassandra }}
     rabbitMQManagement:
       {{- if .Values.rabbitmq.host }}
       host: {{ .Values.rabbitmq.host | quote }}
