@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grpc_router
+data:
+  grpc_router.json: |
+    {
+    "workers": "5"
+    }

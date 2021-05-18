@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cradle_manager
+data:
+  cradle_manager.json: |
+    {
+    "cradleMaxEventBatchSize": "1048576";
+    "cradleMaxMessageBatchSize": "1048576";
+    "timeout": "5000";
+    "pageSize": "5000"
+    }
