@@ -42,6 +42,8 @@ spec:
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.secretMountPath }}
         env:
+          - name: HOME 
+            value: /home/service/
           - name: HTTPS_AUTH_USERNAME 
             valueFrom:
               secretKeyRef:
