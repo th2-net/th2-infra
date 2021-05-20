@@ -5,10 +5,10 @@ metadata:
 data:
   mq_router.json: |
     {
-    "connectionTimeout": "-1";
-    "connectionCloseTimeout": "10000";
-    "maxRecoveryAttempts": "5";
-    "minConnectionRecoveryTimeout": "10000";
-    "maxConnectionRecoveryTimeout": "60000";
+    "connectionTimeout": "-1",
+    "connectionCloseTimeout": "10000",
+    "maxRecoveryAttempts": "5",
+    "minConnectionRecoveryTimeout": "10000",
+    "maxConnectionRecoveryTimeout": "60000",
     "prefetchCount": "10"
     }
