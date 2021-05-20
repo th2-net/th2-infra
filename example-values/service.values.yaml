@@ -6,7 +6,7 @@ rabbitmq:
   prometheus:
     operator:
       enabled: false
-  persistentce:
+  persistence:
     enabled: true
     storageClassName: local-storage
     size: 10Gi
