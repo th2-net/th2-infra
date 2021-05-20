@@ -49,7 +49,6 @@ spec:
                             strategy:
                               type: string
                           required:
-                          - service-class
                           - strategy
                           - box
                           - pin
@@ -65,7 +64,6 @@ spec:
                             strategy:
                               type: string
                           required:
-                          - service-class
                           - strategy
                           - box
                           - pin
