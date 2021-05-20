@@ -48,6 +48,22 @@ spec:
                 description: this is custom configuration
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              logFile:
+                items:
+                  type: string
+                type: array
+              mqRouter:
+                description: this is custom configuration for rouer mq
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              grpcRouter:
+                description: this is custom configuration for rouer grpc
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              cradleManger:
+                description: this is custom configuration for cradle
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
               extended-settings:
                 properties:
                   chart-cfg:
@@ -59,6 +75,7 @@ spec:
                     type: object
                   replicas:
                     type: string
+                    pattern: "^[0-9]+$"
                   logFile:
                     items:
                       type: string
@@ -101,6 +118,8 @@ spec:
                     - "false"
                     - "true"
                     type: string
+                  nodeName:
+                    type: string
                   mounting:
                     items:
                       properties:
@@ -141,8 +160,10 @@ spec:
                               type: string
                             nodePort:
                               type: string
+                              pattern: "^[0-9]+$"
                             targetPort:
                               type: string
+                              pattern: "^[0-9]+$"
                           required:
                           - name
                           - targetPort
@@ -150,8 +171,10 @@ spec:
                         type: array
                       nodePort:
                         type: string
+                        pattern: "^[0-9]+$"
                       targetPort:
                         type: string
+                        pattern: "^[0-9]+$"
                       type:
                         enum:
                         - ClusterIP
