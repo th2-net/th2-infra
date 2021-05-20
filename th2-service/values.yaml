@@ -112,9 +112,6 @@ rabbitmq:
   rabbitmqExchange: th2-exchange
   replicaCount: 1
   podAntiAffinityPreset: hard
-  persistence:
-    volumes:
-      - name: data
   service:
     type: "NodePort"
     empdNodePort: 32000
