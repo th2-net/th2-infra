@@ -98,8 +98,8 @@ rabbitmq:
   #it is not required if the service internal
 #  host: ""
   fullnameOverride: rabbitmq
-  extraConfiguration:
-    default_vhost: th2
+  extraConfiguration: |-
+    default_vhost = th2
   auth:
     username: th2
     password: ""
