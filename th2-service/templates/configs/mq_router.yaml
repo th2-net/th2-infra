@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mq_router
+  name: mq-router
 data:
   mq_router.json: |
     {

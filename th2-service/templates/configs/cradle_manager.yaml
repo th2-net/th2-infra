@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cradle_manager
+  name: cradle-manager
 data:
   cradle_manager.json: |
     {
