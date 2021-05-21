@@ -25,14 +25,19 @@ infraEditor:
     repository: ghcr.io/th2-net/th2-infra-editor
     tag: 1.0.56
 
+infraRepo:
+  image:
+    repository: ghcr.io/th2-net/infra-repo
+    tag: 0.3.2
+
 infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 3.0.7-prerelease-v3.0.0-773588895
   config:
     chart:
-      repository: https://th2-net.github.io
-      version: v0.4.0
+      repository: http://infra-repo:8080 #https://th2-net.github.io
+      version: 0.4.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
