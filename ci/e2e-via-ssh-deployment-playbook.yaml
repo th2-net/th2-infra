@@ -151,7 +151,7 @@
 #               ref: release-v0.3.2
 #               path: ./
         values_files:
-          "{{ playbook_dir }}/../example-values/service.values.yaml"
-          # - ./secrets.yaml
+          - "{{ playbook_dir }}/../example-values/service.values.yaml"
+          - ./secrets.yaml
         create_namespace: true
         wait: true
