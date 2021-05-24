@@ -23,10 +23,6 @@ externalRabbitMQHost:
 helmoperator:
   helm:
     versions: v3
-  image:
-    pullPolicy: IfNotPresent
-  fullnameOverride: helm-operator
-  nameOverrde: helm-operator
 
 infraEditor:
   image:
