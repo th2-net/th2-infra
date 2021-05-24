@@ -25,7 +25,7 @@ jobs:
         env:
           E2E_PRIVATE_KEY: ${{ secrets.E2E_PRIVATE_KEY }}
         run: |
-          touch secrets.yaml
+          touch ./ci/secrets.yaml
           ansible-playbook ./ci/e2e-via-ssh-deployment-playbook.yaml -e 'ansible_python_interpreter=/usr/bin/python3'
           kubectl get pods --all-namespaces
 
