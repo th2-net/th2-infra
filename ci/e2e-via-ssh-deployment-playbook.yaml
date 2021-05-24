@@ -152,6 +152,6 @@
 #               path: ./
         values_files:
           - "{{ playbook_dir }}/../example-values/service.values.yaml"
-          - ./secrets.yaml
+          - "{{ playbook_dir }}/../ci/secrets.yaml"
         create_namespace: true
         wait: true
