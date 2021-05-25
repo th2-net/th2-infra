@@ -23,7 +23,7 @@ externalRabbitMQHost:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.56
+    tag: 1.0.62
 
 infraRepo:
   image:
@@ -33,11 +33,11 @@ infraRepo:
 infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.0.7-prerelease-v3.0.0-773588895
+    tag: 3.1.0-3.1.0-874572351
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
-      version: 0.4.0
+      version: 0.4.1
       name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
@@ -56,7 +56,7 @@ infraOperator:
 infraMgr:
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.0.2-prerelease-v1.0.0-770253386
+    tag: 1.1.0-1.1.0-871097184
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -77,7 +77,7 @@ infraMgr:
     namespacePrefix: "th2-" # must be not more than 5 symbols
     ingress: ingress-rules
     configMaps:
-      logging: logging-config
+      logging: logging-config-template
       rabbitmq: rabbit-mq-app-config
       rabbitmq-ext: rabbit-mq-external-app-config
       cassandra: cradle
