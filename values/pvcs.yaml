@@ -32,20 +32,4 @@ spec:
   selector:
     matchLabels:
       app: "grafana"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: rabbitmq
-  namespace: service
-spec:
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  resources:
-    requests:
-      storage: 5Gi
-  storageClassName: local-storage
-  selector:
-    matchLabels:
-      app: "rabbitmq"
+
