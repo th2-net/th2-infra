@@ -178,36 +178,6 @@ $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ```
 $ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
 ```
-     
-### Access for infra-operator-tpl chart in git repository:
-
-Generally, Helm Operator fetches infra-operator-tpl chart from th2 https://th2-net.github.io Helm repository, but if it is required - chart can be fetched from Git repository.
-
-<details>
-  <summary>Set up Helm Opertor charts fetching from a git repository</summary>
-
-If you need to use a private repository for infra-operator-tpl chart (for some security reasons i.e.) instead of public, you should provide valid credentials for "git-username" and "git-password" in the command above. Using a Personal Access Token(PAT) is the better choice instead of plain password. Read more about this:
-* [Creating a personal access token on Github](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
-* [Creating a deployment token on Gitlab](https://docs.gitlab.com/ee/user/project/deploy_tokens/#creating-a-deploy-token)
-
-Create secret for git access (only for private repositories)
-```
-$ kubectl -n service create secret generic git-chart-creds --from-literal=username=git-username --from-literal=password=git-password
-```
-
-If you need to use a public repository (Github e.g.) for infra-operator-tpl chart, create secret with empty credentials:
-```
-$ kubectl -n service create secret generic git-chart-creds --from-literal=username= --from-literal=password=
-```
-then define values for th2-service chart, example:
-```
-infraOperator:
-  chart:
-    git: git@some.server.com:some/repository
-    ref: branch
-    path: /path/to/charts
-```
-</details>
 
 ### Set the repository with schema configuration
 * set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
