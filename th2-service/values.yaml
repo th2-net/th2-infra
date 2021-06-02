@@ -28,7 +28,7 @@ infraEditor:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 0.3.2
+    tag: 0.4.1
 
 infraOperator:
   image:
