@@ -42,7 +42,7 @@ infraOperator:
       rabbitMQ: rabbitmq
       cassandra: cassandra
     rabbitMQManagement:
-      host: "rabbitmq-discovery.service.svc.cluster.local"
+      host: "rabbitmq.service.svc.cluster.local"
       port: "15672"
       username: "th2"
       password: "${RABBITMQ_PASS}"
