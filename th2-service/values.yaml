@@ -10,7 +10,7 @@ productRegistry:
 
 solutionRegistry:
   secret: th2-solution
-  registry: 
+  name: 
   username:
   password:
 
@@ -85,7 +85,7 @@ infraMgr:
     - th2-proprietary
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.14.18
+    tag: 0.4.18-openshift-1
 
 infraRepo:
   image:
