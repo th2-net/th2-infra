@@ -16,7 +16,7 @@ const (
 	defaultSchemaNamespace = "schema-e2e-v110"
 	serviceNamespace       = "service"
 	monitoringNamespace    = "monitoring"
-	rabbitmqSvc            = "rabbitmq-discovery"
+	rabbitmqSvc            = "rabbitmq"
 	dataProviderSvc        = "rpt-data-provider"
 	reportViewerSvc        = "rpt-data-viewer"
 	infraMgrSvc            = "infra-mgr"
