@@ -2,7 +2,7 @@ infraOperator:
   config:
     chart:
       git: https://github.com/th2-net/infra-operator-tpl.git
-      ref: release-v0.4.0
+      ref: release-v0.4.1
       path: ./
 
 infraMgr:
