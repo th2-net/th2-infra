@@ -8,7 +8,7 @@ data:
     {{- if .Values.rabbitmq.host }}
     "host": {{ .Values.rabbitmq.host | quote }},
     {{- else }}
-    "host": "{{ .Values.rabbitmq.fullnameOverride }}-discovery.service.svc.cluster.local",
+    "host": "{{ .Values.rabbitmq.fullnameOverride }}.service.svc.cluster.local",
     {{- end }}
     "vHost": "",
     "port": "5672",
