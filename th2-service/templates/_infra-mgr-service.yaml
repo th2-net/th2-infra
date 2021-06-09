@@ -9,6 +9,9 @@ metadata:
   namespace: service
   labels:
     app: infra-mgr
+    {{- if .infraMgr.prometheusConfiguration.enabled }}
+    monitoring-pod: "true"
+    {{- end }}
 spec:
   type: ClusterIP
   selector:

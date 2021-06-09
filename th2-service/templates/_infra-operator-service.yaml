@@ -10,6 +10,7 @@ metadata:
   namespace: service
   labels:
     app: infra-mgr
+    monitoring-pod: "true"
 spec:
   type: ClusterIP
   selector:
