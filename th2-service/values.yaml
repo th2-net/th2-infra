@@ -31,6 +31,8 @@ infraRepo:
     tag: 0.4.2
 
 infraOperator:
+  prometheusConfiguration:
+    enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 3.0.7-prerelease-v3.0.0-773588895
@@ -54,6 +56,8 @@ infraOperator:
         write: ".*"
 
 infraMgr:
+  prometheusConfiguration:
+    enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
     tag: 1.0.2-prerelease-v1.0.0-770253386

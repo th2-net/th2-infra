@@ -8,6 +8,10 @@ metadata:
   name: infra-mgr
 data:
   config.yml: |
+    prometheusConfiguration:
+      host: "127.0.0.1"
+      port: {{ default 9752 .Values.infraMgr.prometheusConfiguration.port }}
+      enabled: {{ default true .Values.infraMgr.prometheusConfiguration.enabled }}
     git:
       remoteRepository: {{ .Values.infraMgr.git.repository }}
       localRepositoryRoot: {{ .Values.infraMgr.git.repositoryLocalCache }}
