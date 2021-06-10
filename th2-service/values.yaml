@@ -108,6 +108,10 @@ rabbitmq:
   rabbitmqExchange: th2-exchange
   replicaCount: 1
   podAntiAffinity: hard
+  persistentVolume:
+    enabled: true
+    storageClass: local-storage
+    size: 10Gi
   livenessProbe:
     exec:
       command:
