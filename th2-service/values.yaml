@@ -32,7 +32,7 @@ infraOperator:
   config:
     chart:
       repository: https://th2-net.github.io
-      version: v0.4.0
+      version: 0.4.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
@@ -85,6 +85,11 @@ infraMgr:
     - th2-core 
     - th2-solution
     - th2-proprietary
+
+infraRepo:
+  image:
+    repository: ghcr.io/th2-net/infra-repo
+    tag: 0.3.2
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
