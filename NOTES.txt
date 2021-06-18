@@ -8,3 +8,5 @@ infraMgr {{ infraMgr.image.repository }} {{ infraMgr.image.tag }}
 infraOperator chart {{ infraOperator.config.chart.repository }} {{ infraOperator.config.chart.version }} {{ infraOperator.config.k8sUrl }}
 infraOperator image {{ infraOperator.image.repository }} {{ infraOperator.image.tag }}
 rabbitmqVhost {{ rabbitmq.rabbitmqVhost }}
+
+th2 service Helm chart: https://github.com/th2-net/th2-infra/tree/master/th2-service
