@@ -33,7 +33,7 @@ infraRepo:
 infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.1.0-3.1.0-874572351
+    tag: 3.1.0
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
@@ -56,7 +56,7 @@ infraOperator:
 infraMgr:
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.1.0-1.1.0-871097184
+    tag: 1.1.0
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
