@@ -35,7 +35,7 @@ infraOperator:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.2.0-remove-active-links-metrics-921763168
+    tag: 3.2.4-infra-1.6.0-978228646
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
@@ -60,7 +60,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.2.0-metrics-921932055
+    tag: 1.2.5-infra-1.6.0-978230808
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
