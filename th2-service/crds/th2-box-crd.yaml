@@ -230,7 +230,6 @@ spec:
                     connection-type:
                       enum:
                       - mq
-                      - grpc # DEPRECATED
                       - grpc-server
                       - grpc-client
                       type: string
