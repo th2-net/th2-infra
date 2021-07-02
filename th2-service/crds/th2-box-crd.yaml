@@ -164,9 +164,11 @@ spec:
                             targetPort:
                               type: string
                               pattern: "^[0-9]+$"
+                            port:
+                              type: string
+                              pattern: "^[0-9]+$"
                           required:
                           - name
-                          - targetPort
                           type: object
                         type: array
                       nodePort:
@@ -230,7 +232,6 @@ spec:
                     connection-type:
                       enum:
                       - mq
-                      - grpc # DEPRECATED
                       - grpc-server
                       - grpc-client
                       type: string
