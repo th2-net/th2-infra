@@ -28,18 +28,18 @@ infraEditor:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 0.4.2
+    tag: 0.6.0
 
 infraOperator:
   prometheusConfiguration:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.2.4-infra-1.6.0-978228646
+    tag: 3.2.5-infra-1.6.0-986000168
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
-      version: 0.4.2
+      version: 0.6.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
@@ -60,7 +60,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.2.5-infra-1.6.0-978230808
+    tag: 1.2.6-infra-1.6.0-982524876
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
