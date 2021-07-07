@@ -20,7 +20,7 @@ The following steps should be performed on the operator-box for th2-infra deploy
 ## th2 Git repository
 Installation of th2 infra requires a Git repository for maintaining th2 schema configuration. The information regarding this repository and its usage can be found in the guide further.
 * https://github.com/th2-net/th2-infra-schema-demo - can be used as a starter kit for schema repository
-* https://github.com/th2-net/th2-infra/example-values - can be used as a starter kit for th2 infra, we also recommend to store these values in a separate git repository
+* [https://github.com/th2-net/th2-infra/example-values](https://github.com/th2-net/th2-infra/tree/master/example-values) - can be used as a starter kit for th2 infra, we also recommend to store these values in a separate git repository
 
 The first step that should be done in the th2 deployment process is copying th2-infra repository into your operator-box:
 ```
