@@ -5,6 +5,6 @@ chart:{{ .Chart.Name | indent 18}}-{{ .Chart.Version }}
 {{ if .Values.infraMgr.image.tag }}infraMgr: {{ .Values.infraMgr.image.tag | indent 14}}:{{.Values.infraMgr.git.repository}}{{ else }}infraMgr:               is not set{{ end }}
 {{ if .Values.infraEditor.image.tag }}infraEditor: {{ .Values.infraEditor.image.tag | indent 11}}{{ else }}infraEditor:            is not set{{ end }}
 {{ if .Values.externalRabbitMQHost }}externalRabbitMQHost: {{ .Values.externalRabbitMQHost.host | indent 2}}{{ else }}externalRabbitMQHost:       is not set{{ end }}
-{{ if .Values.rabbitmqVhost }}rabbitmqVhost: {{ .Values.rabbitmq.rabbitmqVhost | indent 3}}{{ else }}rabbitmqVhost:          is not set{{ end }}
+{{ if .Values.rabbitmq.rabbitmqVhost }}rabbitmqVhost: {{ .Values.rabbitmq.rabbitmqVhost | indent 9}}{{ else }}rabbitmqVhost:          is not set{{ end }}
 
 th2 service helm chart: https://github.com/th2-net/th2-infra/tree/master/th2-service
