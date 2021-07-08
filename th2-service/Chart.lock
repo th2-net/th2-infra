@@ -5,5 +5,8 @@ dependencies:
 - name: cassandra
   repository: https://charts.bitnami.com/bitnami
   version: 5.6.7
-digest: sha256:8e0b4bb96cc2d29632ea1f362690a3afab3f65549ac9795ecdd5dab546348b74
-generated: "2021-02-21T00:58:01.692070521+03:00"
+- name: helm-operator
+  repository: https://charts.fluxcd.io
+  version: 1.2.0
+digest: sha256:80b204a8f43251271639cbf94afc049cbfc88a8564e6d5f238de715078b0bfd2
+generated: "2021-05-24T17:24:13.511697338+03:00"

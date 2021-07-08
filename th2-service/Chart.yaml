@@ -34,3 +34,7 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   name: cassandra
   version: 5.6.7
+- alias: helmoperator
+  repository: https://charts.fluxcd.io
+  name: helm-operator
+  version: 1.2.0

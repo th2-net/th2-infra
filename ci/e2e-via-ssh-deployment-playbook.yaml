@@ -11,7 +11,6 @@
         repo_url: "{{ item.value }}"
       with_dict:
         kubernetes-dashboard: https://kubernetes.github.io/dashboard/
-        flux: https://charts.fluxcd.io
         ingress-nginx: https://kubernetes.github.io/ingress-nginx
         loki: https://grafana.github.io/loki/charts
         stable: https://charts.helm.sh/stable
@@ -43,16 +42,6 @@
         chart_version: 3.12.0
         release_namespace: service
         values_files: "{{ playbook_dir }}/../example-values/ingress.values.yaml"
-        create_namespace: true
-        wait: true
-
-    - name: Deploy HelmOperator
-      community.kubernetes.helm:
-        name: helm-operator
-        chart_ref: flux/helm-operator
-        chart_version: 1.2.0
-        release_namespace: service
-        values_files: "{{ playbook_dir }}/../example-values/helm-operator.values.yaml"
         create_namespace: true
         wait: true
 
