@@ -1,10 +1,11 @@
 chart:{{ .Chart.Name | indent 18}}-{{ .Chart.Version }}
-
 {{ if .Values.infraOperator.image.tag }}infraOperator: {{ .Values.infraOperator.image.tag | indent 9}}:{{ .Values.infraOperator.image.repository}}{{ else }}infraOperator:          is not set{{ end }}
+{{ if .Values.ingress.host }}ingress.host: {{ .Values.ingress.host | indent 10}}{{ else }}ingress.host:           is not set{{ end }}
+{{ if .Values.productRegistry.name }}productRegistry.name: {{ .Values.productRegistry.name | indent 2}}{{ else }}productRegistry.name:   is not set{{ end }}
+{{ if .Values.solutionRegistry.registry }}solutionRegistry: {{ .Values.solutionRegistry.registry | indent 6}}{{ else }}solutionRegistry:       is not set{{ end }}
 {{ if .Values.infraRepo.image.tag }}infraRepo: {{ .Values.infraRepo.image.tag | indent 13}}{{ else }}infraRepo:              is not set{{ end }}
 {{ if .Values.infraMgr.image.tag }}infraMgr: {{ .Values.infraMgr.image.tag | indent 14}}:{{.Values.infraMgr.git.repository}}{{ else }}infraMgr:               is not set{{ end }}
 {{ if .Values.infraEditor.image.tag }}infraEditor: {{ .Values.infraEditor.image.tag | indent 11}}{{ else }}infraEditor:            is not set{{ end }}
 {{ if .Values.externalRabbitMQHost }}externalRabbitMQHost: {{ .Values.externalRabbitMQHost.host | indent 2}}{{ else }}externalRabbitMQHost:       is not set{{ end }}
 {{ if .Values.rabbitmq.rabbitmqVhost }}rabbitmqVhost: {{ .Values.rabbitmq.rabbitmqVhost | indent 9}}{{ else }}rabbitmqVhost:          is not set{{ end }}
-
-th2 service helm chart: https://github.com/th2-net/th2-infra/tree/master/th2-service
+service helm chart:     https://github.com/th2-net/th2-infra/tree/master/th2-service
