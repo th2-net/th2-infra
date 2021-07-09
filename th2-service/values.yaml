@@ -165,6 +165,9 @@ cassandra:
 infraGit:
   internal: false
   nodePort: 32600
+  image:
+    repository: ghcr.io/th2-net/git-ssh
+    tag: v0.1.0
   pvc:
     accessModes: ReadWriteMany
     storage: 5Gi

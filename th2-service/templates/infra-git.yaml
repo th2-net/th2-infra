@@ -33,7 +33,7 @@ spec:
       securityContext:
         fsGroup: 1000
       containers:
-        - image: ghcr.io/th2-net/git-ssh:v0.1.0
+        - image: "{{ .Values.infraGit.image.repository }}:{{ .Values.infraGit.image.tag }}"
           name: infra-git
           volumeMounts:
             - name: repos-volume
