@@ -1,0 +1,79 @@
+{{- if .Values.infraGit.internal }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: infra-git
+spec:
+  selector:
+    app: infra-git
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 22
+      targetPort: 22
+      nodePort: {{ .Values.infraGit.nodePort }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: infra-git
+  name: infra-git
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infra-git
+  template:
+    metadata:
+      labels:
+        app: infra-git
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - image: "{{ .Values.infraGit.image.repository }}:{{ .Values.infraGit.image.tag }}"
+          name: infra-git
+          volumeMounts:
+            - name: repos-volume
+              mountPath: /home/git/repo/
+            - name: keys
+              mountPath: /home/keys/
+          livenessProbe:
+            tcpSocket:
+              port: 22
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          command: ["/bin/sh"]
+          args:
+            [
+              "-c",
+              "mkdir /home/git/.ssh && cp /home/keys/git_keys /home/git/.ssh/authorized_keys && chown -R 1000:1000 /home/git/.ssh/ && /usr/sbin/sshd -D",
+            ]
+      volumes:
+        - name: repos-volume
+          persistentVolumeClaim:
+            claimName: repos-volume
+        - name: keys
+          configMap:
+            name: keys-repo
+      imagePullSecrets:
+        - name: th2-core
+  revisionHistoryLimit: 2
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: repos-volume
+spec:
+  accessModes:
+    - {{ .Values.infraGit.pvc.accessModes }}
+  volumeMode: Filesystem
+  volumeName: repos-volume
+  resources:
+    requests:
+      storage: {{ .Values.infraGit.pvc.storage }}
+  storageClassName: {{ .Values.infraGit.pvc.storageClassName }}
+---
+{{- end }}
