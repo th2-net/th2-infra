@@ -28,7 +28,7 @@ infraEditor:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 0.4.2
+    tag: 0.4.3
 
 infraOperator:
   image:
@@ -150,7 +150,7 @@ cassandra:
 #  host: ""
   fullnameOverride: cassandra
   cluster:
-    datacenter: datacenter1
+    datacenter: dc1
   dbUser:
     user: th2
     # will be generated if empty
