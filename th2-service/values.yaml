@@ -23,26 +23,27 @@ externalRabbitMQHost:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.56
+    tag: 1.0.62
+
+infraRepo:
+  image:
+    repository: ghcr.io/th2-net/infra-repo
+    tag: 0.4.2
 
 infraOperator:
-  persistence: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.7.2
+    tag: 3.1.0
   config:
     chart:
-      repository: https://th2-net.github.io
-      version: 0.3.2
+      repository: http://infra-repo:8080
+      version: 0.4.2
       name: infra-operator-tpl
     namespacePrefixes: 
-    - "schema-"
+    - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
-    schemaSecrets:
-      rabbitMQ: rabbitmq
-      cassandra: cassandra
     rabbitMQManagement:
-      host: "rabbitmq-discovery.service.svc.cluster.local"
+#      host: "rabbitmq-discovery.service.svc.cluster.local" - deprecated. host is taken from rabbitmq config
       port: "15672"
       username: "th2"
       password: "${RABBITMQ_PASS}"
@@ -53,6 +54,9 @@ infraOperator:
         write: ".*"
 
 infraMgr:
+  image:
+    repository: ghcr.io/th2-net/th2-infra-mgr
+    tag: 1.1.0
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -62,18 +66,18 @@ infraMgr:
     httpAuthUsername: "" #should be stored in secret th2-git-access-schemas 
     httpAuthPassword: "" #should be stored in secret th2-git-access-schemas
   rabbitmq:
-    vHostPrefix: schema-
-    usernamePrefix: schema-user-
+    vHostPrefix: th2-
+    usernamePrefix: th2-user-
     secret: rabbitmq
     passwordLength: 24
   cassandra:
     keyspacePrefix: schema_
     secret: cassandra
   kubernetes:
-    namespacePrefix: schema-
+    namespacePrefix: "th2-" # must be not more than 5 symbols
     ingress: ingress-rules
     configMaps:
-      logging: java-logging-config
+      logging: logging-config-template
       rabbitmq: rabbit-mq-app-config
       rabbitmq-ext: rabbit-mq-external-app-config
       cassandra: cradle
@@ -83,9 +87,6 @@ infraMgr:
     - th2-core 
     - th2-solution
     - th2-proprietary
-  image:
-    repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.14.18
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
@@ -151,7 +152,7 @@ cassandra:
   cluster:
     datacenter: datacenter1
   dbUser:
-    user: cassandra
+    user: th2
     # will be generated if empty
     password: ""
   keyspace: cradle

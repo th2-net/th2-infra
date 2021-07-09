@@ -20,3 +20,10 @@ promtail:
     repository: grafana/promtail
     tag: 2.0.0
     pullSecrets:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 400Mi
+    requests:
+      cpu: 200m
+      memory: 200Mi

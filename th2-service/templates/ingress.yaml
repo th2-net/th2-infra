@@ -8,8 +8,10 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^(/editor)$ $scheme://$http_host$1/ redirect;
-      rewrite ^(/rabbitmq)$ $scheme://$http_host$1/ redirect;
+      if ($request_uri ~ "^/rabbitmq(/.*)") {
+        proxy_pass http://upstream_balancer$1;
+        break;
+      }
   name: ingress-service
 spec:
   rules:
@@ -27,8 +29,6 @@ spec:
       - backend:
           serviceName: infra-mgr
           servicePort: 8080
-        # path: /infra-mgr(\/|$)(.*)
-        # path: /backend/(schemas$|schema$|/.*)
         path: /editor/backend/(.*)
       - backend:
           {{- if not .Values.rabbitmq.fullnameOverride }}
