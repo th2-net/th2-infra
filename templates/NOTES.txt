@@ -11,5 +11,6 @@ infraOperator.image.tag: {{ if .Values.infraOperator.image.tag }}{{ .Values.infr
 infraOperator.config.chart.repository: {{ if .Values.infraOperator.config.chart.repository }}{{ .Values.infraOperator.config.chart.repository }}{{ else }}is not set{{ end }}
 infraOperator.config.chart.version: {{ if .Values.infraOperator.config.chart.version }}{{ .Values.infraOperator.config.chart.version }}{{ else }}is not set{{ end }}
 infraMgr.git.repository: {{ if .Values.infraMgr.git.repository }}{{.Values.infraMgr.git.repository }}{{ else }}is not set{{ end }}
+infraMgr.image.repository: {{ if .Values.infraMgr.image.repository }}{{.Values.infraMgr.image.repository }}{{ else }}is not set{{ end }}
 infraMgr.image.tag: {{ if .Values.infraMgr.image.tag }}{{ .Values.infraMgr.image.tag }}{{ else }}is not set{{ end }}
 externalRabbitMQHost: {{ if .Values.externalRabbitMQHost }}{{ .Values.externalRabbitMQHost.host }}{{ else }}is not set{{ end }}
