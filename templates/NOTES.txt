@@ -1,11 +1,15 @@
-chart:{{ .Chart.Name | indent 18}}-{{ .Chart.Version }}
-{{ if .Values.infraOperator.image.tag }}infraOperator: {{ .Values.infraOperator.image.tag | indent 9}}:{{ .Values.infraOperator.image.repository}}{{ else }}infraOperator:          is not set{{ end }}
-{{ if .Values.ingress.host }}ingress.host: {{ .Values.ingress.host | indent 10}}{{ else }}ingress.host:           is not set{{ end }}
-{{ if .Values.productRegistry.name }}productRegistry.name: {{ .Values.productRegistry.name | indent 2}}{{ else }}productRegistry.name:   is not set{{ end }}
-{{ if .Values.solutionRegistry.registry }}solutionRegistry: {{ .Values.solutionRegistry.registry | indent 6}}{{ else }}solutionRegistry:       is not set{{ end }}
-{{ if .Values.infraRepo.image.tag }}infraRepo: {{ .Values.infraRepo.image.tag | indent 13}}{{ else }}infraRepo:              is not set{{ end }}
-{{ if .Values.infraMgr.image.tag }}infraMgr: {{ .Values.infraMgr.image.tag | indent 14}}:{{.Values.infraMgr.git.repository}}{{ else }}infraMgr:               is not set{{ end }}
-{{ if .Values.infraEditor.image.tag }}infraEditor: {{ .Values.infraEditor.image.tag | indent 11}}{{ else }}infraEditor:            is not set{{ end }}
-{{ if .Values.externalRabbitMQHost }}externalRabbitMQHost: {{ .Values.externalRabbitMQHost.host | indent 2}}{{ else }}externalRabbitMQHost:       is not set{{ end }}
-{{ if .Values.rabbitmq.rabbitmqVhost }}rabbitmqVhost: {{ .Values.rabbitmq.rabbitmqVhost | indent 9}}{{ else }}rabbitmqVhost:          is not set{{ end }}
-service helm chart:     https://github.com/th2-net/th2-infra/tree/master/th2-service
+chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+ingress.host: {{ if .Values.ingress.host }}{{ .Values.ingress.host }}{{ else }}is not set{{ end }}
+productRegistry.name: {{ if .Values.productRegistry.name }}{{ .Values.productRegistry.name }}{{ else }}is not set{{ end }}
+solutionRegistry: {{ if .Values.solutionRegistry.registry }}{{ .Values.solutionRegistry.registry }}{{ else }}is not set{{ end }}
+infraEditor.image: {{ if .Values.infraEditor.image.repository }}{{ .Values.infraEditor.image.repository }}{{ else }}is not set{{ end }}
+infraEditor.image.tag: {{ if .Values.infraEditor.image.tag }}{{ .Values.infraEditor.image.tag }}{{ else }}is not set{{ end }}
+infraRepo.image: {{ if .Values.infraRepo.image.repository }}{{ .Values.infraRepo.image.repository }}{{ else }}is not set{{ end }}
+infraRepo.image.tag: {{ if .Values.infraRepo.image.tag }}{{ .Values.infraRepo.image.tag }}{{ else }}is not set{{ end }}
+infraOperator.image: {{ if .Values.infraOperator.image.repository }}{{ .Values.infraOperator.image.repository }}{{ else }}is not set{{ end }}
+infraOperator.image.tag: {{ if .Values.infraOperator.image.tag }}{{ .Values.infraOperator.image.tag }}{{ else }}is not set{{ end }}
+infraOperator.config.chart.repository: {{ if .Values.infraOperator.config.chart.repository }}{{ .Values.infraOperator.config.chart.repository }}{{ else }}is not set{{ end }}
+infraOperator.config.chart.version: {{ if .Values.infraOperator.config.chart.version }}{{ .Values.infraOperator.config.chart.version }}{{ else }}is not set{{ end }}
+infraMgr.git.repository: {{ if .Values.infraMgr.git.repository }}{{.Values.infraMgr.git.repository }}{{ else }}is not set{{ end }}
+infraMgr.image.tag: {{ if .Values.infraMgr.image.tag }}{{ .Values.infraMgr.image.tag }}{{ else }}is not set{{ end }}
+externalRabbitMQHost: {{ if .Values.externalRabbitMQHost }}{{ .Values.externalRabbitMQHost.host }}{{ else }}is not set{{ end }}
