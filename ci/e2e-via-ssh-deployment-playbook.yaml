@@ -154,4 +154,4 @@
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml
         create_namespace: true
-        wait: true
+#         wait: true
