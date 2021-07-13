@@ -1,17 +1,17 @@
 chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-ingress.host: {{ if .Values.ingress.host }}{{ .Values.ingress.host }}{{ else }}is not set{{ end }}
-productRegistry: {{ if .Values.productRegistry.name }}{{ .Values.productRegistry.name }}{{ else }}is not set{{ end }}
-solutionRegistry: {{ if .Values.solutionRegistry.registry }}{{ .Values.solutionRegistry.registry }}{{ else }}is not set{{ end }}
-proprietaryRegistry: {{ if .Values.proprietaryRegistry }}{{ .Values.proprietaryRegistry }}{{ else }}is not set{{ end }}
-infraEditor.image: {{ if .Values.infraEditor.image.repository }}{{ .Values.infraEditor.image.repository }}{{ else }}is not set{{ end }}
-infraEditor.image.tag: {{ if .Values.infraEditor.image.tag }}{{ .Values.infraEditor.image.tag }}{{ else }}is not set{{ end }}
-infraRepo.image: {{ if .Values.infraRepo.image.repository }}{{ .Values.infraRepo.image.repository }}{{ else }}is not set{{ end }}
-infraRepo.image.tag: {{ if .Values.infraRepo.image.tag }}{{ .Values.infraRepo.image.tag }}{{ else }}is not set{{ end }}
-infraOperator.image: {{ if .Values.infraOperator.image.repository }}{{ .Values.infraOperator.image.repository }}{{ else }}is not set{{ end }}
-infraOperator.image.tag: {{ if .Values.infraOperator.image.tag }}{{ .Values.infraOperator.image.tag }}{{ else }}is not set{{ end }}
-infraOperator.config.chart.repository: {{ if .Values.infraOperator.config.chart.repository }}{{ .Values.infraOperator.config.chart.repository }}{{ else }}is not set{{ end }}
-infraOperator.config.chart.version: {{ if .Values.infraOperator.config.chart.version }}{{ .Values.infraOperator.config.chart.version }}{{ else }}is not set{{ end }}
-infraMgr.git.repository: {{ if .Values.infraMgr.git.repository }}{{.Values.infraMgr.git.repository }}{{ else }}is not set{{ end }}
-infraMgr.image.repository: {{ if .Values.infraMgr.image.repository }}{{.Values.infraMgr.image.repository }}{{ else }}is not set{{ end }}
-infraMgr.image.tag: {{ if .Values.infraMgr.image.tag }}{{ .Values.infraMgr.image.tag }}{{ else }}is not set{{ end }}
-externalRabbitMQHost: {{ if .Values.externalRabbitMQHost }}{{ .Values.externalRabbitMQHost.host }}{{ else }}is not set{{ end }}
+ingress.host: {{ default "is not set" .Values.ingress.host }}
+productRegistry.name: {{ default "is not set" .Values.productRegistry.name }}
+solutionRegistry.name: {{ default "is not set" .Values.solutionRegistry.name }}
+proprietaryRegistry.name: {{ default "is not set" .Values.proprietaryRegistry.name }}
+infraEditor.image: {{ .Values.infraEditor.image.repository }}
+infraEditor.image.tag: {{ .Values.infraEditor.image.tag }}
+infraRepo.image: {{ .Values.infraRepo.image.repository }}
+infraRepo.image.tag: {{ .Values.infraRepo.image.tag }}
+infraOperator.image: {{ .Values.infraOperator.image.repository }}
+infraOperator.image.tag: {{ .Values.infraOperator.image.tag }}
+infraOperator.config.chart.repository: {{ .Values.infraOperator.config.chart.repository }}
+infraOperator.config.chart.version: {{ .Values.infraOperator.config.chart.version }}
+infraMgr.git.repository: {{.Values.infraMgr.git.repository }}
+infraMgr.image.repository: {{.Values.infraMgr.image.repository }}
+infraMgr.image.tag: {{ .Values.infraMgr.image.tag }}
+externalRabbitMQHost: {{ .Values.externalRabbitMQHost.host }}
