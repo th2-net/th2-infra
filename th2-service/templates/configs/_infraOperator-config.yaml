@@ -8,6 +8,10 @@ metadata:
   name: infra-operator
 data:
   infra-operator.yml: |
+    prometheusConfiguration:
+      host: "0.0.0.0"
+      port: {{ default 9752 .Values.infraOperator.prometheusConfiguration.port | quote }}
+      enabled: {{ default true .Values.infraOperator.prometheusConfiguration.enabled | quote }}
     ingressHost: {{ .Values.ingress.host | quote }}
     chart:
       {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}

@@ -1,0 +1,9 @@
+{{/*
+Generating _svc-ports for k8
+*/}}
+{{- define "svc-prometheus-port" }}
+    - name: metrics
+      port: 9752 
+      protocol: TCP
+      targetPort: metrics
+{{- end }}

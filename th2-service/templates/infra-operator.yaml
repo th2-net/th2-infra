@@ -1,5 +1,7 @@
 {{ include "infraOperator-config" . }}
 ---
+{{ include "infra-operator-service" .Values }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,6 +24,11 @@ spec:
       containers:
       - name: infra-operator
         image: "{{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}"
+        {{- if .Values.infraOperator.prometheusConfiguration.enabled }}
+        ports:
+        - name: metrics
+          containerPort: {{ default 9752 .Values.infraOperator.prometheusConfiguration.port }}
+        {{- end }}
         resources:
           limits:
             cpu: 800m
@@ -39,10 +46,10 @@ spec:
               {{- if .Values.rabbitmq }}
               {{- if .Values.rabbitmq.fullnameOverride }}
               name: {{ .Values.rabbitmq.fullnameOverride }}
-              {{ else }}
+              {{- else }}
               name: rabbitmq
               {{- end }}
-              {{ else }}
+              {{- else }}
               name: rabbitmq
               {{- end }}
               key: rabbitmq-password
