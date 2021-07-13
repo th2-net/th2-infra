@@ -1,7 +1,8 @@
 chart: {{ .Chart.Name }}-{{ .Chart.Version }}
 ingress.host: {{ if .Values.ingress.host }}{{ .Values.ingress.host }}{{ else }}is not set{{ end }}
-productRegistry.name: {{ if .Values.productRegistry.name }}{{ .Values.productRegistry.name }}{{ else }}is not set{{ end }}
+productRegistry: {{ if .Values.productRegistry.name }}{{ .Values.productRegistry.name }}{{ else }}is not set{{ end }}
 solutionRegistry: {{ if .Values.solutionRegistry.registry }}{{ .Values.solutionRegistry.registry }}{{ else }}is not set{{ end }}
+proprietaryRegistry: {{ if .Values.proprietaryRegistry }}{{ .Values.proprietaryRegistry }}{{ else }}is not set{{ end }}
 infraEditor.image: {{ if .Values.infraEditor.image.repository }}{{ .Values.infraEditor.image.repository }}{{ else }}is not set{{ end }}
 infraEditor.image.tag: {{ if .Values.infraEditor.image.tag }}{{ .Values.infraEditor.image.tag }}{{ else }}is not set{{ end }}
 infraRepo.image: {{ if .Values.infraRepo.image.repository }}{{ .Values.infraRepo.image.repository }}{{ else }}is not set{{ end }}
