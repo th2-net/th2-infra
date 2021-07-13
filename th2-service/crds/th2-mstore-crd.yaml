@@ -46,9 +46,7 @@ spec:
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               logFile:
-                items:
-                  type: string
-                type: array
+                type: string
               mqRouter:
                 description: this is custom configuration for rouer mq
                 type: object
