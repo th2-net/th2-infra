@@ -132,8 +132,8 @@ $ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm install loki --namespace=monitoring grafana/loki-stack -f ./loki.values.yaml
-$ helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring -f ./prometheus-operator.values.yaml
+$ helm install --version=0.40.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
 ```
