@@ -3,7 +3,7 @@ name: e2e test with kind
 on: [pull_request, workflow_dispatch]
 
 env:
-  SCHEMA_NAMESPACE: schema-v130
+  SCHEMA_NAMESPACE: th2-v150
 
 jobs:
   deploy-and-test:
@@ -15,6 +15,8 @@ jobs:
         uses: helm/kind-action@v1.1.0
         with:
           config: ./ci/kind-cluster.yaml
+          version: v0.11.0
+          node_image: kindest/node:v1.20.7@sha256:e645428988191fc824529fd0bb5c94244c12401cf5f5ea3bd875eb0a787f0fe9
 
       - name: Install python and ansible dependencies
         run: |
@@ -44,6 +46,8 @@ jobs:
           echo -e "\n[Configmaps]" && kubectl get configmaps --all-namespaces
           echo -e "\n[Secrets]" && kubectl get secrets --all-namespaces
 
+          kubectl -n th2-v150 logs deployment/rpt-data-viewer > rpt-data-viewer.log
+          kubectl -n th2-v150 logs deployment/rpt-data-provider > rpt-data-provider.log
           kubectl -n service logs deployment/infra-mgr > infra-mgr.log
           kubectl -n service logs deployment/infra-operator > infra-operator.log
           kubectl -n service logs deployment/helm-operator > helm-operator.log

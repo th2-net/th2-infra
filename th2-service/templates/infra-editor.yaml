@@ -49,7 +49,7 @@ spec:
       volumes:
       - name: logging-volume
         configMap:
-          name: java-logging-config
+          name: logging-config
       imagePullSecrets:
       - name: th2-core
   revisionHistoryLimit: 2
