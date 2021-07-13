@@ -23,7 +23,7 @@ externalRabbitMQHost:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.62
+    tag: 1.0.64
 
 infraRepo:
   image:
