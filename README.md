@@ -265,17 +265,17 @@ ingress-ingress-nginx-controller-7979dcdd85-mw42w   1/1     Running   0         
 $ helm repo add th2 https://th2-net.github.io
 $ helm install -n service --version=<version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
+_Note_: replace <version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
 
-### Upgrade/migration th2-infra
+### Upgrade th2-infra
 
-* Set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2 to delete it.
+* Set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2-infra. Wait until it is removed.
 * Uninstall th2-infra release:
 ```
 $ helm -n service uninstall th2-infra
 ```
-* Revise "Custom resource" files for namespaces according to the release documentation (if required).
 * Delete CRDs:
 ```
 $ kubectl delete customresourcedefinitions th2boxes.th2.exactpro.com th2coreboxes.th2.exactpro.com th2dictionaries.th2.exactpro.com th2estores.th2.exactpro.com th2links.th2.exactpro.com th2mstores.th2.exactpro.com
@@ -284,24 +284,31 @@ $ kubectl delete customresourcedefinitions th2boxes.th2.exactpro.com th2coreboxe
 ```
 $ kubectl get customresourcedefinitions | grep "^th2"
 ```
-* Change th2-service values file according to the th2-infra release notes (if required):
-* Check the state of pv in k8s.
+* Change service.values.yaml if it is required by th2-infra release notes
+* Revise "Custom Resource" files for namespaces if it is required by th2-infra release notes
+* Install th2-infra:
+```
+$ helm repo update
+$ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
+```
+_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
+  
+### Re-adding persistence for components in th2 namespaces
+PersistentVolumeClaim is namespace scoped resource, so after namespace re-creation PVCs should be added for components require persistence.
+* Check the state of PV in a cluster:
 ```
 $ kubectl get pv
 ```
-It has to be availalble, if Released:
+* Reset PVs that are in Released status:
 ```
 $ kubectl patch pv <pv-name> -p '{"spec":{"claimRef": null}}'
 ```
+* Apply PVCs
+```
+$ kubectl -n <th2-namespace> apply -f ./pvc.yaml
+```
+_Note_: replace <th2-namespace> with th2 namespace you use
   
-* Install th2-infra:
-```
-$ helm repo add th2 https://th2-net.github.io
-$ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
-```
-
-* Apply PVC in th2 namespaces (if required)
-
 ## th2 infra links:
 - Kubernetes dashboard http://your-host:30000/dashboard/
 - Grafana http://your-host:30000/grafana/
