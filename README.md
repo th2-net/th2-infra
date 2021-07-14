@@ -35,24 +35,25 @@ Then https://github.com/th2-net/th2-infra-schema-demo should be created in your 
 * [how to fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo#fork-an-example-repository)
 
 
-## th2 infra namespaces
-th2 infra components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
+## Infrastructure namespaces
+Infrastructure components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
 
-Next components of prometheus and grafana monitoring stack are deployed into _`monitoring`_ namespace:
+Next components of monitoring stack are deployed into _`monitoring`_ namespace:
 * [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 * [grafana](https://grafana.com/oss/grafana/)
 * [loki](https://grafana.com/oss/loki/)
 * [prometheus](https://grafana.com/oss/prometheus/)
 
-The _`service`_ namespace is used for core services of this project:
+The _`service`_ namespace is used for infrastructure services:
 * [RabbitMQ](https://www.rabbitmq.com/)
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Helm Operator](https://github.com/fluxcd/helm-operator)
   
-and for infrastructure components:
-* [th2-infra-editor]()
+and for th2-infra components:
+* [th2-infra-editor](https://github.com/th2-net/th2-infra-editor-v2)
 * [th2-infra-operator](https://github.com/th2-net/th2-infra-operator)
 * [th2-infra-mgr](https://github.com/th2-net/th2-infra-mgr)
+* [th2-infra-repo](https://github.com/th2-net/infra-operator-tpl)
   
 The following picture describes th2-infra cluster configuration:
 
@@ -262,7 +263,7 @@ ingress-ingress-nginx-controller-7979dcdd85-mw42w   1/1     Running   0         
 ### Install th2-infra components in the service namespace
 ```
 $ helm repo add th2 https://th2-net.github.io
-$ helm install -n service --version=<version> th2-infra-base th2/th2 -f ./service.values.yaml -f ./secrets.yaml
+$ helm install -n service --version=<version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
@@ -270,9 +271,9 @@ Wait for all pods in service namespace are up and running, once completed procee
 ### Upgrade/migration th2-infra
 
 * Set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2 to delete it.
-* Uninstall th2-infra-base release:
+* Uninstall th2-infra release:
 ```
-$ helm -n service uninstall th2-infra-base
+$ helm -n service uninstall th2-infra
 ```
 * Revise "Custom resource" files for namespaces according to the release documentation (if required).
 * Delete CRDs:
@@ -296,7 +297,7 @@ $ kubectl patch pv <pv-name> -p '{"spec":{"claimRef": null}}'
 * Install th2-infra:
 ```
 $ helm repo add th2 https://th2-net.github.io
-$ helm install -n service --version=<new_version> th2-infra-base th2/th2 -f ./service.values.yaml -f ./secrets.yaml
+$ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
 
 * Apply PVC in th2 namespaces (if required)
