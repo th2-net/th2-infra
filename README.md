@@ -130,10 +130,10 @@ $ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard
 ```
 * Deploy components
 ```
-$ helm repo add loki https://grafana.github.io/loki/charts
-$ helm repo add stable https://charts.helm.sh/stable
-$ helm upgrade --install loki --namespace=monitoring loki/loki-stack -f ./loki.values.yaml
-$ helm upgrade --install prometheus stable/prometheus-operator -n monitoring -f ./prometheus-operator.values.yaml
+$ helm repo add grafana https://grafana.github.io/helm-charts
+$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+$ helm install --version=0.40.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
 ```
@@ -248,7 +248,7 @@ $ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f 
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-$ helm install -n service --version=3.12.0 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
+$ helm install -n service --version=3.31.0 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
 ```
 Check:
 ```
