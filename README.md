@@ -55,7 +55,7 @@ and for th2-infra components:
 * [th2-infra-mgr](https://github.com/th2-net/th2-infra-mgr)
 * [th2-infra-repo](https://github.com/th2-net/infra-operator-tpl)
   
-The following picture describes th2-infra cluster configuration:
+The following picture describes a cluser with monitoring stack, th2-infra and th2 namespace:
 
 ![k8s cluster](https://user-images.githubusercontent.com/690243/101762881-0925d080-3aef-11eb-9d15-70e9277b0fa5.jpg)
 
