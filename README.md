@@ -271,7 +271,11 @@ Wait for all pods in service namespace are up and running, once completed procee
 
 ### Upgrade th2-infra
 
-* Set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2-infra. Wait until it is removed.
+* Delete namespaces managed by th2-infra, there are two ways. Manual:
+```
+$ kubectel delete <namespace-1> <namespace-2> <namespace-..>
+```
+or set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2-infra. Wait until it is removed.
 * Uninstall th2-infra release:
 ```
 $ helm -n service uninstall th2-infra
