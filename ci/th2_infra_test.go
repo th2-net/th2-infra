@@ -118,12 +118,12 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 3*time.Second, validator)
 }
 
-func TestNamespaceDataProviderEndpoint(t *testing.T) {
+//func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	// t.Parallel()
-	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/search/events?timestampFrom=0&timestampTo=0", schemaNamespace)
-	options := k8s.NewKubectlOptions("", "", schemaNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, 30, 10*time.Second)
-
-	validator := validFunc(t, 200, "[]")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 10*time.Second, validator)
-}
+//	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/search/events?timestampFrom=0&timestampTo=0", schemaNamespace)
+//	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+//	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, 30, 10*time.Second)
+//
+//	validator := validFunc(t, 200, "[]")
+//	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 10*time.Second, validator)
+//}

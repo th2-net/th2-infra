@@ -17,7 +17,7 @@ spec:
   - http:
   {{- end }}
       paths:
-      - path: /${SCHEMA_NAMESPACE}/backend/(rootEvents$|messageStreams$|((search|filters|message|event)/.*))
+      - path: /${SCHEMA_NAMESPACE}/backend/(.*)
         backend:
           serviceName: rpt-data-provider
           servicePort: 8080

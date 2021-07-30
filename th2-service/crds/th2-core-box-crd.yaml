@@ -48,6 +48,20 @@ spec:
                 description: this is custom configuration
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              logFile:
+                type: string
+              mqRouter:
+                description: this is custom configuration for rouer mq
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              grpcRouter:
+                description: this is custom configuration for rouer grpc
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              cradleManger:
+                description: this is custom configuration for cradle
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
               extended-settings:
                 properties:
                   chart-cfg:
@@ -57,9 +71,20 @@ spec:
                       ref:
                         type: string
                     type: object
+                  replicas:
+                    type: string
+                    pattern: "^[0-9]+$"
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  sharedMemory:
+                    type: object
+                    properties:
+                      enabled:
+                        enum:
+                          - "false"
+                          - "true"
+                        type: string
                   externalBox:
                     properties:
                       address:
@@ -86,6 +111,8 @@ spec:
                     enum:
                     - "false"
                     - "true"
+                    type: string
+                  nodeName:
                     type: string
                   mounting:
                     items:
@@ -127,8 +154,10 @@ spec:
                               type: string
                             nodePort:
                               type: string
+                              pattern: "^[0-9]+$"
                             targetPort:
                               type: string
+                              pattern: "^[0-9]+$"
                           required:
                           - name
                           - targetPort
@@ -136,8 +165,10 @@ spec:
                         type: array
                       nodePort:
                         type: string
+                        pattern: "^[0-9]+$"
                       targetPort:
                         type: string
+                        pattern: "^[0-9]+$"
                       type:
                         enum:
                         - ClusterIP
@@ -145,11 +176,20 @@ spec:
                         - LoadBalancer
                         - ExternalName
                         type: string
+                      ingress:
+                        type: object
+                        properties:
+                          urlPaths:
+                            type: array
+                            items:
+                              type: string
                     type: object
                 type: object
               image-name:
                 type: string
               image-version:
+                type: string
+              version-range:
                 type: string
               params:
                 description: List of generic parameters
@@ -228,13 +268,21 @@ spec:
                       maxLength: 71
                     settings:
                       properties:
+                        overloadStrategy:
+                          type: string
+                          enum:
+                            - "drop-head"
+                            - "reject-publish"
+                          default: "drop-head"
                         queueLength:
                           type: string
+                          default: "1000"
                         storageOnDemand:
-                          enum:
-                          - "false"
-                          - "true"
                           type: string
+                          enum:
+                            - "false"
+                            - "true"
+                          default: "false"
                       type: object
                   required:
                   - name
