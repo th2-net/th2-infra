@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "properties": {
+        "infraMgr": {
+            "description": "Infra-mgr settings",
+            "properties": {
+                "kubernetes": {
+                    "type": "object",
+                    "properties": {
+                        "namespacePrefix": {
+                            "type": "string",
+                            "maxLength": 5
+                        }
+                    }
+                }
+            },
+            "type": "object"
+        }
+    },
+    "title": "Values",
+    "type": "object"
+}
