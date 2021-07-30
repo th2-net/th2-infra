@@ -47,8 +47,6 @@ jobs:
           echo -e "\n[Configmaps]" && kubectl get configmaps --all-namespaces
           echo -e "\n[Secrets]" && kubectl get secrets --all-namespaces
 
-          kubectl -n th2-v150 logs deployment/rpt-data-viewer > rpt-data-viewer.log
-          kubectl -n th2-v150 logs deployment/rpt-data-provider > rpt-data-provider.log
           kubectl -n service logs deployment/infra-mgr > infra-mgr.log
           kubectl -n service logs deployment/infra-operator > infra-operator.log
           kubectl -n service logs deployment/helm-operator > helm-operator.log
