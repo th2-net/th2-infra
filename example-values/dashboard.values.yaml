@@ -1,6 +1,5 @@
-image:
-  repository: kubernetesui/dashboard
-  tag: v2.0.3
+# image:
+#   repository: kubernetesui/dashboard
 protocolHttp: true
 rbac:
   create: true
