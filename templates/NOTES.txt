@@ -1,4 +1,7 @@
 chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+{{ if ne .Values.infraOperator.config.rabbitMQManagement.username .Values.rabbitmq.rabbitmqUsername}}
+WARNING: infraOperator.config.rabbitMQManagement.username does not match rabbitmq.rabbitmqUsername, please correct!
+{{ end }}
 ingress.host: {{ if .Values.ingress.host }}{{ .Values.ingress.host }}{{ else }}is not set{{ end }}
 productRegistry.name: {{ if .Values.productRegistry.name }}{{ .Values.productRegistry.name }}{{ else }}is not set{{ end }}
 solutionRegistry.name: {{ if .Values.solutionRegistry.name }}{{ .Values.solutionRegistry.name }}{{ else }}is not set{{ end }}
