@@ -23,21 +23,21 @@ externalRabbitMQHost:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.62
+    tag: 1.0.64
 
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 0.4.2
+    tag: 0.4.3
 
 infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.1.0
+    tag: 3.1.1
   config:
     chart:
       repository: http://infra-repo:8080
-      version: 0.4.2
+      version: 0.4.3
       name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
@@ -56,7 +56,7 @@ infraOperator:
 infraMgr:
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.1.0
+    tag: 1.1.1
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -150,7 +150,7 @@ cassandra:
 #  host: ""
   fullnameOverride: cassandra
   cluster:
-    datacenter: datacenter1
+    datacenter: dc1
   dbUser:
     user: th2
     # will be generated if empty
