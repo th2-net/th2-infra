@@ -92,6 +92,19 @@ infraMgr:
     - th2-solution
     - th2-proprietary
 
+#If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster. 
+#Change to "internal = true" in case you need internal git repo.
+infraGit:
+  internal: false
+  nodePort: 32600
+  image:
+    repository: ghcr.io/th2-net/git-ssh
+    tag: v0.1.0
+  pvc:
+    accessModes: ReadWriteMany
+    storage: 5Gi
+    storageClassName: local-storage
+
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
 rabbitmq:
@@ -158,7 +171,7 @@ cassandra:
 #  host: ""
   fullnameOverride: cassandra
   cluster:
-    datacenter: datacenter1
+    datacenter: dc1
   dbUser:
     user: th2
     # will be generated if empty
