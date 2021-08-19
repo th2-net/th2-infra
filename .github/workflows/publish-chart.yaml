@@ -39,7 +39,7 @@ jobs:
         with:
           directory: ./th2-net.github.io/
           repository: th2-net/th2-net.github.io
-          ref: master
+          branch: master
           author_name: ${{ github.actor }}
           author_email: ${{ github.actor }}@users.noreply.github.com
           github_token: ${{ secrets.PAT_CI_ACTION }}
