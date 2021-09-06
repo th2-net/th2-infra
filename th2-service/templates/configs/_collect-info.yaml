@@ -25,6 +25,6 @@ Generating configMap for k8 with th2 installed configuration overview
       rabbitMQ vHost: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
       rabbitMQ username: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
       kubernetes namespace: {{ .Values.infraMgr.kubernetes.namespacePrefix }}
-  Rabbitmq host:port(external): {{ .Values.externalRabbitMQHost.host }}:{{ .Values.rabbitmq.service.amqpNodePort }}
+  Rabbitmq host:port(external): {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
 
 {{ end }}

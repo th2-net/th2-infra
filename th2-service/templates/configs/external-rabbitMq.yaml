@@ -9,7 +9,7 @@ data:
     "host": {{ .Values.rabbitmq.host | quote }},
     "port": "5672",
     {{- else }}
-    "host": {{ .Values.externalRabbitMQHost.host | quote }},
+    "host": {{ .Values.infraOperator.config.k8sUrl | quote }},
     "port": {{ .Values.rabbitmq.service.amqpNodePort | quote }},
     {{- end }}
     "vHost": "",
