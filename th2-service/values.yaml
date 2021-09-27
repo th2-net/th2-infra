@@ -23,7 +23,7 @@ externalRabbitMQHost:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.64
+    tag: 1.0.65
 
 infraRepo:
   image:
@@ -35,7 +35,7 @@ infraOperator:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.2.5-infra_1.6.0-1071169637
+    tag: 3.2.5
   config:
     chart:
       # external mirror
@@ -62,7 +62,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.2.8-infra_1.6.0-1071013105
+    tag: 1.2.8
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
