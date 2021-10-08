@@ -3,20 +3,29 @@ Generating configMap for k8 with th2 installed configuration overview
 */}}
 {{- define "collect-info" }}
   chart: {{ .Chart.Name }} - {{ .Chart.Version }}
-  host: {{ default .Values.ingress.host " " }}
-  productRegistry: {{ if .Values.productRegistry.name }} {{ .Values.productRegistry.name }} {{ else }} {{ " " }} {{ end }}
-  solutionRegistry: {{ if .Values.solutionRegistry.name }} {{ .Values.solutionRegistry.name }} {{ else }} {{ " " }} {{ end }}
-  proprietaryRegistry: {{ if .Values.proprietaryRegistry.name }} {{ .Values.proprietaryRegistry.name }} {{ else }} {{ " " }} {{ end }}
+  host: {{ default .Values.ingress.host "" }}
+  {{- if .Values.productRegistry }}
+  productRegistry: {{ if .Values.productRegistry.name }} {{ .Values.productRegistry.name }} {{ else }} {{ "" }} {{ end }}
+  {{- end }}
+  {{- if .Values.solutionRegistry }}
+  solutionRegistry: {{ if .Values.solutionRegistry.name }} {{ .Values.solutionRegistry.name }} {{ else }} {{ "" }} {{ end }}
+  {{- end }}
+  {{- if .Values.proprietaryRegistry }}
+  proprietaryRegistry: {{ if .Values.proprietaryRegistry.name }} {{ .Values.proprietaryRegistry.name }} {{ else }} {{ "" }} {{ end }}
+  {{- end }}
   infraEditor: {{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}
   infraRepo: {{ .Values.infraRepo.image.repository }}:{{ .Values.infraRepo.image.tag }}
-  infraOperator:
+  Rabbitmq_host_port: {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
+
+  infraOperator: |
     version: {{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}
     git:
       repository: {{ .Values.infraOperator.config.chart.repository }}
       chart: {{ .Values.infraOperator.config.chart.version }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl }}
     namespace prefixes: {{ .Values.infraOperator.config.namespacePrefixes }}
-  infraMgr:
+
+  infraMgr: |
     version: {{ .Values.infraMgr.image.repository }}:{{ .Values.infraMgr.image.tag }}
     git:
       repository: {{ .Values.infraMgr.git.repository }}
@@ -25,6 +34,4 @@ Generating configMap for k8 with th2 installed configuration overview
       rabbitMQ vHost: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
       rabbitMQ username: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
       kubernetes namespace: {{ .Values.infraMgr.kubernetes.namespacePrefix }}
-  Rabbitmq host:port(external): {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
-
 {{ end }}
