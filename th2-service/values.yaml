@@ -4,13 +4,7 @@
 # Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
-  name: 
-  username:
-  password:
-
-solutionRegistry:
-  secret: th2-solution
-  registry: 
+  name: product-registry-example-name
   username:
   password:
 
@@ -40,7 +34,7 @@ infraOperator:
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
-      version: 0.6.0
+      version: 0.7.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
