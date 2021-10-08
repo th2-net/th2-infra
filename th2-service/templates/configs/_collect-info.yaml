@@ -15,7 +15,7 @@ Generating configMap for k8 with th2 installed configuration overview
   {{- end }}
   infraEditor: {{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}
   infraRepo: {{ .Values.infraRepo.image.repository }}:{{ .Values.infraRepo.image.tag }}
-  Rabbitmq host:port(external): {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
+  Rabbitmq_host_port: {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
 
   infraOperator: |
     version: {{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}

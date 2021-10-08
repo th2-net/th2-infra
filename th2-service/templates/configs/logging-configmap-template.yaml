@@ -54,4 +54,4 @@ data:
     format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
 kind: ConfigMap
 metadata:
-  name: logging-config
+  name: logging-config-template
