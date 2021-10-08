@@ -52,7 +52,7 @@ spec:
                 description: this is custom configuration for secrets
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              logFile:
+              loggingConfig:
                 type: string
               mqRouter:
                 description: this is custom configuration for rouer mq
@@ -89,6 +89,12 @@ spec:
                   replicas:
                     type: string
                     pattern: "^[0-9]+$"
+                  k8sProbes:
+                    type: string
+                    enum:
+                      - "false"
+                      - "true"
+                    default: "false"
                   externalBox:
                     properties:
                       address:
