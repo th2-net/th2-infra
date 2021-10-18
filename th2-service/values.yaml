@@ -4,13 +4,7 @@
 # Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
-  name: 
-  username:
-  password:
-
-solutionRegistry:
-  secret: th2-solution
-  registry: 
+  name:
   username:
   password:
 
@@ -29,18 +23,18 @@ infraEditor:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 0.6.0
+    tag: 0.7.0
 
 infraOperator:
   prometheusConfiguration:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.2.6-infra-1.6.0-1005215271
+    tag: 3.3.4-infra_1.7.0-1316323288
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
-      version: 0.6.0
+      version: 0.7.0
       name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
@@ -61,7 +55,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.2.7-infra-1.6.0-1007256753
+    tag: 1.3.2-infra_1.7.0-1316171944
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
