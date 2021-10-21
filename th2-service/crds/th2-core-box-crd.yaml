@@ -124,6 +124,8 @@ spec:
                     type: string
                   nodeName:
                     type: string
+                  bookName:
+                    type: string
                   mounting:
                     items:
                       properties:
@@ -339,6 +341,12 @@ spec:
                 - th2-read
                 - th2-util
                 - th2-cradle-viewer
+                - th2-crawler
+                - th2-crawler-processor
+                - th2-data-provider
+                - th2-adapter
+                - th2-reactive-script
+                - th2-monkey
                 type: string
             required:
             - image-name

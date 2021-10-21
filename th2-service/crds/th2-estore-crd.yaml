@@ -121,6 +121,8 @@ spec:
                     type: string
                   nodeName:
                     type: string
+                  bookName:
+                    type: string
                   mounting:
                     items:
                       properties:
