@@ -4,7 +4,7 @@
 # Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
-  name:
+  name: product-registry-example-name
   username:
   password:
 
