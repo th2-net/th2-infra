@@ -9,7 +9,7 @@ productRegistry:
   password:
 
 ingress:
-  host:
+  host: localhost
 
 #Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
 #externalRabbitMQHost:
