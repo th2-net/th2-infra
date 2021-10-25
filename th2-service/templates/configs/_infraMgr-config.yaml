@@ -29,6 +29,24 @@ data:
     cassandra:
       keyspacePrefix: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
       secret: {{ default .Values.cassandra.secret .Values.cassandra.fullnameOverride }}
+      username: {{ .Values.cassandra.dbUser.user | quote }}
+      password: "${CASSANDRA_PASS}"	
+      {{- if .Values.cassandra.host }}
+      host: {{ .Values.cassandra.host | quote }}
+      {{- else }}
+      host: "{{ .Values.cassandra.fullnameOverride }}-headless.service.svc.cluster.local"
+      {{- end }}
+      port: "9042"
+      dataCenter: {{ .Values.cassandra.cluster.datacenter | quote }}
+      timeout: {{ default .Values.cassandra.cradle.timeout "5000" | quote }}
+      instanceName: {{ .Values.cassandra.cradle.instanceName | quote }}
+      pageSize: {{ default .Values.cassandra.cradle.pageSize "5000" | quote }}
+      cradleMaxEventBatchSize: {{ default .Values.cassandra.cradle.cradleMaxEventBatchSize "1048576" | quote }}
+      cradleMaxMessageBatchSize: {{ default .Values.cassandra.cradle.cradleMaxMessageBatchSize "1048576" | quote }}
+      networkTopologyStrategy: 
+      {{- range $centre, $value := .Values.cassandra.cradle.networkTopologyStrategy }}
+        {{ $centre }}:{{ $value | quote }}
+      {{- end }}
 
     kubernetes:
       useCustomConfig: false
