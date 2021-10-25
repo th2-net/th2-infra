@@ -161,6 +161,15 @@ rabbitmq:
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
 cassandra:
+  cradle:
+    networkTopologyStrategy:
+      datacentre1: replicationFactor
+      datacentre2: replicationFactor
+    instanceName: exp
+    timeout: 5000
+    pageSize: 5000
+    cradleMaxEventBatchSize: "1048576"
+    cradleMaxMessageBatchSize: "1048576"
   internal: true
   #it is not required if the service internal
 #  host: ""
