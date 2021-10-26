@@ -44,8 +44,12 @@ data:
       cradleMaxEventBatchSize: {{ default .Values.cassandra.cradle.cradleMaxEventBatchSize "1048576" | quote }}
       cradleMaxMessageBatchSize: {{ default .Values.cassandra.cradle.cradleMaxMessageBatchSize "1048576" | quote }}
       networkTopologyStrategy: 
+      {{- if .Values.cassandra.cradle.networkTopologyStrategy }}
       {{- range $centre, $value := .Values.cassandra.cradle.networkTopologyStrategy }}
-        {{ $centre }}:{{ $value | quote }}
+        {{ $centre }}:{{ $value }}
+      {{- end }}
+      {{- else }}
+        SimpleStrategy: 1
       {{- end }}
 
     kubernetes:

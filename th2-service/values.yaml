@@ -162,8 +162,8 @@ rabbitmq:
 # otherwise service will be deployed as a chart dependency
 cassandra:
   cradle:
-    networkTopologyStrategy:
-      SimpleStrategy: 1
+#    networkTopologyStrategy:
+#      dc1: 1
 #    instanceName: 
     timeout: 5000
     pageSize: 5000
