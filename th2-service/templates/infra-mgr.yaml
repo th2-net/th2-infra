@@ -8,6 +8,7 @@ metadata:
   name: infra-mgr
   labels:
     app: infra-mgr
+    {{ include "th2-labels" . }}
 spec:
   replicas: 1
   selector:

@@ -19,6 +19,7 @@ kind: Deployment
 metadata:
   labels:
     app: infra-git
+    {{ include "th2-labels" . }}
   name: infra-git
 spec:
   replicas: 1
