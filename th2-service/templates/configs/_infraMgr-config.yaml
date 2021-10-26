@@ -28,7 +28,7 @@ data:
 
     cassandra:
       keyspacePrefix: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
-      secret: {{ default .Values.cassandra.secret .Values.cassandra.fullnameOverride }}
+      secret: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
       username: {{ .Values.cassandra.dbUser.user | quote }}
       password: "${CASSANDRA_PASS}"	
       {{- if .Values.cassandra.host }}
