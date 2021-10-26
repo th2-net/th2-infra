@@ -39,7 +39,7 @@ data:
       port: "9042"
       dataCenter: {{ .Values.cassandra.cluster.datacenter | quote }}
       timeout: {{ default .Values.cassandra.cradle.timeout "5000" | quote }}
-      instanceName: {{ .Values.cassandra.cradle.instanceName | quote }}
+      instanceName: {{ default .Values.cassandra.cradle.instanceName "" | quote }}
       pageSize: {{ default .Values.cassandra.cradle.pageSize "5000" | quote }}
       cradleMaxEventBatchSize: {{ default .Values.cassandra.cradle.cradleMaxEventBatchSize "1048576" | quote }}
       cradleMaxMessageBatchSize: {{ default .Values.cassandra.cradle.cradleMaxMessageBatchSize "1048576" | quote }}

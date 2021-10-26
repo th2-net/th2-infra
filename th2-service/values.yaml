@@ -163,9 +163,8 @@ rabbitmq:
 cassandra:
   cradle:
     networkTopologyStrategy:
-      datacentre1: replicationFactor
-      datacentre2: replicationFactor
-    instanceName: exp
+      SimpleStrategy: 1
+#    instanceName: 
     timeout: 5000
     pageSize: 5000
     cradleMaxEventBatchSize: "1048576"
