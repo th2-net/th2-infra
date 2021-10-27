@@ -2,7 +2,7 @@
 Generating configMap for k8 with th2 installed configuration overview
 */}}
 {{- define "collect-info" }}
-  chart: {{ .Chart.Name }} - {{ .Chart.Version }}
+  chart: {{ .Chart.Name }}-{{ .Chart.Version }}
   host: {{ default .Values.ingress.host "" }}
   {{- if .Values.productRegistry }}
   productRegistry: {{ if .Values.productRegistry.name }} {{ .Values.productRegistry.name }} {{ else }} {{ "" }} {{ end }}

@@ -6,6 +6,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: infra-operator
+  labels:
+    app: infra-operator
+    {{ include "th2-labels" . }}
 spec:
   selector:
     matchLabels:

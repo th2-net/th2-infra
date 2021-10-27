@@ -55,7 +55,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.3.2-infra_1.7.0-1364225953
+    tag: 1.3.4-initialize-keyspace-1385420731
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -161,6 +161,14 @@ rabbitmq:
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
 cassandra:
+  cradle:
+#    networkTopologyStrategy:
+#      dc1: 1
+    instanceName: th2-infra 
+    timeout: 5000
+    pageSize: 5000
+    cradleMaxEventBatchSize: "1048576"
+    cradleMaxMessageBatchSize: "1048576"
   internal: true
   #it is not required if the service internal
 #  host: ""
