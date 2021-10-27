@@ -164,7 +164,7 @@ cassandra:
   cradle:
 #    networkTopologyStrategy:
 #      dc1: 1
-#    instanceName: 
+    instanceName: th2-infra 
     timeout: 5000
     pageSize: 5000
     cradleMaxEventBatchSize: "1048576"
