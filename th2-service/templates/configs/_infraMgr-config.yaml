@@ -43,8 +43,8 @@ data:
       pageSize: {{ default .Values.cassandra.cradle.pageSize "5000" | quote }}
       cradleMaxEventBatchSize: {{ default .Values.cassandra.cradle.cradleMaxEventBatchSize "1048576" | quote }}
       cradleMaxMessageBatchSize: {{ default .Values.cassandra.cradle.cradleMaxMessageBatchSize "1048576" | quote }}
-      networkTopologyStrategy: 
       {{- if .Values.cassandra.cradle.networkTopologyStrategy }}
+      networkTopologyStrategy:
       {{- range $centre, $value := .Values.cassandra.cradle.networkTopologyStrategy }}
         {{ $centre }}:{{ $value }}
       {{- end }}
