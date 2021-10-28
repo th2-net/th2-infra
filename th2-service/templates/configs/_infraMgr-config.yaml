@@ -46,7 +46,7 @@ data:
       {{- if .Values.cassandra.cradle.networkTopologyStrategy }}
       networkTopologyStrategy:
       {{- range $centre, $value := .Values.cassandra.cradle.networkTopologyStrategy }}
-        {{ $centre }}:{{ $value }}
+        {{ $centre }}: {{ $value }}
       {{- end }}
       {{- end }}
 
