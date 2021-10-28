@@ -15,5 +15,5 @@ data:
     {{- end }}
     "keyspace": "${CASSANDRA_KEYSPACE}",
     "username": {{ .Values.cassandra.dbUser.user | quote }},
-    "password": "${CASSANDRA_PASS}",
+    "password": "${CASSANDRA_PASS}"
     }

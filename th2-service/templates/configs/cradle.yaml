@@ -14,5 +14,5 @@ data:
     "port": "9042",
     "keyspace": "${CASSANDRA_KEYSPACE}",
     "username": {{ .Values.cassandra.dbUser.user | quote }},
-    "password": "${CASSANDRA_PASS}",
+    "password": "${CASSANDRA_PASS}"
     } 
