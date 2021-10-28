@@ -14,7 +14,5 @@ data:
     "port": "9042",
     "keyspace": "${CASSANDRA_KEYSPACE}",
     "username": {{ .Values.cassandra.dbUser.user | quote }},
-    "password": "${CASSANDRA_PASS}",
-    "instanceName": {{ .Values.cassandra.cradle.instanceName | quote }},
-    "networkTopologyStrategy": {{ .Values.cassandra.cradle.networkTopologyStrategy | toJson }}
+    "password": "${CASSANDRA_PASS}"
     } 
