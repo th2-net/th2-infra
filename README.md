@@ -168,7 +168,9 @@ $ kubectl config set-context --current --namespace=service
 
 ### Access for infra-mgr th2 schema git repository:
 
-`ssh` access with write permissions is required by **th2-infra-mgr** component
+`ssh` or `https` access with write permissions is required by **th2-infra-mgr** component
+
+#### Set up __ssh__ access 
 
 * Generate keys without passphrase  
 ```
@@ -178,6 +180,18 @@ $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 * Create infra-mgr secret from the private key:
 ```
 $ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
+```
+
+#### Set up __https__ access
+
+* Create empty `infra-mgr` secret:
+```
+kubectl create secret generic infra-mgr --from-literal=''
+```
+* [Generate access token for schema repository with read and write permissions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+* Create secret `th2-git-access-schemas`
+```
+kubectl create secret generic test-secret --from-literal='httpAuthPassword=<access-token>' --from-literal='httpAuthUsername=oauth2'
 ```
 
 ### Set the repository with schema configuration
