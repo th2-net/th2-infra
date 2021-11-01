@@ -191,7 +191,7 @@ kubectl create secret generic infra-mgr --from-literal=''
 * [Generate access token for schema repository with read and write permissions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 * Create secret `th2-git-access-schemas`
 ```
-kubectl create secret generic test-secret --from-literal='httpAuthPassword=<access-token>' --from-literal='httpAuthUsername=oauth2'
+kubectl create secret generic th2-git-access-schemas --from-literal='httpAuthPassword=<access-token>' --from-literal='httpAuthUsername=oauth2'
 ```
 
 ### Set the repository with schema configuration
