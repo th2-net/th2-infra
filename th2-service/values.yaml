@@ -26,6 +26,11 @@ helmoperator:
   fullnameOverride: helm-operator
   nameOverrde: helm-operator
   chartsSyncInterval: 300m
+  prometheus:
+  enabled: enabled
+  serviceMonitor:
+    create: true
+    namespace: monitoring
 
 infraEditor:
   image:
