@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cradle-manager
+data:
+  cradle_manager.json: |
+    {
+    "cradleMaxEventBatchSize": {{ default .Values.cassandra.cradle.cradleMaxEventBatchSize "1048576" | quote }},
+    "cradleMaxMessageBatchSize": {{ default .Values.cassandra.cradle.cradleMaxMessageBatchSize "1048576" | quote }},
+    "timeout": {{ default .Values.cassandra.cradle.timeout "5000" | quote }},
+    "pageSize": {{ default .Values.cassandra.cradle.pageSize "5000" | quote }}
+    }

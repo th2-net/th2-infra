@@ -1,0 +1,73 @@
+{{/*
+Generating configMap for k8
+*/}}
+{{- define "infraMgr-config" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infra-mgr
+data:
+  config.yml: |
+    prometheusConfiguration:
+      host: "0.0.0.0"
+      port: {{ default 9752 .Values.infraMgr.prometheusConfiguration.port }}
+      enabled: {{ default true .Values.infraMgr.prometheusConfiguration.enabled }}
+    git:
+      remoteRepository: {{ .Values.infraMgr.git.repository }}
+      localRepositoryRoot: {{ .Values.infraMgr.git.repositoryLocalCache }}
+      privateKeyFile: {{ .Values.infraMgr.git.secretMountPath }}/{{ .Values.infraMgr.git.privateKeyFileSecret }}
+      ignoreInsecureHosts: true
+      httpAuthUsername: "${HTTPS_AUTH_USERNAME}"
+      httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
+
+    rabbitmq:
+      vhostPrefix: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
+      usernamePrefix: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
+      secret: {{ default .Values.infraMgr.rabbitmq.secret .Values.rabbitmq.fullnameOverride }}
+      passwordLength: {{ .Values.infraMgr.rabbitmq.passwordLength }}
+
+    cassandra:
+      keyspacePrefix: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
+      secret: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
+      username: {{ .Values.cassandra.dbUser.user | quote }}
+      password: "${CASSANDRA_PASS}"	
+      {{- if .Values.cassandra.host }}
+      host: {{ .Values.cassandra.host | quote }}
+      {{- else }}
+      host: "{{ .Values.cassandra.fullnameOverride }}-headless.service.svc.cluster.local"
+      {{- end }}
+      port: "9042"
+      dataCenter: {{ .Values.cassandra.cluster.datacenter | quote }}
+      timeout: {{ default .Values.cassandra.cradle.timeout "5000" | quote }}
+      instanceName: {{ default .Values.cassandra.cradle.instanceName "th2-infra" | quote }}
+      pageSize: {{ default .Values.cassandra.cradle.pageSize "5000" | quote }}
+      cradleMaxEventBatchSize: {{ default .Values.cassandra.cradle.cradleMaxEventBatchSize "1048576" | quote }}
+      cradleMaxMessageBatchSize: {{ default .Values.cassandra.cradle.cradleMaxMessageBatchSize "1048576" | quote }}
+      {{- if .Values.cassandra.cradle.networkTopologyStrategy }}
+      networkTopologyStrategy:
+      {{- range $centre, $value := .Values.cassandra.cradle.networkTopologyStrategy }}
+        {{ $centre }}: {{ $value }}
+      {{- end }}
+      {{- end }}
+
+    kubernetes:
+      useCustomConfig: false
+      namespacePrefix: {{ .Values.infraMgr.kubernetes.namespacePrefix }}
+
+      ingress: {{ .Values.infraMgr.kubernetes.ingress }}
+
+      secretNames:
+      {{- if .Values.infraOperator.config.chart.git }}
+        {{- with list "git-chart-creds" }}
+          {{- toYaml . | nindent 6 }}
+        {{- end }}
+      {{- end }}
+      {{- with .Values.infraMgr.kubernetes.secrets }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+
+      configMaps:
+      {{- with .Values.infraMgr.kubernetes.configMaps }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

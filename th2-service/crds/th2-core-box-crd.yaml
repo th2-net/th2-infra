@@ -48,6 +48,24 @@ spec:
                 description: this is custom configuration
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              secret-custom-config:
+                description: this is custom configuration for secrets
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              loggingConfig:
+                type: string
+              mqRouter:
+                description: this is custom configuration for rouer mq
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              grpcRouter:
+                description: this is custom configuration for rouer grpc
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              cradleManger:
+                description: this is custom configuration for cradle
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
               extended-settings:
                 properties:
                   chart-cfg:
@@ -57,9 +75,26 @@ spec:
                       ref:
                         type: string
                     type: object
+                  replicas:
+                    type: string
+                    pattern: "^[0-9]+$"
+                  k8sProbes:
+                    type: string
+                    enum:
+                      - "false"
+                      - "true"
+                    default: "false"
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  sharedMemory:
+                    type: object
+                    properties:
+                      enabled:
+                        enum:
+                          - "false"
+                          - "true"
+                        type: string
                   externalBox:
                     properties:
                       address:
@@ -86,6 +121,10 @@ spec:
                     enum:
                     - "false"
                     - "true"
+                    type: string
+                  nodeName:
+                    type: string
+                  bookName:
                     type: string
                   mounting:
                     items:
@@ -127,17 +166,23 @@ spec:
                               type: string
                             nodePort:
                               type: string
+                              pattern: "^[0-9]+$"
                             targetPort:
                               type: string
+                              pattern: "^[0-9]+$"
+                            port:
+                              type: string
+                              pattern: "^[0-9]+$"
                           required:
                           - name
-                          - targetPort
                           type: object
                         type: array
                       nodePort:
                         type: string
+                        pattern: "^[0-9]+$"
                       targetPort:
                         type: string
+                        pattern: "^[0-9]+$"
                       type:
                         enum:
                         - ClusterIP
@@ -145,11 +190,20 @@ spec:
                         - LoadBalancer
                         - ExternalName
                         type: string
+                      ingress:
+                        type: object
+                        properties:
+                          urlPaths:
+                            type: array
+                            items:
+                              type: string
                     type: object
                 type: object
               image-name:
                 type: string
               image-version:
+                type: string
+              version-range:
                 type: string
               params:
                 description: List of generic parameters
@@ -172,10 +226,20 @@ spec:
                       items:
                         type: string
                       type: array
+                    service-class:
+                      type: string
+                    service-classes:
+                      items:
+                        type: string
+                      type: array
+                    strategy:
+                      type: string
+                      default: robin
                     connection-type:
                       enum:
                       - mq
-                      - grpc
+                      - grpc-server
+                      - grpc-client
                       type: string
                     filters:
                       items:
@@ -228,13 +292,21 @@ spec:
                       maxLength: 71
                     settings:
                       properties:
+                        overloadStrategy:
+                          type: string
+                          enum:
+                            - "drop-head"
+                            - "reject-publish"
+                          default: "drop-head"
                         queueLength:
                           type: string
+                          default: "1000"
                         storageOnDemand:
-                          enum:
-                          - "false"
-                          - "true"
                           type: string
+                          enum:
+                            - "false"
+                            - "true"
+                          default: "false"
                       type: object
                   required:
                   - name
@@ -269,6 +341,12 @@ spec:
                 - th2-read
                 - th2-util
                 - th2-cradle-viewer
+                - th2-crawler
+                - th2-crawler-processor
+                - th2-data-provider
+                - th2-adapter
+                - th2-reactive-script
+                - th2-monkey
                 type: string
             required:
             - image-name

@@ -4,20 +4,11 @@
 # Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
-  name: 
-  username:
-  password:
-
-solutionRegistry:
-  secret: th2-solution
-  registry: 
+  name: product-registry-example-name
   username:
   password:
 
 ingress:
-  host:
-
-externalRabbitMQHost:
   host: localhost
 
 helmoperator:
@@ -35,26 +26,29 @@ helmoperator:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.56
+    tag: 1.0.65
+
+infraRepo:
+  image:
+    repository: ghcr.io/th2-net/infra-repo
+    tag: 0.7.0
 
 infraOperator:
-  persistence: true
+  prometheusConfiguration:
+    enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.7.2
+    tag: 3.3.6-infra_1.7.0-1394435534
   config:
     chart:
-      repository: http://infra-repo:8080
-      version: 0.3.2
+      repository: http://infra-repo:8080 #https://th2-net.github.io
+      version: 0.7.0
       name: infra-operator-tpl
     namespacePrefixes: 
-    - "schema-"
+    - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
-    schemaSecrets:
-      rabbitMQ: rabbitmq
-      cassandra: cassandra
     rabbitMQManagement:
-      host: "rabbitmq-discovery.service.svc.cluster.local"
+#      host: "" -  host is taken from rabbitmq config
       port: "15672"
       username: "th2"
       password: "${RABBITMQ_PASS}"
@@ -65,6 +59,11 @@ infraOperator:
         write: ".*"
 
 infraMgr:
+  prometheusConfiguration:
+    enabled: true
+  image:
+    repository: ghcr.io/th2-net/th2-infra-mgr
+    tag: 1.3.4-initialize-keyspace-1390748718
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -74,18 +73,18 @@ infraMgr:
     httpAuthUsername: "" #should be stored in secret th2-git-access-schemas 
     httpAuthPassword: "" #should be stored in secret th2-git-access-schemas
   rabbitmq:
-    vHostPrefix: schema-
-    usernamePrefix: schema-user-
+    vHostPrefix: th2-
+    usernamePrefix: th2-user-
     secret: rabbitmq
     passwordLength: 24
   cassandra:
     keyspacePrefix: schema_
     secret: cassandra
   kubernetes:
-    namespacePrefix: schema-
+    namespacePrefix: "th2-" # must be not more than 5 symbols
     ingress: ingress-rules
     configMaps:
-      logging: java-logging-config
+      logging: logging-config-template
       rabbitmq: rabbit-mq-app-config
       rabbitmq-ext: rabbit-mq-external-app-config
       cassandra: cradle
@@ -95,14 +94,19 @@ infraMgr:
     - th2-core 
     - th2-solution
     - th2-proprietary
-  image:
-    repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.14.18
 
-infraRepo:
+#If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster. 
+#Change to "internal = true" in case you need internal git repo.
+infraGit:
+  internal: false
+  nodePort: 32600
   image:
-    repository: ghcr.io/th2-net/infra-repo
-    tag: 0.3.2
+    repository: ghcr.io/th2-net/git-ssh
+    tag: v0.1.0
+  pvc:
+    accessModes: ReadWriteMany
+    storage: 5Gi
+    storageClassName: local-storage
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
@@ -120,6 +124,10 @@ rabbitmq:
   rabbitmqExchange: th2-exchange
   replicaCount: 1
   podAntiAffinity: hard
+  persistentVolume:
+    enabled: true
+    storageClass: local-storage
+    size: 10Gi
   livenessProbe:
     exec:
       command:
@@ -161,14 +169,22 @@ rabbitmq:
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
 cassandra:
+  cradle:
+#    networkTopologyStrategy:
+#      dc1: 1
+    instanceName: th2-infra 
+    timeout: 5000
+    pageSize: 5000
+    cradleMaxEventBatchSize: "1048576"
+    cradleMaxMessageBatchSize: "1048576"
   internal: true
   #it is not required if the service internal
 #  host: ""
   fullnameOverride: cassandra
   cluster:
-    datacenter: datacenter1
+    datacenter: dc1
   dbUser:
-    user: cassandra
+    user: th2
     # will be generated if empty
     password: ""
   keyspace: cradle
