@@ -11,9 +11,17 @@ productRegistry:
 ingress:
   host: localhost
 
-#Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
-#externalRabbitMQHost:
-#  host: localhost
+helmoperator:
+  helm:
+    versions: v3
+  fullnameOverride: helm-operator
+  nameOverrde: helm-operator
+  chartsSyncInterval: 300m
+  prometheus:
+  enabled: enabled
+  serviceMonitor:
+    create: true
+    namespace: monitoring
 
 infraEditor:
   image:

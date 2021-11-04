@@ -30,7 +30,8 @@ jobs:
       - name: Run chart-testing (lint)
         run: |
           helm repo add rabbitmq-ha https://charts.helm.sh/stable
-          helm repo add cassandra https://charts.bitnami.com/bitnami 
+          helm repo add cassandra https://charts.bitnami.com/bitnami
+          helm repo add flux https://charts.fluxcd.io
           ct lint \
             --lint-conf=ci/cfg/lint-cfg.yml \
             --check-version-increment \

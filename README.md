@@ -281,12 +281,6 @@ infraMgr:
 * after installation you should init new repo with the name that you define in previous step.
 
 ## th2 deployment
-### Install helm-operator 
-```
-$ helm repo add fluxcd https://charts.fluxcd.io
-$ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./helm-operator.values.yaml
-```
-
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -349,3 +343,22 @@ $ helm install -n service --version=<new_version> th2-infra-base th2/th2 -f ./se
 - th2-infra-editor http://your-host:30000/editor/
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
+
+## th2-service chart embedded dependencies:
+```
+dependencies:
+- alias: rabbitmq
+  condition: rabbitmq.internal
+  repository: https://charts.helm.sh/stable
+  name: rabbitmq-ha
+  version: 1.44.4
+- alias: cassandra
+  condition: cassandra.internal
+  repository: https://charts.bitnami.com/bitnami
+  name: cassandra
+  version: 5.6.7
+- alias: helmoperator
+  repository: https://charts.fluxcd.io
+  name: helm-operator
+  version: 1.2.0
+```
