@@ -187,12 +187,20 @@ $ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./inf
 * Set up values in secrets.yaml file (described below)
 
 ### Set the repository with schema configuration
-* set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
+set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to link of your schema repository, `ssh` or `https`:
+* **ssh**
 ```
 infraMgr:
   git:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
 ```
+* **https**
+```
+infraMgr:
+  git:
+    repository: https://github.com/th2-net/th2-infra-schema-demo.git
+```
+
 
 ### Define cassandra host name
 * set `cassandra.host` value for cassandra in the [service.values.yaml](./example-values/service.values.yaml) file.
