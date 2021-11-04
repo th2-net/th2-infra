@@ -167,7 +167,9 @@ $ kubectl config set-context --current --namespace=service
 
 ### Access for infra-mgr th2 schema git repository:
 
-`ssh` access with write permissions is required by **th2-infra-mgr** component
+`ssh` or `https` access with write permissions is required by **th2-infra-mgr** component
+
+#### Set up __ssh__ access 
 
 * Generate keys without passphrase  
 ```
@@ -178,6 +180,11 @@ $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ```
 $ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
 ```
+
+#### Set up __https__ access
+
+* [Generate access token for schema repository with read and write permissions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+* Set up values in secrets.yaml file (described below)
 
 ### Set the repository with schema configuration
 * set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
@@ -236,6 +243,18 @@ rabbitmq:
   rabbitmqPassword: rab-pass
   # must be random string
   rabbitmqErlangCookie: cookie
+
+# required if http(s) access to gitlab/github repositories is used
+#infraMgr:
+#  git:
+#    httpAuthUsername: username
+#    # authentication username
+#    # when using token auth for GitLab it should be equal to "oauth2"
+#    # when using token auth for GitHub it should be equal to token itself
+#    httpAuthPassword: 
+#    # authentication password
+#    # when using token auth for GitLab it should be equal to token itself
+#    # when using token auth for GitHub it should be equal to empty string
 ```
 ### infra-git deployment
 
