@@ -9,10 +9,10 @@ data:
     {{- if .Values.cassandra.host }}
     "host": {{ .Values.cassandra.host | quote }},
     {{- else }}
-    "host": "{{ .Values.cassandra.fullnameOverride }}-headless.service.svc.cluster.local",
+    "host": "{{ .Values.cassandra.fullnameOverride }}.{{ .Release.Namespace }}.svc.cluster.local",
     {{- end }}
     "port": "9042",
     "keyspace": "${CASSANDRA_KEYSPACE}",
     "username": {{ .Values.cassandra.dbUser.user | quote }},
     "password": "${CASSANDRA_PASS}"
-    }
+    } 

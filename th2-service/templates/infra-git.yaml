@@ -19,6 +19,7 @@ kind: Deployment
 metadata:
   labels:
     app: infra-git
+    {{ include "th2-labels" . }}
   name: infra-git
 spec:
   replicas: 1
@@ -33,24 +34,31 @@ spec:
       securityContext:
         fsGroup: 1000
       containers:
-        - image: "{{ .Values.infraGit.image.repository }}:{{ .Values.infraGit.image.tag }}"
-          name: infra-git
-          volumeMounts:
-            - name: repos-volume
-              mountPath: /home/git/repo/
-            - name: keys
-              mountPath: /home/keys/
-          livenessProbe:
-            tcpSocket:
-              port: 22
-            initialDelaySeconds: 40
-            periodSeconds: 20
-          command: ["/bin/sh"]
-          args:
-            [
-              "-c",
-              "mkdir /home/git/.ssh && cp /home/keys/git_keys /home/git/.ssh/authorized_keys && chown -R 1000:1000 /home/git/.ssh/ && /usr/sbin/sshd -D",
-            ]
+      - image: "{{ .Values.infraGit.image.repository }}:{{ .Values.infraGit.image.tag }}"
+        name: infra-git
+        volumeMounts:
+          - name: repos-volume
+            mountPath: /home/git/repo/
+          - name: keys
+            mountPath: /home/keys/
+        livenessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 40
+          periodSeconds: 20
+        command: ["/bin/sh"]
+        args:
+          [
+            "-c",
+            "mkdir /home/git/.ssh && cp /home/keys/git_keys /home/git/.ssh/authorized_keys && chown -R 1000:1000 /home/git/.ssh/ && /usr/sbin/sshd -D",
+          ]
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
       volumes:
         - name: repos-volume
           persistentVolumeClaim:

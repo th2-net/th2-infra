@@ -4,16 +4,24 @@
 # Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
-  name:
+  name: product-registry-example-name
   username:
   password:
 
 ingress:
-  host:
+  host: localhost
 
-#Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
-#externalRabbitMQHost:
-#  host: localhost
+helmoperator:
+  helm:
+    versions: v3
+  fullnameOverride: helm-operator
+  nameOverrde: helm-operator
+  chartsSyncInterval: 300m
+  prometheus:
+  enabled: enabled
+  serviceMonitor:
+    create: true
+    namespace: monitoring
 
 infraEditor:
   image:
@@ -30,7 +38,7 @@ infraOperator:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.3.4-infra_1.7.0-1316323288
+    tag: 3.3.6-infra_1.7.0-1394435534
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
@@ -55,7 +63,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.3.2-infra_1.7.0-1316171944
+    tag: 1.3.4-initialize-keyspace-1390748718
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -161,6 +169,14 @@ rabbitmq:
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
 cassandra:
+  cradle:
+#    networkTopologyStrategy:
+#      dc1: 1
+    instanceName: th2-infra 
+    timeout: 5000
+    pageSize: 5000
+    cradleMaxEventBatchSize: "1048576"
+    cradleMaxMessageBatchSize: "1048576"
   internal: true
   #it is not required if the service internal
 #  host: ""

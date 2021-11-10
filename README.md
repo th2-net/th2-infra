@@ -164,29 +164,6 @@ Once all of the required software is installed on your test-box and operator-box
 ```
 $ kubectl config set-context --current --namespace=service
 ```
-
-### Access for infra-mgr th2 schema git repository:
-
-`ssh` access with write permissions is required by **th2-infra-mgr** component
-
-* Generate keys without passphrase  
-```
-$ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
-``` 
-* [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
-* Create infra-mgr secret from the private key:
-```
-$ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
-```
-
-### Set the repository with schema configuration
-* set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
-```
-infraMgr:
-  git:
-    repository: git@github.com:th2-net/th2-infra-demo-configuration.git
-```
-
 ### Define cassandra host name
 * set `cassandra.host` value for cassandra in the [service.values.yaml](./example-values/service.values.yaml) file.
 ```
@@ -200,6 +177,42 @@ Add `ingress.hostname` value if required into [service.values.yaml](./example-va
 ```
 ingress:
   host: example.com
+```
+
+### Access for infra-mgr th2 schema git repository:
+
+`ssh` or `https` access with write permissions is required by **th2-infra-mgr** component
+
+#### Set up __ssh__ access 
+
+* Generate keys without passphrase  
+```
+$ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
+``` 
+* [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
+* Create infra-mgr secret from the private key:
+```
+$ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
+```
+
+#### Set up __https__ access
+
+* [Generate access token for schema repository with read and write permissions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+* Set up values in secrets.yaml file (described below)
+
+### Set the repository with schema configuration
+set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to link of your schema repository, `ssh` or `https`:
+* **ssh**
+```
+infraMgr:
+  git:
+    repository: git@github.com:th2-net/th2-infra-demo-configuration.git
+```
+* **https**
+```
+infraMgr:
+  git:
+    repository: https://github.com/th2-net/th2-infra-schema-demo.git
 ```
 
 ### Create secret with th2 credentials
@@ -236,6 +249,18 @@ rabbitmq:
   rabbitmqPassword: rab-pass
   # must be random string
   rabbitmqErlangCookie: cookie
+
+# required if http(s) access to gitlab/github repositories is used
+#infraMgr:
+#  git:
+#    httpAuthUsername: username
+#    # authentication username
+#    # when using token auth for GitLab it should be equal to "oauth2"
+#    # when using token auth for GitHub it should be equal to token itself
+#    httpAuthPassword: 
+#    # authentication password
+#    # when using token auth for GitLab it should be equal to token itself
+#    # when using token auth for GitHub it should be equal to empty string
 ```
 ### infra-git deployment
 
@@ -256,12 +281,6 @@ infraMgr:
 * after installation you should init new repo with the name that you define in previous step.
 
 ## th2 deployment
-### Install helm-operator 
-```
-$ helm repo add fluxcd https://charts.fluxcd.io
-$ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./helm-operator.values.yaml
-```
-
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -324,3 +343,22 @@ $ helm install -n service --version=<new_version> th2-infra-base th2/th2 -f ./se
 - th2-infra-editor http://your-host:30000/editor/
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
+
+## th2-service chart embedded dependencies:
+```
+dependencies:
+- alias: rabbitmq
+  condition: rabbitmq.internal
+  repository: https://charts.helm.sh/stable
+  name: rabbitmq-ha
+  version: 1.44.4
+- alias: cassandra
+  condition: cassandra.internal
+  repository: https://charts.bitnami.com/bitnami
+  name: cassandra
+  version: 5.6.7
+- alias: helmoperator
+  repository: https://charts.fluxcd.io
+  name: helm-operator
+  version: 1.2.0
+```
