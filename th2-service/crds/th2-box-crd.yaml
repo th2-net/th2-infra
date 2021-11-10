@@ -66,6 +66,14 @@ spec:
                 description: this is custom configuration for cradle
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              bookConfig:
+                description: this is custom configuration for books and pages
+                type: object
+                properties:
+                  bookName:
+                    type: string
+                required:
+                  - bookName
               extended-settings:
                 properties:
                   chart-cfg:
@@ -122,10 +130,10 @@ spec:
                     - "false"
                     - "true"
                     type: string
-                  nodeName:
-                    type: string
-                  bookName:
-                    type: string
+                  nodeSelector:
+                    description: map for selecting nodes
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   mounting:
                     items:
                       properties:
