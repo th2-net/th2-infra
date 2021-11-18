@@ -1,0 +1,5 @@
+chart-dirs:
+  - aio/deploy/helm-chart
+chart-repos:
+  - stable=https://charts.helm.sh/stable/
+debug: true
