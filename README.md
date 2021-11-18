@@ -39,7 +39,6 @@ Then https://github.com/th2-net/th2-infra-schema-demo should be created in your 
 th2 infra components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
 
 Next components of prometheus and grafana monitoring stack are deployed into _`monitoring`_ namespace:
-* [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 * [grafana](https://grafana.com/oss/grafana/)
 * [loki](https://grafana.com/oss/loki/)
 * [prometheus](https://grafana.com/oss/prometheus/)
@@ -122,7 +121,6 @@ $ kubectl config set-context --current --namespace=monitoring
         hosts:
           - <th2_host_name>
     ```
-```
 * Deploy components
 ```
 $ helm repo add loki https://grafana.github.io/loki/charts
