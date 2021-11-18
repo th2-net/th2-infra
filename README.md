@@ -122,11 +122,6 @@ $ kubectl config set-context --current --namespace=monitoring
         hosts:
           - <th2_host_name>
     ```
-
-* Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-```
-$ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-$ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./dashboard.values.yaml
 ```
 * Deploy components
 ```
@@ -140,7 +135,6 @@ $ helm upgrade --install prometheus stable/prometheus-operator -n monitoring -f 
 $ kubectl get pods
 NAME                                                     READY   STATUS    RESTARTS   AGE
 ........
-pod/dashboard-kubernetes-dashboard-77d85586db-j9v8f   1/1     Running   0          56s
 alertmanager-prometheus-prometheus-oper-alertmanager-0   2/2     Running   0          75s
 loki-0                                                   1/1     Running   0          4m47s
 loki-promtail-wqfml                                      1/1     Running   0          4m47s
@@ -152,7 +146,7 @@ prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1    
 ........
 ```
 
-Add loki Datasource as http://loki:3100 and import Dashboard from components-logs.json and RabbitMQ Overview from here: https://grafana.com/grafana/dashboards/10991
+Add loki Datasource as http://loki:3100 
 
 * Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
   http://your-host:30000/grafana/login
@@ -361,4 +355,8 @@ dependencies:
   repository: https://charts.fluxcd.io
   name: helm-operator
   version: 1.2.0
+- alias: kubernetes-dashboard
+  repository: https://kubernetes.github.io/dashboard/
+  name: kubernetes-dashboard
+  version: 5.0.4
 ```
