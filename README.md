@@ -268,7 +268,7 @@ $ kubectl -n service create configmap keys-repo --from-file=git_keys=./infra-mgr
 ```
 infraMgr:
   git:
-    repository: ssh://git@git-ssh/home/git/repo/<your_repo_name>.git
+    repository: ssh://git@infra-git/home/git/repo/<your_repo_name>.git
 ```
 * after installation you should init new repo with the name that you define in previous step.
 
