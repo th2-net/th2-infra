@@ -27,8 +27,11 @@ data:
       {{- else }}
       host: "{{ .Values.rabbitmq.fullnameOverride }}-discovery.service.svc.cluster.local"
       {{- end }}
-      port: {{ .Values.infraOperator.config.rabbitMQManagement.port | quote }}
-      username: {{ .Values.infraOperator.config.rabbitMQManagement.username | quote }}
+      managementPort: {{ default 15672 .Values.rabbitmq.rabbitmqManagerPort | quote }}
+      applicationPort: {{ default 5672 .Values.rabbitmq.rabbitmqNodePort | quote }}
+      vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
+      exchangeName: {{ default "global-notification" .Values.infraOperator.config.rabbitMQManagement.exchangeName | quote }}
+      username: {{ .Values.rabbitmq.rabbitmqUsername | quote }}
       password: {{ .Values.infraOperator.config.rabbitMQManagement.password | quote }}
       persistence: {{ .Values.infraOperator.config.rabbitMQManagement.persistence | quote }}
       schemaPermissions:
