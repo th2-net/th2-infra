@@ -41,10 +41,10 @@ infraOperator:
     k8sUrl: "<kubernetes-external-entrypoint>"
     rabbitMQManagement:
 #      host: "" -  read from rabbitmq config
-#      managmentPort: "15672" - read from rabbitmq config
-#      applicationPort: 5672 - read from rabbitmq config
-#      vhostName: "th2" - read from rabbitmq config
-#      username: "th2" - read from rabbitmq config
+#      managementPort: "15672" - read from rabbitmq config rabbitmqManagerPort
+#      applicationPort: 5672 - read from rabbitmq config rabbitmqNodePort
+#      vhostName: "th2" - read from rabbitmq config rabbitmqVhost
+#      username: "th2" - read from rabbitmq config rabbitmqUsername
       exchangeName: "global-notification" #default value "global-notification"
       password: "${RABBITMQ_PASS}"
       persistence: true
