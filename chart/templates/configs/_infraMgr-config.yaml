@@ -21,8 +21,7 @@ data:
       httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
 
     rabbitmq:
-      vhostPrefix: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
-      usernamePrefix: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
+      vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
       secret: {{ default .Values.infraMgr.rabbitmq.secret .Values.rabbitmq.fullnameOverride }}
       passwordLength: {{ .Values.infraMgr.rabbitmq.passwordLength }}
 
@@ -34,7 +33,7 @@ data:
       {{- if .Values.cassandra.host }}
       host: {{ .Values.cassandra.host | quote }}
       {{- else }}
-      host: "{{ .Values.cassandra.fullnameOverride }}-headless.service.svc.cluster.local"
+      host: "{{ .Values.cassandra.fullnameOverride }}.service.svc.cluster.local"
       {{- end }}
       port: "9042"
       dataCenter: {{ .Values.cassandra.cluster.datacenter | quote }}
