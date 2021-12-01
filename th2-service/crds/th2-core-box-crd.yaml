@@ -58,7 +58,7 @@ spec:
                 description: this is custom configuration for rouer grpc
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              cradleManger:
+              cradleManager:
                 description: this is custom configuration for cradle
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
