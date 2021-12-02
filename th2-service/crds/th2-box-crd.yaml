@@ -257,6 +257,7 @@ spec:
                                   - NOT_EQUAL
                                   - EMPTY
                                   - NOT_EMPTY
+                                  - WILDCARD
                                   type: string
                               required:
                               - field-name
@@ -277,6 +278,7 @@ spec:
                                   - NOT_EQUAL
                                   - EMPTY
                                   - NOT_EMPTY
+                                  - WILDCARD
                                   type: string
                               required:
                               - field-name
