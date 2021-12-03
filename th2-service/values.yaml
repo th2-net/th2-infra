@@ -35,7 +35,7 @@ infraOperator:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.2.7
+    tag: 3.2.8
   config:
     chart:
       # external mirror
