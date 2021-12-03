@@ -33,7 +33,7 @@ infraRepo:
 infraOperator:
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.1.2
+    tag: th2-infra-operator:3.1.2-infra-1.5.5-1534792933
   config:
     chart:
       repository: http://infra-repo:8080
