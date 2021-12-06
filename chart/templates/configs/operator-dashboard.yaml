@@ -1,0 +1,1071 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: operator-dashboard
+  namespace: "Monitoring"
+  labels:
+    grafana_dashboard: "Operator"
+data:
+  {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 75,
+    "iteration": 1635844837829,
+    "links": [ ],
+    "panels": [
+      {
+        "collapsed": true,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 24,
+        "panels": [
+          {
+            "aliasColors": { },
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": "Loki",
+            "fieldConfig": {
+              "defaults": {
+                "custom": {
+                  "align": null
+                },
+                "mappings": [ ],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "line {app=\"infra-operator\", container=\"infra-operator\", filename=\"/var/log/pods/service_infra-operator-856d5c7484-zqzs8_ee191afc-cf08-48c8-a2ca-9534302c4711/infra-operator/0.log\", job=\"service/infra-operator\", namespace=\"service\", pod=\"infra-operator-856d5c7484-zqzs8\", pod_template_hash=\"856d5c7484\", stream=\"stdout\"}"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.width",
+                      "value": 464
+                    }
+                  ]
+                },
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Time"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.width",
+                      "value": 250
+                    }
+                  ]
+                }
+              ]
+            },
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+              "h": 6,
+              "w": 24,
+              "x": 0,
+              "y": 1
+            },
+            "hiddenSeries": false,
+            "id": 20,
+            "legend": {
+              "avg": false,
+              "current": false,
+              "max": false,
+              "min": false,
+              "show": true,
+              "total": false,
+              "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+              "dataLinks": [ ]
+            },
+            "percentage": false,
+            "pluginVersion": "7.0.3",
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [ ],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+              {
+                "expr": "rate({app=\"infra-operator\"} |~ \"(?i)$search\" [$__interval])",
+                "refId": "A"
+              }
+            ],
+            "thresholds": [ ],
+            "timeFrom": null,
+            "timeRegions": [ ],
+            "timeShift": null,
+            "title": "Log entries rate",
+            "tooltip": {
+              "shared": true,
+              "sort": 0,
+              "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+              "buckets": null,
+              "mode": "time",
+              "name": null,
+              "show": true,
+              "values": [ ]
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              },
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              }
+            ],
+            "yaxis": {
+              "align": false,
+              "alignLevel": null
+            }
+          },
+          {
+            "datasource": "Loki",
+            "fieldConfig": {
+              "defaults": {
+                "custom": { }
+              },
+              "overrides": [ ]
+            },
+            "gridPos": {
+              "h": 19,
+              "w": 24,
+              "x": 0,
+              "y": 7
+            },
+            "id": 22,
+            "options": {
+              "showLabels": false,
+              "showTime": false,
+              "sortOrder": "Descending",
+              "wrapLogMessage": false
+            },
+            "targets": [
+              {
+                "expr": "{app=\"infra-operator\"} |~ \"(?i)$search\"",
+                "refId": "A"
+              }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "logs",
+            "type": "logs"
+          }
+        ],
+        "title": "logs",
+        "type": "row"
+      },
+      {
+        "collapsed": true,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "id": 18,
+        "panels": [
+          {
+            "datasource": null,
+            "fieldConfig": {
+              "defaults": {
+                "custom": { },
+                "mappings": [ ],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": [ ]
+            },
+            "gridPos": {
+              "h": 7,
+              "w": 6,
+              "x": 0,
+              "y": 2
+            },
+            "id": 2,
+            "options": {
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                    "mean"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showThresholdLabels": false,
+              "showThresholdMarkers": true
+            },
+            "pluginVersion": "7.0.3",
+            "targets": [
+              {
+                "expr": "th2_infra_operator_event_queue{exported_namespace=\"${namespace}\"} ",
+                "interval": "",
+                "refId": "A"
+              }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Events to process",
+            "type": "gauge"
+          },
+          {
+            "aliasColors": { },
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "fieldConfig": {
+              "defaults": {
+                "custom": { }
+              },
+              "overrides": [ ]
+            },
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+              "h": 7,
+              "w": 18,
+              "x": 6,
+              "y": 2
+            },
+            "hiddenSeries": false,
+            "id": 28,
+            "legend": {
+              "avg": false,
+              "current": false,
+              "max": false,
+              "min": false,
+              "show": true,
+              "total": false,
+              "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+              "dataLinks": [ ]
+            },
+            "percentage": false,
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [ ],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+              {
+                "expr": "rate(th2_infra_operator_custom_resource_event_processing_time_bucket{le=\"5.0\", exported_namespace=\"${namespace}\",kind=\"${kind}\"}[1m])",
+                "interval": "",
+                "refId": "A"
+              }
+            ],
+            "thresholds": [ ],
+            "timeFrom": null,
+            "timeRegions": [ ],
+            "timeShift": null,
+            "title": "Processing time (kind)",
+            "tooltip": {
+              "shared": true,
+              "sort": 0,
+              "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+              "buckets": null,
+              "mode": "time",
+              "name": null,
+              "show": true,
+              "values": [ ]
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              },
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              }
+            ],
+            "yaxis": {
+              "align": false,
+              "alignLevel": null
+            }
+          }
+        ],
+        "title": "General",
+        "type": "row"
+      },
+      {
+        "collapsed": true,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 2
+        },
+        "id": 16,
+        "panels": [
+          {
+            "aliasColors": { },
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "fieldConfig": {
+              "defaults": {
+                "custom": { }
+              },
+              "overrides": [ ]
+            },
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+              "h": 7,
+              "w": 24,
+              "x": 0,
+              "y": 3
+            },
+            "hiddenSeries": false,
+            "id": 10,
+            "legend": {
+              "avg": false,
+              "current": false,
+              "max": false,
+              "min": false,
+              "show": true,
+              "total": false,
+              "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+              "dataLinks": [ ]
+            },
+            "percentage": false,
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [ ],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+              {
+                "expr": "sum(rate(th2_infra_event_processing_total_time_bucket{le=\"50.0\", exported_namespace=\"${namespace}\",kind=\"${kind}\", resName=\"${resource}\"}[10m]))\n/\nsum(rate(th2_infra_event_processing_total_time_count{exported_namespace=\"${namespace}\",kind=\"${kind}\", resName=\"${resource}\"}[10m]))",
+                "interval": "",
+                "legendFormat": "less than equal to 50 seconds",
+                "refId": "A"
+              }
+            ],
+            "thresholds": [ ],
+            "timeFrom": null,
+            "timeRegions": [ ],
+            "timeShift": null,
+            "title": "Total processing time (specific resource)",
+            "tooltip": {
+              "shared": true,
+              "sort": 0,
+              "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+              "buckets": null,
+              "mode": "time",
+              "name": null,
+              "show": true,
+              "values": [ ]
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              },
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              }
+            ],
+            "yaxis": {
+              "align": false,
+              "alignLevel": null
+            }
+          },
+          {
+            "aliasColors": { },
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "fieldConfig": {
+              "defaults": {
+                "custom": { }
+              },
+              "overrides": [ ]
+            },
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+              "h": 7,
+              "w": 24,
+              "x": 0,
+              "y": 10
+            },
+            "hiddenSeries": false,
+            "id": 6,
+            "legend": {
+              "avg": false,
+              "current": false,
+              "max": false,
+              "min": false,
+              "show": true,
+              "total": false,
+              "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+              "dataLinks": [ ]
+            },
+            "percentage": false,
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [ ],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+              {
+                "expr": "sum(rate(th2_infra_operator_custom_resource_event_processing_time_bucket{le=\"5.0\", exported_namespace=\"${namespace}\",kind=\"${kind}\", resName=\"${resource}\"}[10m]))\n/\nsum(rate(th2_infra_operator_custom_resource_event_processing_time_count{exported_namespace=\"${namespace}\",kind=\"${kind}\", resName=\"${resource}\"}[10m]))",
+                "hide": false,
+                "interval": "",
+                "intervalFactor": 1,
+                "legendFormat": "less than equal to 5 seconds",
+                "refId": "A"
+              }
+            ],
+            "thresholds": [ ],
+            "timeFrom": null,
+            "timeRegions": [ ],
+            "timeShift": null,
+            "title": "Operator event processing time (specific resource)",
+            "tooltip": {
+              "shared": true,
+              "sort": 0,
+              "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+              "buckets": null,
+              "mode": "time",
+              "name": null,
+              "show": true,
+              "values": [ ]
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              },
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              }
+            ],
+            "yaxis": {
+              "align": false,
+              "alignLevel": null
+            }
+          }
+        ],
+        "title": "Box event processing time",
+        "type": "row"
+      },
+      {
+        "collapsed": true,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 3
+        },
+        "id": 14,
+        "panels": [
+          {
+            "aliasColors": { },
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "fieldConfig": {
+              "defaults": {
+                "custom": { }
+              },
+              "overrides": [ ]
+            },
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 0,
+              "y": 4
+            },
+            "hiddenSeries": false,
+            "id": 8,
+            "legend": {
+              "avg": false,
+              "current": false,
+              "max": false,
+              "min": false,
+              "show": true,
+              "total": false,
+              "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+              "dataLinks": [ ]
+            },
+            "percentage": false,
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [ ],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+              {
+                "expr": "sum(rate(th2_infra_operator_config_map_event_processing_time_bucket{le=\"30.0\", exported_namespace=\"${namespace}\", resName=\"${configMap}\"}[10m]))\n/\nsum(rate(th2_infra_operator_config_map_event_processing_time_count{exported_namespace=\"${namespace}\", resName=\"${configMap}\"}[10m]))",
+                "interval": "",
+                "legendFormat": "less than equal to 30 seconds",
+                "refId": "A"
+              }
+            ],
+            "thresholds": [ ],
+            "timeFrom": null,
+            "timeRegions": [ ],
+            "timeShift": null,
+            "title": "Config map event processing time",
+            "tooltip": {
+              "shared": true,
+              "sort": 0,
+              "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+              "buckets": null,
+              "mode": "time",
+              "name": null,
+              "show": true,
+              "values": [ ]
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              },
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              }
+            ],
+            "yaxis": {
+              "align": false,
+              "alignLevel": null
+            }
+          },
+          {
+            "aliasColors": { },
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "fieldConfig": {
+              "defaults": {
+                "custom": { }
+              },
+              "overrides": [ ]
+            },
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 12,
+              "y": 4
+            },
+            "hiddenSeries": false,
+            "id": 12,
+            "legend": {
+              "avg": false,
+              "current": false,
+              "max": false,
+              "min": false,
+              "show": true,
+              "total": false,
+              "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+              "dataLinks": [ ]
+            },
+            "percentage": false,
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [ ],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+              {
+                "expr": "sum(rate(th2_infra_operator_dictionary_event_processing_time_bucket{le=\"30.0\", exported_namespace=\"${namespace}\", resName=\"${dictionary}\"}[10m]))\n/\nsum(rate(th2_infra_operator_dictionary_event_processing_time_count{exported_namespace=\"${namespace}\", resName=\"${dictionary}\"}[10m]))",
+                "interval": "",
+                "legendFormat": "less than equal to 30 seconds",
+                "refId": "A"
+              }
+            ],
+            "thresholds": [ ],
+            "timeFrom": null,
+            "timeRegions": [ ],
+            "timeShift": null,
+            "title": "Dictionary event processing time",
+            "tooltip": {
+              "shared": true,
+              "sort": 0,
+              "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+              "buckets": null,
+              "mode": "time",
+              "name": null,
+              "show": true,
+              "values": [ ]
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              },
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              }
+            ],
+            "yaxis": {
+              "align": false,
+              "alignLevel": null
+            }
+          }
+        ],
+        "repeat": null,
+        "title": "Dictionary and CM event processing time",
+        "type": "row"
+      },
+      {
+        "collapsed": true,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 4
+        },
+        "id": 26,
+        "panels": [
+          {
+            "aliasColors": { },
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "fieldConfig": {
+              "defaults": {
+                "custom": { }
+              },
+              "overrides": [ ]
+            },
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 0,
+              "y": 5
+            },
+            "hiddenSeries": false,
+            "id": 4,
+            "legend": {
+              "avg": false,
+              "current": false,
+              "max": false,
+              "min": false,
+              "show": true,
+              "total": false,
+              "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+              "dataLinks": [ ]
+            },
+            "percentage": false,
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [ ],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+              {
+                "expr": "rate(th2_infra_operator_custom_resource_event_processing_time_count{exported_namespace=\"${namespace}\", kind=\"${kind}\", resName=\"${resource}\"}[10m])",
+                "interval": "",
+                "intervalFactor": 1,
+                "refId": "A"
+              }
+            ],
+            "thresholds": [ ],
+            "timeFrom": null,
+            "timeRegions": [ ],
+            "timeShift": null,
+            "title": "Event count (specific resource)",
+            "tooltip": {
+              "shared": true,
+              "sort": 0,
+              "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+              "buckets": null,
+              "mode": "time",
+              "name": null,
+              "show": true,
+              "values": [ ]
+            },
+            "yaxes": [
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              },
+              {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+              }
+            ],
+            "yaxis": {
+              "align": false,
+              "alignLevel": null
+            }
+          }
+        ],
+        "title": "Event count",
+        "type": "row"
+      }
+    ],
+    "refresh": false,
+    "schemaVersion": 25,
+    "style": "dark",
+    "tags": [ ],
+    "templating": {
+      "list": [
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": "th2-test-rabbit",
+            "value": "th2-test-rabbit"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(th2_infra_operator_custom_resource_event_processing_time_count, exported_namespace)",
+          "hide": 0,
+          "includeAll": false,
+          "label": null,
+          "multi": false,
+          "name": "namespace",
+          "options": [ ],
+          "query": "label_values(th2_infra_operator_custom_resource_event_processing_time_count, exported_namespace)",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [ ],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": "Th2Box",
+            "value": "Th2Box"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(th2_infra_operator_custom_resource_event_processing_time_count{exported_namespace=\"$namespace\"}, kind)",
+          "hide": 0,
+          "includeAll": false,
+          "label": null,
+          "multi": false,
+          "name": "kind",
+          "options": [ ],
+          "query": "label_values(th2_infra_operator_custom_resource_event_processing_time_count{exported_namespace=\"$namespace\"}, kind)",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [ ],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": "act",
+            "value": "act"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(th2_infra_operator_custom_resource_event_processing_time_count{exported_namespace=\"$namespace\", kind=\"$kind\"}, resName)",
+          "hide": 0,
+          "includeAll": false,
+          "label": null,
+          "multi": false,
+          "name": "resource",
+          "options": [ ],
+          "query": "label_values(th2_infra_operator_custom_resource_event_processing_time_count{exported_namespace=\"$namespace\", kind=\"$kind\"}, resName)",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [ ],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": "cradle-manager",
+            "value": "cradle-manager"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(th2_infra_operator_config_map_event_processing_time_count{exported_namespace=\"$namespace\"}, resName)",
+          "hide": 0,
+          "includeAll": false,
+          "label": null,
+          "multi": false,
+          "name": "configMap",
+          "options": [ ],
+          "query": "label_values(th2_infra_operator_config_map_event_processing_time_count{exported_namespace=\"$namespace\"}, resName)",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [ ],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": "fix50-trm2-compressed",
+            "value": "fix50-trm2-compressed"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(th2_infra_operator_dictionary_event_processing_time_count{exported_namespace=\"$namespace\"}, resName)",
+          "hide": 0,
+          "includeAll": false,
+          "label": null,
+          "multi": false,
+          "name": "dictionary",
+          "options": [ ],
+          "query": "label_values(th2_infra_operator_dictionary_event_processing_time_count{exported_namespace=\"$namespace\"}, resName)",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [ ],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "link",
+            "value": "link"
+          },
+          "hide": 0,
+          "label": null,
+          "name": "search",
+          "options": [
+            {
+              "selected": true,
+              "text": "",
+              "value": ""
+            }
+          ],
+          "query": "",
+          "skipUrlSync": false,
+          "type": "textbox"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+          "10s",
+          "30s",
+          "1m",
+          "5m",
+          "15m",
+          "30m",
+          "1h",
+          "2h",
+          "1d"
+      ]
+    },
+    "timezone": "browser",
+    "title": "Infra Operator",
+    "uid": "SO7vkJk7z",
+    "version": 35
+  }

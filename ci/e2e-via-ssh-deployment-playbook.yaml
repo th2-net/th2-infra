@@ -29,7 +29,7 @@
     - name: Deploy kubernetes dashboard
       community.kubernetes.helm:
         name: dashboard
-        chart_ref: kubernetes-dashboard/kubernetes-dashboard
+        chart_ref: kubernetesDashboard/kubernetesDashboard
         chart_version: 3.0.1
         release_namespace: monitoring
         values_files: "{{ playbook_dir }}/../example-values/dashboard.values.yaml"

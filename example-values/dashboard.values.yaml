@@ -7,7 +7,7 @@ rbac:
   clusterRoleMetrics: true
 serviceAccount:
   create: false
-  name: th2infra-kubernetes-dashboard 
+  name: th2infra-kubernetesDashboard
 ingress:
   enabled: true
   annotations:

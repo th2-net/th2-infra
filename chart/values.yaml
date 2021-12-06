@@ -15,6 +15,18 @@ ingress:
 #externalRabbitMQHost:
 #  host: localhost
 
+helmoperator:
+  helm:
+    versions: v3
+  fullnameOverride: helm-operator
+  nameOverrde: helm-operator
+  chartsSyncInterval: 300m
+  prometheus:
+    enabled: enabled
+    serviceMonitor:
+      create: true
+      namespace: monitoring
+
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
@@ -187,3 +199,26 @@ cassandra:
     enabled: false
     storageClass: local-storage
     size: 50Gi
+
+kubernetesDashboard:
+  namespace: service
+  image:
+    repository: kubernetesui/dashboard
+  protocolHttp: true
+  rbac:
+    create: true
+    clusterRoleMetrics: true
+  serviceAccount:
+    create: false
+    name: th2infra-kubernetesDashboard
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/add-base-url: "true"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/configuration-snippet: "rewrite ^(/dashboard)$ $scheme://$http_host$1/ redirect;"
+    paths:
+      - /dashboard/(.*)
+    hosts:
+      - localhost
