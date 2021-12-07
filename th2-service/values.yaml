@@ -30,7 +30,7 @@ infraOperator:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.3.10
+    tag: 3.3.11
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
