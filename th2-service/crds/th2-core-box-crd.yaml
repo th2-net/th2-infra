@@ -48,6 +48,10 @@ spec:
                 description: this is custom configuration
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              secret-custom-config:
+                description: this is custom configuration for secrets
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
               logFile:
                 type: string
               mqRouter:
@@ -158,9 +162,11 @@ spec:
                             targetPort:
                               type: string
                               pattern: "^[0-9]+$"
+                            port:
+                              type: string
+                              pattern: "^[0-9]+$"
                           required:
                           - name
-                          - targetPort
                           type: object
                         type: array
                       nodePort:
@@ -212,10 +218,20 @@ spec:
                       items:
                         type: string
                       type: array
+                    service-class:
+                      type: string
+                    service-classes:
+                      items:
+                        type: string
+                      type: array
+                    strategy:
+                      type: string
+                      default: robin
                     connection-type:
                       enum:
                       - mq
-                      - grpc
+                      - grpc-server
+                      - grpc-client
                       type: string
                     filters:
                       items:
