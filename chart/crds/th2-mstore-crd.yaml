@@ -59,10 +59,12 @@ spec:
                 description: this is custom configuration for rouer grpc
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              cradleManger:
+              cradleManager:
                 description: this is custom configuration for cradle
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              bookName:
+                type: string
               extended-settings:
                 properties:
                   chart-cfg:
@@ -119,10 +121,10 @@ spec:
                     - "false"
                     - "true"
                     type: string
-                  nodeName:
-                    type: string
-                  bookName:
-                    type: string
+                  nodeSelector:
+                    description: map for selecting nodes
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   mounting:
                     items:
                       properties:
