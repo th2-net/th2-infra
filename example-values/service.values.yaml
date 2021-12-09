@@ -1,6 +1,19 @@
+infraOperator:
+  config:
+    k8sUrl: "th2-kuber-test03"
+    chart:
+      git: https://github.com/th2-net/infra-operator-tpl.git
+      ref: dev-2.0
+      path: ./
+
+
 infraMgr:
   git:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
+
+ingress:
+  hostname: []
+
 
 rabbitmq:
   prometheus:
