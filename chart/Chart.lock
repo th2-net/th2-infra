@@ -5,5 +5,13 @@ dependencies:
 - name: cassandra
   repository: https://charts.bitnami.com/bitnami
   version: 5.6.7
+- alias: helmoperator
+  repository: https://charts.fluxcd.io
+  name: helm-operator
+  version: 1.2.0
+- alias: kubernetesDashboard
+  repository: https://kubernetes.github.io/dashboard/
+  name: kubernetesDashboard
+  version: 5.0.4
 digest: sha256:8e0b4bb96cc2d29632ea1f362690a3afab3f65549ac9795ecdd5dab546348b74
 generated: "2021-02-21T00:58:01.692070521+03:00"
