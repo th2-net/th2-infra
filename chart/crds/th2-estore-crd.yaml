@@ -59,18 +59,10 @@ spec:
                 description: this is custom configuration for rouer grpc
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              cradleManger:
+              cradleManager:
                 description: this is custom configuration for cradle
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              bookConfig:
-                description: this is custom configuration for books and pages
-                type: object
-                properties:
-                  bookName:
-                    type: string
-                required:
-                  - bookName
               extended-settings:
                 properties:
                   chart-cfg:
