@@ -26,15 +26,15 @@
         - service
         - monitoring
 
-#    - name: Deploy kubernetes dashboard
-#      community.kubernetes.helm:
-#        name: dashboard
-#        chart_ref: kubernetesDashboard/kubernetesDashboard
-#        chart_version: 3.0.1
-#        release_namespace: monitoring
-#        values_files: "{{ playbook_dir }}/../example-values/dashboard.values.yaml"
-#        create_namespace: true
-#        wait: true
+    - name: Deploy kubernetes dashboard
+      community.kubernetes.helm:
+        name: dashboard
+        chart_ref: kubernetesDashboard/kubernetesDashboard
+        chart_version: 3.0.1
+        release_namespace: monitoring
+        values_files: "{{ playbook_dir }}/../example-values/dashboard.values.yaml"
+        create_namespace: true
+        wait: true
 
     - name: Deploy ingress-nginx controller
       community.kubernetes.helm:
@@ -46,15 +46,15 @@
         create_namespace: true
         wait: true
 
-#    - name: Deploy HelmOperator
-#      community.kubernetes.helm:
-#        name: helm-operator
-#        chart_ref: flux/helm-operator
-#        chart_version: 1.2.0
-#        release_namespace: service
-#        values_files: "{{ playbook_dir }}/../example-values/helm-operator.values.yaml"
-#        create_namespace: true
-#        wait: true
+    - name: Deploy HelmOperator
+      community.kubernetes.helm:
+        name: helm-operator
+        chart_ref: flux/helm-operator
+        chart_version: 1.2.0
+        release_namespace: service
+        values_files: "{{ playbook_dir }}/../example-values/helm-operator.values.yaml"
+        create_namespace: true
+        wait: true
 
     - name: Mocking Prometheus operator
       k8s:
