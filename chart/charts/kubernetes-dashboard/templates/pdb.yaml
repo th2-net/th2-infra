@@ -12,19 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{ if .Values.rbac.clusterRoleMetrics -}}
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+{{ if .Values.podDisruptionBudget.enabled -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
 metadata:
-  name: "{{ template "kubernetesDashboard.fullname" . }}-metrics"
   labels:
-{{ include "kubernetesDashboard.labels" . | indent 4 }}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: {{ template "kubernetesDashboard.fullname" . }}-metrics
-subjects:
-  - kind: ServiceAccount
-    name: {{ template "kubernetesDashboard.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace }}
-{{- end }}
+{{ include "kubernetes-dashboard.labels" . | indent 4 }}
+  name: {{ template "kubernetes-dashboard.fullname" . }}
+spec:
+  {{- if .Values.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
+  {{- end  }}
+  {{- if .Values.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
+  {{- end  }}
+  selector:
+    matchLabels:
+{{ include "kubernetes-dashboard.matchLabels" . | indent 6 }}
+{{- end -}}

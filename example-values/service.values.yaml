@@ -15,7 +15,7 @@ cassandra:
   internal: false
   host: <cassandra-host>
 
-kubernetesDashboard:
+kubernetes-dashboard:
   namespace: service
   image:
     repository: kubernetesui/dashboard

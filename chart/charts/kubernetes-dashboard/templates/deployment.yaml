@@ -15,14 +15,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "kubernetesDashboard.fullname" . }}
+  name: {{ template "kubernetes-dashboard.fullname" . }}
 {{- with .Values.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
 {{- end }}
   labels:
-{{ include "kubernetesDashboard.labels" . | indent 4 }}
-    app.kubernetes.io/component: kubernetesDashboard
+{{ include "kubernetes-dashboard.labels" . | indent 4 }}
+    app.kubernetes.io/component: kubernetes-dashboard
 {{- with .Values.labels }}
 {{ toYaml . | indent 4 }}
 {{- end }}
@@ -35,8 +35,8 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-{{ include "kubernetesDashboard.matchLabels" . | indent 6 }}
-      app.kubernetes.io/component: kubernetesDashboard
+{{ include "kubernetes-dashboard.matchLabels" . | indent 6 }}
+      app.kubernetes.io/component: kubernetes-dashboard
   template:
     metadata:
 {{- with .Values.podAnnotations }}
@@ -44,8 +44,8 @@ spec:
 {{ toYaml . | indent 8 }}
 {{- end }}
       labels:
-{{ include "kubernetesDashboard.labels" . | indent 8 }}
-        app.kubernetes.io/component: kubernetesDashboard
+{{ include "kubernetes-dashboard.labels" . | indent 8 }}
+        app.kubernetes.io/component: kubernetes-dashboard
 {{- with .Values.podLabels }}
 {{ toYaml . | indent 8 }}
 {{- end }}
@@ -54,7 +54,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
 {{- end }}
-      serviceAccountName: {{ template "kubernetesDashboard.serviceAccountName" . }}
+      serviceAccountName: {{ template "kubernetes-dashboard.serviceAccountName" . }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -87,7 +87,7 @@ spec:
           protocol: TCP
 {{- end }}
         volumeMounts:
-        - name: kubernetesDashboard-certs
+        - name: kubernetes-dashboard-certs
           mountPath: /certs
           # Create on-disk volume to store exec logs
         - mountPath: /tmp
@@ -160,9 +160,9 @@ spec:
       priorityClassName: "{{ . }}"
 {{- end }}
       volumes:
-      - name: kubernetesDashboard-certs
+      - name: kubernetes-dashboard-certs
         secret:
-          secretName: {{ template "kubernetesDashboard.fullname" . }}-certs
+          secretName: {{ template "kubernetes-dashboard.fullname" . }}-certs
       - name: tmp-volume
         emptyDir: {}
 {{- with .Values.extraVolumes }}

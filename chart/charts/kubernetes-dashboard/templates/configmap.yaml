@@ -12,29 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# kubernetesDashboard-certs
 apiVersion: v1
-kind: Secret
+kind: ConfigMap
 metadata:
   labels:
-{{ include "kubernetesDashboard.labels" . | indent 4 }}
-  name: {{ template "kubernetesDashboard.fullname" . }}-certs
-type: Opaque
----
-# kubernetesDashboard-csrf
-apiVersion: v1
-kind: Secret
-metadata:
-  labels:
-{{ include "kubernetesDashboard.labels" . | indent 4 }}
-  name: kubernetesDashboard-csrf
-type: Opaque
----
-# kubernetesDashboard-key-holder
-apiVersion: v1
-kind: Secret
-metadata:
-  labels:
-{{ include "kubernetesDashboard.labels" . | indent 4 }}
-  name: kubernetesDashboard-key-holder
-type: Opaque
+{{ include "kubernetes-dashboard.labels" . | indent 4 }}
+  name: kubernetes-dashboard-settings
+data:
+{{- with .Values.settings }}
+  _global: {{ toJson . | quote }}
+{{- end }}
+{{- with .Values.pinnedCRDs }}
+  _pinnedCRD: {{ toJson . | quote }}
+{{- end }}

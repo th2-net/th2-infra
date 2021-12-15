@@ -113,5 +113,5 @@ For this to reach the dashboard, the name of the service must be 'kubernetes-das
 You can manually specify this using the value 'fullnameOverride':
 
 ```yaml
-fullnameOverride: 'kubernetesDashboard'
+fullnameOverride: 'kubernetes-dashboard'
 ```

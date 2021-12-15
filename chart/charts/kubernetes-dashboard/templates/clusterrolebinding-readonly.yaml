@@ -12,19 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{ if .Values.rbac.create -}}
+{{ if .Values.rbac.clusterReadOnlyRole -}}
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
-  name: {{ template "kubernetesDashboard.fullname" . }}
+  name: {{ template "kubernetes-dashboard.fullname" . }}-readonly
   labels:
-{{ include "kubernetesDashboard.labels" . | indent 4 }}
+{{ include "kubernetes-dashboard.labels" . | indent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: {{ template "kubernetesDashboard.fullname" . }}
+  kind: ClusterRole
+  name: {{ template "kubernetes-dashboard.fullname" . }}-readonly
 subjects:
   - kind: ServiceAccount
-    name: {{ template "kubernetesDashboard.serviceAccountName" . }}
+    name: {{ template "kubernetes-dashboard.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
-{{- end -}}
+{{- end }}

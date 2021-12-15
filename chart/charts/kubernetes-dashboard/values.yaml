@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Default values for kubernetesDashboard
+# Default values for kubernetes-dashboard
 # This is a YAML-formatted file.
 # Declare name/value pairs to be passed into your templates.
 # name: value
@@ -171,7 +171,7 @@ ingress:
   #    backend:
   #      service:
   #        name: >-
-  #          {{ include "kubernetesDashboard.fullname" . }}
+  #          {{ include "kubernetes-dashboard.fullname" . }}
   #        port:
   #          # Don't use string here, use only integer value!
   #          number: 443
@@ -179,14 +179,14 @@ ingress:
   ## Must be provided if Ingress is enabled
   ##
   # hosts:
-  #   - kubernetesDashboard.domain.com
+  #   - kubernetes-dashboard.domain.com
   ## Kubernetes Dashboard Ingress TLS configuration
   ## Secrets must be manually created in the namespace
   ##
   # tls:
-  #   - secretName: kubernetesDashboard-tls
+  #   - secretName: kubernetes-dashboard-tls
   #     hosts:
-  #       - kubernetesDashboard.domain.com
+  #       - kubernetes-dashboard.domain.com
 
 # Global dashboard settings
 settings:

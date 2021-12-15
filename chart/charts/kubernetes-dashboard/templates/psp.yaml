@@ -16,9 +16,9 @@
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: {{ template "kubernetesDashboard.fullname" . }}-psp
+  name: {{ template "kubernetes-dashboard.fullname" . }}-psp
   labels:
-{{ include "kubernetesDashboard.labels" . | indent 4 }}
+{{ include "kubernetes-dashboard.labels" . | indent 4 }}
   annotations:
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
 spec:
@@ -45,24 +45,24 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ template "kubernetesDashboard.fullname" . }}-psp
+  name: {{ template "kubernetes-dashboard.fullname" . }}-psp
   labels:
-{{ include "kubernetesDashboard.labels" . | indent 4 }}
+{{ include "kubernetes-dashboard.labels" . | indent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ template "kubernetesDashboard.fullname" . }}-psp
+  name: {{ template "kubernetes-dashboard.fullname" . }}-psp
 subjects:
 - kind: ServiceAccount
-  name: {{ template "kubernetesDashboard.serviceAccountName" . }}
+  name: {{ template "kubernetes-dashboard.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ template "kubernetesDashboard.fullname" . }}-psp
+  name: {{ template "kubernetes-dashboard.fullname" . }}-psp
   labels:
-{{ include "kubernetesDashboard.labels" . | indent 4 }}
+{{ include "kubernetes-dashboard.labels" . | indent 4 }}
 rules:
 - apiGroups:
   - extensions
@@ -72,5 +72,5 @@ rules:
   verbs:
   - use
   resourceNames:
-  - {{ template "kubernetesDashboard.fullname" . }}-psp
+  - {{ template "kubernetes-dashboard.fullname" . }}-psp
 {{- end -}}

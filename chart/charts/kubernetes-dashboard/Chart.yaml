@@ -15,7 +15,7 @@ kubeVersion: '>=1.19.0-0'
 maintainers:
 - email: cdesaintmartin@wiremind.fr
   name: desaintmartin
-name: kubernetesDashboard
+name: kubernetes-dashboard
 sources:
 - https://github.com/kubernetes/dashboard
 version: 5.0.4

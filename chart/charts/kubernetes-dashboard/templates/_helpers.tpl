@@ -16,7 +16,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "kubernetesDashboard.name" -}}
+{{- define "kubernetes-dashboard.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -25,7 +25,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "kubernetesDashboard.fullname" -}}
+{{- define "kubernetes-dashboard.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -41,16 +41,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "kubernetesDashboard.chart" -}}
+{{- define "kubernetes-dashboard.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "kubernetesDashboard.labels" -}}
-app.kubernetes.io/name: {{ include "kubernetesDashboard.name" . }}
-helm.sh/chart: {{ include "kubernetesDashboard.chart" . }}
+{{- define "kubernetes-dashboard.labels" -}}
+app.kubernetes.io/name: {{ include "kubernetes-dashboard.name" . }}
+helm.sh/chart: {{ include "kubernetes-dashboard.chart" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -61,17 +61,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Common label selectors
 */}}
-{{- define "kubernetesDashboard.matchLabels" -}}
-app.kubernetes.io/name: {{ include "kubernetesDashboard.name" . }}
+{{- define "kubernetes-dashboard.matchLabels" -}}
+app.kubernetes.io/name: {{ include "kubernetes-dashboard.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 Name of the service account to use
 */}}
-{{- define "kubernetesDashboard.serviceAccountName" -}}
+{{- define "kubernetes-dashboard.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "kubernetesDashboard.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "kubernetes-dashboard.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}

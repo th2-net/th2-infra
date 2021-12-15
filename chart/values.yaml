@@ -200,7 +200,7 @@ cassandra:
     storageClass: local-storage
     size: 50Gi
 
-kubernetesDashboard:
+kubernetes-dashboard:
   namespace: service
   image:
     repository: kubernetesui/dashboard
