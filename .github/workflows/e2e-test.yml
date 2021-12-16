@@ -21,7 +21,7 @@ jobs:
       - name: Install python and ansible dependencies
         run: |
           ansible-galaxy collection install community.crypto:==1.3.0 community.kubernetes:==1.1.1
-          pip install openshift==0.12.1
+          pip install kubernetes==12.0.0
 
       - name: Run th2-infra deployment via Ansible
         env:
