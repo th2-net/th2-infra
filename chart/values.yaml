@@ -35,7 +35,7 @@ infraEditor:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 0.7.0
+    tag:
 
 infraOperator:
   prometheusConfiguration:
@@ -45,9 +45,12 @@ infraOperator:
     tag: 4.0.1-infra-2.0.0-1548530202
   config:
     chart:
-      repository: http://infra-repo:8080 #https://th2-net.github.io
-      version: 0.7.0
-      name: infra-operator-tpl
+      git: https://github.com/th2-net/infra-operator-tpl.git
+      ref: dev-2.0
+      path: ./
+#      repository: http://infra-repo:8080 #https://th2-net.github.io
+#      version: 0.7.0
+#      name: infra-operator-tpl
     namespacePrefixes: 
     - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
