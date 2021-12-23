@@ -4,7 +4,13 @@
 # Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
-  name: product-registry-example-name
+  name:
+  username:
+  password:
+
+solutionRegistry:
+  secret: th2-solution
+  registry:
   username:
   password:
 
@@ -36,8 +42,8 @@ infraOperator:
       repository: http://infra-repo:8080 #https://th2-net.github.io
       version: 0.7.0
       name: infra-operator-tpl
-    namespacePrefixes: 
-    - "th2-"
+    namespacePrefixes:
+      - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
     rabbitMQManagement:
 #      host: "" -  host is taken from rabbitmq config
@@ -62,7 +68,7 @@ infraMgr:
     secretMountPath: /home/service/keys
     repository: git@github.com:th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
-    httpAuthUsername: "" #should be stored in secret th2-git-access-schemas 
+    httpAuthUsername: "" #should be stored in secret th2-git-access-schemas
     httpAuthPassword: "" #should be stored in secret th2-git-access-schemas
   rabbitmq:
     vHostPrefix: th2-
@@ -83,9 +89,9 @@ infraMgr:
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
     secrets:
-    - th2-core 
-    - th2-solution
-    - th2-proprietary
+      - th2-core
+      - th2-solution
+      - th2-proprietary
 
 #If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster. 
 #Change to "internal = true" in case you need internal git repo.
@@ -106,7 +112,7 @@ rabbitmq:
   internal: true
   rabbitmqMemoryHighWatermark: 1024MB
   #it is not required if the service internal
-#  host: ""
+  #  host: ""
   fullnameOverride: rabbitmq
   rabbitmqVhost: th2
   rabbitmqUsername: th2
@@ -123,9 +129,9 @@ rabbitmq:
   livenessProbe:
     exec:
       command:
-      - /bin/bash
-      - -ec
-      - rabbitmq-diagnostics -q check_running
+        - /bin/bash
+        - -ec
+        - rabbitmq-diagnostics -q check_running
     initialDelaySeconds: 120
     timeoutSeconds: 20
     periodSeconds: 30
@@ -134,9 +140,9 @@ rabbitmq:
   readinessProbe:
     exec:
       command:
-      - /bin/bash
-      - -ec
-      - rabbitmq-diagnostics -q check_running
+        - /bin/bash
+        - -ec
+        - rabbitmq-diagnostics -q check_running
     initialDelaySeconds: 10
     timeoutSeconds: 20
     periodSeconds: 30
@@ -171,7 +177,7 @@ cassandra:
     cradleMaxMessageBatchSize: "1048576"
   internal: true
   #it is not required if the service internal
-#  host: ""
+  #  host: ""
   fullnameOverride: cassandra
   cluster:
     datacenter: dc1
