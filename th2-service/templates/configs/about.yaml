@@ -8,5 +8,5 @@ metadata:
   name: about
   labels:
     app: th2-info
-data:
+data: |
 {{- include "collect-info" . }}

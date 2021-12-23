@@ -3,7 +3,7 @@ Generating configMap for k8 with th2 installed configuration overview
 */}}
 {{- define "collect-info" }}
   chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-  host: {{ default .Values.ingress.host "" }}
+  host: {{ .Values.ingress.host }}
   {{- if .Values.productRegistry }}
   productRegistry: {{ if .Values.productRegistry.name }} {{ .Values.productRegistry.name }} {{ else }} {{ "" }} {{ end }}
   {{- end }}
@@ -15,7 +15,7 @@ Generating configMap for k8 with th2 installed configuration overview
   {{- end }}
   infraEditor: {{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}
   infraRepo: {{ .Values.infraRepo.image.repository }}:{{ .Values.infraRepo.image.tag }}
-  Rabbitmq_host_port: {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
+  rabbitmqEntrypoint: {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
 
   infraOperator: |
     version: {{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}
