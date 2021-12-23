@@ -1,6 +1,13 @@
 name: e2e test with kind
 
-on: [pull_request, workflow_dispatch]
+on: 
+  pull_request:
+    paths:
+    - 'ci/**'
+    - 'example-values/**'
+    - 'th2-service/**'
+    - '.github/workflows/e2e-test.yml'
+  workflow_dispatch:
 
 env:
   SCHEMA_NAMESPACE: th2-v150
@@ -21,13 +28,13 @@ jobs:
       - name: Install python and ansible dependencies
         run: |
           ansible-galaxy collection install community.crypto:==1.3.0 community.kubernetes:==1.1.1
-          pip install openshift==0.11.2
+          pip install kubernetes==12.0.0
 
       - name: Run th2-infra deployment via Ansible
         env:
           E2E_PRIVATE_KEY: ${{ secrets.E2E_PRIVATE_KEY }}
         run: |
-          ansible-playbook ./ci/e2e-via-ssh-deployment-playbook.yaml -e 'ansible_python_interpreter=/usr/bin/python3'
+          ANSIBLE_STDOUT_CALLBACK=yaml ansible-playbook ./ci/e2e-via-ssh-deployment-playbook.yaml -e 'ansible_python_interpreter=/usr/bin/python3'
           kubectl get pods --all-namespaces
 
       - name: Testing
