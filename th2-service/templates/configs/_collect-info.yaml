@@ -2,17 +2,11 @@
 Generating configMap for k8 with th2 installed configuration overview
 */}}
 {{- define "collect-info" }}
-  chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-  host: {{ .Values.ingress.host }}
-  {{- if .Values.productRegistry }}
-  productRegistry: {{ if .Values.productRegistry.name }} {{ .Values.productRegistry.name }} {{ else }} {{ "" }} {{ end }}
-  {{- end }}
-  {{- if .Values.solutionRegistry }}
-  solutionRegistry: {{ if .Values.solutionRegistry.name }} {{ .Values.solutionRegistry.name }} {{ else }} {{ "" }} {{ end }}
-  {{- end }}
-  {{- if .Values.proprietaryRegistry }}
-  proprietaryRegistry: {{ if .Values.proprietaryRegistry.name }} {{ .Values.proprietaryRegistry.name }} {{ else }} {{ "" }} {{ end }}
-  {{- end }}
+  infraVersion: {{ .Chart.Name }}-{{ .Chart.Version }}
+  host: {{ .Values.ingress.host | default "unset, will be availible on nodes IP" }}
+  productRegistry: {{ if .Values.productRegistry.name }}{{ .Values.productRegistry.name }}{{ else }}{{ "unset" }}{{ end }}
+  solutionRegistry: {{ if .Values.solutionRegistry.name }}{{ .Values.solutionRegistry.name }}{{ else }}{{ "unset" }}{{ end }}
+  proprietaryRegistry: {{ if .Values.proprietaryRegistry.name }}{{ .Values.proprietaryRegistry.name }}{{ else }}{{ "unset" }}{{ end }}
   infraEditor: {{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}
   infraRepo: {{ .Values.infraRepo.image.repository }}:{{ .Values.infraRepo.image.tag }}
   rabbitmqEntrypoint: {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
