@@ -4,18 +4,18 @@
 # Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
-  name:
-  username:
-  password:
+  name: ""
+  username: ""
+  password: ""
 
 solutionRegistry:
   secret: th2-solution
-  registry:
-  username:
-  password:
+  registry: ""
+  username: ""
+  password: ""
 
 ingress:
-  host: localhost
+  host: ""
 
 #Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
 #externalRabbitMQHost:

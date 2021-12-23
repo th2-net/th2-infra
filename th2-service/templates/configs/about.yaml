@@ -1,6 +1,6 @@
 ---
 {{/*
-Generating configMap for k8 with th2-infra-base info
+Generating configMap for k8 with th2-infra info
 */}}
 apiVersion: v1
 kind: ConfigMap
