@@ -1,5 +1,12 @@
 name: Lint and Test Charts
-on: [pull_request]
+on: 
+  pull_request:
+    paths:
+    - 'ci/**'
+    - 'example-values/**'
+    - 'th2-service/**'
+    - '.github/workflows/lint-chart.yaml'
+  workflow_dispatch:
 
 jobs:
   lint-test:
