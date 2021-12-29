@@ -6,12 +6,11 @@ metadata:
 spec:
   selector:
     app: infra-editor
-  type: NodePort
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 8080
     targetPort: 80
-    
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -49,7 +48,7 @@ spec:
       volumes:
       - name: logging-volume
         configMap:
-          name: java-logging-config
+          name: logging-config
       imagePullSecrets:
       - name: th2-core
   revisionHistoryLimit: 2

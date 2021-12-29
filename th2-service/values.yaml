@@ -4,42 +4,50 @@
 # Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
-  name: 
+  name:
   username:
   password:
 
 solutionRegistry:
   secret: th2-solution
-  registry: 
+  registry:
   username:
   password:
 
 ingress:
   host:
 
+externalRabbitMQHost:
+  host: localhost
+
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.56
+    tag: 1.0.65
+
+infraRepo:
+  image:
+    repository: ghcr.io/th2-net/infra-repo
+    tag: 0.6.0
 
 infraOperator:
-  persistence: true
+  prometheusConfiguration:
+    enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 2.6.7
+    tag: 3.2.8
   config:
     chart:
-      git: https://github.com/th2-net/infra-operator-tpl
-      ref: v0.2.0
-      path: ./
-    namespacePrefixes: 
-    - "schema-"
+      # external mirror
+      # repository: https://th2-net.github.io
+      repository: http://infra-repo:8080
+      version: 0.6.0
+      name: infra-operator-tpl
+    namespacePrefixes:
+      - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
-    schemaSecrets:
-      rabbitMQ: rabbitmq
-      cassandra: cassandra
     rabbitMQManagement:
-      host: "rabbitmq-discovery.service.svc.cluster.local"
+      #      host: "rabbitmq-discovery.service.svc.cluster.local" - deprecated. host is taken from rabbitmq config
       port: "15672"
       username: "th2"
       password: "${RABBITMQ_PASS}"
@@ -50,42 +58,41 @@ infraOperator:
         write: ".*"
 
 infraMgr:
+  prometheusConfiguration:
+    enabled: true
+  image:
+    repository: ghcr.io/th2-net/th2-infra-mgr
+    tag: 1.2.9
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
     secretMountPath: /home/service/keys
     repository: git@github.com:th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
-    httpAuthUsername: "" #should be stored in secret th2-git-access-schemas 
+    httpAuthUsername: "" #should be stored in secret th2-git-access-schemas
     httpAuthPassword: "" #should be stored in secret th2-git-access-schemas
   rabbitmq:
-    vHostPrefix: schema-
-    usernamePrefix: schema-user-
+    vHostPrefix: th2-
+    usernamePrefix: th2-user-
     secret: rabbitmq
     passwordLength: 24
   cassandra:
     keyspacePrefix: schema_
+    secret: cassandra
   kubernetes:
-    namespacePrefix: schema-
+    namespacePrefix: "th2-" # must be not more than 5 symbols
     ingress: ingress-rules
     configMaps:
-      logging: java-logging-config
+      logging: logging-config-template
       rabbitmq: rabbit-mq-app-config
       rabbitmq-ext: rabbit-mq-external-app-config
-      rabbitmqManagement: rabbitmq-mng-params
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
     secrets:
-    - chart-secrets
-    - git-chart-creds
-    - th2-core 
-    - th2-solution
-    - cassandra
-    - th2-proprietary
-  image:
-    repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 0.12.2
+      - th2-core
+      - th2-solution
+      - th2-proprietary
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
@@ -93,24 +100,26 @@ rabbitmq:
   internal: true
   rabbitmqMemoryHighWatermark: 1024MB
   #it is not required if the service internal
-#  host: ""
+  #  host: ""
   fullnameOverride: rabbitmq
   rabbitmqVhost: th2
   rabbitmqUsername: th2
-  managementUsername: th2-mng
   # will be generated if empty
   rabbitmqPassword: ""
-  managementPassword: ""
   rabbitmqErlangCookie: ""
   rabbitmqExchange: th2-exchange
   replicaCount: 1
   podAntiAffinity: hard
+  persistentVolume:
+    enabled: true
+    storageClass: local-storage
+    size: 10Gi
   livenessProbe:
     exec:
       command:
-      - /bin/bash
-      - -ec
-      - rabbitmq-diagnostics -q check_running
+        - /bin/bash
+        - -ec
+        - rabbitmq-diagnostics -q check_running
     initialDelaySeconds: 120
     timeoutSeconds: 20
     periodSeconds: 30
@@ -119,9 +128,9 @@ rabbitmq:
   readinessProbe:
     exec:
       command:
-      - /bin/bash
-      - -ec
-      - rabbitmq-diagnostics -q check_running
+        - /bin/bash
+        - -ec
+        - rabbitmq-diagnostics -q check_running
     initialDelaySeconds: 10
     timeoutSeconds: 20
     periodSeconds: 30
@@ -148,12 +157,12 @@ rabbitmq:
 cassandra:
   internal: true
   #it is not required if the service internal
-#  host: ""
+  #  host: ""
   fullnameOverride: cassandra
   cluster:
-    datacenter: datacenter1
+    datacenter: dc1
   dbUser:
-    user: cassandra
+    user: th2
     # will be generated if empty
     password: ""
   keyspace: cradle

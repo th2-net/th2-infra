@@ -1,0 +1,21 @@
+{{/*
+Generating svc for infra-mgr for k8
+*/}}
+{{- define "infra-operator-service" }}
+{{- if .infraOperator.prometheusConfiguration.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: infra-operator
+  namespace: service
+  labels:
+    app: infra-mgr
+    monitoring-pod: "true"
+spec:
+  type: ClusterIP
+  selector:
+    app: infra-operator
+  ports:
+    {{- include "svc-prometheus-port" .Values }}
+{{- end }}
+{{- end }}

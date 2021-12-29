@@ -126,8 +126,6 @@ spec:
                   name: {{ .Values.tlsEncryptionSecretName }}
                   key: keystore-password
             {{- end }}
-            - name: CASSANDRA_ENDPOINT_SNITCH
-              value: {{ .Values.cluster.endpointSnitch }}
             - name: CASSANDRA_RACK
               value: {{ .Values.cluster.rack }}
             {{- if .Values.jvm.maxHeapSize }}
@@ -201,8 +199,12 @@ spec:
               mountPath: /bitnami/cassandra/secrets
             {{- end }}
             {{- if .Values.initDBConfigMap }}
-            - name: init-db
-              mountPath: /docker-entrypoint-initdb.d
+            - name: init-db-cm
+              mountPath: /docker-entrypoint-initdb.d/configmap
+            {{- end }}
+            {{- if .Values.initDBSecret }}
+            - name: init-db-secret
+              mountPath: /docker-entrypoint-initdb.d/secret
             {{- end }}
             {{ if .Values.existingConfiguration }}
             - name: configurations
@@ -248,9 +250,14 @@ spec:
             name: {{ tpl .Values.existingConfiguration $ }}
         {{- end }}
         {{- if .Values.initDBConfigMap }}
-        - name: init-db
+        - name: init-db-cm
           configMap:
             name: {{ tpl .Values.initDBConfigMap $ }}
+        {{- end }}
+        {{- if .Values.initDBSecret }}
+        - name: init-db-secret
+          secret:
+            secretName: {{ tpl .Values.initDBSecret $ }}
         {{- end }}
 {{- if not .Values.persistence.enabled }}
         - name: data

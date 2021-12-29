@@ -55,7 +55,7 @@ metadata:
   name: storage-prometheus
   labels:
     app: prometheus
-    prometheus: prometheus-prometheus-oper-prometheus
+    prometheus: prometheus-kube-prometheus-prometheus
 spec:
   capacity:
     storage: 5Gi
@@ -63,7 +63,6 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
   local:
     path: /opt/prometheus
   nodeAffinity:
