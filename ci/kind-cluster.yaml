@@ -4,13 +4,26 @@ networking:
   podSubnet: "10.244.0.0/16"
   serviceSubnet: "10.96.0.0/12"
 nodes:
-  - role: control-plane
-    extraPortMappings:
-      - containerPort: 30000
-        hostPort: 30000
-        # optional: set the bind address on the host
-        # 0.0.0.0 is the current default
-        listenAddress: "0.0.0.0"
-        # optional: set the protocol to one of TCP, UDP, SCTP.
-        # TCP is the default
-        protocol: TCP
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30000
+    hostPort: 30000
+    # optional: set the bind address on the host
+    # 0.0.0.0 is the current default
+    listenAddress: "0.0.0.0"
+    # optional: set the protocol to one of TCP, UDP, SCTP.
+    # TCP is the default
+    protocol: TCP
+  extraMounts:
+  - hostPath: ./test/
+    containerPath: /opt/git
+    # optional: if set, the mount is read-only.
+    # default false
+    readOnly: true
+    # optional: if set, the mount needs SELinux relabeling.
+    # default false
+    selinuxRelabel: false
+    # optional: set propagation mode (None, HostToContainer or Bidirectional)
+    # see https://kubernetes.io/docs/concepts/storage/volumes/#mount-propagation
+    # default None
+    propagation: HostToContainer

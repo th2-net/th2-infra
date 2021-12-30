@@ -81,6 +81,10 @@
     #     path: ./deployment_key_ssh_rsa.pub
     #     privatekey_path: ./deployment_key_ssh_rsa
 
+    - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+      community.crypto.openssh_keypair:
+        path: ./id_ssh_rsa
+
     - name: Create infra-mgr secret
       kubernetes.core.k8s:
         state: present
@@ -92,7 +96,28 @@
             name: infra-mgr
             namespace: service
           data:
-            infra-mgr: "{{ lookup('env','E2E_PRIVATE_KEY') | b64encode }}"
+            infra-mgr: "{{ lookup('file','./id_ssh_rsa') | b64encode }}"
+
+    - name: Create git repository pub key configmap
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ConfigMap
+          type: Opaque
+          metadata:
+            name: keys-repo
+            namespace: service
+          data:
+            git_keys: "{{ lookup('file','./id_ssh_rsa') | b64encode }}"
+
+    - command: git init ./schema.git
+      args:
+        creates: ./schema.git/HEAD
+
+    - command: git commit -am "Init repository" 
+      args:
+        creates: ./schema.git/HEAD
 
     - name: Create git-chart-creds secret
       kubernetes.core.k8s:
@@ -126,6 +151,10 @@
         chart_ref: "{{ playbook_dir }}/../th2-service/"
         release_namespace: service
         release_values:
+          infraGit:
+            internal: true
+          externalRabbitMQHost:
+            host: localhost
           rabbitmq:
             rabbitmqUser: th2
             rabbitmqPassword: test
@@ -141,7 +170,7 @@
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
-            internal: true
+            internal: false
           infraMgr:
             git:
               repository: git@github.com:th2-net/e2e-test-schema.git
@@ -154,4 +183,4 @@
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml
         create_namespace: true
-        wait: true
+        wait: false
