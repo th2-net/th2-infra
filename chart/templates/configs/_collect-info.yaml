@@ -24,7 +24,6 @@ Generating configMap for k8 with th2 installed configuration overview
       chart: {{ .Values.infraOperator.config.chart.version }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl }}
     namespace prefixes: {{ .Values.infraOperator.config.namespacePrefixes }}
-
   infraMgr: |
     version: {{ .Values.infraMgr.image.repository }}:{{ .Values.infraMgr.image.tag }}
     git:
