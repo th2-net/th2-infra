@@ -35,7 +35,7 @@ infraEditor:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 
+    tag: dev-2.0
 
 infraOperator:
   prometheusConfiguration:
