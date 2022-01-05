@@ -30,7 +30,7 @@ jobs:
 
       - name: Create package and index
         run: |
-          helm package ./th2-infra/chart/ --destination ./th2-net.github.io/
+          helm package ./chart/ --destination ./th2-net.github.io/
           cd ./th2-net.github.io/
           helm repo index --merge ./index.yaml .
 
