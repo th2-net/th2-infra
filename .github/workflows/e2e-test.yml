@@ -68,9 +68,9 @@ jobs:
           kubectl -n service logs cassandra-0 > cassandra.log || true
           kubectl -n service exec cassandra-0 cat -ti -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
 
-          for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
+          for D in $(kubectl -n th2-test get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D > $D.log || true
+            kubectl -n th2-test logs deployment/$D > $D.log || true
           done
 
       - name: Uploading logs
