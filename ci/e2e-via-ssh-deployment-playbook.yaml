@@ -122,7 +122,7 @@
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
-            internal: false
+            internal: true
           infraMgr:
             git:
               repository: ssh://git@infra-git/home/git/repo/e2e-test-schema.git
