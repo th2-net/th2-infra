@@ -17,6 +17,7 @@ jobs:
 
       - name: Init test schema
         run: |
+          mkdir ./e2e-test-schema.git/
           git config --global user.email "ci@actions"
           git config --global user.name "CI"
           git --git-dir=./e2e-test-schema.git/ --bare init
