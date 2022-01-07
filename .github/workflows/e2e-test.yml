@@ -34,7 +34,7 @@ jobs:
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
-          chown -R 1000:1000 ./e2e-test-schema.git/
+          docker cp ./e2e-test-schema.git/ find /opt/git/
 
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.1.0
@@ -52,7 +52,6 @@ jobs:
         env:
           E2E_PRIVATE_KEY: ${{ secrets.E2E_PRIVATE_KEY }}
         run: |
-          docker exec chart-testing-control-plane find /opt/git
           ANSIBLE_STDOUT_CALLBACK=yaml ansible-playbook ./ci/e2e-via-ssh-deployment-playbook.yaml -e 'ansible_python_interpreter=/usr/bin/python3'
           kubectl get pods --all-namespaces
 
