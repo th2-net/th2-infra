@@ -1,0 +1,20 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Box
+metadata:
+  name: script-entry-point
+spec:
+  image-name: dev-script
+  image-version: dev-script
+  type: th2-script
+  pins:
+    - name: server
+      connection-type: grpc
+    - name: to_act
+      connection-type: grpc
+    - name: to_check1
+      connection-type: grpc
+  extended-settings:
+    externalBox:
+      enabled: true
+    service:
+      enabled: false

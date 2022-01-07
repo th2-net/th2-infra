@@ -1,16 +1,13 @@
 name: e2e test with kind
 
-on: 
+on:
   pull_request:
     paths:
-    - 'ci/**'
-    - 'example-values/**'
-    - 'th2-service/**'
-    - '.github/workflows/e2e-test.yml'
+      - "ci/**"
+      - "example-values/**"
+      - "th2-service/**"
+      - ".github/workflows/e2e-test.yml"
   workflow_dispatch:
-
-env:
-  SCHEMA_NAMESPACE: th2-v150
 
 jobs:
   deploy-and-test:
@@ -29,6 +26,14 @@ jobs:
         run: |
           ansible-galaxy collection install community.crypto:==1.3.0 community.kubernetes:==1.1.1
           pip install kubernetes==12.0.0
+
+      - name: Init test schema
+        run: |
+          mkdir ./ci/e2e-test-schema.git/
+          git --git-dir=./ci/e2e-test-schema.git/ --bare init
+          git --git-dir=./ci/e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
+          git --git-dir=./ci/e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
+          git --git-dir=./ci/e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
 
       - name: Run th2-infra deployment via Ansible
         env:
@@ -52,7 +57,7 @@ jobs:
           echo -e "\n[Nodes]" && kubectl describe nodes || true
           echo -e "\n[Configmaps]" && kubectl get configmaps --all-namespaces || true
           echo -e "\n[Secrets]" && kubectl get secrets --all-namespaces || true
-        
+
           for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
           do
             kubectl -n service logs deployment/$D > $D.log || true

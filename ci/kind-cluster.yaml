@@ -15,8 +15,8 @@ nodes:
     # TCP is the default
     protocol: TCP
   extraMounts:
-  - hostPath: ./test/
-    containerPath: /opt/git
+  - hostPath: ./e2e-test-schema.git/
+    containerPath: /opt/git/e2e-test-schema.git
     # optional: if set, the mount is read-only.
     # default false
     readOnly: true
@@ -27,3 +27,4 @@ nodes:
     # see https://kubernetes.io/docs/concepts/storage/volumes/#mount-propagation
     # default None
     propagation: HostToContainer
+

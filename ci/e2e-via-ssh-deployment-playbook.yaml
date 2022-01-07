@@ -16,16 +16,6 @@
         loki: https://grafana.github.io/loki/charts
         stable: https://charts.helm.sh/stable
 
-    - name: Ensure k8s namespaces exist
-      kubernetes.core.k8s:
-        api_version: v1
-        kind: Namespace
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - service
-        - monitoring
-
     - name: Deploy kubernetes dashboard
       kubernetes.core.helm:
         name: dashboard
@@ -46,7 +36,7 @@
         create_namespace: true
         wait: true
 
-    - name: Deploy HelmOperator
+    - name: Deploy helm-operator
       kubernetes.core.helm:
         name: helm-operator
         chart_ref: flux/helm-operator
@@ -56,94 +46,50 @@
         create_namespace: true
         wait: true
 
-    - name: Mocking Prometheus operator
+    - name: Mocking prometheus operator
       kubernetes.core.k8s:
         definition: "{{ item }}"
       with_items: '{{ lookup("url", "https://raw.githubusercontent.com/helm/charts/master/stable/prometheus-operator/crds/crd-servicemonitor.yaml", split_lines=False) | from_yaml_all | list }}'
 
-    # - name: Deploy Prometheus operator
-    #   community.kubernetes.helm:
-    #     name: prometheus
-    #     chart_ref: stable/prometheus-operator
-    #     release_namespace: monitoring
-    #     values_files:
-    #       {{ playbook_dir }}/../example-values/prometheus-operator.values.yaml
-    #     create_namespace: true
-    #     wait: true
-
-    # - name: Generate an OpenSSH keypair
-    #   community.crypto.openssl_privatekey:
-    #     path: ./deployment_key_ssh_rsa
-
-    # - name: Generate an OpenSSL public key in OpenSSH format
-    #   community.crypto.openssl_publickey:
-    #     format: OpenSSH
-    #     path: ./deployment_key_ssh_rsa.pub
-    #     privatekey_path: ./deployment_key_ssh_rsa
-
     - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
       community.crypto.openssh_keypair:
-        path: ./id_ssh_rsa
+        path: "{{ playbook_dir }}/id_ssh_rsa"
 
-    - name: Create infra-mgr secret
+    - name: Create infra-mgr secret (private key)
       kubernetes.core.k8s:
         state: present
-        definition:
-          apiVersion: v1
-          kind: Secret
-          type: Opaque
-          metadata:
-            name: infra-mgr
-            namespace: service
-          data:
-            infra-mgr: "{{ lookup('file','./id_ssh_rsa') | b64encode }}"
-
-    - name: Create git repository pub key configmap
-      kubernetes.core.k8s:
-        state: present
-        definition:
-          apiVersion: v1
-          kind: ConfigMap
-          type: Opaque
-          metadata:
-            name: keys-repo
-            namespace: service
-          data:
-            git_keys: "{{ lookup('file','./id_ssh_rsa') | b64encode }}"
-
-    - command: git init ./schema.git
-      args:
-        creates: ./schema.git/HEAD
-
-    - command: git commit -am "Init repository" 
-      args:
-        creates: ./schema.git/HEAD
-
-    - name: Create git-chart-creds secret
-      kubernetes.core.k8s:
-        state: present
-        definition:
-          apiVersion: v1
-          kind: Secret
-          type: Opaque
-          metadata:
-            name: git-chart-creds
-            namespace: service
-          data:
-            username: ""
-            password: ""
-
-    - name: Create cassandra configMap
-      kubernetes.core.k8s:
-        state: present
-        src: "{{ playbook_dir }}/cassandra/cassandra-configmap.yaml"
+        template: "{{ playbook_dir }}/deploy/infra-mgr-secret.yaml"
         namespace: service
 
-    - name: Cassandra Init
+    - name: Create empty git chart credentials for helm-operator
       kubernetes.core.k8s:
         state: present
-        template: "{{ playbook_dir }}/cassandra/initdb.yaml"
+        template: "{{ playbook_dir }}/deploy/git-chart-creds-secret.yaml"
         namespace: service
+
+    - name: Create public key to infra-git
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/keys-repo-configmap.yaml"
+        namespace: service
+
+    - name: Create infra-git persistent volume
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/infra-repo-pv.yaml"
+        namespace: service
+
+    - name: Create Cassandra configmap
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/cassandra/cassandra-configmap.yaml"
+        namespace: service
+
+    # - name: Cassandra Init
+    #   kubernetes.core.k8s:
+    #     state: present
+    #     template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
+    #     namespace: service
 
     - name: Deploy th2-infra
       kubernetes.core.helm:
@@ -162,7 +108,7 @@
               enabled: false
           cassandra:
             # existingConfiguration: cassandra-configuration
-            initDBConfigMap: cassandra-init
+            # initDBConfigMap: cassandra-init
             dbUser:
               user: cassandra
               password: cassandra
@@ -173,12 +119,12 @@
             internal: false
           infraMgr:
             git:
-              repository: git@github.com:th2-net/e2e-test-schema.git
-#           infraOperator:
-#             chart:
-#               git: https://github.com/th2-net/infra-operator-tpl.git
-#               ref: release-v0.3.2
-#               path: ./
+              repository: ssh://git@infra-git/home/git/repo/e2e-test-schema.git
+        #           infraOperator:
+        #             chart:
+        #               git: https://github.com/th2-net/infra-operator-tpl.git
+        #               ref: release-v0.3.2
+        #               path: ./
         values_files:
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml
