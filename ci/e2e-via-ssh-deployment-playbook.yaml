@@ -51,9 +51,15 @@
         definition: "{{ item }}"
       with_items: '{{ lookup("url", "https://raw.githubusercontent.com/helm/charts/master/stable/prometheus-operator/crds/crd-servicemonitor.yaml", split_lines=False) | from_yaml_all | list }}'
 
-    - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
-      community.crypto.openssh_keypair:
+    - name: Generate an OpenSSH private key
+      community.crypto.openssl_privatekey:
         path: "{{ playbook_dir }}/id_ssh_rsa"
+
+    - name: Generate an OpenSSL public key in OpenSSH format
+      community.crypto.openssl_publickey:
+        format: OpenSSH
+        path: "{{ playbook_dir }}/id_ssh_rsa.pub"
+        privatekey_path: "{{ playbook_dir }}/id_ssh_rsa"
 
     - name: Create infra-mgr secret (private key)
       kubernetes.core.k8s:
