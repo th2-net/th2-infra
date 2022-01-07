@@ -25,6 +25,13 @@ jobs:
 
       - uses: actions/checkout@v2
 
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.1.0
+        with:
+          config: ./ci/kind-cluster.yaml
+          version: v0.11.0
+          node_image: kindest/node:v1.20.7@sha256:e645428988191fc824529fd0bb5c94244c12401cf5f5ea3bd875eb0a787f0fe9
+
       - name: Init test schema
         run: |
           mkdir ./e2e-test-schema.git/
@@ -35,13 +42,6 @@ jobs:
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
           docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/
-
-      - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.1.0
-        with:
-          config: ./ci/kind-cluster.yaml
-          version: v0.11.0
-          node_image: kindest/node:v1.20.7@sha256:e645428988191fc824529fd0bb5c94244c12401cf5f5ea3bd875eb0a787f0fe9
 
       - name: Install python and ansible dependencies
         run: |
