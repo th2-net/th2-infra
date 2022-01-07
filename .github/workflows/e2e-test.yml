@@ -13,6 +13,16 @@ jobs:
   deploy-and-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Go cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
       - uses: actions/checkout@v2
 
       - name: Init test schema
@@ -68,6 +78,7 @@ jobs:
           done
           kubectl -n service logs cassandra-0 > cassandra.log || true
           kubectl -n service exec cassandra-0 cat -ti -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
+          kubectl -n service exec deploy/infra-git -- ls -lah /home/git/repo/e2e-test-schema.git || true
 
           for D in $(kubectl -n th2-test get deployments --no-headers -o custom-columns=":metadata.name")
           do
