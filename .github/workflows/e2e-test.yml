@@ -34,7 +34,7 @@ jobs:
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
-          docker cp ./e2e-test-schema.git/ find /opt/git/
+          docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/
 
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.1.0
