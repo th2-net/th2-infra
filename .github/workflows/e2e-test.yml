@@ -51,7 +51,7 @@ jobs:
         env:
           E2E_PRIVATE_KEY: ${{ secrets.E2E_PRIVATE_KEY }}
         run: |
-          docker exec -ti kind-control-plane find /opt/git
+          docker exec -ti chart-testing-control-plane find /opt/git
           ANSIBLE_STDOUT_CALLBACK=yaml ansible-playbook ./ci/e2e-via-ssh-deployment-playbook.yaml -e 'ansible_python_interpreter=/usr/bin/python3'
           kubectl get pods --all-namespaces
 
