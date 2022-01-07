@@ -41,6 +41,7 @@ jobs:
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
+          docker exec chart-testing-control-plane mkdir /opt/git/e2e-test-schema.git/
           docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/e2e-test-schema.git/
 
       - name: Install python and ansible dependencies
