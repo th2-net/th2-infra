@@ -15,7 +15,7 @@ nodes:
     # TCP is the default
     protocol: TCP
   extraMounts:
-  - hostPath: ./e2e-test-schema.git/
+  - hostPath: ./ci/e2e-test-schema.git/
     containerPath: /opt/git/e2e-test-schema.git
     # optional: if set, the mount is read-only.
     # default false
