@@ -51,7 +51,7 @@ jobs:
         env:
           E2E_PRIVATE_KEY: ${{ secrets.E2E_PRIVATE_KEY }}
         run: |
-          docker exec -ti chart-testing-control-plane find /opt/git
+          docker exec chart-testing-control-plane find /opt/git
           ANSIBLE_STDOUT_CALLBACK=yaml ansible-playbook ./ci/e2e-via-ssh-deployment-playbook.yaml -e 'ansible_python_interpreter=/usr/bin/python3'
           kubectl get pods --all-namespaces
 
@@ -78,7 +78,7 @@ jobs:
             kubectl -n service logs deployment/$D > $D.log || true
           done
           kubectl -n service logs cassandra-0 > cassandra.log || true
-          kubectl -n service exec cassandra-0 cat -ti -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
+          kubectl -n service exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
           kubectl -n service exec deploy/infra-git -- ls -lah /home/git/repo/e2e-test-schema.git || true
 
           for D in $(kubectl -n th2-test get deployments --no-headers -o custom-columns=":metadata.name")
