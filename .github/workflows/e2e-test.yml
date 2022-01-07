@@ -30,6 +30,8 @@ jobs:
       - name: Init test schema
         run: |
           mkdir ./ci/e2e-test-schema.git/
+          git config user.email "ci@actions"
+          git config user.name "CI"
           git --git-dir=./ci/e2e-test-schema.git/ --bare init
           git --git-dir=./ci/e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
           git --git-dir=./ci/e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
