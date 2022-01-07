@@ -29,13 +29,13 @@ jobs:
 
       - name: Init test schema
         run: |
-          mkdir ./ci/e2e-test-schema.git/
+          mkdir ./e2e-test-schema.git/
           git config --global user.email "ci@actions"
           git config --global user.name "CI"
-          git --git-dir=./ci/e2e-test-schema.git/ --bare init
-          git --git-dir=./ci/e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
-          git --git-dir=./ci/e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
-          git --git-dir=./ci/e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
+          git --git-dir=./e2e-test-schema.git/ --bare init
+          git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
+          git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
+          git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
 
       - name: Run th2-infra deployment via Ansible
         env:
