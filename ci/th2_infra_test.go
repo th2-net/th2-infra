@@ -61,7 +61,7 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 }
 
 func TestDashboardEndpoint(t *testing.T) {
-	// t.Parallel()
+	t.Parallel()
 	endpoint := "http://localhost:30000/dashboard/"
 	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
@@ -70,7 +70,7 @@ func TestDashboardEndpoint(t *testing.T) {
 }
 
 func TestDashboardRedirectEndpoint(t *testing.T) {
-	// t.Parallel()
+	t.Parallel()
 	endpoint := "http://localhost:30000/dashboard"
 	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
@@ -92,7 +92,7 @@ func TestRabbitMQEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/rabbitmq/"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, rabbitmqSvc, 10, 3*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, rabbitmqSvc, 10, 5*time.Second)
 
 	validator := validFunc(t, 200, "<title>RabbitMQ Management</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
@@ -102,7 +102,7 @@ func TestInfraMgrEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/editor/backend/actuator/health"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, infraMgrSvc, 10, 1*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, infraMgrSvc, 10, 3*time.Second)
 
 	validator := validFunc(t, 200, "{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 3*time.Second, validator)

@@ -59,7 +59,7 @@ jobs:
       - name: Testing
         run: |
           cd ./ci
-          go test th2_infra_test.go
+          go test -failfast th2_infra_test.go
 
       - name: Getting logs
         if: always()
@@ -80,7 +80,6 @@ jobs:
           done
           kubectl -n service logs cassandra-0 > cassandra.log || true
           kubectl -n service exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
-          kubectl -n service exec deploy/infra-git -- find /home/git/ || true
 
           for D in $(kubectl -n th2-test get deployments --no-headers -o custom-columns=":metadata.name")
           do
