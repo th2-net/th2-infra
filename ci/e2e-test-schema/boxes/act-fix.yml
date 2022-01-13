@@ -9,12 +9,12 @@ spec:
   pins:
     # Server
     - name: server
-      connection-type: grpc
+      connection-type: grpc-server
     # Client
     - name: to_check1
-      connection-type: grpc
+      connection-type: grpc-client
     - name: to_script
-      connection-type: grpc
+      connection-type: grpc-client
     - name: from_codec
       connection-type: mq
       attributes:

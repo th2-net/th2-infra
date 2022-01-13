@@ -12,7 +12,7 @@ spec:
   type: th2-check1
   pins:
     - name: server
-      connection-type: grpc
+      connection-type: grpc-server
     - name: from_codec
       connection-type: mq
       attributes:

@@ -35,7 +35,7 @@ spec:
         - parsed
         - subscribe
     - name: to_util
-      connection-type: grpc
+      connection-type: grpc-client
   extended-settings:
     # externalBox: true
     service:

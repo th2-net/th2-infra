@@ -8,7 +8,7 @@ spec:
   type: th2-util
   pins:
     - name: server
-      connection-type: grpc
+      connection-type: grpc-server
   extended-settings:
     service:
       enabled: false
