@@ -46,7 +46,7 @@ infraOperator:
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
-      version: 0.7.1
+      version: 0.7.0
       name: infra-operator-tpl
     namespacePrefixes:
       - "th2-"
