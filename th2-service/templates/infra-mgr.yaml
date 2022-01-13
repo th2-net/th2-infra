@@ -35,12 +35,7 @@ spec:
           containerPort: {{ default 9752 .Values.infraMgr.prometheusConfiguration.port }}
         {{- end }}
         resources:
-          limits:
-            cpu: 200m
-            memory: 2500Mi
-          requests:
-            cpu: 20m
-            memory: 300Mi
+          {{ toYaml .Values.infraMgr.resources | indent 10 }}
         volumeMounts:
           - name: configs
             mountPath: /home/service/config/
@@ -48,8 +43,10 @@ spec:
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.secretMountPath }}
         env:
+          {{- if .Values.infraMgr.jvm.javaToolOptions }}
           - name: JAVA_TOOL_OPTIONS
-            value: -XX:MaxHeapSize=2048m
+            value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}
+          {{- end }}
           - name: HTTPS_AUTH_USERNAME 
             valueFrom:
               secretKeyRef:
