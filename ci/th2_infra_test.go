@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	defaultSchemaNamespace = "schema-test"
+	defaultSchemaNamespace = "th2-schema"
 	serviceNamespace       = "service"
 	monitoringNamespace    = "monitoring"
 	rabbitmqSvc            = "rabbitmq-discovery"
