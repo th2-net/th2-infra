@@ -35,7 +35,7 @@ spec:
           containerPort: {{ default 9752 .Values.infraMgr.prometheusConfiguration.port }}
         {{- end }}
         resources:
-          {{ toYaml .Values.infraMgr.resources | indent 10 }}
+{{ toYaml .Values.infraMgr.resources | indent 10 }}
         volumeMounts:
           - name: configs
             mountPath: /home/service/config/

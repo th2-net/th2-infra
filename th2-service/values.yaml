@@ -69,7 +69,7 @@ infraOperator:
       cpu: 200m
       memory: 500Mi
   jvm:
-    javaToolOptions: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
+    javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
 infraMgr:
   prometheusConfiguration:
@@ -115,7 +115,7 @@ infraMgr:
       cpu: 200m
       memory: 500Mi
   jvm:
-    javaToolOptions: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
+    javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
 #If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster. 
 #Change to "internal = true" in case you need internal git repo.

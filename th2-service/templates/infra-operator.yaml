@@ -33,7 +33,7 @@ spec:
           containerPort: {{ default 9752 .Values.infraOperator.prometheusConfiguration.port }}
         {{- end }}
         resources:
-          {{ toYaml .Values.infraOperator.resources | indent 10 }}
+{{ toYaml .Values.infraOperator.resources | indent 10 }}
         volumeMounts:
           - name: configs
             mountPath: /var/th2/config/
