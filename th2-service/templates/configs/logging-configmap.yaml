@@ -1,57 +1,19 @@
 apiVersion: v1
 data:
-  log4cxx.properties: |
-    log4cxx::helpers::Properties properties;
-    properties.setProperty(L"log4j.rootLogger",L"INFO");
-    properties.setProperty(L"log4j.appender",L"ca");
-    properties.setProperty(L"log4j.appender",L"fa");
-  log4j.properties: |
-    log4j.rootLogger=INFO, CON
-
-    log4j.appender.CON=org.apache.log4j.ConsoleAppender
-    log4j.appender.CON.layout=org.apache.log4j.PatternLayout
-    log4j.appender.CON.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss,SSS} %-6p [%-15t] %c - %m%n
-
-    log4j.logger.com.exactpro.th2=INFO
-    log4j.logger.com.exactpro.evolution=INFO
-    log4j.logger.com.exactpro.cradle=INFO
-    log4j.logger.com.exactpro.sf.services.http=INFO
-
-    log4j.logger.io.fabric8.kubernetes.client.informers.cache=WARN
-  log4py.conf: |
-    [loggers]
-    keys=root,th2_common,pika
-
-    [handlers]
-    keys=consoleHandler
-
-    [formatters]
-    keys=formatter
-
-    [logger_root]
-    level=INFO
-    handlers=consoleHandler
-    propagate=0
-   
-    [logger_th2_common]
-    level=INFO
-    qualname=th2_common
-    handlers=consoleHandler
-    propagate=0
-   
-    [logger_pika]
-    level=WARNING
-    qualname=pika
-    handlers=consoleHandler
-    propagate=0
-   
-    [handler_consoleHandler]
-    class=StreamHandler
-    formatter=formatter
-    args=(sys.stdout,)
-   
-    [formatter_formatter]
-    format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
+  log4j2.properties: |
+    # Name of the configuration
+    name=InfraLogger
+    # Console appender configuration
+    appender.console.type=Console
+    appender.console.name=consoleLogger
+    appender.console.layout.type=PatternLayout
+    appender.console.layout.pattern=%d{dd MMM yyyy HH:mm:ss,SSS} %-6p [%-15t] %c - %m%n
+    # Root logger level
+    rootLogger.level=INFO
+    # Root logger referring to console appender
+    rootLogger.appenderRef.stdout.ref=consoleLogger
+    logger.fabric8.name=io.fabric8.kubernetes.client.informers.cache
+    logger.fabric8.level=WARN
 kind: ConfigMap
 metadata:
   name: logging-config
