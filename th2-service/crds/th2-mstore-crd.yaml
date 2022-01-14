@@ -1,7 +1,6 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  creationTimestamp: null
   name: th2mstores.th2.exactpro.com
 spec:
   conversion:
@@ -49,7 +48,7 @@ spec:
                 description: this is custom configuration for secrets
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              logFile:
+              loggingConfig:
                 type: string
               mqRouter:
                 description: this is custom configuration for rouer mq
@@ -75,6 +74,12 @@ spec:
                   replicas:
                     type: string
                     pattern: "^[0-9]+$"
+                  k8sProbes:
+                    type: string
+                    enum:
+                      - "false"
+                      - "true"
+                    default: "false"
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -114,6 +119,8 @@ spec:
                     - "true"
                     type: string
                   nodeName:
+                    type: string
+                  bookName:
                     type: string
                   mounting:
                     items:

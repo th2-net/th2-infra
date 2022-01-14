@@ -17,9 +17,8 @@ kind: Deployment
 metadata:
   labels:
     app: infra-editor
+    {{ include "th2-labels" . }}
   name: infra-editor
-  annotations:
-    fluxcd.io/automated: 'true'
 spec:
   replicas: 1
   selector:

@@ -34,14 +34,14 @@ env:
 ```
 **Note**: _CRs with any API changes must be allocated in a new versioned branch!_
 
-Repository with schema is set as a value in e2e-via-ssh-deployment-playbook.yaml > "Deploy th2-infra-base" step
+Repository with schema is set as a value in e2e-via-ssh-deployment-playbook.yaml > "Deploy th2-infra" step
 ```
     infraMgr:
       git:
         repository: git@github.com:th2-net/e2e-test-schema.git
 ```
 
-If it is required to test infra operator template chart from git, then it can be set in e2e-via-ssh-deployment-playbook.yaml > "Deploy th2-infra-base":
+If it is required to test infra operator template chart from git, then it can be set in e2e-via-ssh-deployment-playbook.yaml > "Deploy th2-infra":
 ```yaml
           # infraOperator:
           #   chart:

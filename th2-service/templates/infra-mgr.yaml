@@ -8,6 +8,7 @@ metadata:
   name: infra-mgr
   labels:
     app: infra-mgr
+    {{ include "th2-labels" . }}
 spec:
   replicas: 1
   selector:
@@ -36,7 +37,7 @@ spec:
         resources:
           limits:
             cpu: 200m
-            memory: 1000Mi
+            memory: 2500Mi
           requests:
             cpu: 20m
             memory: 300Mi
@@ -59,6 +60,11 @@ spec:
               secretKeyRef:
                 name: th2-git-access-schemas
                 key: httpAuthPassword
+          - name: CASSANDRA_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
+                key: cassandra-password
       volumes:
       - name : secrets
         secret:
