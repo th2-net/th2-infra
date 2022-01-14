@@ -120,9 +120,9 @@
         template: "{{ playbook_dir }}/cassandra/initdb.yaml"
         namespace: service
 
-    - name: Deploy th2-infra
+    - name: Deploy th2-infra-base
       kubernetes.core.helm:
-        name: th2-infra
+        name: th2-infrap-base
         chart_ref: "{{ playbook_dir }}/../chart/"
         release_namespace: service
         release_values:
