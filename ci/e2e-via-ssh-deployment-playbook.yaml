@@ -122,7 +122,7 @@
 
     - name: Deploy th2-infra-base
       kubernetes.core.helm:
-        name: th2-infrap-base
+        name: th2-infra-base
         chart_ref: "{{ playbook_dir }}/../chart/"
         release_namespace: service
         release_values:
