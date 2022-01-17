@@ -131,6 +131,9 @@
           infraMgr:
             git:
               repository: git@github.com:th2-net/e2e-test-schema.git
+            resources:
+              limits:
+                cpu: 100m
           infraOperator:
             chart:
               git: https://github.com/th2-net/infra-operator-tpl.git
