@@ -107,6 +107,7 @@ infraMgr:
       - th2-core
       - th2-solution
       - th2-proprietary
+      - git-chart-creds
   resources:
     limits:
       cpu: 500m
