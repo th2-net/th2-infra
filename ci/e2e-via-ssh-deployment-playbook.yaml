@@ -94,20 +94,6 @@
           data:
             infra-mgr: "{{ lookup('env','E2E_PRIVATE_KEY') | b64encode }}"
 
-    - name: Create git-chart-creds secret
-      kubernetes.core.k8s:
-        state: present
-        definition:
-          apiVersion: v1
-          kind: Secret
-          type: Opaque
-          metadata:
-            name: git-chart-creds
-            namespace: service
-          data:
-            username: ""
-            password: ""
-
     - name: Create cassandra configMap
       kubernetes.core.k8s:
         state: present
