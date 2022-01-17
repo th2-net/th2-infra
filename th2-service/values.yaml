@@ -103,10 +103,12 @@ infraMgr:
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
+    #FIXME: delete git-chart-creds secrets once it will be deleted from operator resources https://github.com/th2-net/th2-infra-operator/tree/master/src/main/resources 
     secrets:
       - th2-core
       - th2-solution
       - th2-proprietary
+      - git-chart-creds
   resources:
     limits:
       cpu: 500m
