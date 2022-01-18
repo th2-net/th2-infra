@@ -67,12 +67,6 @@
         template: "{{ playbook_dir }}/deploy/infra-mgr-secret.yaml"
         namespace: service
 
-    - name: Create empty git chart credentials for helm-operator
-      kubernetes.core.k8s:
-        state: present
-        template: "{{ playbook_dir }}/deploy/git-chart-creds-secret.yaml"
-        namespace: service
-
     - name: Create public key to infra-git
       kubernetes.core.k8s:
         state: present
