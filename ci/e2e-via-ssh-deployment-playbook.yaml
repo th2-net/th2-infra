@@ -94,20 +94,6 @@
           data:
             infra-mgr: "{{ lookup('env','E2E_PRIVATE_KEY') | b64encode }}"
 
-    - name: Create git-chart-creds secret
-      kubernetes.core.k8s:
-        state: present
-        definition:
-          apiVersion: v1
-          kind: Secret
-          type: Opaque
-          metadata:
-            name: git-chart-creds
-            namespace: service
-          data:
-            username: ""
-            password: ""
-
     - name: Create cassandra configMap
       kubernetes.core.k8s:
         state: present
@@ -145,11 +131,15 @@
           infraMgr:
             git:
               repository: git@github.com:th2-net/e2e-test-schema.git
+            resources:
+              limits:
+                cpu: 200m
           infraOperator:
-            chart:
-              git: https://github.com/th2-net/infra-operator-tpl.git
-              ref: release-v0.7.1
-              path: ./
+            config:
+              chart:
+                git: https://github.com/th2-net/infra-operator-tpl.git
+                ref: release-v0.7.1
+                path: ./
         values_files:
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml
