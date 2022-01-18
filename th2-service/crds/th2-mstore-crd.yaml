@@ -1,7 +1,6 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  creationTimestamp: null
   name: th2mstores.th2.exactpro.com
 spec:
   conversion:
@@ -45,7 +44,11 @@ spec:
                 description: this is custom configuration
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              logFile:
+              secret-custom-config:
+                description: this is custom configuration for secrets
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              loggingConfig:
                 type: string
               mqRouter:
                 description: this is custom configuration for rouer mq
@@ -55,7 +58,7 @@ spec:
                 description: this is custom configuration for rouer grpc
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              cradleManger:
+              cradleManager:
                 description: this is custom configuration for cradle
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
@@ -71,6 +74,12 @@ spec:
                   replicas:
                     type: string
                     pattern: "^[0-9]+$"
+                  k8sProbes:
+                    type: string
+                    enum:
+                      - "false"
+                      - "true"
+                    default: "false"
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -110,6 +119,8 @@ spec:
                     - "true"
                     type: string
                   nodeName:
+                    type: string
+                  bookName:
                     type: string
                   mounting:
                     items:
@@ -155,9 +166,11 @@ spec:
                             targetPort:
                               type: string
                               pattern: "^[0-9]+$"
+                            port:
+                              type: string
+                              pattern: "^[0-9]+$"
                           required:
                           - name
-                          - targetPort
                           type: object
                         type: array
                       nodePort:

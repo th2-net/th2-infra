@@ -1,17 +1,6 @@
 {{ include "infraMgr-config" . }}
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: infra-mgr
-spec:
-  type: NodePort
-  selector:
-    app: infra-mgr
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
+{{ include "infra-mgr-service" .Values }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -19,6 +8,7 @@ metadata:
   name: infra-mgr
   labels:
     app: infra-mgr
+    {{ include "th2-labels" . }}
 spec:
   replicas: 1
   selector:
@@ -38,11 +28,16 @@ spec:
       - name: infra-mgr
         image: "{{ .Values.infraMgr.image.repository }}:{{ .Values.infraMgr.image.tag }}"
         ports:
-          - containerPort: 8080
+        - name: default
+          containerPort: 8080
+        {{- if .Values.infraMgr.prometheusConfiguration.enabled }}
+        - name: metrics
+          containerPort: {{ default 9752 .Values.infraMgr.prometheusConfiguration.port }}
+        {{- end }}
         resources:
           limits:
             cpu: 200m
-            memory: 1000Mi
+            memory: 2500Mi
           requests:
             cpu: 20m
             memory: 300Mi
@@ -67,6 +62,11 @@ spec:
               secretKeyRef:
                 name: th2-git-access-schemas
                 key: httpAuthPassword
+          - name: CASSANDRA_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
+                key: cassandra-password
       volumes:
       - name : secrets
         secret:
