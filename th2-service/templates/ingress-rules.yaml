@@ -29,9 +29,7 @@ spec:
         backend:
           serviceName: act-ui
           servicePort: 8080
-        pathType: ImplementationSpecific
       - path: /${SCHEMA_NAMESPACE}/act-ui/backend/(.*)
         backend:
           serviceName: act-ui-backend
           servicePort: 8080
-        pathType: ImplementationSpecific
