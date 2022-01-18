@@ -124,7 +124,7 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 
 func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	// t.Parallel()
-	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/search/events?timestampFrom=0&timestampTo=0", schemaNamespace)
+	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/messageStreams", schemaNamespace)
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, retries, timeout)
 
