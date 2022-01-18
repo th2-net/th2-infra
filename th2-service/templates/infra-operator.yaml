@@ -27,7 +27,8 @@ spec:
       initContainers:
       - name: init-myservice
         image: busybox:1.28
-        command: ['sh', '-c', "until nslookup rabbitmq; do echo waiting for myservice; sleep 2; done"]
+        command: ['sh', '-c',
+          'until nc -vz rabbitmq 5672; do echo "Waiting for rabbitmq service"; sleep 2; done;']
       containers:
       - name: infra-operator
         image: "{{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}"
