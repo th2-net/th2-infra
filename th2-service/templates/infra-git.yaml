@@ -53,12 +53,7 @@ spec:
             "mkdir /home/git/.ssh && cp /home/keys/git_keys /home/git/.ssh/authorized_keys && chown -R 1000:1000 /home/git/.ssh/ && /usr/sbin/sshd -D",
           ]
         resources:
-          limits:
-            cpu: 100m
-            memory: 200Mi
-          requests:
-            cpu: 50m
-            memory: 100Mi
+{{ toYaml .Values.infraGit.resources | indent 10 }}
       volumes:
         - name: repos-volume
           persistentVolumeClaim:
