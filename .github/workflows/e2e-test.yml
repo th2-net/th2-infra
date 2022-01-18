@@ -9,6 +9,9 @@ on:
       - ".github/workflows/e2e-test.yml"
   workflow_dispatch:
 
+env:
+  SCHEMA_NAMESPACE: th2-schema
+
 jobs:
   deploy-and-test:
     runs-on: ubuntu-latest
@@ -81,9 +84,9 @@ jobs:
           kubectl -n service logs cassandra-0 > cassandra.log || true
           kubectl -n service exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
 
-          for D in $(kubectl -n th2-test get deployments --no-headers -o custom-columns=":metadata.name")
+          for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n th2-test logs deployment/$D > $D.log || true
+            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D > $D.log || true
           done
 
       - name: Uploading logs
