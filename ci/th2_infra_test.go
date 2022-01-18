@@ -70,7 +70,7 @@ func TestDashboardEndpoint(t *testing.T) {
 	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, retries, timeout)
 	validator := validFunc(t, 200, "<title>Kubernetes Dashboard</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestDashboardRedirectEndpoint(t *testing.T) {
@@ -79,7 +79,7 @@ func TestDashboardRedirectEndpoint(t *testing.T) {
 	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, retries, timeout)
 	validator := validFunc(t, 200, "<title>Kubernetes Dashboard</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestInfraEditorEndpoint(t *testing.T) {
@@ -89,7 +89,7 @@ func TestInfraEditorEndpoint(t *testing.T) {
 	k8s.WaitUntilServiceAvailable(t, options, infraEditorSvc, retries, timeout)
 
 	validator := validFunc(t, 200, "<title>Infra editor</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestRabbitMQEndpoint(t *testing.T) {
@@ -99,7 +99,7 @@ func TestRabbitMQEndpoint(t *testing.T) {
 	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
 
 	validator := validFunc(t, 200, "<title>RabbitMQ Management</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestInfraMgrEndpoint(t *testing.T) {
