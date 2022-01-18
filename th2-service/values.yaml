@@ -42,11 +42,11 @@ infraOperator:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.3.12
+    tag: 3.4.1-infra-1.7.1-1708593145
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
-      version: 0.7.0
+      version: 0.7.1
       name: infra-operator-tpl
     namespacePrefixes:
       - "th2-"
@@ -61,13 +61,22 @@ infraOperator:
         configure: ""
         read: ".*"
         write: ".*"
+  resources:
+    limits:
+      cpu: 800m
+      memory: 1200Mi
+    requests:
+      cpu: 200m
+      memory: 500Mi
+  jvm:
+    javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
 infraMgr:
   prometheusConfiguration:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.4.3
+    tag: 1.5.1-infra-1.7.1-1708594635
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -94,10 +103,21 @@ infraMgr:
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
+    #FIXME: delete git-chart-creds secrets once it will be deleted from operator resources https://github.com/th2-net/th2-infra-operator/tree/master/src/main/resources 
     secrets:
       - th2-core
       - th2-solution
       - th2-proprietary
+      - git-chart-creds
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2500Mi
+    requests:
+      cpu: 200m
+      memory: 500Mi
+  jvm:
+    javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
 #If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster. 
 #Change to "internal = true" in case you need internal git repo.
@@ -111,6 +131,13 @@ infraGit:
     accessModes: ReadWriteMany
     storage: 5Gi
     storageClassName: local-storage
+  resources:
+    limits:
+      cpu: 100m
+      memory: 200Mi
+    requests:
+      cpu: 50m
+      memory: 100Mi
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
