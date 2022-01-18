@@ -112,6 +112,8 @@
             dbUser:
               user: cassandra
               password: cassandra
+            cluster:
+              datacenter: dc1
             host: cassandra-headless.service.svc.cluster.local
             jvm:
               maxHeapSize: 1G
