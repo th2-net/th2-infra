@@ -25,7 +25,7 @@ const (
 	infraEditorSvc         = "infra-editor"
 	dashboardSvc           = "dashboard-kubernetes-dashboard"
 	retries                = 10
-	timeout                = 3 * time.Second
+	timeout                = 5 * time.Second
 )
 
 var (
