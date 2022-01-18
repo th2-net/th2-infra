@@ -36,15 +36,15 @@
         create_namespace: true
         wait: true
 
-    - name: Deploy helm-operator
-      kubernetes.core.helm:
-        name: helm-operator
-        chart_ref: flux/helm-operator
-        chart_version: 1.2.0
-        release_namespace: service
-        values_files: "{{ playbook_dir }}/../example-values/helm-operator.values.yaml"
-        create_namespace: true
-        wait: true
+#    - name: Deploy helm-operator
+#      kubernetes.core.helm:
+#        name: helm-operator
+#        chart_ref: flux/helm-operator
+#        chart_version: 1.2.0
+#        release_namespace: service
+#        values_files: "{{ playbook_dir }}/../example-values/helm-operator.values.yaml"
+#        create_namespace: true
+#        wait: true
 
     - name: Mocking prometheus operator
       kubernetes.core.k8s:

@@ -27,6 +27,18 @@ ingress:
 #externalRabbitMQHost:
 #  host: localhost
 
+helmoperator:
+  helm:
+    versions: v3
+  fullnameOverride: helm-operator
+  nameOverrde: helm-operator
+  chartsSyncInterval: 300m
+  prometheus:
+    enabled: enabled
+    serviceMonitor:
+      create: true
+      namespace: monitoring
+
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
