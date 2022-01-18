@@ -122,7 +122,7 @@
               repository: ssh://git@infra-git/home/git/repo/e2e-test-schema.git
             resources:
               limits:
-                cpu: 200m
+                cpu: 250m
           infraOperator:
             config:
               chart:
