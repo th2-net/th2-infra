@@ -135,10 +135,11 @@
               limits:
                 cpu: 200m
           infraOperator:
-            chart:
-              git: https://github.com/th2-net/infra-operator-tpl.git
-              ref: release-v0.7.1
-              path: ./
+            config:
+              chart:
+                git: https://github.com/th2-net/infra-operator-tpl.git
+                ref: release-v0.7.1
+                path: ./
         values_files:
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml
