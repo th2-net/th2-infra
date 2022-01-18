@@ -8,11 +8,11 @@ spec:
   type: th2-script
   pins:
     - name: server
-      connection-type: grpc
+      connection-type: grpc-server
     - name: to_act
-      connection-type: grpc
+      connection-type: grpc-client
     - name: to_check1
-      connection-type: grpc
+      connection-type: grpc-clien
   extended-settings:
     externalBox:
       enabled: true
