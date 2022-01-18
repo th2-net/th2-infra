@@ -1,0 +1,17 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Link
+metadata:
+  name: from-recon-links
+spec:
+  boxes-relation:
+    router-grpc:
+      - name: recon-to-util
+        from:
+          strategy: filter
+          box: recon
+          pin: to_util
+        to:
+          service-class: com.exactpro.th2.util.grpc.MessageComparatorServiceService
+          strategy: robin
+          box: util
+          pin: server
