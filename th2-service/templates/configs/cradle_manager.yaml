@@ -5,8 +5,8 @@ metadata:
 data:
   cradle_manager.json: |
     {
-    "cradleMaxEventBatchSize": "1048576",
-    "cradleMaxMessageBatchSize": "1048576",
-    "timeout": "5000",
-    "pageSize": "5000"
+    "cradleMaxEventBatchSize": {{ default .Values.cassandra.cradle.cradleMaxEventBatchSize "1048576" | quote }},
+    "cradleMaxMessageBatchSize": {{ default .Values.cassandra.cradle.cradleMaxMessageBatchSize "1048576" | quote }},
+    "timeout": {{ default .Values.cassandra.cradle.timeout "5000" | quote }},
+    "pageSize": {{ default .Values.cassandra.cradle.pageSize "5000" | quote }}
     }

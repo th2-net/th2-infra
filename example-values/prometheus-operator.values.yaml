@@ -17,15 +17,13 @@ global:
 
 prometheusOperator:
   # image: 
-  #   repository: quay.io/coreos/prometheus-operator
+  #   repository: quay.io/prometheus-operator/prometheus-operator
   admissionWebhooks:
     enabled: false
     patch:
       enabled: false
   # prometheusConfigReloaderImage:
-  #   repository: quay.io/coreos/prometheus-config-reloader
-  # configmapReloadImage:
-  #   repository: quay.io/coreos/configmap-reload
+  #   repository: quay.io/prometheus-operator/prometheus-config-reloader
   tls:
     enabled: false
 

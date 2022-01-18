@@ -44,12 +44,7 @@ spec:
                               type: string
                             pin:
                               type: string
-                            service-class:
-                              type: string
-                            strategy:
-                              type: string
                           required:
-                          - strategy
                           - box
                           - pin
                           type: object
@@ -59,12 +54,7 @@ spec:
                               type: string
                             pin:
                               type: string
-                            service-class:
-                              type: string
-                            strategy:
-                              type: string
                           required:
-                          - strategy
                           - box
                           - pin
                           type: object
@@ -74,6 +64,7 @@ spec:
                       - to
                       type: object
                     type: array
+                    nullable: true
                   router-mq:
                     description: List of mq connection pins
                     items:
@@ -108,7 +99,9 @@ spec:
                       - to
                       type: object
                     type: array
+                    nullable: true
                 type: object
+                nullable: true
               dictionaries-relation:
                 description: List of dictionary relations
                 items:
@@ -138,6 +131,36 @@ spec:
                   - name
                   - box
                   - dictionary
+                  type: object
+                type: array
+              multi-dictionaries-relation:
+                description: List of multi dictionary relations
+                items:
+                  properties:
+                    name:
+                      type: string
+                      pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                      maxLength: 256
+                    box:
+                      type: string
+                    dictionaries:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                            pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                          alias:
+                            type: string
+                            pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                        required:
+                          - name
+                          - alias
+                        type: object
+                      type: array
+                  required:
+                    - name
+                    - box
+                    - dictionaries
                   type: object
                 type: array
             type: object

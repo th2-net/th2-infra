@@ -37,6 +37,7 @@ jobs:
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
+          branch: master
           directory: ./th2-net.github.io/
           repository: th2-net/th2-net.github.io
           author_name: ${{ github.actor }}

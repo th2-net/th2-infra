@@ -1,0 +1,21 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Link
+metadata:
+  name: from-read-links
+spec:
+  boxes-relation:
+    router-mq:
+      - name: readlog-to-codec
+        from: 
+          box: read-log
+          pin: read_log_demo_out
+        to:
+          box: codec-fix
+          pin: in_codec_decode
+      - name: readlog-refdata-to-codec
+        from: 
+          box: read-log-refdata
+          pin: read_log_refdata_out
+        to:
+          box: codec-fix
+          pin: in_codec_decode

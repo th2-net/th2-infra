@@ -6,21 +6,19 @@ metadata:
 spec:
   selector:
     app: infra-editor
-  type: NodePort
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 8080
     targetPort: 80
-    
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: infra-editor
+    {{ include "th2-labels" . }}
   name: infra-editor
-  annotations:
-    fluxcd.io/automated: 'true'
 spec:
   replicas: 1
   selector:

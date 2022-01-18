@@ -238,6 +238,23 @@ rabbitmq:
   # must be random string
   rabbitmqErlangCookie: cookie
 ```
+### infra-git deployment
+
+If you have any restrictions to get access to any external repositories from the k8s cluster git service can be deployed according to the following instruction:
+
+*  Create PersistentVolume "repos-volume", example is presented in the ./example-values/persistence/pv.yaml;
+*  Create configmap "keys-repo" from public part of key from point "Access for infra-mgr th2 schema git repository":
+```
+$ kubectl -n service create configmap keys-repo -–from-file=git_keys=./infra-mgr-rsa.pub
+```
+*  Define configs for infra-git in services.values.yaml. 
+*  set `infraMgr.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
+```
+infraMgr:
+  git:
+    repository: ssh://git@git-ssh/home/git/repo/<your_repo_name>.git
+```
+* after installation you should init new repo with the name that you define in previous step.
 
 ## th2 deployment
 ### Install helm-operator 
