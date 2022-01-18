@@ -12,7 +12,7 @@ spec:
     - name: to_act
       connection-type: grpc-client
     - name: to_check1
-      connection-type: grpc-clien
+      connection-type: grpc-client
   extended-settings:
     externalBox:
       enabled: true
