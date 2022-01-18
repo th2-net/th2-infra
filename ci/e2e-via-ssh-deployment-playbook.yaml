@@ -121,7 +121,7 @@
         namespace: service
 
     - name: Deploy th2-infra
-      community.kubernetes.helm:
+      kubernetes.core.helm:
         name: th2-infra
         chart_ref: "{{ playbook_dir }}/../chart/"
         release_namespace: service
