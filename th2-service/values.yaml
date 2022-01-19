@@ -237,7 +237,7 @@ cassandra:
     size: 50Gi
 
 kubernetes-dashboard:
-  namespace: monitoring
+  namespace: service
   image:
     repository: kubernetesui/dashboard
   protocolHttp: true
@@ -256,5 +256,4 @@ kubernetes-dashboard:
       nginx.ingress.kubernetes.io/configuration-snippet: "rewrite ^(/dashboard)$ $scheme://$http_host$1/ redirect;"
     paths:
       - /dashboard/(.*)
-    hosts:
-      - localhost
+    hosts: ""
