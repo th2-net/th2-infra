@@ -256,5 +256,4 @@ kubernetes-dashboard:
       nginx.ingress.kubernetes.io/configuration-snippet: "rewrite ^(/dashboard)$ $scheme://$http_host$1/ redirect;"
     paths:
       - /dashboard/(.*)
-    hosts:
-      - localhost
+    hosts: []
