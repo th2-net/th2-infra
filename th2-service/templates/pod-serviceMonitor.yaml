@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: pods-monitoring
-  namespace: monitoring
+  namespace: service
   labels:
     release: prometheus
 spec:
