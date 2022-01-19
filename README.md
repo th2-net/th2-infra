@@ -124,11 +124,6 @@ $ kubectl config set-context --current --namespace=monitoring
           - <th2_host_name>
     ```
 
-* Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-```
-$ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-$ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./dashboard.values.yaml
-```
 * Deploy components
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
@@ -141,7 +136,6 @@ $ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/ku
 $ kubectl get pods
 NAME                                                     READY   STATUS    RESTARTS   AGE
 ........
-pod/dashboard-kubernetes-dashboard-77d85586db-j9v8f   1/1     Running   0          56s
 alertmanager-prometheus-prometheus-oper-alertmanager-0   2/2     Running   0          75s
 loki-0                                                   1/1     Running   0          4m47s
 loki-promtail-wqfml                                      1/1     Running   0          4m47s
