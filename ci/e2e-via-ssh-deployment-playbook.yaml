@@ -16,16 +16,6 @@
         loki: https://grafana.github.io/loki/charts
         stable: https://charts.helm.sh/stable
 
-    - name: Deploy kubernetes dashboard
-      kubernetes.core.helm:
-        name: dashboard
-        chart_ref: kubernetes-dashboard/kubernetes-dashboard
-        chart_version: 3.0.1
-        release_namespace: monitoring
-        values_files: "{{ playbook_dir }}/../example-values/dashboard.values.yaml"
-        create_namespace: true
-        wait: true
-
     - name: Deploy ingress-nginx controller
       kubernetes.core.helm:
         name: ingress

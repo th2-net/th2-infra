@@ -8,5 +8,8 @@ dependencies:
 - name: helm-operator
   repository: https://charts.fluxcd.io
   version: 1.2.0
-digest: sha256:80b204a8f43251271639cbf94afc049cbfc88a8564e6d5f238de715078b0bfd2
-generated: "2022-01-18T23:22:02.763745812+04:00"
+- name: kubernetes-dashboard
+  repository: https://kubernetes.github.io/dashboard/
+  version: 5.0.4
+digest: sha256:377e0015b6a75bf754af93fe989a8e4ca16a21928aa126553c789331d36120f9
+generated: "2022-01-19T10:53:17.03523018+04:00"
