@@ -10,7 +10,6 @@
         name: "{{ item.key }}"
         repo_url: "{{ item.value }}"
       with_dict:
-        kubernetes-dashboard: https://kubernetes.github.io/dashboard/
         flux: https://charts.fluxcd.io
         ingress-nginx: https://kubernetes.github.io/ingress-nginx
         loki: https://grafana.github.io/loki/charts
