@@ -258,4 +258,3 @@ kubernetes-dashboard:
       - /dashboard/(.*)
     hosts:
       - localhost
-
