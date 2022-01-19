@@ -237,6 +237,7 @@ cassandra:
     size: 50Gi
 
 kubernetes-dashboard:
+  namespace: service
   image:
     repository: kubernetesui/dashboard
   protocolHttp: true
