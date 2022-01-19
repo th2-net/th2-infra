@@ -155,7 +155,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: th2infra-kubernetes-dashboard
-  namespace: {{ index .Values "kubernetes-dashboard" "namespace" }}
+  namespace: {{ .Release.Namespace }}
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -168,4 +168,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: th2infra-kubernetes-dashboard
-    namespace: {{ index .Values "kubernetes-dashboard" "namespace" }}
+    namespace: {{ .Release.Namespace }}
