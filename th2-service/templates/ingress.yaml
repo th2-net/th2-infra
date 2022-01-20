@@ -30,7 +30,7 @@ spec:
       - backend:
           serviceName: infra-mgr
           servicePort: 8080
-        path: /editor/backend($|/.*)
+        path: /editor/backend/(.*)
       - backend:
           {{- if not .Values.rabbitmq.fullnameOverride }}
           serviceName: rabbitmq-discovery
