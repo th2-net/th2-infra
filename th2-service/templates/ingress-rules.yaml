@@ -25,7 +25,7 @@ spec:
         backend:
           serviceName: rpt-data-viewer
           servicePort: 8080
-      - path: /${SCHEMA_NAMESPACE}/act-ui/(.*)
+      - path: /${SCHEMA_NAMESPACE}/act-ui($|/.*)
         backend:
           serviceName: act-ui
           servicePort: 8080
