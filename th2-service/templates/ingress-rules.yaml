@@ -29,7 +29,7 @@ spec:
         backend:
           serviceName: act-ui
           servicePort: 8080
-      - path: /${SCHEMA_NAMESPACE}/act-ui/backend($|/.*)
+      - path: /${SCHEMA_NAMESPACE}/act-ui/backend/(.*)
         backend:
           serviceName: act-ui-backend
           servicePort: 8080
