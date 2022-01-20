@@ -28,6 +28,7 @@ ingress:
 #  host: localhost
 
 helmoperator:
+  internal: true
   helm:
     versions: v3
   fullnameOverride: helm-operator
