@@ -67,7 +67,7 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 func TestDashboardEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard/"
-	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, retries, timeout)
 	validator := validFunc(t, 200, "<title>Kubernetes Dashboard</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
