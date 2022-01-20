@@ -5,6 +5,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: rewrite ^/([a-z\-0-9]*)$ $scheme://$http_host/$1/ redirect;
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
   name: ingress-rules
@@ -17,11 +18,11 @@ spec:
   - http:
   {{- end }}
       paths:
-      - path: /${SCHEMA_NAMESPACE}/backend/(.*)
+      - path: /${SCHEMA_NAMESPACE}/backend($|/.*)
         backend:
           serviceName: rpt-data-provider
           servicePort: 8080
-      - path: /${SCHEMA_NAMESPACE}/(.*)
+      - path: /${SCHEMA_NAMESPACE}($|/.*)
         backend:
           serviceName: rpt-data-viewer
           servicePort: 8080

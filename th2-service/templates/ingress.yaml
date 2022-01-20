@@ -8,7 +8,8 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      if ($request_uri ~ "^/rabbitmq(/.*)") {
+      rewrite ^/([a-z\-0-9]*)$ $scheme://$http_host/$1/ redirect;
+      if ($request_uri ~ "^/rabbitmq($|/.*)") {
         proxy_pass http://upstream_balancer$1;
         break;
       }
@@ -25,11 +26,11 @@ spec:
       - backend:
           serviceName: infra-editor
           servicePort: 8080
-        path: /editor/(.*)
+        path: /editor($|/.*)
       - backend:
           serviceName: infra-mgr
           servicePort: 8080
-        path: /editor/backend/(.*)
+        path: /editor/backend($|/.*)
       - backend:
           {{- if not .Values.rabbitmq.fullnameOverride }}
           serviceName: rabbitmq-discovery
@@ -37,4 +38,4 @@ spec:
           serviceName: {{ .Values.rabbitmq.fullnameOverride }}
           {{- end }}
           servicePort: 15672
-        path: /rabbitmq/(.*)
+        path: /rabbitmq($|/.*)
