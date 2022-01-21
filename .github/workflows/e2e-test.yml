@@ -1,21 +1,31 @@
 name: e2e test with kind
 
-on: 
+on:
   pull_request:
     paths:
-    - 'ci/**'
-    - 'example-values/**'
-    - 'th2-service/**'
-    - '.github/workflows/e2e-test.yml'
+      - "ci/**"
+      - "example-values/**"
+      - "th2-service/**"
+      - ".github/workflows/e2e-test.yml"
   workflow_dispatch:
 
 env:
-  SCHEMA_NAMESPACE: th2-v150
+  SCHEMA_NAMESPACE: th2-schema
 
 jobs:
   deploy-and-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Go cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
       - uses: actions/checkout@v2
 
       - name: Create k8s Kind Cluster
@@ -24,6 +34,18 @@ jobs:
           config: ./ci/kind-cluster.yaml
           version: v0.11.0
           node_image: kindest/node:v1.20.7@sha256:e645428988191fc824529fd0bb5c94244c12401cf5f5ea3bd875eb0a787f0fe9
+
+      - name: Init test schema
+        run: |
+          mkdir ./e2e-test-schema.git/
+          git config --global user.email "ci@actions"
+          git config --global user.name "CI"
+          git --git-dir=./e2e-test-schema.git/ --bare init
+          git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
+          git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
+          git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
+          docker exec chart-testing-control-plane mkdir -p /opt/git/
+          docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/
 
       - name: Install python and ansible dependencies
         run: |
@@ -40,7 +62,7 @@ jobs:
       - name: Testing
         run: |
           cd ./ci
-          go test th2_infra_test.go
+          go test -failfast th2_infra_test.go
 
       - name: Getting logs
         if: always()
@@ -52,13 +74,15 @@ jobs:
           echo -e "\n[Nodes]" && kubectl describe nodes || true
           echo -e "\n[Configmaps]" && kubectl get configmaps --all-namespaces || true
           echo -e "\n[Secrets]" && kubectl get secrets --all-namespaces || true
-        
+          echo -e "\n[Events]" && kubectl get events --all-namespaces || true
+          echo -e "\n[PV]" && kubectl get pv || true
+
           for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
           do
             kubectl -n service logs deployment/$D > $D.log || true
           done
           kubectl -n service logs cassandra-0 > cassandra.log || true
-          kubectl -n service exec cassandra-0 cat -ti -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
+          kubectl -n service exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
 
           for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
