@@ -133,7 +133,7 @@ $ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm install --version=0.40.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=2.4.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
 $ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
@@ -307,6 +307,43 @@ $ helm repo update
 $ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
 _Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
+
+### Upgrade loki
+
+* Loki can be upgraded without additional configuration only if new version uses the same schema version. Current config can be retrieved from cluster:
+```
+kubectl get secret -n monitoring loki -o jsonpath="{.data.loki\.yaml}"|base64 -d; echo
+``` 
+schema version is defined in `schema_config.schema` parameter.
+Schema of new version loki can be found in chart default values for loki
+
+* If schema versions are different should be used transition config for loki. Example of this config:
+```
+    schema_config:
+      configs:
+      - from: "2018-04-15"
+        index:
+          period: 168h
+          prefix: index_
+        object_store: filesystem
+        schema: v9
+        store: boltdb
+      - from: "2022-01-22"
+        store: boltdb-shipper
+        object_store: filesystem
+        schema: v11
+        index:
+          prefix: index_
+          period: 24h
+    storage_config:
+    # because boltdb is used in old schema we need to define this storage
+      boltdb:
+        directory: /data/loki/index
+``` 
+More information about seamless migration between schemas:
+https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
+https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
+
   
 ### Re-adding persistence for components in th2 namespaces
 PersistentVolumeClaim is namespace scoped resource, so after namespace re-creation PVCs should be added for components require persistence.
