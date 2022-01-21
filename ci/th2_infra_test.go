@@ -92,6 +92,16 @@ func TestInfraEditorEndpoint(t *testing.T) {
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
+func TestInfraEditorRedirectEndpoint(t *testing.T) {
+        // t.Parallel()
+        endpoint := "http://localhost:30000/editor"
+        options := k8s.NewKubectlOptions("", "", serviceNamespace)
+        k8s.WaitUntilServiceAvailable(t, options, infraEditorSvc, retries, timeout)
+
+        validator := validFunc(t, 200, "<title>Infra editor</title>")
+        http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
 func TestRabbitMQEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/rabbitmq/"
@@ -100,6 +110,16 @@ func TestRabbitMQEndpoint(t *testing.T) {
 
 	validator := validFunc(t, 200, "<title>RabbitMQ Management</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestRabbitMQRedirectEndpoint(t *testing.T) {
+        // t.Parallel()
+        endpoint := "http://localhost:30000/rabbitmq"
+        options := k8s.NewKubectlOptions("", "", serviceNamespace)
+        k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
+
+        validator := validFunc(t, 200, "<title>RabbitMQ Management</title>")
+        http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestInfraMgrEndpoint(t *testing.T) {
@@ -120,6 +140,16 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 
 	validator := validFunc(t, 200, "<title>TH2 Report</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestNamespaceReportRedirectEndpoint(t *testing.T) {
+        // t.Parallel()
+        endpoint := fmt.Sprintf("http://localhost:30000/%s", schemaNamespace)
+        options := k8s.NewKubectlOptions("", "", schemaNamespace)
+        k8s.WaitUntilServiceAvailable(t, options, reportViewerSvc, retries, timeout)
+
+        validator := validFunc(t, 200, "<title>TH2 Report</title>")
+        http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestNamespaceDataProviderEndpoint(t *testing.T) {

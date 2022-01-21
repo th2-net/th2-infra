@@ -100,7 +100,7 @@
             internal: true
           infraMgr:
             git:
-              repository: ssh://git@infra-git/home/git/repo/e2e-test-schema.git
+              repository: git@infra-git:/home/git/repo/e2e-test-schema.git
           infraOperator:
             config:
               chart:
