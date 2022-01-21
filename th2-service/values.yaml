@@ -21,7 +21,7 @@ proprietaryRegistry:
   password: ""
 
 ingress:
-  host: &host <cluster>
+  host: &host host
 
 #Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
 #externalRabbitMQHost:
