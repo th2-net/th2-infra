@@ -68,7 +68,7 @@ jobs:
         run: |
           go install github.com/mfridman/tparse@latest
           cd ./ci
-          go test -failfast -json th2_infra_test.go | parse -all
+          go test -failfast -json th2_infra_test.go | tparse -all
 
       - name: Getting logs
         if: always()
