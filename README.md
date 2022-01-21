@@ -112,10 +112,8 @@ $ kubectl config set-context --current --namespace=monitoring
 * Define Grafana and Dashboard host names (the name must be resolved from QA boxes):
   * in the [values.yaml](./th2-service/values.yaml) file
     ```
-    kebernetes-dashboard:
       ingress:
-        hosts:
-          - <th2_host_name>
+        host: &host "th2_host_name"
     ```
   * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
     ```
