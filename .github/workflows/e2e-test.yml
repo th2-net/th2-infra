@@ -59,6 +59,11 @@ jobs:
           ANSIBLE_STDOUT_CALLBACK=yaml ansible-playbook ./ci/e2e-via-ssh-deployment-playbook.yaml -e 'ansible_python_interpreter=/usr/bin/python3'
           kubectl get pods --all-namespaces
 
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.17"
+
       - name: Testing
         run: |
           go install github.com/mfridman/tparse@latest
