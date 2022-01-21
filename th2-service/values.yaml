@@ -21,7 +21,7 @@ proprietaryRegistry:
   password: ""
 
 ingress:
-  host: &host th2-qa
+  host: ""
 
 #Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
 #externalRabbitMQHost:
@@ -257,4 +257,4 @@ kubernetes-dashboard:
       nginx.ingress.kubernetes.io/configuration-snippet: rewrite ^/([a-z\-0-9]*)$ $scheme://$http_host/$1/ redirect;
     paths:
       - /dashboard($|/.*)
-    hosts: [*host]
+    hosts: []

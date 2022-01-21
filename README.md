@@ -113,7 +113,10 @@ $ kubectl config set-context --current --namespace=monitoring
   * in the [values.yaml](./th2-service/values.yaml) file
     ```
       ingress:
-        host: &host "th2_host_name"
+        host: &host <th2_host_name>
+      kubernetes-dashboard:
+        ingress:
+          hosts: [*host]
     ```
   * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
     ```
