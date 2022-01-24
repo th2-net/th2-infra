@@ -124,6 +124,7 @@ func TestRabbitMQRedirectEndpoint(t *testing.T) {
 
 func TestInfraMgrEndpoint(t *testing.T) {
 	// t.Parallel()
+	k8s.WaitUntilServiceAvailable(t, options, "infra-git", retries, timeout)
 	endpoint := "http://localhost:30000/editor/backend/actuator/health"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilPodAvailable(t, options, cassandraPod, retries, timeout)
