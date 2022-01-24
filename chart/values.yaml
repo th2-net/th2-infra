@@ -8,6 +8,18 @@ productRegistry:
   username:
   password:
 
+solutionRegistry:
+  secret:
+  name:
+  username:
+  password:
+
+proprietaryRegistry:
+  secret:
+  name:
+  username:
+  password:
+
 ingress:
   host: localhost
 
