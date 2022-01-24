@@ -48,14 +48,14 @@ infraEditor:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 0.7.0
+    tag: 0.7.1
 
 infraOperator:
   prometheusConfiguration:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.4.3-infra-1.7.1-1728152367
+    tag: 3.4.3
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
@@ -89,7 +89,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.5.1-infra-1.7.1-1708594635
+    tag: 1.5.1
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
