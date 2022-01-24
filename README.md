@@ -39,12 +39,12 @@ Then https://github.com/th2-net/th2-infra-schema-demo should be created in your 
 Infrastructure components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
 
 Next components of monitoring stack are deployed into _`monitoring`_ namespace:
-* [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 * [grafana](https://grafana.com/oss/grafana/)
 * [loki](https://grafana.com/oss/loki/)
 * [prometheus](https://grafana.com/oss/prometheus/)
 
 The _`service`_ namespace is used for infrastructure services:
+* [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 * [RabbitMQ](https://www.rabbitmq.com/)
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Helm Operator](https://github.com/fluxcd/helm-operator)
@@ -110,11 +110,13 @@ _Note: It's an optional step, but it gets slightly simpler checking the result o
 $ kubectl config set-context --current --namespace=monitoring
 ```
 * Define Grafana and Dashboard host names (the name must be resolved from QA boxes):
-  * in the [dashboard.values.yaml](./example-values/dashboard.values.yaml) file
+  * in the [values.yaml](./th2-service/values.yaml) file
     ```
-    ingress:
-      hosts:
-        - <th2_host_name>
+      ingress:
+        host: &host <th2_host_name>
+      kubernetes-dashboard:
+        ingress:
+          hosts: [*host]
     ```
   * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
     ```
@@ -124,11 +126,6 @@ $ kubectl config set-context --current --namespace=monitoring
           - <th2_host_name>
     ```
 
-* Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-```
-$ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-$ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./dashboard.values.yaml
-```
 * Deploy components
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
@@ -141,7 +138,6 @@ $ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/ku
 $ kubectl get pods
 NAME                                                     READY   STATUS    RESTARTS   AGE
 ........
-pod/dashboard-kubernetes-dashboard-77d85586db-j9v8f   1/1     Running   0          56s
 alertmanager-prometheus-prometheus-oper-alertmanager-0   2/2     Running   0          75s
 loki-0                                                   1/1     Running   0          4m47s
 loki-promtail-wqfml                                      1/1     Running   0          4m47s

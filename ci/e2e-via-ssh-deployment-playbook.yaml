@@ -10,21 +10,20 @@
         name: "{{ item.key }}"
         repo_url: "{{ item.value }}"
       with_dict:
-        kubernetes-dashboard: https://kubernetes.github.io/dashboard/
         flux: https://charts.fluxcd.io
         ingress-nginx: https://kubernetes.github.io/ingress-nginx
         loki: https://grafana.github.io/loki/charts
         stable: https://charts.helm.sh/stable
 
-    - name: Deploy kubernetes dashboard
-      kubernetes.core.helm:
-        name: dashboard
-        chart_ref: kubernetes-dashboard/kubernetes-dashboard
-        chart_version: 3.0.1
-        release_namespace: monitoring
-        values_files: "{{ playbook_dir }}/../example-values/dashboard.values.yaml"
-        create_namespace: true
-        wait: true
+    - name: Ensure k8s namespaces exist
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - service
+        - monitoring
 
     - name: Deploy ingress-nginx controller
       kubernetes.core.helm:
@@ -38,8 +37,8 @@
 
     - name: Mocking prometheus operator
       kubernetes.core.k8s:
-        definition: "{{ item }}"
-      with_items: '{{ lookup("url", "https://raw.githubusercontent.com/helm/charts/master/stable/prometheus-operator/crds/crd-servicemonitor.yaml", split_lines=False) | from_yaml_all | list }}'
+        state: present
+        template: "{{ playbook_dir }}/deploy/crd-servicemonitor.yaml"
 
     - name: Generate an OpenSSH private key
       community.crypto.openssl_privatekey:
@@ -112,12 +111,12 @@
           infraMgr:
             git:
               repository: git@infra-git:/home/git/repo/e2e-test-schema.git
-          infraOperator:
-            config:
-              chart:
-                git: https://github.com/th2-net/infra-operator-tpl.git
-                ref: release-v0.7.1
-                path: ./
+              #          infraOperator:
+              #            config:
+              #              chart:
+              #                git: https://github.com/th2-net/infra-operator-tpl.git
+              #                ref: release-v0.7.1
+              #                path: ./
         values_files:
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml

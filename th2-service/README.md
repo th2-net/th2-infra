@@ -9,7 +9,9 @@ th2 service Helm chart
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | cassandra(cassandra) | 5.6.7 |
+| https://charts.fluxcd.io | helmoperator(helm-operator) | 1.2.0 |
 | https://charts.helm.sh/stable | rabbitmq(rabbitmq-ha) | 1.44.4 |
+| https://kubernetes.github.io/dashboard/ | kubernetes-dashboard(kubernetes-dashboard) | 5.0.4 |
 
 ## Values
 
@@ -29,6 +31,14 @@ th2 service Helm chart
 | cassandra.persistence.enabled | bool | `false` |  |
 | cassandra.persistence.size | string | `"50Gi"` |  |
 | cassandra.persistence.storageClass | string | `"local-storage"` |  |
+| helmoperator.chartsSyncInterval | string | `"300m"` |  |
+| helmoperator.fullnameOverride | string | `"helm-operator"` |  |
+| helmoperator.helm.versions | string | `"v3"` |  |
+| helmoperator.internal | bool | `true` |  |
+| helmoperator.nameOverrde | string | `"helm-operator"` |  |
+| helmoperator.prometheus.enabled | string | `"enabled"` |  |
+| helmoperator.prometheus.serviceMonitor.create | bool | `true` |  |
+| helmoperator.prometheus.serviceMonitor.namespace | string | `"monitoring"` |  |
 | infraEditor.image.repository | string | `"ghcr.io/th2-net/th2-infra-editor"` |  |
 | infraEditor.image.tag | string | `"1.0.65"` |  |
 | infraGit.image.repository | string | `"ghcr.io/th2-net/git-ssh"` |  |
@@ -52,7 +62,7 @@ th2 service Helm chart
 | infraMgr.git.secretMountPath | string | `"/home/service/keys"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"1.5.1-infra-1.7.1-1708594635"` |  |
+| infraMgr.image.tag | string | `"1.5.1"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -65,7 +75,6 @@ th2 service Helm chart
 | infraMgr.kubernetes.secrets[0] | string | `"th2-core"` |  |
 | infraMgr.kubernetes.secrets[1] | string | `"th2-solution"` |  |
 | infraMgr.kubernetes.secrets[2] | string | `"th2-proprietary"` |  |
-| infraMgr.kubernetes.secrets[3] | string | `"git-chart-creds"` |  |
 | infraMgr.prometheusConfiguration.enabled | bool | `true` |  |
 | infraMgr.rabbitmq.passwordLength | int | `24` |  |
 | infraMgr.rabbitmq.secret | string | `"rabbitmq"` |  |
@@ -88,7 +97,7 @@ th2 service Helm chart
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.username | string | `"th2"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"3.4.1-infra-1.7.1-1712191378"` |  |
+| infraOperator.image.tag | string | `"3.4.3"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.prometheusConfiguration.enabled | bool | `true` |  |
 | infraOperator.resources.limits.cpu | string | `"800m"` |  |
@@ -96,8 +105,22 @@ th2 service Helm chart
 | infraOperator.resources.requests.cpu | string | `"200m"` |  |
 | infraOperator.resources.requests.memory | string | `"500Mi"` |  |
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
-| infraRepo.image.tag | string | `"0.7.0"` |  |
+| infraRepo.image.tag | string | `"0.7.1"` |  |
 | ingress.host | string | `""` |  |
+| kubernetes-dashboard.image.repository | string | `"kubernetesui/dashboard"` |  |
+| kubernetes-dashboard.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| kubernetes-dashboard.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;"` |  |
+| kubernetes-dashboard.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
+| kubernetes-dashboard.ingress.enabled | bool | `true` |  |
+| kubernetes-dashboard.ingress.hosts[0] | string | `""` |  |
+| kubernetes-dashboard.ingress.paths[0] | string | `"/dashboard($|/.*)"` |  |
+| kubernetes-dashboard.internal | bool | `true` |  |
+| kubernetes-dashboard.namespace | string | `"service"` |  |
+| kubernetes-dashboard.protocolHttp | bool | `true` |  |
+| kubernetes-dashboard.rbac.clusterRoleMetrics | bool | `true` |  |
+| kubernetes-dashboard.rbac.create | bool | `true` |  |
+| kubernetes-dashboard.serviceAccount.create | bool | `false` |  |
+| kubernetes-dashboard.serviceAccount.name | string | `"th2infra-kubernetes-dashboard"` |  |
 | productRegistry.name | string | `""` |  |
 | productRegistry.password | string | `""` |  |
 | productRegistry.secret | string | `"th2-core"` |  |
