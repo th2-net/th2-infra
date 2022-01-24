@@ -65,7 +65,7 @@ infraOperator:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
     rabbitMQManagement:
-#      host: "" -  host is taken from rabbitmq config
+      #      host: "" -  host is taken from rabbitmq config
       port: "15672"
       username: "th2"
       password: "${RABBITMQ_PASS}"
@@ -116,12 +116,10 @@ infraMgr:
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
-    #FIXME: delete git-chart-creds secrets once it will be deleted from operator resources https://github.com/th2-net/th2-infra-operator/tree/master/src/main/resources 
     secrets:
       - th2-core
       - th2-solution
       - th2-proprietary
-      - git-chart-creds
   resources:
     limits:
       cpu: 500m
@@ -132,7 +130,7 @@ infraMgr:
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
-#If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster. 
+#If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster.
 #Change to "internal = true" in case you need internal git repo.
 infraGit:
   internal: false
@@ -214,9 +212,9 @@ rabbitmq:
 # otherwise service will be deployed as a chart dependency
 cassandra:
   cradle:
-#    networkTopologyStrategy:
-#      dc1: 1
-    instanceName: th2-infra 
+    #    networkTopologyStrategy:
+    #      dc1: 1
+    instanceName: th2-infra
     timeout: 5000
     pageSize: 5000
     cradleMaxEventBatchSize: "1048576"

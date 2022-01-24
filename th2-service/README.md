@@ -75,7 +75,6 @@ th2 service Helm chart
 | infraMgr.kubernetes.secrets[0] | string | `"th2-core"` |  |
 | infraMgr.kubernetes.secrets[1] | string | `"th2-solution"` |  |
 | infraMgr.kubernetes.secrets[2] | string | `"th2-proprietary"` |  |
-| infraMgr.kubernetes.secrets[3] | string | `"git-chart-creds"` |  |
 | infraMgr.prometheusConfiguration.enabled | bool | `true` |  |
 | infraMgr.rabbitmq.passwordLength | int | `24` |  |
 | infraMgr.rabbitmq.secret | string | `"rabbitmq"` |  |
