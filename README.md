@@ -256,12 +256,6 @@ infraMgr:
 * after installation you should init new repo with the name that you define in previous step.
 
 ## th2 deployment
-### Install helm-operator 
-```
-$ helm repo add fluxcd https://charts.fluxcd.io
-$ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./helm-operator.values.yaml
-```
-
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
