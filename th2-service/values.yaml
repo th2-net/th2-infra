@@ -89,7 +89,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.5.1
+    tag: 1.5.2
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
