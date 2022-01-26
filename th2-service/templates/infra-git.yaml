@@ -41,11 +41,11 @@ spec:
             mountPath: /home/git/repo/
           - name: keys
             mountPath: /home/keys/
-        readinessProbe:
-          tcpSocket:
-            port: 22
-          initialDelaySeconds: 20
-          periodSeconds: 20
+#         readinessProbe:
+#           tcpSocket:
+#             port: 22
+#           initialDelaySeconds: 20
+#           periodSeconds: 20
         command: ["/bin/sh"]
         args:
           [
