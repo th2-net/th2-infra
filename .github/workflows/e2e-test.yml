@@ -67,7 +67,7 @@ jobs:
       - name: Getting logs
         if: always()
         run: |
-          echo -e "\n[Pods]" && kubectl get pods --all-namespaces || true
+          echo -e "\n[Pods]" && kubectl get pods -o wide --all-namespaces || true
           echo -e "\n[Services]" && kubectl get svc --all-namespaces || true
           echo -e "\n[Ingresses]" && kubectl describe ingress --all-namespaces || true
           echo -e "\n[HelmReleases]" && kubectl get hr --all-namespaces || true
