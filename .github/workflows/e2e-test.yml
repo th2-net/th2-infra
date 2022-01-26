@@ -86,7 +86,7 @@ jobs:
 
           for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D > $D.log || true
+            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D --all-containers > $D.log || true
           done
 
       - name: Uploading logs
