@@ -50,7 +50,7 @@ spec:
         args:
           [
             "-c",
-            "mkdir /home/git/.ssh && cp /home/keys/git_keys /home/git/.ssh/authorized_keys && chown -R 1000:1000 /home/git/.ssh/ && /usr/sbin/sshd -D -d",
+            "mkdir /home/git/.ssh && cp /home/keys/git_keys /home/git/.ssh/authorized_keys && chown -R 1000:1000 /home/git/.ssh/ && /usr/sbin/sshd -D -e",
           ]
         resources:
 {{ toYaml .Values.infraGit.resources | indent 10 }}
