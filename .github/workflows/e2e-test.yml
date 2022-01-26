@@ -88,7 +88,6 @@ jobs:
           do
             kubectl -n $SCHEMA_NAMESPACE logs deployment/$D > $D.log || true
           done
-          kubectl -n $SCHEMA_NAMESPACE logs deployment/infra-git --previous > infra-git-previous.log
 
       - name: Uploading logs
         if: always()

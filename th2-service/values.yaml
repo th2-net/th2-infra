@@ -122,7 +122,7 @@ infraMgr:
       - th2-proprietary
   resources:
     limits:
-      cpu: 700m
+      cpu: 1
       memory: 2500Mi
     requests:
       cpu: 200m
