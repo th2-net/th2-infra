@@ -182,6 +182,13 @@ rabbitmq:
     periodSeconds: 30
     failureThreshold: 6
     successThreshold: 1
+  resources:
+    limits:
+      cpu: 200m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 100Mi
   readinessProbe:
     exec:
       command:
