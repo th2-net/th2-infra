@@ -32,6 +32,8 @@ spec:
         app: infra-git
     spec:
       securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
         fsGroup: 1000
       containers:
       - image: "{{ .Values.infraGit.image.repository }}:{{ .Values.infraGit.image.tag }}"
@@ -40,7 +42,7 @@ spec:
           - name: repos-volume
             mountPath: /home/git/repo/
           - name: keys
-            mountPath: /home/keys/
+            mountPath: /home/git/.ssh/authorized_keys
         livenessProbe:
           tcpSocket:
             port: 22
@@ -50,7 +52,7 @@ spec:
         args:
           [
             "-c",
-            "mkdir /home/git/.ssh && cp /home/keys/git_keys /home/git/.ssh/authorized_keys && chown -R 1000:1000 /home/git/.ssh/ && /usr/sbin/sshd -D -e",
+            "/usr/sbin/sshd -D -e",
           ]
         resources:
 {{ toYaml .Values.infraGit.resources | indent 10 }}
