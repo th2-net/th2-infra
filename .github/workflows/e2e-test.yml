@@ -79,14 +79,14 @@ jobs:
 
           for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n service logs deployment/$D --all-containers > $D.log || true
+            kubectl -n service logs deployment/$D --all-containers --timestamps > $D.log || true
           done
           kubectl -n service logs cassandra-0 > cassandra.log || true
           kubectl -n service exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
 
           for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D > $D.log || true
+            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D --timestamps > $D.log || true
           done
 
       - name: Uploading logs
