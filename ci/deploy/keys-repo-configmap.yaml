@@ -4,4 +4,4 @@ metadata:
   name: keys-repo
   namespace: service
 data:
-  git_keys: "{{ lookup('file', 'id_ssh_rsa.pub') }}"
+  authorized_keys: "{{ lookup('file', 'id_ssh_rsa.pub') }}"
