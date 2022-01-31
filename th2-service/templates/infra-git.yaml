@@ -48,12 +48,6 @@ spec:
             port: 22
           initialDelaySeconds: 40
           periodSeconds: 20
-        command: ["/bin/sh"]
-        args:
-          [
-            "-c",
-            "/usr/sbin/sshd -D -e",
-          ]
         resources:
 {{ toYaml .Values.infraGit.resources | indent 10 }}
       volumes:
