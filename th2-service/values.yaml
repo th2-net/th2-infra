@@ -122,7 +122,7 @@ infraMgr:
       - th2-proprietary
   resources:
     limits:
-      cpu: 1
+      cpu: 500m
       memory: 2500Mi
     requests:
       cpu: 200m
@@ -144,7 +144,7 @@ infraGit:
     storageClassName: local-storage
   resources:
     limits:
-      cpu: 200m
+      cpu: 100m
       memory: 200Mi
     requests:
       cpu: 50m
