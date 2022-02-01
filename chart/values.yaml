@@ -77,7 +77,7 @@ infraMgr:
     secret: rabbitmq
     passwordLength: 24
   cassandra:
-    keyspacePrefix: schema_
+    keyspacePrefix: th2_
     secret: cassandra
   kubernetes:
     namespacePrefix: "th2-" # must be not more than 5 symbols
