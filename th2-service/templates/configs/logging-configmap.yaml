@@ -15,7 +15,7 @@ data:
     log4j.logger.com.exactpro.th2=INFO
     log4j.logger.com.exactpro.evolution=INFO
     log4j.logger.com.exactpro.cradle=INFO
-    log4j.logger.com.exactpro.sf.services.http=INFO
+    log4j.logger.com.exactpro.sf=INFO
 
     log4j.logger.io.fabric8.kubernetes.client.informers.cache=WARN
   log4py.conf: |

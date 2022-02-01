@@ -15,7 +15,7 @@ data:
     log4j.logger.com.exactpro.th2=${LOGLEVEL_JAVA}
     log4j.logger.com.exactpro.evolution=${LOGLEVEL_JAVA}
     log4j.logger.com.exactpro.cradle=${LOGLEVEL_JAVA}
-    log4j.logger.com.exactpro.sf.services.http=${LOGLEVEL_JAVA}
+    log4j.logger.com.exactpro.sf=${LOGLEVEL_JAVA}
 
     log4j.logger.io.fabric8.kubernetes.client.informers.cache=${LOGLEVEL_JAVA}
   log4py.conf: |
