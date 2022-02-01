@@ -42,7 +42,7 @@ spec:
           - name: repos-volume
             mountPath: /home/git/repo/
           - name: keys
-            mountPath: /home/git/.ssh/authorized_keys
+            mountPath: /home/git/.ssh/
         livenessProbe:
           tcpSocket:
             port: 22
