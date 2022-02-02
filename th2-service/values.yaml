@@ -236,6 +236,7 @@ cassandra:
     size: 50Gi
 
 kubernetesDashboard:
+  fullnameOverride: kubernetes-dashboard
   internal: true
   image:
     repository: kubernetesui/dashboard
