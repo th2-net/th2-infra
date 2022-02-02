@@ -6,6 +6,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: infra-operator
+  labels:
+    app: infra-operator
+    {{ include "th2-labels" . }}
 spec:
   selector:
     matchLabels:
@@ -30,16 +33,15 @@ spec:
           containerPort: {{ default 9752 .Values.infraOperator.prometheusConfiguration.port }}
         {{- end }}
         resources:
-          limits:
-            cpu: 800m
-            memory: 1200Mi
-          requests:
-            cpu: 50m
-            memory: 500Mi
+{{ toYaml .Values.infraOperator.resources | indent 10 }}
         volumeMounts:
           - name: configs
             mountPath: /var/th2/config/
         env:
+        {{- if .Values.infraOperator.jvm.javaToolOptions }}
+        - name: JAVA_TOOL_OPTIONS
+          value: {{ .Values.infraOperator.jvm.javaToolOptions | quote }}
+        {{- end }}
         - name: RABBITMQ_PASS
           valueFrom:
             secretKeyRef:

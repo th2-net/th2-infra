@@ -1,0 +1,16 @@
+kind: SettingsFile
+metadata:
+  name: infra-mgr-config
+spec:
+  k8s-propagation: rule
+  logLevelTh2: DEBUG
+  logLevelRoot: INFO
+#
+#  values for k8s-propagation property:
+#
+#    off  - No synchronization will be done
+#    deny - No synchronization will be done and associated namespece will be removed from kubernetes
+#    sync - Synchronizes repository changes with kubernetes
+#    rule - Synchronizes repository changes with kubernetes and watches resource changes in kubernetes and
+#           brings them back to repository state
+#

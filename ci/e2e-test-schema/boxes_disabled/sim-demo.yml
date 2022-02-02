@@ -1,0 +1,85 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Box
+metadata:
+  name: sim-demo
+spec:
+  image-name: ghcr.io/th2-net/th2-sim-template
+  image-version: 2.2.0
+  type: th2-sim
+  custom-config:
+    defaultRules:
+      - methodName: createDemoRule
+        enable: true
+        settings:
+          fields:
+          connection_id:
+            session_alias: fix-demo-server1
+      - methodName: createDemoRule
+        enable: true
+        settings:
+          fields:
+          connection_id:
+            session_alias: fix-demo-server2
+      - methodName: createRuleFixSecurity
+        enable: true
+        settings:
+          fields:
+          connection_id:
+            session_alias: fix-demo-server1
+  pins:
+    - name: subscribe
+      queue: demo-conn-second-parsed
+      exchange: demo_exchange
+      connection-type: mq
+      attributes:
+        - first
+        - subscribe
+        - parsed
+    - name: send1
+      queue: demo-conn-first-parsed
+      exchange: demo_exchange
+      connection-type: mq
+      attributes:
+        - second
+        - publish
+        - parsed
+        - fix-demo-server1
+    - name: send2
+      queue: demo-conn-first-parsed
+      exchange: demo_exchange
+      connection-type: mq
+      attributes:
+        - second
+        - publish
+        - parsed
+        - fix-demo-server2
+    - name: send3
+      queue: demo-conn-first-parsed
+      exchange: demo_exchange
+      connection-type: mq
+      attributes:
+        - second
+        - publish
+        - parsed
+        - dc-demo-server1
+    - name: send4
+      queue: demo-conn-first-parsed
+      exchange: demo_exchange
+      connection-type: mq
+      attributes:
+        - second
+        - publish
+        - parsed
+        - dc-demo-server2
+
+  extended-settings:
+    service:
+      enabled: false
+    envVariables:
+      JAVA_TOOL_OPTIONS: "-XX:+ExitOnOutOfMemoryError"
+    resources:
+      limits:
+        memory: 201Mi
+        cpu: 200m
+#      mounitng:
+#        TBD
