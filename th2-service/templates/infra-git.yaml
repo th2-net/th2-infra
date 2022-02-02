@@ -11,7 +11,7 @@ spec:
   ports:
     - protocol: TCP
       port: 22
-      targetPort: 2200
+      targetPort: 22
       nodePort: {{ .Values.infraGit.nodePort }}
 ---
 apiVersion: apps/v1
@@ -32,8 +32,6 @@ spec:
         app: infra-git
     spec:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
         fsGroup: 1000
       containers:
       - image: "{{ .Values.infraGit.image.repository }}:{{ .Values.infraGit.image.tag }}"
@@ -42,10 +40,18 @@ spec:
           - name: repos-volume
             mountPath: /home/git/repo/
           - name: keys
-            mountPath: /home/git/.ssh/
+            mountPath: /opt/keys/
+        command:
+        - "/bin/bash"
+        - "-c"
+        - |
+          set -ex
+          mkdir /home/git/.ssh
+          cp /opt/keys/authorized_keys /home/git/.ssh/authorized_keys
+          /usr/sbin/sshd -D -e
         livenessProbe:
           tcpSocket:
-            port: 2200
+            port: 22
           initialDelaySeconds: 40
           periodSeconds: 20
         resources:

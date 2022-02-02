@@ -74,7 +74,7 @@ jobs:
           echo -e "\n[Nodes]" && kubectl describe nodes || true
           echo -e "\n[Configmaps]" && kubectl get configmaps --all-namespaces || true
           echo -e "\n[Secrets]" && kubectl get secrets --all-namespaces || true
-          echo -e "\n[Events]" && kubectl get events --all-namespaces || true
+          echo -e "\n[Events]" && kubectl get events --all-namespaces --sort-by='.metadata.creationTimestamp' || true
           echo -e "\n[PV]" && kubectl get pv || true
 
           for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
