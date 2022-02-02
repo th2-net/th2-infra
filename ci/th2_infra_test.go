@@ -23,7 +23,7 @@ const (
 	reportViewerSvc        = "rpt-data-viewer"
 	infraMgrSvc            = "infra-mgr"
 	infraEditorSvc         = "infra-editor"
-	dashboardSvc           = "th2-infra-kubernetes-dashboard"
+	dashboardSvc           = "th2-infra-dashboard"
 	retries                = 10
 	timeout                = 5 * time.Second
 )
