@@ -54,7 +54,7 @@ infraOperator:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 4.0.1-infra-2.0.0-1548530202
+    tag: 4.0.3-infra-2.0.1-1777525602
   config:
     chart:
       git: https://github.com/th2-net/infra-operator-tpl.git
@@ -86,7 +86,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.4.3-infra-2.0.0-1521338401
+    tag: 1.6.2-infra-2.0.1-1761900384
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -101,7 +101,7 @@ infraMgr:
     secret: rabbitmq
     passwordLength: 24
   cassandra:
-    keyspacePrefix: schema_
+    keyspacePrefix: th2_
     secret: cassandra
   kubernetes:
     namespacePrefix: "th2-" # must be not more than 5 symbols
