@@ -45,7 +45,7 @@ spec:
             mountPath: /home/git/.ssh/
         livenessProbe:
           tcpSocket:
-            port: 22
+            port: 2200
           initialDelaySeconds: 40
           periodSeconds: 20
         resources:
