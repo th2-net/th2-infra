@@ -1,6 +1,6 @@
 # th2
 
-![Version: 1.4.2](https://img.shields.io/badge/Version-1.4.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.6.2](https://img.shields.io/badge/Version-1.6.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 th2 service Helm chart
 
@@ -15,9 +15,9 @@ th2 service Helm chart
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| cassandra.cluster.datacenter | string | `"datacenter1"` |  |
+| cassandra.cluster.datacenter | string | `"dc1"` |  |
 | cassandra.dbUser.password | string | `""` |  |
-| cassandra.dbUser.user | string | `"cassandra"` |  |
+| cassandra.dbUser.user | string | `"th2"` |  |
 | cassandra.fullnameOverride | string | `"cassandra"` |  |
 | cassandra.internal | bool | `true` |  |
 | cassandra.keyspace | string | `"cradle"` |  |
@@ -26,8 +26,9 @@ th2 service Helm chart
 | cassandra.persistence.storageClass | string | `"local-storage"` |  |
 | externalRabbitMQHost.host | string | `"localhost"` |  |
 | infraEditor.image.repository | string | `"ghcr.io/th2-net/th2-infra-editor"` |  |
-| infraEditor.image.tag | string | `"1.0.56"` |  |
+| infraEditor.image.tag | string | `"1.0.65"` |  |
 | infraMgr.cassandra.keyspacePrefix | string | `"schema_"` |  |
+| infraMgr.cassandra.secret | string | `"cassandra"` |  |
 | infraMgr.git.httpAuthPassword | string | `""` |  |
 | infraMgr.git.httpAuthUsername | string | `""` |  |
 | infraMgr.git.privateKeyFileSecret | string | `"infra-mgr"` |  |
@@ -36,29 +37,28 @@ th2 service Helm chart
 | infraMgr.git.secretMountPath | string | `"/home/service/keys"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"0.14.17"` |  |
+| infraMgr.image.tag | string | `"1.2.9"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
-| infraMgr.kubernetes.configMaps.logging | string | `"java-logging-config"` |  |
+| infraMgr.kubernetes.configMaps.logging | string | `"logging-config-template"` |  |
 | infraMgr.kubernetes.configMaps.prometheus | string | `"prometheus-app-config"` |  |
 | infraMgr.kubernetes.configMaps.rabbitmq | string | `"rabbit-mq-app-config"` |  |
 | infraMgr.kubernetes.configMaps.rabbitmq-ext | string | `"rabbit-mq-external-app-config"` |  |
 | infraMgr.kubernetes.ingress | string | `"ingress-rules"` |  |
-| infraMgr.kubernetes.namespacePrefix | string | `"th2-"` | not more than 5 symbols |
+| infraMgr.kubernetes.namespacePrefix | string | `"th2-"` |  |
 | infraMgr.kubernetes.secrets[0] | string | `"th2-core"` |  |
 | infraMgr.kubernetes.secrets[1] | string | `"th2-solution"` |  |
 | infraMgr.kubernetes.secrets[2] | string | `"th2-proprietary"` |  |
-| infraMgr.kubernetes.secrets[3] | string | `"cassandra"` |  |
+| infraMgr.prometheusConfiguration.enabled | bool | `true` |  |
 | infraMgr.rabbitmq.passwordLength | int | `24` |  |
 | infraMgr.rabbitmq.secret | string | `"rabbitmq"` |  |
-| infraMgr.rabbitmq.usernamePrefix | string | `"schema-user-"` |  |
-| infraMgr.rabbitmq.vHostPrefix | string | `"schema-"` |  |
+| infraMgr.rabbitmq.usernamePrefix | string | `"th2-user-"` |  |
+| infraMgr.rabbitmq.vHostPrefix | string | `"th2-"` |  |
 | infraOperator.config.chart.name | string | `"infra-operator-tpl"` |  |
-| infraOperator.config.chart.repository | string | `"https://th2-net.github.io"` |  |
-| infraOperator.config.chart.version | string | `"0.3.0"` |  |
+| infraOperator.config.chart.repository | string | `"http://infra-repo:8080"` |  |
+| infraOperator.config.chart.version | string | `"0.6.0"` |  |
 | infraOperator.config.k8sUrl | string | `"<kubernetes-external-entrypoint>"` |  |
-| infraOperator.config.namespacePrefixes[0] | string | `"schema-"` |  |
-| infraOperator.config.rabbitMQManagement.host | string | `"rabbitmq-discovery.service.svc.cluster.local"` |  |
+| infraOperator.config.namespacePrefixes[0] | string | `"th2-"` |  |
 | infraOperator.config.rabbitMQManagement.password | string | `"${RABBITMQ_PASS}"` |  |
 | infraOperator.config.rabbitMQManagement.persistence | bool | `true` |  |
 | infraOperator.config.rabbitMQManagement.port | string | `"15672"` |  |
@@ -66,16 +66,18 @@ th2 service Helm chart
 | infraOperator.config.rabbitMQManagement.schemaPermissions.read | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.username | string | `"th2"` |  |
-| infraOperator.config.schemaSecrets.cassandra | string | `"cassandra"` |  |
-| infraOperator.config.schemaSecrets.rabbitMQ | string | `"rabbitmq"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"2.7.2"` |  |
-| infraOperator.persistence | bool | `true` |  |
+| infraOperator.image.tag | string | `"3.2.8"` |  |
+| infraOperator.prometheusConfiguration.enabled | bool | `true` |  |
+| infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
+| infraRepo.image.tag | string | `"0.6.0"` |  |
 | ingress.host | string | `nil` |  |
 | productRegistry.name | string | `nil` |  |
 | productRegistry.password | string | `nil` |  |
 | productRegistry.secret | string | `"th2-core"` |  |
 | productRegistry.username | string | `nil` |  |
+| prometheus.operator.enabled | bool | `true` |  |
+| prometheus.operator.serviceMonitor.namespace | string | `"monitoring"` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
 | rabbitmq.internal | bool | `true` |  |
 | rabbitmq.livenessProbe.exec.command[0] | string | `"/bin/bash"` |  |
@@ -86,6 +88,9 @@ th2 service Helm chart
 | rabbitmq.livenessProbe.periodSeconds | int | `30` |  |
 | rabbitmq.livenessProbe.successThreshold | int | `1` |  |
 | rabbitmq.livenessProbe.timeoutSeconds | int | `20` |  |
+| rabbitmq.persistentVolume.enabled | bool | `true` |  |
+| rabbitmq.persistentVolume.size | string | `"10Gi"` |  |
+| rabbitmq.persistentVolume.storageClass | string | `"local-storage"` |  |
 | rabbitmq.podAntiAffinity | string | `"hard"` |  |
 | rabbitmq.prometheus.exporter.enabled | bool | `false` |  |
 | rabbitmq.prometheus.operator.alerts.enabled | bool | `true` |  |
@@ -115,4 +120,4 @@ th2 service Helm chart
 | solutionRegistry.username | string | `nil` |  |
 
 ----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.5.0](https://github.com/norwoodj/helm-docs/releases/v1.5.0)
+Autogenerated from chart metadata using [helm-docs v1.6.0](https://github.com/norwoodj/helm-docs/releases/v1.6.0)
