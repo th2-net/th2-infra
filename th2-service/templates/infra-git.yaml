@@ -48,6 +48,7 @@ spec:
           set -ex
           mkdir /home/git/.ssh
           cp /opt/keys/authorized_keys /home/git/.ssh/authorized_keys
+          ls -lah /home/git/repo
           /usr/sbin/sshd -D -e
         livenessProbe:
           tcpSocket:
