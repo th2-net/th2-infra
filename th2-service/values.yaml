@@ -17,6 +17,15 @@ solutionRegistry:
 ingress:
   host:
 
+prometheus:
+  ## Create prometheus-operator resources like ServiceMonitors and Alerts
+  operator:
+    ## Set true if kube-prometheus-stack is used
+    enabled: true
+    serviceMonitor:
+      # Namespace to install ServiceMonitor
+      namespace: monitoring
+
 externalRabbitMQHost:
   host: localhost
 
