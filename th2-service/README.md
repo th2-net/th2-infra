@@ -11,7 +11,7 @@ th2 service Helm chart
 | https://charts.bitnami.com/bitnami | cassandra(cassandra) | 5.6.7 |
 | https://charts.fluxcd.io | helmoperator(helm-operator) | 1.2.0 |
 | https://charts.helm.sh/stable | rabbitmq(rabbitmq-ha) | 1.44.4 |
-| https://kubernetes.github.io/dashboard/ | kubernetesDashboard(kubernetes-dashboard) | 5.0.4 |
+| https://kubernetes.github.io/dashboard/ | dashboard(kubernetes-dashboard) | 5.0.4 |
 
 ## Values
 
@@ -31,6 +31,19 @@ th2 service Helm chart
 | cassandra.persistence.enabled | bool | `false` |  |
 | cassandra.persistence.size | string | `"50Gi"` |  |
 | cassandra.persistence.storageClass | string | `"local-storage"` |  |
+| dashboard.image.repository | string | `"kubernetesui/dashboard"` |  |
+| dashboard.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| dashboard.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;"` |  |
+| dashboard.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
+| dashboard.ingress.enabled | bool | `true` |  |
+| dashboard.ingress.hosts[0] | string | `""` |  |
+| dashboard.ingress.paths[0] | string | `"/dashboard($|/.*)"` |  |
+| dashboard.internal | bool | `true` |  |
+| dashboard.protocolHttp | bool | `true` |  |
+| dashboard.rbac.clusterRoleMetrics | bool | `true` |  |
+| dashboard.rbac.create | bool | `true` |  |
+| dashboard.serviceAccount.create | bool | `false` |  |
+| dashboard.serviceAccount.name | string | `"th2infra-kubernetes-dashboard"` |  |
 | helmoperator.chartsSyncInterval | string | `"300m"` |  |
 | helmoperator.fullnameOverride | string | `"helm-operator"` |  |
 | helmoperator.helm.versions | string | `"v3"` |  |
@@ -107,19 +120,6 @@ th2 service Helm chart
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
 | infraRepo.image.tag | string | `"0.7.1"` |  |
 | ingress.host | string | `""` |  |
-| kubernetesDashboard.image.repository | string | `"kubernetesui/dashboard"` |  |
-| kubernetesDashboard.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
-| kubernetesDashboard.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;"` |  |
-| kubernetesDashboard.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
-| kubernetesDashboard.ingress.enabled | bool | `true` |  |
-| kubernetesDashboard.ingress.hosts[0] | string | `""` |  |
-| kubernetesDashboard.ingress.paths[0] | string | `"/dashboard($|/.*)"` |  |
-| kubernetesDashboard.internal | bool | `true` |  |
-| kubernetesDashboard.protocolHttp | bool | `true` |  |
-| kubernetesDashboard.rbac.clusterRoleMetrics | bool | `true` |  |
-| kubernetesDashboard.rbac.create | bool | `true` |  |
-| kubernetesDashboard.serviceAccount.create | bool | `false` |  |
-| kubernetesDashboard.serviceAccount.name | string | `"th2infra-kubernetes-dashboard"` |  |
 | productRegistry.name | string | `""` |  |
 | productRegistry.password | string | `""` |  |
 | productRegistry.secret | string | `"th2-core"` |  |

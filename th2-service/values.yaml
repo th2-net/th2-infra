@@ -235,8 +235,8 @@ cassandra:
     storageClass: local-storage
     size: 50Gi
 
-kubernetesDashboard:
-  fullnameOverride: kubernetes-dashboard
+# Kubernetes dashboard values
+dashboard:
   internal: true
   image:
     repository: kubernetesui/dashboard
