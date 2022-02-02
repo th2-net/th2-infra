@@ -62,7 +62,7 @@ spec:
                 description: this is custom configuration for rouer grpc
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              cradleManger:
+              cradleManager:
                 description: this is custom configuration for cradle
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
@@ -249,6 +249,7 @@ spec:
                                   - NOT_EQUAL
                                   - EMPTY
                                   - NOT_EMPTY
+                                  - WILDCARD
                                   type: string
                               required:
                               - field-name
@@ -269,6 +270,7 @@ spec:
                                   - NOT_EQUAL
                                   - EMPTY
                                   - NOT_EMPTY
+                                  - WILDCARD
                                   type: string
                               required:
                               - field-name
