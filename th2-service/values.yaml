@@ -18,12 +18,12 @@ ingress:
   host:
 
 prometheus:
-  ## Prometheus is using Operator.  Setting to true will create Operator specific resources like ServiceMonitors and Alerts
+  ## Create prometheus-operator resources like ServiceMonitors and Alerts
   operator:
-    ## Are you using Prometheus Operator? [Blog Post](https://coreos.com/blog/the-prometheus-operator.html)
+    ## Set true if kube-prometheus-stack is used
     enabled: true
     serviceMonitor:
-      # Namespace Prometheus is installed in
+      # Namespace to install ServiceMonitor
       namespace: monitoring
 
 externalRabbitMQHost:
