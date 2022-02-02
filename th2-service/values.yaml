@@ -23,6 +23,15 @@ proprietaryRegistry:
 ingress:
   host: &host ""
 
+prometheus:
+  ## Create prometheus-operator resources like ServiceMonitors and Alerts
+  operator:
+    ## Set true if kube-prometheus-stack is used
+    enabled: true
+    serviceMonitor:
+      # Namespace to install ServiceMonitor
+      namespace: monitoring
+
 #Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
 #externalRabbitMQHost:
 #  host: localhost
