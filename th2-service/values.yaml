@@ -182,3 +182,7 @@ cassandra:
     enabled: false
     storageClass: local-storage
     size: 50Gi
+
+# Kubernetes dashboard values
+dashboard:
+  internal: true

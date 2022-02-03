@@ -31,7 +31,7 @@
         name: dashboard
         chart_ref: kubernetes-dashboard/kubernetes-dashboard
         chart_version: 3.0.1
-        release_namespace: monitoring
+        release_namespace: service
         values_files: "{{ playbook_dir }}/../example-values/dashboard.values.yaml"
         create_namespace: true
         wait: true
@@ -145,11 +145,11 @@
           infraMgr:
             git:
               repository: git@github.com:th2-net/e2e-test-schema.git
-#           infraOperator:
-#             chart:
-#               git: https://github.com/th2-net/infra-operator-tpl.git
-#               ref: release-v0.3.2
-#               path: ./
+        #           infraOperator:
+        #             chart:
+        #               git: https://github.com/th2-net/infra-operator-tpl.git
+        #               ref: release-v0.3.2
+        #               path: ./
         values_files:
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml
