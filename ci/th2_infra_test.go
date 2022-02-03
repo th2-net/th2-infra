@@ -15,7 +15,7 @@ import (
 const (
 	defaultSchemaNamespace = "schema-e2e-v110"
 	serviceNamespace       = "service"
-	monitoringNamespace    = "monitoring"
+	monitoringNamespace    = "service"
 	rabbitmqSvc            = "rabbitmq-discovery"
 	dataProviderSvc        = "rpt-data-provider"
 	reportViewerSvc        = "rpt-data-viewer"
@@ -119,7 +119,7 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 }
 
 //func TestNamespaceDataProviderEndpoint(t *testing.T) {
-	// t.Parallel()
+// t.Parallel()
 //	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/search/events?timestampFrom=0&timestampTo=0", schemaNamespace)
 //	options := k8s.NewKubectlOptions("", "", schemaNamespace)
 //	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, 30, 10*time.Second)
