@@ -26,6 +26,9 @@ prometheus:
       # Namespace to install ServiceMonitor
       namespace: monitoring
 
+## Kubernetes cluster domain
+clusterDomain: cluster.local
+
 externalRabbitMQHost:
   host: localhost
 
