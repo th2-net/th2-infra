@@ -1,12 +1,5 @@
 name: Lint and Test Charts
-on: 
-  pull_request:
-    paths:
-    - 'ci/**'
-    - 'example-values/**'
-    - 'th2-service/**'
-    - '.github/workflows/lint-chart.yaml'
-  workflow_dispatch:
+on: [pull_request]
 
 jobs:
   lint-test:
@@ -37,9 +30,7 @@ jobs:
       - name: Run chart-testing (lint)
         run: |
           helm repo add rabbitmq-ha https://charts.helm.sh/stable
-          helm repo add cassandra https://charts.bitnami.com/bitnami
-          helm repo add helm-operator https://charts.fluxcd.io
-          helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard
+          helm repo add cassandra https://charts.bitnami.com/bitnami 
           ct lint \
             --lint-conf=ci/cfg/lint-cfg.yml \
             --check-version-increment \
