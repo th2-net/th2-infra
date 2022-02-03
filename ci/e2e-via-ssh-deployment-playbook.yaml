@@ -10,7 +10,6 @@
         name: "{{ item.key }}"
         repo_url: "{{ item.value }}"
       with_dict:
-        kubernetes-dashboard: https://kubernetes.github.io/dashboard/
         flux: https://charts.fluxcd.io
         ingress-nginx: https://kubernetes.github.io/ingress-nginx
         loki: https://grafana.github.io/loki/charts
@@ -26,16 +25,6 @@
         - service
         - monitoring
 
-    - name: Deploy kubernetes dashboard
-      kubernetes.core.helm:
-        name: dashboard
-        chart_ref: kubernetes-dashboard/kubernetes-dashboard
-        chart_version: 3.0.1
-        release_namespace: monitoring
-        values_files: "{{ playbook_dir }}/../example-values/dashboard.values.yaml"
-        create_namespace: true
-        wait: true
-
     - name: Deploy ingress-nginx controller
       kubernetes.core.helm:
         name: ingress
@@ -46,79 +35,50 @@
         create_namespace: true
         wait: true
 
-    - name: Deploy HelmOperator
-      kubernetes.core.helm:
-        name: helm-operator
-        chart_ref: flux/helm-operator
-        chart_version: 1.2.0
-        release_namespace: service
-        values_files: "{{ playbook_dir }}/../example-values/helm-operator.values.yaml"
-        create_namespace: true
-        wait: true
-
-    - name: Mocking Prometheus operator
-      kubernetes.core.k8s:
-        definition: "{{ item }}"
-      with_items: '{{ lookup("url", "https://raw.githubusercontent.com/helm/charts/master/stable/prometheus-operator/crds/crd-servicemonitor.yaml", split_lines=False) | from_yaml_all | list }}'
-
-    # - name: Deploy Prometheus operator
-    #   community.kubernetes.helm:
-    #     name: prometheus
-    #     chart_ref: stable/prometheus-operator
-    #     release_namespace: monitoring
-    #     values_files:
-    #       {{ playbook_dir }}/../example-values/prometheus-operator.values.yaml
-    #     create_namespace: true
-    #     wait: true
-
-    # - name: Generate an OpenSSH keypair
-    #   community.crypto.openssl_privatekey:
-    #     path: ./deployment_key_ssh_rsa
-
-    # - name: Generate an OpenSSL public key in OpenSSH format
-    #   community.crypto.openssl_publickey:
-    #     format: OpenSSH
-    #     path: ./deployment_key_ssh_rsa.pub
-    #     privatekey_path: ./deployment_key_ssh_rsa
-
-    - name: Create infra-mgr secret
+    - name: Mocking prometheus operator
       kubernetes.core.k8s:
         state: present
-        definition:
-          apiVersion: v1
-          kind: Secret
-          type: Opaque
-          metadata:
-            name: infra-mgr
-            namespace: service
-          data:
-            infra-mgr: "{{ lookup('env','E2E_PRIVATE_KEY') | b64encode }}"
+        template: "{{ playbook_dir }}/deploy/crd-servicemonitor.yaml"
 
-    - name: Create git-chart-creds secret
+    - name: Generate an OpenSSH private key
+      community.crypto.openssl_privatekey:
+        path: "{{ playbook_dir }}/id_ssh_rsa"
+
+    - name: Generate an OpenSSL public key in OpenSSH format
+      community.crypto.openssl_publickey:
+        format: OpenSSH
+        path: "{{ playbook_dir }}/id_ssh_rsa.pub"
+        privatekey_path: "{{ playbook_dir }}/id_ssh_rsa"
+
+    - name: Create infra-mgr secret (private key)
       kubernetes.core.k8s:
         state: present
-        definition:
-          apiVersion: v1
-          kind: Secret
-          type: Opaque
-          metadata:
-            name: git-chart-creds
-            namespace: service
-          data:
-            username: ""
-            password: ""
-
-    - name: Create cassandra configMap
-      kubernetes.core.k8s:
-        state: present
-        src: "{{ playbook_dir }}/cassandra/cassandra-configmap.yaml"
+        template: "{{ playbook_dir }}/deploy/infra-mgr-secret.yaml"
         namespace: service
 
-    - name: Cassandra Init
+    - name: Create public key to infra-git
       kubernetes.core.k8s:
         state: present
-        template: "{{ playbook_dir }}/cassandra/initdb.yaml"
+        template: "{{ playbook_dir }}/deploy/keys-repo-configmap.yaml"
         namespace: service
+
+    - name: Create infra-git persistent volume
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/infra-repo-pv.yaml"
+        namespace: service
+
+    - name: Create Cassandra configmap
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/cassandra/cassandra-configmap.yaml"
+        namespace: service
+
+    # - name: Cassandra Init
+    #   kubernetes.core.k8s:
+    #     state: present
+    #     template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
+    #     namespace: service
 
     - name: Deploy th2-infra
       kubernetes.core.helm:
@@ -126,6 +86,10 @@
         chart_ref: "{{ playbook_dir }}/../th2-service/"
         release_namespace: service
         release_values:
+          infraGit:
+            internal: true
+          externalRabbitMQHost:
+            host: localhost
           rabbitmq:
             rabbitmqUser: th2
             rabbitmqPassword: test
@@ -133,10 +97,12 @@
               enabled: false
           cassandra:
             # existingConfiguration: cassandra-configuration
-            initDBConfigMap: cassandra-init
+            # initDBConfigMap: cassandra-init
             dbUser:
               user: cassandra
               password: cassandra
+            cluster:
+              datacenter: datacenter1
             host: cassandra-headless.service.svc.cluster.local
             jvm:
               maxHeapSize: 1G
@@ -144,12 +110,13 @@
             internal: true
           infraMgr:
             git:
-              repository: git@github.com:th2-net/e2e-test-schema.git
-#           infraOperator:
-#             chart:
-#               git: https://github.com/th2-net/infra-operator-tpl.git
-#               ref: release-v0.3.2
-#               path: ./
+              repository: git@infra-git:/home/git/repo/e2e-test-schema.git
+              #          infraOperator:
+              #            config:
+              #              chart:
+              #                git: https://github.com/th2-net/infra-operator-tpl.git
+              #                ref: release-v0.7.1
+              #                path: ./
         values_files:
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml
