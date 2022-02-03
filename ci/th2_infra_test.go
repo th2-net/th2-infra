@@ -14,8 +14,8 @@ import (
 
 const (
 	defaultSchemaNamespace = "schema-e2e-v110"
-	serviceNamespace       = "service"
-	monitoringNamespace    = "service"
+	serviceNamespace       = "custom"
+	monitoringNamespace    = "custom"
 	rabbitmqSvc            = "rabbitmq-discovery"
 	dataProviderSvc        = "rpt-data-provider"
 	reportViewerSvc        = "rpt-data-viewer"

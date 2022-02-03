@@ -24,7 +24,7 @@ prometheus:
     enabled: true
     serviceMonitor:
       # Namespace to install ServiceMonitor
-      namespace: monitoring
+      namespace: custom
 
 ## Kubernetes cluster domain
 clusterDomain: cluster.local

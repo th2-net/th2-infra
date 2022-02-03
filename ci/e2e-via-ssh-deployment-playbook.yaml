@@ -3,6 +3,8 @@
   gather_facts: false
   connection: local
   name: th2 deployment
+  vars:
+    infra_namespace: custom
 
   tasks:
     - name: Add helm repositories
@@ -23,15 +25,15 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - service
         - monitoring
+        - "{{ infra_namespace }}"
 
     - name: Deploy kubernetes dashboard
       kubernetes.core.helm:
         name: dashboard
         chart_ref: kubernetes-dashboard/kubernetes-dashboard
         chart_version: 3.0.1
-        release_namespace: service
+        release_namespace: "{{ infra_namespace }}"
         values_files: "{{ playbook_dir }}/../example-values/dashboard.values.yaml"
         create_namespace: true
         wait: true
@@ -41,7 +43,7 @@
         name: ingress
         chart_ref: ingress-nginx/ingress-nginx
         chart_version: 3.12.0
-        release_namespace: service
+        release_namespace: "{{ infra_namespace }}"
         values_files: "{{ playbook_dir }}/../example-values/ingress.values.yaml"
         create_namespace: true
         wait: true
@@ -51,7 +53,7 @@
         name: helm-operator
         chart_ref: flux/helm-operator
         chart_version: 1.2.0
-        release_namespace: service
+        release_namespace: "{{ infra_namespace }}"
         values_files: "{{ playbook_dir }}/../example-values/helm-operator.values.yaml"
         create_namespace: true
         wait: true
@@ -90,7 +92,7 @@
           type: Opaque
           metadata:
             name: infra-mgr
-            namespace: service
+            namespace: "{{ infra_namespace }}"
           data:
             infra-mgr: "{{ lookup('env','E2E_PRIVATE_KEY') | b64encode }}"
 
@@ -103,7 +105,7 @@
           type: Opaque
           metadata:
             name: git-chart-creds
-            namespace: service
+            namespace: "{{ infra_namespace }}"
           data:
             username: ""
             password: ""
@@ -112,19 +114,19 @@
       kubernetes.core.k8s:
         state: present
         src: "{{ playbook_dir }}/cassandra/cassandra-configmap.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     - name: Cassandra Init
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/cassandra/initdb.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     - name: Deploy th2-infra
       kubernetes.core.helm:
         name: th2-infra
         chart_ref: "{{ playbook_dir }}/../th2-service/"
-        release_namespace: service
+        release_namespace: "{{ infra_namespace }}"
         release_values:
           rabbitmq:
             rabbitmqUser: th2
@@ -137,7 +139,7 @@
             dbUser:
               user: cassandra
               password: cassandra
-            host: cassandra-headless.service.svc.cluster.local
+            host: "cassandra-headless.{{ infra_namespace }}.svc.cluster.local"
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M
