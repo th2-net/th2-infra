@@ -55,11 +55,20 @@ spec:
               name: rabbitmq
               {{- end }}
               key: rabbitmq-password
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.infraOperator.livenessProbe.httpGet.path }}
+            port: {{ .Values.infraOperator.livenessProbe.httpGet.port }}
+          initialDelaySeconds: {{ .Values.infraOperator.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.infraOperator.livenessProbe.timeoutSeconds }}
+          periodSeconds: {{ .Values.infraOperator.livenessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.infraOperator.livenessProbe.failureThreshold }}
+          successThreshold: {{ .Values.infraOperator.livenessProbe.successThreshold }}
       volumes:
         - name: configs
           projected:
             sources:
             - configMap:
                 name: logging-config
-            - configMap: 
+            - configMap:
                 name: infra-operator
