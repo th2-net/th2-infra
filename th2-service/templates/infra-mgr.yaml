@@ -66,9 +66,10 @@ spec:
                 key: cassandra-password
         livenessProbe:
           httpGet:
-            path: {{ .Values.infraMgr.livenessProbe.httpGet.path }}
-            port: {{ .Values.infraMgr.livenessProbe.httpGet.port }}
+            path: /actuator/health
+            port: 8080
           initialDelaySeconds: {{ .Values.infraMgr.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
           periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
       volumes:
       - name : secrets

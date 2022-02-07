@@ -57,9 +57,10 @@ spec:
               key: rabbitmq-password
         livenessProbe:
           httpGet:
-            path: {{ .Values.infraOperator.livenessProbe.httpGet.path }}
-            port: {{ .Values.infraOperator.livenessProbe.httpGet.port }}
+            path: /
+            port: 9752
           initialDelaySeconds: {{ .Values.infraOperator.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.infraOperator.livenessProbe.timeoutSeconds }}
           periodSeconds: {{ .Values.infraOperator.livenessProbe.periodSeconds }}
       volumes:
         - name: configs

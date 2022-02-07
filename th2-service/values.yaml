@@ -84,10 +84,8 @@ infraOperator:
         read: ".*"
         write: ".*"
   livenessProbe:
-    httpGet:
-      path: /
-      port: 9752
-    initialDelaySeconds: 10
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
     periodSeconds: 30
   resources:
     limits:
@@ -136,10 +134,8 @@ infraMgr:
       - th2-solution
       - th2-proprietary
   livenessProbe:
-    httpGet:
-      path: /actuator/health
-      port: 8080
-    initialDelaySeconds: 10
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
     periodSeconds: 30
   resources:
     limits:
