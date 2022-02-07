@@ -40,18 +40,21 @@ spec:
           - name: repos-volume
             mountPath: /home/git/repo/
           - name: keys
-            mountPath: /home/keys/
+            mountPath: /opt/keys/
+        command:
+        - "/bin/bash"
+        - "-c"
+        - |
+          set -ex
+          mkdir /home/git/.ssh
+          cp /opt/keys/authorized_keys /home/git/.ssh/authorized_keys
+          ls -lah /home/git/repo
+          /usr/sbin/sshd -D -e
         livenessProbe:
           tcpSocket:
             port: 22
           initialDelaySeconds: 40
           periodSeconds: 20
-        command: ["/bin/sh"]
-        args:
-          [
-            "-c",
-            "mkdir /home/git/.ssh && cp /home/keys/git_keys /home/git/.ssh/authorized_keys && chown -R 1000:1000 /home/git/.ssh/ && /usr/sbin/sshd -D",
-          ]
         resources:
 {{ toYaml .Values.infraGit.resources | indent 10 }}
       volumes:

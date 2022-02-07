@@ -57,6 +57,8 @@ jobs:
           E2E_PRIVATE_KEY: ${{ secrets.E2E_PRIVATE_KEY }}
         run: |
           ANSIBLE_STDOUT_CALLBACK=yaml ansible-playbook ./ci/e2e-via-ssh-deployment-playbook.yaml -e 'ansible_python_interpreter=/usr/bin/python3'
+          kubectl -n service patch deployments.apps infra-mgr -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz infra-git 22; do echo \"Waiting for infra-git service\"; sleep 2; done;"]}]}}}}'
+          kubectl -n service patch deployments.apps infra-operator -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz rabbitmq 5672; do echo \"Waiting for rabbitmq service\"; sleep 2; done;"]}]}}}}'
           kubectl get pods --all-namespaces
 
       - name: Testing
@@ -67,26 +69,26 @@ jobs:
       - name: Getting logs
         if: always()
         run: |
-          echo -e "\n[Pods]" && kubectl get pods --all-namespaces || true
+          echo -e "\n[Pods]" && kubectl get pods -o wide --all-namespaces || true
           echo -e "\n[Services]" && kubectl get svc --all-namespaces || true
           echo -e "\n[Ingresses]" && kubectl describe ingress --all-namespaces || true
           echo -e "\n[HelmReleases]" && kubectl get hr --all-namespaces || true
           echo -e "\n[Nodes]" && kubectl describe nodes || true
           echo -e "\n[Configmaps]" && kubectl get configmaps --all-namespaces || true
           echo -e "\n[Secrets]" && kubectl get secrets --all-namespaces || true
-          echo -e "\n[Events]" && kubectl get events --all-namespaces || true
+          echo -e "\n[Events]" && kubectl get events --all-namespaces --sort-by='.metadata.creationTimestamp' || true
           echo -e "\n[PV]" && kubectl get pv || true
 
           for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n service logs deployment/$D > $D.log || true
+            kubectl -n service logs deployment/$D --all-containers --timestamps > $D.log || true
           done
           kubectl -n service logs cassandra-0 > cassandra.log || true
           kubectl -n service exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
 
           for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D > $D.log || true
+            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D --timestamps > $D.log || true
           done
 
       - name: Uploading logs
