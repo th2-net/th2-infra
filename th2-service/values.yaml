@@ -155,7 +155,8 @@ infraGit:
 rabbitmq:
   internal: true
   rabbitmqMemoryHighWatermark: 1024MB
-  rabbitmqMemoryHighWatermarkType: absolute
+  diskFreeLimit: 1GB
+  diskFreeLimitType: absolute
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
