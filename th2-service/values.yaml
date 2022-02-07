@@ -88,10 +88,7 @@ infraOperator:
       path: /
       port: 9752
     initialDelaySeconds: 10
-    timeoutSeconds: 20
     periodSeconds: 30
-    failureThreshold: 3
-    successThreshold: 1
   resources:
     limits:
       cpu: 800m
