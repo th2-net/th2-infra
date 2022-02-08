@@ -164,8 +164,6 @@ infraGit:
 rabbitmq:
   internal: true
   rabbitmqMemoryHighWatermark: 1024MB
-  diskFreeLimit: 1GB
-  diskFreeLimitType: absolute
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
@@ -225,6 +223,8 @@ rabbitmq:
       serviceMonitor:
         selector:
           release: prometheus
+  extraConfig: |
+    disk_free_limit.absolute = 1GB
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
