@@ -2,5 +2,12 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: messagestore-queues-config
+  annotations:
+    {{- if .Values.configMaps.annotations.default }}
+    {{- toYaml $.Values.configMaps.annotations.default | nindent 4 }}
+    {{- end }}
+    {{- if .Values.configMaps.annotations.extra }}
+    {{- toYaml $.Values.configMaps.annotations.extra | nindent 4 }}
+    {{- end }}
 data:
   TH2_MESSAGE_STORE_QUEUE_NAMES: ''

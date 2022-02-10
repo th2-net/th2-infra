@@ -2,6 +2,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mq-router
+  annotations:
+    {{- if .Values.configMaps.annotations.default }}
+    {{- toYaml $.Values.configMaps.annotations.default | nindent 4 }}
+    {{- end }}
+    {{- if .Values.configMaps.annotations.extra }}
+    {{- toYaml $.Values.configMaps.annotations.extra | nindent 4 }}
+    {{- end }}
 data:
   mq_router.json: |
     {
