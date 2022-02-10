@@ -2,16 +2,15 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
+  {{- if or .Values.ingress.annotations.default .Values.ingress.annotations.custom }}
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      if ($request_uri ~ "^/rabbitmq(/.*)") {
-        proxy_pass http://upstream_balancer$1;
-        break;
-      }
+    {{- if .Values.ingress.annotations.default }}
+    {{- toYaml $.Values.ingress.annotations.default | nindent 4 }}
+    {{- end }}
+    {{- if .Values.ingress.annotations.custom }}
+    {{- toYaml $.Values.ingress.annotations.custom | nindent 4 }}
+    {{- end }}
+  {{- end }}
   name: ingress-service
 spec:
   rules:
