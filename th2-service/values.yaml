@@ -217,7 +217,7 @@ rabbitmq:
         selector:
           release: prometheus
   extraConfig: |-
-    disk_free_limit.absolute = 1GB
+    disk_free_limit.absolute = 10GB
 
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
