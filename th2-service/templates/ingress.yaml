@@ -3,12 +3,7 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    {{- if .Values.ingress.annotations.default }}
-    {{- toYaml $.Values.ingress.annotations.default | nindent 4 }}
-    {{- end }}
-    {{- if .Values.ingress.annotations.extra }}
-    {{- toYaml $.Values.ingress.annotations.extra | nindent 4 }}
-    {{- end }}
+    {{- include "ingress-annotaitions" . | nindent 4  }}
   name: ingress-service
 spec:
   rules:

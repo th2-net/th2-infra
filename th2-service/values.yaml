@@ -24,16 +24,7 @@ ingress:
       nginx.ingress.kubernetes.io/use-regex: "true"
     extra: {}
 
-configMaps:
-  annotations:
-    default: {}
-    extra: {}
-
-secrets:
-  annotations:
-    default: {}
-    extra: {}
-
+annotations: {}
 prometheus:
   ## Create prometheus-operator resources like ServiceMonitors and Alerts
   operator:
@@ -180,7 +171,14 @@ rabbitmq:
       serviceMonitor:
         selector:
           release: prometheus
-
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        if ($request_uri ~ "^/rabbitmq(/.*)") {
+          proxy_pass http://upstream_balancer$1;
+          break;
+        }
 # If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
 # otherwise service will be deployed as a chart dependency
 cassandra:
