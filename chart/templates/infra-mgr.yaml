@@ -43,6 +43,8 @@ spec:
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.secretMountPath }}
         env:
+          - name: HOME
+            value: /home/service/
           {{- if .Values.infraMgr.jvm.javaToolOptions }}
           - name: JAVA_TOOL_OPTIONS
             value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}

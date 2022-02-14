@@ -16,8 +16,6 @@ data:
     log4j.logger.com.exactpro.evolution=${LOGLEVEL_JAVA}
     log4j.logger.com.exactpro.cradle=${LOGLEVEL_JAVA}
     log4j.logger.com.exactpro.sf.services.http=${LOGLEVEL_JAVA}
-
-    log4j.logger.io.fabric8.kubernetes.client.informers.cache=${LOGLEVEL_JAVA}
   log4py.conf: |
     [loggers]
     keys=root,th2_common,pika
@@ -52,6 +50,29 @@ data:
    
     [formatter_formatter]
     format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
+  log4j2.properties: |
+    name=Th2Logger
+    # Console appender configuration
+    appender.console.type=Console
+    appender.console.name=consoleLogger
+    appender.console.layout.type=PatternLayout
+    appender.console.layout.pattern=%d{dd MMM yyyy HH:mm:ss,SSS} %-6p [%-15t] %c - %m%n
+    # Root logger level
+    rootLogger.level=${LOGLEVEL_ROOT}
+    # Root logger referring to console appender
+    rootLogger.appenderRef.stdout.ref=consoleLogger
+
+    logger.th2.name=com.exactpro.th2
+    logger.th2.level=${LOGLEVEL_JAVA}
+
+    logger.evolution.name=com.exactpro.evolution
+    logger.evolution.level=${LOGLEVEL_JAVA}
+
+    logger.cradle.name=com.exactpro.cradle
+    logger.cradle.level=${LOGLEVEL_JAVA}
+
+    logger.sf.name=com.exactpro.sf.services.http
+    logger.sf.level=${LOGLEVEL_JAVA}
 kind: ConfigMap
 metadata:
   name: logging-config-template
