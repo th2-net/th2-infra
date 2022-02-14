@@ -79,14 +79,14 @@ jobs:
           echo -e "\n[Events]" && kubectl get events --all-namespaces --sort-by='.metadata.creationTimestamp' || true
           echo -e "\n[PV]" && kubectl get pv || true
 
+          kubectl describe pod rabbitmq-0
+
           for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
           do
             kubectl -n service logs deployment/$D --all-containers --timestamps > $D.log || true
           done
           kubectl -n service logs cassandra-0 > cassandra.log || true
           kubectl -n service exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
-
-          rabbitmq-diagnostics environment | grep disk_free_limit
 
           for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
