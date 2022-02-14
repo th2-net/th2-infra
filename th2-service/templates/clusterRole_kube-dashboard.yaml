@@ -3,6 +3,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: th2infra-kubernetes-dashboard
+  annotations:
+  {{- include "common-annotaitions" . | nindent 4  }}
 rules:
 - apiGroups:
   - helm.fluxcd.io

@@ -24,7 +24,8 @@ ingress:
       nginx.ingress.kubernetes.io/use-regex: "true"
     extra: {}
 
-annotations: {}
+commonAnnotations:
+  test: va1
 prometheus:
   ## Create prometheus-operator resources like ServiceMonitors and Alerts
   operator:
