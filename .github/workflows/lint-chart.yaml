@@ -4,7 +4,7 @@ on:
     paths:
     - 'ci/**'
     - 'example-values/**'
-    - 'th2-service/**'
+    - 'chart/**'
     - '.github/workflows/lint-chart.yaml'
   workflow_dispatch:
 
@@ -43,4 +43,4 @@ jobs:
           ct lint \
             --lint-conf=ci/cfg/lint-cfg.yml \
             --check-version-increment \
-            --validate-maintainers=false --debug --charts ./th2-service
+            --validate-maintainers=false --debug --charts ./chart
