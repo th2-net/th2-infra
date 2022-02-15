@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    {{- include "ingress-annotaitions" . | nindent 4  }}
+    {{- include "ingress-annotations" . | nindent 4  }}
   name: ingress-rules
 spec:
   rules:

@@ -1,7 +1,7 @@
 {{/*
 Adding annotations into config maps, secrets and ingresses
 */}}
-{{- define "ingress-annotaitions" -}}
+{{- define "ingress-annotations" -}}
 {{- if .Values.ingress.annotations.default -}}
 {{ .Values.ingress.annotations.default | toYaml }}
 {{- end -}}
