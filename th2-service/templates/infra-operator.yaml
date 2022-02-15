@@ -7,7 +7,7 @@ kind: Deployment
 metadata:
   name: infra-operator
   annotations:
-  {{- include "common-annotaitions" . | nindent 4  }}
+  {{- include "common-annotations" . | nindent 4  }}
 spec:
   selector:
     matchLabels:

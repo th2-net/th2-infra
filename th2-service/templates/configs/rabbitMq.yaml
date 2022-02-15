@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: rabbit-mq-app-config
   annotations:
-  {{- include "common-annotaitions" . | nindent 4  }}
+  {{- include "common-annotations" . | nindent 4  }}
 data:
   rabbitMQ.json: |
     {

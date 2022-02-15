@@ -4,7 +4,7 @@ kind: ServiceMonitor
 metadata:
   name: pods-monitoring
   annotations:
-  {{- include "common-annotaitions" . | nindent 4  }}
+  {{- include "common-annotations" . | nindent 4  }}
   namespace: {{ .Values.prometheus.operator.serviceMonitor.namespace }}
   labels:
     release: prometheus

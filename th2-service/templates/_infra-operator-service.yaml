@@ -8,7 +8,7 @@ kind: Service
 metadata:
   name: infra-operator
   annotations:
-  {{- include "common-annotaitions" . | nindent 4  }}
+  {{- include "common-annotations" . | nindent 4  }}
   labels:
     app: infra-mgr
     monitoring-pod: "true"

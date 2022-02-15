@@ -4,7 +4,7 @@ kind: ClusterRole
 metadata:
   name: th2infra-kubernetes-dashboard
   annotations:
-  {{- include "common-annotaitions" . | nindent 4  }}
+  {{- include "common-annotations" . | nindent 4  }}
 rules:
 - apiGroups:
   - helm.fluxcd.io

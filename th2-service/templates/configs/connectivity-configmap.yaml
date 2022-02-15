@@ -5,6 +5,6 @@ kind: ConfigMap
 metadata:
   name: connectivity-config
   annotations:
-  {{- include "common-annotaitions" . | nindent 4  }}
+  {{- include "common-annotations" . | nindent 4  }}
 data:
   TH2_CONNECTIVITY_ADDRESSES: ''

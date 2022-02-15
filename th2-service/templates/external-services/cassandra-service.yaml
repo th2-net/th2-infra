@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: cassandra
   annotations:
-  {{- include "common-annotaitions" . | nindent 4  }}
+  {{- include "common-annotations" . | nindent 4  }}
 spec:
   type: ExternalName
   externalName: {{ .Values.cassandra.host }}

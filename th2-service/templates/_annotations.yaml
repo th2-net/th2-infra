@@ -10,7 +10,7 @@ Adding annotations into config maps, secrets and ingresses
 {{- end -}}
 {{- end -}}
 
-{{- define "common-annotaitions" -}}
+{{- define "common-annotations" -}}
 {{- if .Values.commonAnnotations -}}
 {{ .Values.commonAnnotations | toYaml }}
 {{- end -}}
