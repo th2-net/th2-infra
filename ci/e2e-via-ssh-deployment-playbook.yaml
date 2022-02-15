@@ -4,7 +4,7 @@
   connection: local
   name: th2 deployment
   vars:
-    infra_namespace: custom
+    infra_namespace: {{ lookup('env', 'INFRA_NAMESPACE') | default ('service') }}
 
   tasks:
     - name: Add helm repositories
