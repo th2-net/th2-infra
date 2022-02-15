@@ -64,6 +64,13 @@ spec:
               secretKeyRef:
                 name: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
                 key: cassandra-password
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: {{ .Values.infraMgr.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
+          periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
       volumes:
       - name : secrets
         secret:
