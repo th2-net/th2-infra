@@ -13,19 +13,20 @@ import (
 )
 
 const (
-	defaultSchemaNamespace = "schema-e2e-v110"
-	serviceNamespace       = "custom"
-	monitoringNamespace    = "custom"
-	rabbitmqSvc            = "rabbitmq-discovery"
-	dataProviderSvc        = "rpt-data-provider"
-	reportViewerSvc        = "rpt-data-viewer"
-	infraMgrSvc            = "infra-mgr"
-	infraEditorSvc         = "infra-editor"
-	dashboardSvc           = "dashboard-kubernetes-dashboard"
+	defaultSchemaNamespace  = "schema-e2e-v110"
+	defaultServiceNamespace = "custom"
+	monitoringNamespace     = "monitoring"
+	rabbitmqSvc             = "rabbitmq-discovery"
+	dataProviderSvc         = "rpt-data-provider"
+	reportViewerSvc         = "rpt-data-viewer"
+	infraMgrSvc             = "infra-mgr"
+	infraEditorSvc          = "infra-editor"
+	dashboardSvc            = "dashboard-kubernetes-dashboard"
 )
 
 var (
-	schemaNamespace = ""
+	serviceNamespace, schemaNamespace string
+	exists                            bool
 )
 
 func TestMain(m *testing.M) {
@@ -36,11 +37,11 @@ func TestMain(m *testing.M) {
 }
 
 func setUp() {
-	v, ok := os.LookupEnv("SCHEMA_NAMESPACE")
-	if ok {
-		schemaNamespace = v
-	} else {
+	if schemaNamespace, exists = os.LookupEnv("SCHEMA_NAMESPACE"); !exists {
 		schemaNamespace = defaultSchemaNamespace
+	}
+	if serviceNamespace, exists = os.LookupEnv("INFRA_NAMESPACE"); !exists {
+		serviceNamespace = defaultServiceNamespace
 	}
 }
 
