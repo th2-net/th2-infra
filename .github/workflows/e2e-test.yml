@@ -79,8 +79,6 @@ jobs:
           echo -e "\n[Events]" && kubectl get events --all-namespaces --sort-by='.metadata.creationTimestamp' || true
           echo -e "\n[PV]" && kubectl get pv || true
 
-          rabbitmq-diagnostics environment | grep disk_free_limit
-
           for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
           do
             kubectl -n service logs deployment/$D --all-containers --timestamps > $D.log || true
@@ -92,6 +90,8 @@ jobs:
           do
             kubectl -n $SCHEMA_NAMESPACE logs deployment/$D --timestamps > $D.log || true
           done
+
+          kubectl -n service exec rabbitmq-0 rabbitmqctl status
 
       - name: Uploading logs
         if: always()
