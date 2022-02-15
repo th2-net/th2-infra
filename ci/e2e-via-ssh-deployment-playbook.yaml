@@ -5,6 +5,7 @@
   name: th2 deployment
   vars:
     infra_namespace: "{{ lookup('env', 'INFRA_NAMESPACE') | default ('service', True) }}"
+    monitoring_namespace: "{{ lookup('env', 'MONITORING_NAMESPACE') | default ('monitoring', True) }}"
 
   tasks:
     - name: Add helm repositories
