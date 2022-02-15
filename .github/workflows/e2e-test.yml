@@ -14,7 +14,7 @@ on:
         default: "service"
         type: string
       schemaNamespace:
-        description: "Infra namespace"
+        description: "Schema namespace"
         default: "th2-v150"
         type: string
 
