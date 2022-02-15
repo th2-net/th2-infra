@@ -173,6 +173,8 @@ rabbitmq:
           release: prometheus
   ingress:
     enabled: true
+    hostName:
+    path: /rabbitmq/
     annotations:
       nginx.ingress.kubernetes.io/configuration-snippet: |
         if ($request_uri ~ "^/rabbitmq(/.*)") {

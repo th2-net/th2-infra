@@ -22,11 +22,4 @@ spec:
           serviceName: infra-mgr
           servicePort: 8080
         path: /editor/backend/(.*)
-      - backend:
-          {{- if not .Values.rabbitmq.fullnameOverride }}
-          serviceName: rabbitmq-discovery
-          {{- else }}
-          serviceName: {{ .Values.rabbitmq.fullnameOverride }}
-          {{- end }}
-          servicePort: 15672
-        path: /rabbitmq/(.*)
+
