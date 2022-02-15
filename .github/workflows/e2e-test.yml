@@ -79,7 +79,7 @@ jobs:
           echo -e "\n[Events]" && kubectl get events --all-namespaces --sort-by='.metadata.creationTimestamp' || true
           echo -e "\n[PV]" && kubectl get pv || true
 
-          kubectl describe pod rabbitmq-0 --namespace=service
+          rabbitmq-diagnostics environment | grep disk_free_limit
 
           for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
           do
