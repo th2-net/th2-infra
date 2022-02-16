@@ -6,66 +6,67 @@ metadata:
   labels:
     grafana_dashboard: "rabbitmq-overview"
 data:
-  {
-    "__requires": [
-      {
-        "type": "grafana",
-        "id": "grafana",
-        "name": "Grafana",
-        "version": "7.0.0"
-      },
-      {
-        "type": "datasource",
-        "id": "prometheus",
-        "name": "prometheus",
-        "version": "2.0.0"
-      },
-      {
-        "type": "table",
-        "id": "table",
-        "name": "Table",
-        "version": ""
-      },
-      {
-        "type": "panel",
-        "id": "graph",
-        "name": "Graph",
-        "version": ""
-      },
-      {
-        "type": "panel",
-        "id": "singlestat",
-        "name": "Singlestat",
-        "version": ""
-      }
-    ],
-    "annotations": {
-      "list": [
+  rabbitmq-overview.Json: |-
+    {
+      "__requires": [
         {
-          "builtIn": 1,
-          "datasource": "-- Grafana --",
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "type": "dashboard"
+          "type": "grafana",
+          "id": "grafana",
+          "name": "Grafana",
+          "version": "7.0.0"
+        },
+        {
+          "type": "datasource",
+          "id": "prometheus",
+          "name": "prometheus",
+          "version": "2.0.0"
+        },
+        {
+          "type": "table",
+          "id": "table",
+          "name": "Table",
+          "version": ""
+        },
+        {
+          "type": "panel",
+          "id": "graph",
+          "name": "Graph",
+          "version": ""
+        },
+        {
+          "type": "panel",
+          "id": "singlestat",
+          "name": "Singlestat",
+          "version": ""
         }
-      ]
-    },
-    "description": "A new RabbitMQ Management Overview",
-    "editable": true,
-    "gnetId": 10991,
-    "graphTooltip": 1,
-    "iteration": 1610979946179,
-    "links": [
-      {
-        "icon": "doc",
-        "tags": [],
-        "targetBlank": true,
-        "title": "Monitoring with Prometheus & Grafana",
-        "tooltip": "",
-        "type": "link",
-        "url": "https://www.rabbitmq.com/prometheus.html"
+      ],
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": "-- Grafana --",
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "type": "dashboard"
+          }
+        ]
+      },
+      "description": "A new RabbitMQ Management Overview",
+      "editable": true,
+      "gnetId": 10991,
+      "graphTooltip": 1,
+      "iteration": 1610979946179,
+      "links": [
+        {
+          "icon": "doc",
+          "tags": [],
+          "targetBlank": true,
+          "title": "Monitoring with Prometheus & Grafana",
+          "tooltip": "",
+          "type": "link",
+          "url": "https://www.rabbitmq.com/prometheus.html"
       }
     ],
     "panels": [
