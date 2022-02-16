@@ -55,7 +55,7 @@ infraOperator:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.2.10
+    tag: 3.2.11
   config:
     chart:
       git: https://github.com/th2-net/infra-operator-tpl.git
