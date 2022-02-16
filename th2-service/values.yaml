@@ -58,14 +58,11 @@ infraOperator:
     tag: 3.2.11
   config:
     chart:
-      git: https://github.com/th2-net/infra-operator-tpl.git
-      ref: release-v0.6.1
-      path: ./
       # external mirror
       # repository: https://th2-net.github.io
-      # repository: http://infra-repo:8080
-      # version: 0.6.1
-      # name: infra-operator-tpl
+      repository: http://infra-repo:8080
+      version: 0.6.1
+      name: infra-operator-tpl
     namespacePrefixes:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
@@ -177,7 +174,6 @@ rabbitmq:
   ingress:
     enabled: true
     hostName:
-    path: /rabbitmq/
     annotations:
       nginx.ingress.kubernetes.io/configuration-snippet: |
         if ($request_uri ~ "^/rabbitmq(/.*)") {
