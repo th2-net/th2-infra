@@ -68,6 +68,10 @@ grafana:
       nginx.ingress.kubernetes.io/use-regex: "true"
     path: /grafana/?(.*)
     hosts: []
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
   grafana.ini:
     server:
       root_url: http://localhost:3000/grafana
