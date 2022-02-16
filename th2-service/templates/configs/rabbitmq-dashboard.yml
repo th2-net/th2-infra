@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: rabbitmq-dashboard
-  namespace: "Monitoring"
+  namespace: "monitoring"
   labels:
     grafana_dashboard: "rabbitmq-overview"
 data:

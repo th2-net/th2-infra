@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cassandra-dashboard
-  namespace: "Monitoring"
+  namespace: "monitoring"
   labels:
     grafana_dashboard: "cassandra"
 data:
