@@ -83,10 +83,6 @@ infraOperator:
         configure: ""
         read: ".*"
         write: ".*"
-  livenessProbe:
-    initialDelaySeconds: 30
-    timeoutSeconds: 5
-    periodSeconds: 30
   resources:
     limits:
       cpu: 800m
@@ -133,10 +129,6 @@ infraMgr:
       - th2-core
       - th2-solution
       - th2-proprietary
-  livenessProbe:
-    initialDelaySeconds: 30
-    timeoutSeconds: 5
-    periodSeconds: 30
   resources:
     limits:
       cpu: 500m
