@@ -1,11 +1,13 @@
 {{ include "infraOperator-config" . }}
 ---
-{{ include "infra-operator-service" .Values }}
+{{ include "infra-operator-service" . }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: infra-operator
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
 spec:
   selector:
     matchLabels:
