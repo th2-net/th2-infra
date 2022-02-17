@@ -136,7 +136,7 @@ data:
             {
               "expr": "cassandra_storage_load_count{cluster=\"$cluster\", datacenter=\"$datacenter\"}",
               "interval": "1m",
-              "legendFormat": "{{ instance }}",
+              "legendFormat": {{"{{ instance }}"}},
               "refId": "A"
             }
           ],
@@ -254,7 +254,7 @@ data:
                 {
                   "expr": "time() - process_start_time_seconds{job=\"cassandra\", datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
                   "interval": "",
-                  "legendFormat": "{{ instance }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -312,7 +312,7 @@ data:
               "targets": [
                 {
                   "expr": "cassandra_client_connectednativeclients{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -387,7 +387,7 @@ data:
                 {
                   "expr": "1 - (sum by (instance) (irate(jvm_gc_collection_seconds_sum{cluster=\"$cluster\", datacenter=\"$datacenter\", instance=~\"$instance\",}[3m])))",
                   "interval": "",
-                  "legendFormat": "{{ instance }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -495,7 +495,7 @@ data:
                 {
                   "expr": "irate(jvm_gc_collection_seconds_count{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}[3m])",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ gc }}",
+                  "legendFormat": {{"{{ instance }} - {{ gc }}"}},
                   "refId": "A"
                 }
               ],
@@ -597,7 +597,7 @@ data:
                 {
                   "expr": "irate(jvm_gc_collection_seconds_sum{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}[3m]) / irate(jvm_gc_collection_seconds_count{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}[3m])",
                   "interval": "$interval",
-                  "legendFormat": "{{ instance }} - {{ gc }}",
+                  "legendFormat": {{"{{ instance }} - {{ gc }}"}},
                   "refId": "A"
                 }
               ],
@@ -693,17 +693,17 @@ data:
               "targets": [
                 {
                   "expr": "jvm_memory_bytes_max{datacenter=\"$datacenter\", cluster=\"$cluster\", area=\"heap\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - max",
+                  "legendFormat": {{"{{ instance }} - max"}},
                   "refId": "C"
                 },
                 {
                   "expr": "jvm_memory_bytes_committed{datacenter=\"$datacenter\", cluster=\"$cluster\", area=\"heap\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - committed",
+                  "legendFormat": {{"{{ instance }} - committed"}},
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_memory_bytes_used{datacenter=\"$datacenter\", cluster=\"$cluster\", area=\"heap\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - used",
+                  "legendFormat": {{"{{ instance }} - used"}},
                   "refId": "A"
                 }
               ],
@@ -797,17 +797,17 @@ data:
               "targets": [
                 {
                   "expr": "jvm_memory_bytes_max{datacenter=\"$datacenter\", cluster=\"$cluster\", area=\"nonheap\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - max",
+                  "legendFormat": {{"{{ instance }} - max"}},
                   "refId": "C"
                 },
                 {
                   "expr": "jvm_memory_bytes_committed{datacenter=\"$datacenter\", cluster=\"$cluster\", area=\"nonheap\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - committed",
+                  ,
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_memory_bytes_used{datacenter=\"$datacenter\", cluster=\"$cluster\", area=\"nonheap\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - used",
+                  "legendFormat": {{"{{ instance }} - used"}},
                   "refId": "A"
                 }
               ],
@@ -905,17 +905,17 @@ data:
               "targets": [
                 {
                   "expr": "jvm_memory_pool_bytes_max{datacenter=\"$datacenter\", cluster=\"$cluster\", pool=~\".*[Oo]ld.*\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - max {{ pool }}",
+                  "legendFormat": {{"{{ instance }} - max {{ pool }}"}},
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_committed{datacenter=\"$datacenter\", cluster=\"$cluster\", pool=~\".*[Oo]ld.*\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - committed {{ pool }}",
+                  "legendFormat": {{"{{ instance }} - committed {{ pool }}"}},
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_used{datacenter=\"$datacenter\", cluster=\"$cluster\", pool=~\".*[Oo]ld.*\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - used - {{ pool }}",
+                  "legendFormat": {{"{{ instance }} - used - {{ pool }}"}},
                   "refId": "C"
                 }
               ],
@@ -1009,22 +1009,22 @@ data:
               "targets": [
                 {
                   "expr": "jvm_threads_peak{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - peak",
+                  "legendFormat": {{"{{ instance }} - peak"}},
                   "refId": "D"
                 },
                 {
                   "expr": "jvm_threads_daemon{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - daemon",
+                  "legendFormat": {{"{{ instance }} - daemon"}},
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_threads_current{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - current",
+                  "legendFormat": {{"{{ instance }} - current"}},
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_threads_deadlocked{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - deadlocked",
+                  "legendFormat": {{"{{ instance }} - deadlocked"}},
                   "refId": "C"
                 }
               ],
@@ -1119,12 +1119,12 @@ data:
               "targets": [
                 {
                   "expr": "jvm_buffer_pool_capacity_bytes{datacenter=\"$datacenter\", cluster=\"$cluster\", pool=\"direct\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - capacity",
+                  "legendFormat": {{"{{ instance }} - capacity"}},
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_buffer_pool_used_bytes{datacenter=\"$datacenter\", cluster=\"$cluster\", pool=\"direct\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - used",
+                  "legendFormat": {{"{{ instance }} - used"}},
                   "refId": "B"
                 }
               ],
@@ -1219,13 +1219,13 @@ data:
                 {
                   "expr": "jvm_buffer_pool_capacity_bytes{datacenter=\"$datacenter\", cluster=\"$cluster\", pool=\"mapped\", instance=~\"$instance\"}",
                   "hide": false,
-                  "legendFormat": "{{ instance }} - capacity",
+                  "legendFormat": {{"{{ instance }} - capacity"}},
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_buffer_pool_used_bytes{datacenter=\"$datacenter\", cluster=\"$cluster\", pool=\"mapped\", instance=~\"$instance\"}",
                   "hide": false,
-                  "legendFormat": "{{ instance }} - used",
+                  "legendFormat": {{"{{ instance }} - used"}},
                   "refId": "B"
                 }
               ],
@@ -1319,12 +1319,12 @@ data:
               "targets": [
                 {
                   "expr": "process_max_fds{job=\"cassandra\", datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - max",
+                  "legendFormat": {{"{{ instance }} - max"}},
                   "refId": "A"
                 },
                 {
                   "expr": "process_open_fds{job=\"cassandra\", datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - open",
+                  "legendFormat": {{"{{ instance }} - open"}},
                   "refId": "B"
                 }
               ],
@@ -1436,17 +1436,17 @@ data:
               "targets": [
                 {
                   "expr": "jvm_memory_pool_bytes_max{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[eE]den.*\"}",
-                  "legendFormat": "{{ instance }} - max {{ pool }}",
+                  ,
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_committed{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[eE]den.*\"}",
-                  "legendFormat": "{{ instance }} - committed {{ pool }}",
+                  ,
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_used{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[eE]den.*\"}",
-                  "legendFormat": "{{ instance }} - used {{ pool }}",
+                  "legendFormat": {{"{{ instance }} - used {{ pool }}"}},
                   "refId": "C"
                 }
               ],
@@ -1543,17 +1543,17 @@ data:
               "targets": [
                 {
                   "expr": "jvm_memory_pool_bytes_max{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[mM]eta.*\"}",
-                  "legendFormat": "{{ instance }} - max {{ pool }}",
+                  ,
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_committed{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[mM]eta.*\"}",
-                  "legendFormat": "{{ instance }} - committed {{ pool }}",
+                  ,
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_used{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[mM]eta.*\"}",
-                  "legendFormat": "{{ instance }} - used {{ pool }}",
+                  ,
                   "refId": "C"
                 }
               ],
@@ -1651,17 +1651,17 @@ data:
                 {
                   "expr": "jvm_memory_pool_bytes_max{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[sS]urvivor.*\"}",
                   "instant": false,
-                  "legendFormat": "{{ instance }} - max {{ pool }}",
+                  ,
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_committed{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[sS]urvivor.*\"}",
-                  "legendFormat": "{{ instance }} - committed {{ pool }}",
+                  ,
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_used{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[sS]urvivor.*\"}",
-                  "legendFormat": "{{ instance }} - used {{ pool }}",
+                  ,
                   "refId": "C"
                 }
               ],
@@ -1758,17 +1758,17 @@ data:
               "targets": [
                 {
                   "expr": "jvm_memory_pool_bytes_max{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[cC]ode.*\"}",
-                  "legendFormat": "{{ instance }} - max {{ pool }}",
+                  ,
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_committed{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[cC]ode.*\"}",
-                  "legendFormat": "{{ instance }} - committed {{ pool }}",
+                  ,
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_used{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[cC]ode.*\"}",
-                  "legendFormat": "{{ instance }} - used {{ pool }}",
+                  ,
                   "refId": "C"
                 }
               ],
@@ -1866,17 +1866,17 @@ data:
                 {
                   "expr": "jvm_memory_pool_bytes_max{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[oO]ld.*\"}",
                   "instant": false,
-                  "legendFormat": "{{ instance }} - max {{ pool }}",
+                  ,
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_committed{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[oO]ld.*\"}",
-                  "legendFormat": "{{ instance }} - committed {{ pool }}",
+                  ,
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_used{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[oO]ld.*\"}",
-                  "legendFormat": "{{ instance }} - used {{ pool }}",
+                  ,
                   "refId": "C"
                 }
               ],
@@ -1973,19 +1973,19 @@ data:
               "targets": [
                 {
                   "expr": "jvm_memory_pool_bytes_max{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[cC]lass.*\"}",
-                  "legendFormat": "{{ instance }} - max {{ pool }}",
+                  ,
                   "refId": "A"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_committed{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[cC]lass.*\"}",
                   "hide": false,
-                  "legendFormat": "{{ instance }} - committed {{ pool }}",
+                  ,
                   "refId": "B"
                 },
                 {
                   "expr": "jvm_memory_pool_bytes_used{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\", pool=~\".*[cC]lass.*\"}",
                   "hide": false,
-                  "legendFormat": "{{ instance }} - used {{ pool }}",
+                  ,
                   "refId": "C"
                 }
               ],
@@ -2309,7 +2309,7 @@ data:
                 {
                   "expr": "sum by (connection) (irate(cassandra_connection_timeouts_count{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}[3m]))",
                   "interval": "",
-                  "legendFormat": "dst {{ connection }}",
+                  "legendFormat": {{"dst {{ connection }}"}},
                   "refId": "A"
                 }
               ],
@@ -2626,7 +2626,7 @@ data:
                   "expr": "sum by (instance) (cassandra_keyspace_totaldiskspaceused{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"})",
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ instance }} - used",
+                  "legendFormat": {{"{{ instance }} - used"}},
                   "refId": "A"
                 }
               ],
@@ -2935,7 +2935,7 @@ data:
                 {
                   "expr": "sum by (droppedmessage) (irate(cassandra_droppedmessage_dropped_count{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}[3m]))",
                   "interval": "",
-                  "legendFormat": "{{ droppedmessage }}",
+                  "legendFormat": {{"{{ droppedmessage }}"}},
                   "refId": "A"
                 }
               ],
@@ -3349,7 +3349,7 @@ data:
                 {
                   "expr": "sum by (cluster, path, threadpools) (cassandra_threadpools_activetasks{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ path }}: {{ threadpools }}",
+                  "legendFormat": {{"{{ path }}: {{ threadpools }}"}},
                   "refId": "A"
                 }
               ],
@@ -3451,7 +3451,7 @@ data:
                 {
                   "expr": "sum by (cluster, path, threadpools) (irate(cassandra_threadpools_completedtasks{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}[3m]))",
                   "interval": "",
-                  "legendFormat": "{{ path }}: {{ threadpools }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -3553,7 +3553,7 @@ data:
                 {
                   "expr": "sum by (cluster, path, threadpools) (cassandra_threadpools_pendingtasks{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ path }}: {{ threadpools }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -3655,7 +3655,7 @@ data:
                 {
                   "expr": "cassandra_threadpools_maxpoolsize{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ path }} {{ threadpools }}",
+                  "legendFormat": {{"{{ instance }} - {{ path }} {{ threadpools }}"}},
                   "refId": "A"
                 }
               ],
@@ -3757,7 +3757,7 @@ data:
                 {
                   "expr": "sum by (cluster, path, threadpools) (irate(cassandra_threadpools_totalblockedtasks_count{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}[3m]))",
                   "interval": "",
-                  "legendFormat": "{{ path }} {{ threadpools }}",
+                  "legendFormat": {{"{{ path }} {{ threadpools }}"}},
                   "refId": "A"
                 }
               ],
@@ -3856,7 +3856,7 @@ data:
                 {
                   "expr": "avg by (cache) (cassandra_cache_capacity{cluster=\"$cluster\", datacenter=\"$datacenter\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ cache }}",
+                  "legendFormat": {{"{{ cache }}"}},
                   "refId": "A"
                 }
               ],
@@ -4057,7 +4057,7 @@ data:
                   "expr": "cluster_datacenter_instance_keyspace:cassandra_table_livesstablecount:sum{cluster=\"$cluster\", datacenter=\"$datacenter\", keyspace=\"$keyspace\", instance=~\"$instance\"}",
                   "hide": false,
                   "interval": "1m",
-                  "legendFormat": "{{instance}}",
+                  "legendFormat": {{"{{instance}}"}},
                   "refId": "A"
                 }
               ],
@@ -4173,7 +4173,7 @@ data:
                 {
                   "expr": "sum by (cluster, clientrequest) (irate(cassandra_clientrequest_latency_seconds_count{datacenter=\"$datacenter\", cluster=\"$cluster\", clientrequest!~\"Read|.*Write.*\", instance=~\"$instance\"}[3m]))",
                   "interval": "$interval",
-                  "legendFormat": "{{ clientrequest }} ",
+                  "legendFormat": {{"{{ clientrequest }} "}},
                   "refId": "A"
                 }
               ],
@@ -4274,7 +4274,7 @@ data:
                 {
                   "expr": "sum by (cluster, clientrequest) (irate(cassandra_clientrequest_latency_seconds_count{datacenter=\"$datacenter\", cluster=\"$cluster\", clientrequest!~\"Write|.*Read.*|RangeSlice\", instance=~\"$instance\"}[3m]))",
                   "interval": "$interval",
-                  "legendFormat": "{{ clientrequest }}",
+                  "legendFormat": {{"{{ clientrequest }}"}},
                   "refId": "A"
                 }
               ],
@@ -4706,12 +4706,12 @@ data:
               "targets": [
                 {
                   "expr": "cassandra_client_connectednativeclients{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - native",
+                  "legendFormat": {{"{{ instance }} - native"}},
                   "refId": "A"
                 },
                 {
                   "expr": "cassandra_client_connectedthriftclients{datacenter=\"$datacenter\", cluster=\"$cluster\", instance=~\"$instance\"}",
-                  "legendFormat": "{{ instance }} - thrift",
+                  "legendFormat": {{"{{ instance }} - thrift"}},
                   "refId": "B"
                 }
               ],
@@ -4930,13 +4930,13 @@ data:
                 {
                   "expr": "sum by (instance) (cassandra_table_allmemtablesheapsize{cluster=\"$cluster\", datacenter=\"$datacenter\", keyspace=\"$keyspace\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - heap",
+                  "legendFormat": {{"{{ instance }} - heap"}},
                   "refId": "B"
                 },
                 {
                   "expr": "sum by (instance) (cassandra_table_allmemtablesoffheapsize{cluster=\"$cluster\", datacenter=\"$datacenter\", keyspace=\"$keyspace\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - off_heap",
+                  "legendFormat": {{"{{ instance }} - off_heap"}},
                   "refId": "A"
                 }
               ],
@@ -5033,7 +5033,7 @@ data:
                 {
                   "expr": "irate(cassandra_table_memtableswitchcount{cluster=\"$cluster\", datacenter=\"$datacenter\", instance=~\"$instance\"}[3m])",
                   "interval": "",
-                  "legendFormat": "{{ instance }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -5131,13 +5131,13 @@ data:
                 {
                   "expr": "sum by (instance) (cassandra_table_waitingonfreememtablespace{cluster=\"$cluster\", datacenter=\"$datacenter\", quantile=\"0.50\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - 50 percentile",
+                  "legendFormat": {{"{{ instance }} - 50 percentile"}},
                   "refId": "A"
                 },
                 {
                   "expr": "sum by (instance) (cassandra_table_waitingonfreememtablespace{cluster=\"$cluster\", datacenter=\"$datacenter\", quantile=\"0.99\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - 99 percentile",
+                  "legendFormat": {{"{{ instance }} - 99 percentile"}},
                   "refId": "B"
                 }
               ],
@@ -5234,7 +5234,7 @@ data:
                 {
                   "expr": "cassandra_keyspace_bloomfilterdiskspaceused{cluster=\"$cluster\", datacenter=\"$datacenter\", keyspace=\"$keyspace\", instance=~\"$instance\"}",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - used",
+                  "legendFormat": {{"{{ instance }} - used"}},
                   "refId": "A"
                 }
               ],
@@ -5331,7 +5331,7 @@ data:
                 {
                   "expr": "irate(cassandra_table_bytesflushed{cluster=\"$cluster\", datacenter=\"$datacenter\", instance=~\"$instance\"}[3m])",
                   "interval": "",
-                  "legendFormat": "{{ instance }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -5453,7 +5453,7 @@ data:
                   "instant": false,
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  "legendFormat": {{"{{ table }}"}},
                   "refId": "A"
                 }
               ],
@@ -5560,7 +5560,7 @@ data:
                   "instant": false,
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -5666,7 +5666,7 @@ data:
                   "instant": false,
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -5772,7 +5772,7 @@ data:
                   "instant": false,
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -5873,7 +5873,7 @@ data:
                   "expr": "topk(5, max by (table) (cassandra_table_readlatency_seconds{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\", quantile=\"0.99\"}))",
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -5974,7 +5974,7 @@ data:
                   "expr": "topk(5, max by (table) (cassandra_table_writelatency_seconds{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\", quantile=\"0.99\"}))",
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -6072,7 +6072,7 @@ data:
                   "expr": "topk(5, max by (table) (cassandra_table_coordinatorreadlatency_seconds{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", quantile=\"0.99\"}))",
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  "legendFormat": {{"{{ instance }} - {{ table }}"}},
                   "refId": "A"
                 }
               ],
@@ -6170,7 +6170,7 @@ data:
                   "expr": "topk(5, max by (table) (cassandra_table_coordinatorscanlatency_seconds{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", quantile=\"0.99\"}))",
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -6269,7 +6269,7 @@ data:
                   "expr": "topk(5, sum by (cluster, table) (irate(cassandra_table_droppedmutations_count{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\"}[3m])))",
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  ,
                   "refId": "B"
                 }
               ],
@@ -6368,7 +6368,7 @@ data:
                   "expr": "topk(5, sum by (table) (irate(cassandra_table_compactionbyteswritten_count{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\"}[3m])))",
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -6466,7 +6466,7 @@ data:
                   "expr": "topk(5, sum by (table) (cassandra_table_tombstonescannedhistogram{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", quantile=\"0.99\"}))",
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -6568,7 +6568,7 @@ data:
                   "expr": "topk(10, sum by (table) (cassandra_table_totaldiskspaceused_count{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\"}))",
                   "interval": "$interval",
                   "intervalFactor": 2,
-                  "legendFormat": "{{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -6690,7 +6690,7 @@ data:
                   "instant": false,
                   "interval": "",
                   "intervalFactor": 1,
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -6797,7 +6797,7 @@ data:
                   "instant": false,
                   "interval": "",
                   "intervalFactor": 1,
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -6903,7 +6903,7 @@ data:
                   "instant": false,
                   "interval": "",
                   "intervalFactor": 1,
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7009,7 +7009,7 @@ data:
                   "instant": false,
                   "interval": "",
                   "intervalFactor": 1,
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7109,7 +7109,7 @@ data:
                 {
                   "expr": "topk(10, cassandra_table_readlatency_seconds{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", quantile=\"0.999\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7209,7 +7209,7 @@ data:
                 {
                   "expr": "topk(10, cassandra_table_writelatency_seconds{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", quantile=\"0.999\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7306,7 +7306,7 @@ data:
                 {
                   "expr": "topk(10, cassandra_table_coordinatorreadlatency_seconds{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", quantile=\"0.999\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7403,7 +7403,7 @@ data:
                 {
                   "expr": "topk(10, cassandra_table_coordinatorwritelatency_seconds{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", quantile=\"0.999\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7500,7 +7500,7 @@ data:
                 {
                   "expr": "topk(10, cassandra_table_coordinatorscanlatency_seconds{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", quantile=\"0.999\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7597,7 +7597,7 @@ data:
                 {
                   "expr": "topk(10, cassandra_table_compactionbyteswritten_count{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\"} - cassandra_table_compactionbyteswritten_count{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\"} offset 1m)",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7695,7 +7695,7 @@ data:
                   "expr": "topk(10, cassandra_table_tombstonescannedhistogram{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\", quantile=\"0.999\"})",
                   "interval": "",
                   "intervalFactor": 1,
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7794,7 +7794,7 @@ data:
                 {
                   "expr": "topk(10, (cassandra_table_droppedmutations_count{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\"} - cassandra_table_droppedmutations_count{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\"} offset 1m))",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7895,7 +7895,7 @@ data:
                 {
                   "expr": "topk(10, sum by (instance) (cassandra_table_totaldiskspaceused_count{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\"}))",
                   "interval": "",
-                  "legendFormat": "{{ instance }}",
+                  ,
                   "refId": "A"
                 }
               ],
@@ -7995,7 +7995,7 @@ data:
                 {
                   "expr": "topk(10, cassandra_table_totaldiskspaceused_count{datacenter=\"$datacenter\", cluster=\"$cluster\", keyspace=\"$keyspace\", table=~\"$table\", instance=~\"$instance\"})",
                   "interval": "",
-                  "legendFormat": "{{ instance }} - {{ table }}",
+                  ,
                   "refId": "A"
                 }
               ],
