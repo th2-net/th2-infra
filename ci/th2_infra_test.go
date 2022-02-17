@@ -2,7 +2,6 @@ package test
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strings"
 	"testing"
@@ -63,7 +62,6 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 }
 
 func TestDashboardEndpoint(t *testing.T) {
-	log.Print(serviceNamespace, schemaNamespace)
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard/"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
