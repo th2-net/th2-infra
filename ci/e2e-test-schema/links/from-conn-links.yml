@@ -1,0 +1,34 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Link
+metadata:
+  name: from-conn-links
+spec:
+  boxes-relation:
+    router-mq:
+      #########################CONN CLIENT - FIRST###################
+      - name: democonn1-codec
+        from:
+          box: demo-conn1
+          pin: in_raw
+        to:
+          box: codec-fix
+          pin: in_codec_decode
+      #############################################################
+      #########################CONN CLIENT - SECOND################
+      - name: demo-conn1_out-codec
+        from:
+          box: demo-conn1
+          pin: out_raw
+        to:
+          box: codec-fix
+          pin: in_codec_decode
+      #############################################################
+      #################SIM AND SERVER##############################
+      - name: sim-server1
+        from:
+          box: sim-demo
+          pin: send1
+        to:
+          box: fix-demo-server1
+          pin: fix_to_send
+###########################################################

@@ -13,15 +13,19 @@ import (
 )
 
 const (
-	defaultSchemaNamespace = "schema-e2e-v110"
+	defaultSchemaNamespace = "th2-schema"
 	serviceNamespace       = "service"
 	monitoringNamespace    = "monitoring"
+	rabbitmqPod            = "rabbitmq-0"
 	rabbitmqSvc            = "rabbitmq-discovery"
+	cassandraPod           = "cassandra-0"
 	dataProviderSvc        = "rpt-data-provider"
 	reportViewerSvc        = "rpt-data-viewer"
 	infraMgrSvc            = "infra-mgr"
 	infraEditorSvc         = "infra-editor"
-	dashboardSvc           = "dashboard-kubernetes-dashboard"
+	dashboardSvc           = "th2-infra-dashboard"
+	retries                = 10
+	timeout                = 5 * time.Second
 )
 
 var (
@@ -49,11 +53,11 @@ func tearDown() {}
 func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool {
 	return func(code int, body string) bool {
 		if testCode != code {
-			logger.Logf(t, "Incorrect response code")
+			logger.Log(t, "Incorrect response code")
 			return false
 		}
 		if !strings.Contains(body, substr) {
-			logger.Logf(t, "Body does not contain "+substr)
+			logger.Log(t, "Body does not contain "+substr)
 			return false
 		}
 		return true
@@ -63,67 +67,87 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 func TestDashboardEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard/"
-	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, retries, timeout)
 	validator := validFunc(t, 200, "<title>Kubernetes Dashboard</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestDashboardRedirectEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard"
-	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, retries, timeout)
 	validator := validFunc(t, 200, "<title>Kubernetes Dashboard</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestInfraEditorEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/editor/"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, infraEditorSvc, 10, 1*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, infraEditorSvc, retries, timeout)
 
 	validator := validFunc(t, 200, "<title>Infra editor</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestInfraEditorRedirectEndpoint(t *testing.T) {
+	// t.Parallel()
+	endpoint := "http://localhost:30000/editor"
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilServiceAvailable(t, options, infraEditorSvc, retries, timeout)
+
+	validator := validFunc(t, 200, "<title>Infra editor</title>")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestRabbitMQEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/rabbitmq/"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, rabbitmqSvc, 10, 3*time.Second)
+	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
 
 	validator := validFunc(t, 200, "<title>RabbitMQ Management</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestRabbitMQRedirectEndpoint(t *testing.T) {
+	// t.Parallel()
+	endpoint := "http://localhost:30000/rabbitmq"
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
+
+	validator := validFunc(t, 200, "<title>RabbitMQ Management</title>")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestInfraMgrEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/editor/backend/actuator/health"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, infraMgrSvc, 10, 1*time.Second)
+	k8s.WaitUntilPodAvailable(t, options, cassandraPod, retries, timeout)
 
 	validator := validFunc(t, 200, "{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 3*time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestNamespaceReportEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := fmt.Sprintf("http://localhost:30000/%s/", schemaNamespace)
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, reportViewerSvc, 30, 10*time.Second)
+	k8s.WaitUntilServiceAvailable(t, options, reportViewerSvc, retries, timeout)
 
 	validator := validFunc(t, 200, "<title>TH2 Report</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 3*time.Second, validator)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
-//func TestNamespaceDataProviderEndpoint(t *testing.T) {
+func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	// t.Parallel()
-//	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/search/events?timestampFrom=0&timestampTo=0", schemaNamespace)
-//	options := k8s.NewKubectlOptions("", "", schemaNamespace)
-//	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, 30, 10*time.Second)
-//
-//	validator := validFunc(t, 200, "[]")
-//	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 10, 10*time.Second, validator)
-//}
+	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/messageStreams", schemaNamespace)
+	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, retries, timeout)
+
+	validator := validFunc(t, 200, "[]")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}

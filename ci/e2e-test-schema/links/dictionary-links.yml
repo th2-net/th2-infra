@@ -1,0 +1,59 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Link
+metadata:
+  name: dictionary-links
+spec:
+  dictionaries-relation:
+##################################
+    - name: codec-fix-dictionary
+      box: codec-fix
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+    - name: demo-conn1-dictionary
+      box: demo-conn1
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+    - name: demo-conn2-dictionary
+      box: demo-conn2
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+    - name: demo-dc1-dictionary
+      box: demo-dc1
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+    - name: demo-dc2-dictionary
+      box: demo-dc2
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+#################SIM#######################
+    - name: codec-sim-dictionary
+      box: codec-sim-fix
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+    - name: server1-dictionary
+      box: fix-demo-server1
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+    - name: server2-dictionary
+      box: fix-demo-server2
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+    - name: serverdc1-dictionary
+      box: dc-demo-server1
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+    - name: serverdc2-dictionary
+      box: dc-demo-server2
+      dictionary:
+        name: fix50-generic
+        type: MAIN
+#############################################
