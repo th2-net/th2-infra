@@ -26,11 +26,12 @@ Output:
 ## Settings and variables
 Repository with schema contains version branch from which th2 namespace will be deployed, e.g. v130 https://github.com/th2-net/e2e-test-schema/tree/v130.
 
-Namespace with schema must be set as SCHEMA_NAMESPACE variable in the workflow.
-
+Namespaces for th2-infra can be set up in the following workflow variables:
 ```yaml
 env:
-  SCHEMA_NAMESPACE: schema-v130
+  INFRA_NAMESPACE: "${{ github.event.inputs.infraNamespace || 'service' }}"
+  MONITORING_NAMESPACE: monitoring
+  SCHEMA_NAMESPACE: "${{ github.event.inputs.schemaNamespace || 'th2-v150' }}"
 ```
 **Note**: _CRs with any API changes must be allocated in a new versioned branch!_
 
