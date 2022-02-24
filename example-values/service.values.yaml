@@ -12,7 +12,7 @@ rabbitmq:
     size: 10Gi
   ingress:
     enabled: true
-    hostName: <rabbitmq-host>
+    hostName:
 
 cassandra:
   internal: false
