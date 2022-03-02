@@ -16,7 +16,7 @@ global:
 #     pathType: Prefix
 
 prometheusOperator:
-  # image: 
+  # image:
   #   repository: quay.io/prometheus-operator/prometheus-operator
   admissionWebhooks:
     enabled: false
@@ -60,6 +60,8 @@ grafana:
   # sidecar:
   #   image:
   #     repository: kiwigrid/k8s-sidecar
+  #   dashboards:
+  #     enabled: true
   ingress:
     enabled: true
     annotations:
@@ -68,10 +70,22 @@ grafana:
       nginx.ingress.kubernetes.io/use-regex: "true"
     path: /grafana/?(.*)
     hosts: []
-  sidecar:
-    dashboards:
-      enabled: true
-      label: grafana_dashboard
+  dashboards:
+    default:
+      <dashboard-name>:
+        url: http://infra-repo.service.svc.cluster.local:8080/grafana-dashboards/<dashboard.json>
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
   grafana.ini:
     server:
       root_url: http://localhost:3000/grafana
@@ -82,6 +96,8 @@ grafana:
     enabled: false
     # image:
     #   repository: busybox
+  plugins:
+    - http://infra-repo.service.svc.cluster.local:8080/grafana-plugins/<plugin.zip>;<plugin-folder>
 
 # prometheus-node-exporter:
 #   serviceAccount:
