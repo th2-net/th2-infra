@@ -1,4 +1,4 @@
-name: e2e test with kind
+name: Auto generate helm-docs
 
 on:
   pull_request:
