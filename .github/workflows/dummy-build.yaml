@@ -1,0 +1,14 @@
+name: ci
+on:
+  pull_request:
+    paths-ignore:
+      - "ci/**"
+      - "example-values/**"
+      - "th2-service/**"
+      - "!th2-service/README.md"
+      - ".github/workflows/e2e-test.yml"
+jobs:
+  deploy-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No e2e test required '
