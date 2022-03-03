@@ -365,6 +365,6 @@ _Note_: replace <th2-namespace> with th2 namespace you use
 - th2-reports http://your-host:30000/your-namespace/
 
 ## Migration to v1.7.x th2-infra chart
-* Loki stack 2.4.1 chart version must be used during deployment.
+* Loki stack 2.4.1 chart version must be used during deployment. Refer to [Upgrade-loki](README.md#upgrade-loki)
 * Helm operator chart now is included as dependency and should not be deployed separately. All its values are under *helmoperator* parent value.
 * Kubernetes dashboard chart now is included as dependency and should not be deployed separately. Previous deployment must be uninstalled from "monitoring" namespace. All its values are under *dashboard* parent value.
