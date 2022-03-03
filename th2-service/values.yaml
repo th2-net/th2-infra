@@ -1,7 +1,7 @@
 ---
 # Default values for th2-core.
 
-# Image repositories and credentials to create pull secrets
+# -- Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
   name: ""
