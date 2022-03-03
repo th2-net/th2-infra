@@ -120,10 +120,7 @@ th2 service Helm chart
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
 | infraRepo.image.tag | string | `"0.7.1"` |  |
 | ingress.host | string | `""` |  |
-| productRegistry.name | string | `""` |  |
-| productRegistry.password | string | `""` |  |
-| productRegistry.secret | string | `"th2-core"` |  |
-| productRegistry.username | string | `""` |  |
+| productRegistry | object | `{"name":"","password":"","secret":"th2-core","username":""}` | Image repositories and credentials to create pull secrets |
 | prometheus.operator.enabled | bool | `true` |  |
 | prometheus.operator.serviceMonitor.namespace | string | `"monitoring"` |  |
 | proprietaryRegistry.password | string | `""` |  |
