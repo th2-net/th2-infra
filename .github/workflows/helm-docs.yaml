@@ -16,4 +16,4 @@ jobs:
         run: make docs
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "[skip ci] Auto-generated helm chart docs"
+          commit_message: "Auto-generated helm chart docs"
