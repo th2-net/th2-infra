@@ -95,7 +95,7 @@ jobs:
             kubectl -n $INFRA_NAMESPACE logs deployment/$D --all-containers --timestamps > $D.log || true
           done
           kubectl -n $INFRA_NAMESPACE logs cassandra-0 > cassandra.log || true
-          kubectl -n $INFRA_NAMESPACE exec cassandra-0 -ti -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
+          kubectl -n $INFRA_NAMESPACE exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
 
           for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
