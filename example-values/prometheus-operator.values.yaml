@@ -78,7 +78,7 @@ grafana:
         - name: Loki
           type: Loki
           access: Proxy
-          url: http://localhost:3100
+          url: http://loki:3100
   persistence:
     enabled: true
     existingClaim: grafana
