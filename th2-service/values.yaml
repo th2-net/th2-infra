@@ -24,12 +24,12 @@ ingress:
   host: &host ""
 
 prometheus:
-  ## Create prometheus-operator resources like ServiceMonitors and Alerts
+  ## -- Create prometheus-operator resources like ServiceMonitors and Alerts
   operator:
-    ## Set true if kube-prometheus-stack is used
+    ## -- Set true if kube-prometheus-stack is used
     enabled: true
     serviceMonitor:
-      # Namespace to install ServiceMonitor
+      # -- Namespace to install ServiceMonitor
       namespace: monitoring
 
 #Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
@@ -169,7 +169,7 @@ rabbitmq:
   fullnameOverride: rabbitmq
   rabbitmqVhost: th2
   rabbitmqUsername: th2
-  # will be generated if empty
+  # -- will be generated if empty
   rabbitmqPassword: ""
   rabbitmqErlangCookie: ""
   rabbitmqExchange: th2-exchange
@@ -236,7 +236,7 @@ cassandra:
     datacenter: dc1
   dbUser:
     user: th2
-    # will be generated if empty
+    # -- will be generated if empty
     password: ""
   keyspace: cradle
   persistence:
@@ -244,7 +244,7 @@ cassandra:
     storageClass: local-storage
     size: 50Gi
 
-# Kubernetes dashboard values
+# -- Kubernetes dashboard values
 dashboard:
   internal: true
   image:
