@@ -216,6 +216,8 @@ rabbitmq:
       serviceMonitor:
         selector:
           release: prometheus
+  extraConfig: |-
+    disk_free_limit.absolute = 10GB
 
 cassandra:
   cradle:
