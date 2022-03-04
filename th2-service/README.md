@@ -77,7 +77,7 @@ th2 service Helm chart
 | infraMgr.git.secretMountPath | string | `"/home/service/keys"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"1.5.2"` |  |
+| infraMgr.image.tag | string | `"1.6.0-infra-1.7.2-1916561209"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -101,7 +101,7 @@ th2 service Helm chart
 | infraMgr.resources.requests.memory | string | `"500Mi"` |  |
 | infraOperator.config.chart.name | string | `"infra-operator-tpl"` |  |
 | infraOperator.config.chart.repository | string | `"http://infra-repo:8080"` |  |
-| infraOperator.config.chart.version | string | `"0.7.1"` |  |
+| infraOperator.config.chart.version | string | `"0.7.2"` |  |
 | infraOperator.config.k8sUrl | string | `"<kubernetes-external-entrypoint>"` |  |
 | infraOperator.config.namespacePrefixes[0] | string | `"th2-"` |  |
 | infraOperator.config.rabbitMQManagement.password | string | `"${RABBITMQ_PASS}"` |  |
@@ -112,7 +112,7 @@ th2 service Helm chart
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.username | string | `"th2"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"3.4.3"` |  |
+| infraOperator.image.tag | string | `"3.5.2-infra-1.7.2-1916897649"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.prometheusConfiguration.enabled | bool | `true` |  |
 | infraOperator.resources.limits.cpu | string | `"800m"` |  |
@@ -122,6 +122,7 @@ th2 service Helm chart
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
 | infraRepo.image.tag | string | `"0.7.1"` |  |
 | ingress.annotations.default."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| ingress.annotations.default."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;"` |  |
 | ingress.annotations.default."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | ingress.annotations.default."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | ingress.annotations.default."nginx.ingress.kubernetes.io/use-regex" | string | `"true"` |  |
@@ -131,7 +132,7 @@ th2 service Helm chart
 | productRegistry.password | string | `""` |  |
 | productRegistry.secret | string | `"th2-core"` |  |
 | productRegistry.username | string | `""` |  |
-| prometheus.operator.enabled | bool | `true` | Set true if kube-prometheus-stack is used |
+| prometheus.operator.enabled | bool | `true` |  |
 | prometheus.operator.serviceMonitor.namespace | string | `"monitoring"` | Namespace to install ServiceMonitor |
 | proprietaryRegistry.password | string | `""` |  |
 | proprietaryRegistry.registry | string | `""` |  |
@@ -139,10 +140,12 @@ th2 service Helm chart
 | proprietaryRegistry.username | string | `""` |  |
 | rabbitmq.extraConfig | string | `"disk_free_limit.absolute = 10GB"` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
-| rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"if ($request_uri ~ \"^/rabbitmq(/.*)\") {\n  proxy_pass http://upstream_balancer$1;\n  break;\n}\n"` |  |
+| rabbitmq.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;\nif ($request_uri ~ \"^/rabbitmq(/.*)\") {\n  proxy_pass http://upstream_balancer$1;\n  break;\n}\n"` |  |
+| rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | rabbitmq.ingress.enabled | bool | `true` |  |
-| rabbitmq.ingress.hostName | string | `nil` |  |
-| rabbitmq.ingress.path | string | `"/rabbitmq/"` |  |
+| rabbitmq.ingress.hostName | string | `""` |  |
+| rabbitmq.ingress.path | string | `"/rabbitmq($|/.*)"` |  |
 | rabbitmq.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | rabbitmq.livenessProbe.exec.command[0] | string | `"/bin/bash"` |  |
 | rabbitmq.livenessProbe.exec.command[1] | string | `"-ec"` |  |
