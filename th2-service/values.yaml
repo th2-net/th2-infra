@@ -213,6 +213,10 @@ rabbitmq:
       enabled: true
       alerts:
         enabled: true
+        selector:
+          role: alert-rules
+        labels:
+          rabbitmq: alerts
       serviceMonitor:
         selector:
           release: prometheus
