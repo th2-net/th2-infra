@@ -85,7 +85,7 @@ infraOperator:
       # external mirror
       # repository: https://th2-net.github.io
       repository: http://infra-repo:8080
-      version: 0.7.1
+      version: 0.7.2
       name: infra-operator-tpl
     namespacePrefixes:
       - "th2-"
