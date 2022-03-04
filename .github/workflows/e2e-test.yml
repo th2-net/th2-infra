@@ -15,7 +15,7 @@ on:
         type: string
       schemaNamespace:
         description: "Schema namespace"
-        default: "th2-v150"
+        default: "th2-schema"
         type: string
 
 env:
