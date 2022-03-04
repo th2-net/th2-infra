@@ -21,7 +21,7 @@ on:
 env:
   INFRA_NAMESPACE: "${{ github.event.inputs.infraNamespace || 'service' }}"
   MONITORING_NAMESPACE: monitoring
-  SCHEMA_NAMESPACE: "${{ github.event.inputs.schemaNamespace || 'th2-v150' }}"
+  SCHEMA_NAMESPACE: "${{ github.event.inputs.schemaNamespace || 'th2-schema' }}"
 
 jobs:
   deploy-and-test:
