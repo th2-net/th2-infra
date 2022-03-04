@@ -3,6 +3,9 @@
   gather_facts: false
   connection: local
   name: th2 deployment
+  vars:
+    infra_namespace: "{{ lookup('env', 'INFRA_NAMESPACE') | default ('service', True) }}"
+    monitoring_namespace: "{{ lookup('env', 'MONITORING_NAMESPACE') | default ('monitoring', True) }}"
 
   tasks:
     - name: Add helm repositories
@@ -22,15 +25,15 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - service
         - monitoring
+        - "{{ infra_namespace }}"
 
     - name: Deploy ingress-nginx controller
       kubernetes.core.helm:
         name: ingress
         chart_ref: ingress-nginx/ingress-nginx
         chart_version: 3.12.0
-        release_namespace: service
+        release_namespace: "{{ infra_namespace }}"
         values_files: "{{ playbook_dir }}/../example-values/ingress.values.yaml"
         create_namespace: true
         wait: true
@@ -54,25 +57,25 @@
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/infra-mgr-secret.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     - name: Create public key to infra-git
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/keys-repo-configmap.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     - name: Create infra-git persistent volume
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/infra-repo-pv.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     - name: Create Cassandra configmap
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/cassandra/cassandra-configmap.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     # - name: Cassandra Init
     #   kubernetes.core.k8s:
@@ -84,7 +87,7 @@
       kubernetes.core.helm:
         name: th2-infra
         chart_ref: "{{ playbook_dir }}/../th2-service/"
-        release_namespace: service
+        release_namespace: "{{ infra_namespace }}"
         release_values:
           infraGit:
             internal: true
@@ -103,7 +106,7 @@
               password: cassandra
             cluster:
               datacenter: datacenter1
-            host: cassandra-headless.service.svc.cluster.local
+            host: "cassandra-headless.{{ infra_namespace }}.svc.cluster.local"
             jvm:
               maxHeapSize: 1G
               newHeapSize: 800M

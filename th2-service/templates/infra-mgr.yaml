@@ -1,11 +1,13 @@
 {{ include "infraMgr-config" . }}
 ---
-{{ include "infra-mgr-service" .Values }}
+{{ include "infra-mgr-service" . }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: infra-mgr
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
   labels:
     app: infra-mgr
     {{ include "th2-labels" . }}

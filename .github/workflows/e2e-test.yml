@@ -8,9 +8,20 @@ on:
       - "th2-service/**"
       - ".github/workflows/e2e-test.yml"
   workflow_dispatch:
+    inputs:
+      infraNamespace:
+        description: "Infra namespace"
+        default: "service"
+        type: string
+      schemaNamespace:
+        description: "Schema namespace"
+        default: "th2-v150"
+        type: string
 
 env:
-  SCHEMA_NAMESPACE: th2-schema
+  INFRA_NAMESPACE: "${{ github.event.inputs.infraNamespace || 'service' }}"
+  MONITORING_NAMESPACE: monitoring
+  SCHEMA_NAMESPACE: "${{ github.event.inputs.schemaNamespace || 'th2-v150' }}"
 
 jobs:
   deploy-and-test:
@@ -79,16 +90,16 @@ jobs:
           echo -e "\n[Events]" && kubectl get events --all-namespaces --sort-by='.metadata.creationTimestamp' || true
           echo -e "\n[PV]" && kubectl get pv || true
 
-          for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
+          for D in $(kubectl -n $INFRA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n service logs deployment/$D --all-containers --timestamps > $D.log || true
+            kubectl -n $INFRA_NAMESPACE logs deployment/$D > $D.log || true
           done
-          kubectl -n service logs cassandra-0 > cassandra.log || true
-          kubectl -n service exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
+          kubectl -n $INFRA_NAMESPACE logs cassandra-0 > cassandra.log || true
+          kubectl -n $INFRA_NAMESPACE exec cassandra-0 cat -ti -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
 
           for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D --timestamps > $D.log || true
+            kubectl -n $SCHEMA_NAMESPACE logs deployment/$D > $D.log || true
           done
 
       - name: Uploading logs
