@@ -88,6 +88,9 @@ th2 service Helm chart
 | infraMgr.kubernetes.secrets[0] | string | `"th2-core"` |  |
 | infraMgr.kubernetes.secrets[1] | string | `"th2-solution"` |  |
 | infraMgr.kubernetes.secrets[2] | string | `"th2-proprietary"` |  |
+| infraMgr.livenessProbe.initialDelaySeconds | int | `30` |  |
+| infraMgr.livenessProbe.periodSeconds | int | `30` |  |
+| infraMgr.livenessProbe.timeoutSeconds | int | `5` |  |
 | infraMgr.prometheusConfiguration.enabled | bool | `true` |  |
 | infraMgr.rabbitmq.passwordLength | int | `24` |  |
 | infraMgr.rabbitmq.secret | string | `"rabbitmq"` |  |
@@ -112,6 +115,9 @@ th2 service Helm chart
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
 | infraOperator.image.tag | string | `"3.4.3"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
+| infraOperator.livenessProbe.initialDelaySeconds | int | `30` |  |
+| infraOperator.livenessProbe.periodSeconds | int | `30` |  |
+| infraOperator.livenessProbe.timeoutSeconds | int | `5` |  |
 | infraOperator.prometheusConfiguration.enabled | bool | `true` |  |
 | infraOperator.resources.limits.cpu | string | `"800m"` |  |
 | infraOperator.resources.limits.memory | string | `"1200Mi"` |  |
@@ -130,6 +136,7 @@ th2 service Helm chart
 | proprietaryRegistry.registry | string | `""` |  |
 | proprietaryRegistry.secret | string | `"th2-proprietary"` |  |
 | proprietaryRegistry.username | string | `""` |  |
+| rabbitmq.extraConfig | string | `"disk_free_limit.absolute = 10GB"` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
 | rabbitmq.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | rabbitmq.livenessProbe.exec.command[0] | string | `"/bin/bash"` |  |
