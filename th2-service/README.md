@@ -26,12 +26,24 @@ th2 service Helm chart
 | cassandra.dbUser.password | string | `""` | will be generated if empty |
 | cassandra.dbUser.user | string | `"th2"` |  |
 | cassandra.fullnameOverride | string | `"cassandra"` |  |
-| cassandra.internal | bool | `true` |  |
+| cassandra.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | cassandra.keyspace | string | `"cradle"` |  |
 | cassandra.persistence.enabled | bool | `false` |  |
 | cassandra.persistence.size | string | `"50Gi"` |  |
 | cassandra.persistence.storageClass | string | `"local-storage"` |  |
-| dashboard | object | `{"image":{"repository":"kubernetesui/dashboard"},"ingress":{"annotations":{"kubernetes.io/ingress.class":"nginx","nginx.ingress.kubernetes.io/configuration-snippet":"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;","nginx.ingress.kubernetes.io/rewrite-target":"$1"},"enabled":true,"hosts":[""],"paths":["/dashboard($|/.*)"]},"internal":true,"protocolHttp":true,"rbac":{"clusterRoleMetrics":true,"create":true},"serviceAccount":{"create":false,"name":"th2infra-kubernetes-dashboard"}}` | Kubernetes dashboard values |
+| dashboard.image.repository | string | `"kubernetesui/dashboard"` |  |
+| dashboard.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| dashboard.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;"` |  |
+| dashboard.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
+| dashboard.ingress.enabled | bool | `true` |  |
+| dashboard.ingress.hosts[0] | string | `""` |  |
+| dashboard.ingress.paths[0] | string | `"/dashboard($|/.*)"` |  |
+| dashboard.internal | bool | `true` | Kubernetes dashboard values. If true - will be deployed as dependency |
+| dashboard.protocolHttp | bool | `true` |  |
+| dashboard.rbac.clusterRoleMetrics | bool | `true` |  |
+| dashboard.rbac.create | bool | `true` |  |
+| dashboard.serviceAccount.create | bool | `false` |  |
+| dashboard.serviceAccount.name | string | `"th2infra-kubernetes-dashboard"` |  |
 | helmoperator.chartsSyncInterval | string | `"300m"` |  |
 | helmoperator.fullnameOverride | string | `"helm-operator"` |  |
 | helmoperator.helm.versions | string | `"v3"` |  |
@@ -44,7 +56,7 @@ th2 service Helm chart
 | infraEditor.image.tag | string | `"1.0.65"` |  |
 | infraGit.image.repository | string | `"ghcr.io/th2-net/git-ssh"` |  |
 | infraGit.image.tag | string | `"v0.1.0"` |  |
-| infraGit.internal | bool | `false` |  |
+| infraGit.internal | bool | `false` | If there is no ability to get access for cluster to repo with schemas namespaces configs git repo can be deployed internal in the cluster. Change to "internal = true" in case you need internal git repo. |
 | infraGit.nodePort | int | `32600` |  |
 | infraGit.pvc.accessModes | string | `"ReadWriteMany"` |  |
 | infraGit.pvc.storage | string | `"5Gi"` |  |
@@ -108,7 +120,10 @@ th2 service Helm chart
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
 | infraRepo.image.tag | string | `"0.7.1"` |  |
 | ingress.host | string | `""` |  |
-| productRegistry | object | `{"name":"","password":"","secret":"th2-core","username":""}` | Image repositories and credentials to create pull secrets |
+| productRegistry.name | string | `""` | Image repository and credentials to create pull secrets |
+| productRegistry.password | string | `""` |  |
+| productRegistry.secret | string | `"th2-core"` |  |
+| productRegistry.username | string | `""` |  |
 | prometheus.operator.enabled | bool | `true` |  |
 | prometheus.operator.serviceMonitor.namespace | string | `"monitoring"` | Namespace to install ServiceMonitor |
 | proprietaryRegistry.password | string | `""` |  |
@@ -116,7 +131,7 @@ th2 service Helm chart
 | proprietaryRegistry.secret | string | `"th2-proprietary"` |  |
 | proprietaryRegistry.username | string | `""` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
-| rabbitmq.internal | bool | `true` |  |
+| rabbitmq.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | rabbitmq.livenessProbe.exec.command[0] | string | `"/bin/bash"` |  |
 | rabbitmq.livenessProbe.exec.command[1] | string | `"-ec"` |  |
 | rabbitmq.livenessProbe.exec.command[2] | string | `"rabbitmq-diagnostics -q check_running"` |  |
