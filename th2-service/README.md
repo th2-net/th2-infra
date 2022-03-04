@@ -23,7 +23,7 @@ th2 service Helm chart
 | cassandra.cradle.instanceName | string | `"th2-infra"` |  |
 | cassandra.cradle.pageSize | int | `5000` |  |
 | cassandra.cradle.timeout | int | `5000` |  |
-| cassandra.dbUser.password | string | `""` |  |
+| cassandra.dbUser.password | string | `""` | will be generated if empty |
 | cassandra.dbUser.user | string | `"th2"` |  |
 | cassandra.fullnameOverride | string | `"cassandra"` |  |
 | cassandra.internal | bool | `true` |  |
@@ -31,19 +31,7 @@ th2 service Helm chart
 | cassandra.persistence.enabled | bool | `false` |  |
 | cassandra.persistence.size | string | `"50Gi"` |  |
 | cassandra.persistence.storageClass | string | `"local-storage"` |  |
-| dashboard.image.repository | string | `"kubernetesui/dashboard"` |  |
-| dashboard.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
-| dashboard.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;"` |  |
-| dashboard.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
-| dashboard.ingress.enabled | bool | `true` |  |
-| dashboard.ingress.hosts[0] | string | `""` |  |
-| dashboard.ingress.paths[0] | string | `"/dashboard($|/.*)"` |  |
-| dashboard.internal | bool | `true` |  |
-| dashboard.protocolHttp | bool | `true` |  |
-| dashboard.rbac.clusterRoleMetrics | bool | `true` |  |
-| dashboard.rbac.create | bool | `true` |  |
-| dashboard.serviceAccount.create | bool | `false` |  |
-| dashboard.serviceAccount.name | string | `"th2infra-kubernetes-dashboard"` |  |
+| dashboard | object | `{"image":{"repository":"kubernetesui/dashboard"},"ingress":{"annotations":{"kubernetes.io/ingress.class":"nginx","nginx.ingress.kubernetes.io/configuration-snippet":"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;","nginx.ingress.kubernetes.io/rewrite-target":"$1"},"enabled":true,"hosts":[""],"paths":["/dashboard($|/.*)"]},"internal":true,"protocolHttp":true,"rbac":{"clusterRoleMetrics":true,"create":true},"serviceAccount":{"create":false,"name":"th2infra-kubernetes-dashboard"}}` | Kubernetes dashboard values |
 | helmoperator.chartsSyncInterval | string | `"300m"` |  |
 | helmoperator.fullnameOverride | string | `"helm-operator"` |  |
 | helmoperator.helm.versions | string | `"v3"` |  |
@@ -122,7 +110,7 @@ th2 service Helm chart
 | ingress.host | string | `""` |  |
 | productRegistry | object | `{"name":"","password":"","secret":"th2-core","username":""}` | Image repositories and credentials to create pull secrets |
 | prometheus.operator.enabled | bool | `true` |  |
-| prometheus.operator.serviceMonitor.namespace | string | `"monitoring"` |  |
+| prometheus.operator.serviceMonitor.namespace | string | `"monitoring"` | Namespace to install ServiceMonitor |
 | proprietaryRegistry.password | string | `""` |  |
 | proprietaryRegistry.registry | string | `""` |  |
 | proprietaryRegistry.secret | string | `"th2-proprietary"` |  |
@@ -148,7 +136,7 @@ th2 service Helm chart
 | rabbitmq.rabbitmqErlangCookie | string | `""` |  |
 | rabbitmq.rabbitmqExchange | string | `"th2-exchange"` |  |
 | rabbitmq.rabbitmqMemoryHighWatermark | string | `"1024MB"` |  |
-| rabbitmq.rabbitmqPassword | string | `""` |  |
+| rabbitmq.rabbitmqPassword | string | `""` | will be generated if empty |
 | rabbitmq.rabbitmqPrometheusPlugin.enabled | bool | `true` |  |
 | rabbitmq.rabbitmqUsername | string | `"th2"` |  |
 | rabbitmq.rabbitmqVhost | string | `"th2"` |  |
