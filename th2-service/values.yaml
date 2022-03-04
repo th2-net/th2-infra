@@ -1,9 +1,9 @@
 ---
 # Default values for th2-core.
 
-# Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
+  # -- Image repository and credentials to create pull secrets
   name: ""
   username: ""
   password: ""
@@ -36,9 +36,9 @@ ingress:
 commonAnnotations: {}
 
 prometheus:
-  # Create prometheus-operator resources like ServiceMonitors and Alerts
+  ## -- Create prometheus-operator resources like ServiceMonitors and Alerts
   operator:
-    # -- Set true if kube-prometheus-stack is used
+    ## -- Set true if kube-prometheus-stack is used
     enabled: true
     serviceMonitor:
       # -- Namespace to install ServiceMonitor
@@ -157,9 +157,9 @@ infraMgr:
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
-#If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster.
-#Change to "internal = true" in case you need internal git repo.
 infraGit:
+  # -- If there is no ability to get access for cluster to repo with schemas namespaces configs git repo can be deployed internal in the cluster.
+  # Change to "internal = true" in case you need internal git repo.
   internal: false
   nodePort: 32600
   image:
@@ -177,9 +177,9 @@ infraGit:
       cpu: 50m
       memory: 100Mi
 
-# If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
-# otherwise service will be deployed as a chart dependency
 rabbitmq:
+  # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
+  # otherwise service will be deployed as a chart dependency
   internal: true
   rabbitmqMemoryHighWatermark: 1024MB
   #it is not required if the service internal
@@ -247,8 +247,9 @@ rabbitmq:
           proxy_pass http://upstream_balancer$1;
           break;
         }
-# If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
-# otherwise service will be deployed as a chart dependency
+  extraConfig: |-
+    disk_free_limit.absolute = 10GB
+
 cassandra:
   cradle:
     #    networkTopologyStrategy:
@@ -258,6 +259,8 @@ cassandra:
     pageSize: 5000
     cradleMaxEventBatchSize: "1048576"
     cradleMaxMessageBatchSize: "1048576"
+  # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
+  # otherwise service will be deployed as a chart dependency
   internal: true
   #it is not required if the service internal
   #  host: ""
@@ -274,8 +277,8 @@ cassandra:
     storageClass: local-storage
     size: 50Gi
 
-# Kubernetes dashboard values
 dashboard:
+  # -- Kubernetes dashboard values. If true - will be deployed as dependency
   internal: true
   image:
     repository: kubernetesui/dashboard
