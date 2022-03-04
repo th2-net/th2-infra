@@ -1,9 +1,9 @@
 ---
 # Default values for th2-core.
 
-# Image repositories and credentials to create pull secrets
 productRegistry:
   secret: th2-core
+  # -- Image repository and credentials to create pull secrets
   name: ""
   username: ""
   password: ""
@@ -24,12 +24,12 @@ ingress:
   host: &host ""
 
 prometheus:
-  ## Create prometheus-operator resources like ServiceMonitors and Alerts
+  ## -- Create prometheus-operator resources like ServiceMonitors and Alerts
   operator:
-    ## Set true if kube-prometheus-stack is used
+    ## -- Set true if kube-prometheus-stack is used
     enabled: true
     serviceMonitor:
-      # Namespace to install ServiceMonitor
+      # -- Namespace to install ServiceMonitor
       namespace: monitoring
 
 #Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
@@ -139,9 +139,9 @@ infraMgr:
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
-#If there is no ability to get access for cluster to repo with schemas' namespaces configs git repo can be deployed internal in the cluster.
-#Change to "internal = true" in case you need internal git repo.
 infraGit:
+  # -- If there is no ability to get access for cluster to repo with schemas namespaces configs git repo can be deployed internal in the cluster.
+  # Change to "internal = true" in case you need internal git repo.
   internal: false
   nodePort: 32600
   image:
@@ -159,9 +159,9 @@ infraGit:
       cpu: 50m
       memory: 100Mi
 
-# If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
-# otherwise service will be deployed as a chart dependency
 rabbitmq:
+  # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
+  # otherwise service will be deployed as a chart dependency
   internal: true
   rabbitmqMemoryHighWatermark: 1024MB
   #it is not required if the service internal
@@ -169,7 +169,7 @@ rabbitmq:
   fullnameOverride: rabbitmq
   rabbitmqVhost: th2
   rabbitmqUsername: th2
-  # will be generated if empty
+  # -- will be generated if empty
   rabbitmqPassword: ""
   rabbitmqErlangCookie: ""
   rabbitmqExchange: th2-exchange
@@ -221,8 +221,6 @@ rabbitmq:
         selector:
           release: prometheus
 
-# If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
-# otherwise service will be deployed as a chart dependency
 cassandra:
   cradle:
     #    networkTopologyStrategy:
@@ -232,6 +230,8 @@ cassandra:
     pageSize: 5000
     cradleMaxEventBatchSize: "1048576"
     cradleMaxMessageBatchSize: "1048576"
+  # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
+  # otherwise service will be deployed as a chart dependency
   internal: true
   #it is not required if the service internal
   #  host: ""
@@ -240,7 +240,7 @@ cassandra:
     datacenter: dc1
   dbUser:
     user: th2
-    # will be generated if empty
+    # -- will be generated if empty
     password: ""
   keyspace: cradle
   persistence:
@@ -248,8 +248,8 @@ cassandra:
     storageClass: local-storage
     size: 50Gi
 
-# Kubernetes dashboard values
 dashboard:
+  # -- Kubernetes dashboard values. If true - will be deployed as dependency
   internal: true
   image:
     repository: kubernetesui/dashboard

@@ -5,6 +5,7 @@ on:
     - 'ci/**'
     - 'example-values/**'
     - 'th2-service/**'
+    - '!th2-service/README.md'
     - '.github/workflows/lint-chart.yaml'
   workflow_dispatch:
 
