@@ -279,13 +279,6 @@ _Note_: replace <version> with th2-infra release version you need, please follow
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
 
-### Install Kubernetes Dashboard
-* Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-```
-$ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-$ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./dashboard.values.yaml
-```
-
 ### Upgrade th2-infra
 
 * Delete namespaces managed by th2-infra, there are two ways. Manual:
