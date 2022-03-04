@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^/([^.?]*[^/])$ $scheme://$http_host/$1/ redirect;
+      rewrite ^/([a-z\-0-9]*)$ $scheme://$http_host/$1/ redirect;
       if ($request_uri ~ "^/rabbitmq($|/.*)") {
         proxy_pass http://upstream_balancer$1;
         break;
