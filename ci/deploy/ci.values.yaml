@@ -7,6 +7,9 @@ rabbitmq:
   rabbitmqPassword: test
   persistentVolume:
     enabled: false
+  prometheus:
+    operator:
+      enabled: false
 cassandra:
   # existingConfiguration: cassandra-configuration
   # initDBConfigMap: cassandra-init
