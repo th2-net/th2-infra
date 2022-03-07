@@ -85,40 +85,7 @@
         name: th2-infra
         chart_ref: "{{ playbook_dir }}/../th2-service/"
         release_namespace: service
-        release_values:
-          infraGit:
-            internal: true
-          externalRabbitMQHost:
-            host: localhost
-          rabbitmq:
-            rabbitmqUser: th2
-            rabbitmqPassword: test
-            persistentVolume:
-              enabled: false
-          cassandra:
-            # existingConfiguration: cassandra-configuration
-            # initDBConfigMap: cassandra-init
-            dbUser:
-              user: cassandra
-              password: cassandra
-            cluster:
-              datacenter: datacenter1
-            host: cassandra-headless.service.svc.cluster.local
-            jvm:
-              maxHeapSize: 1G
-              newHeapSize: 800M
-            internal: true
-          infraMgr:
-            git:
-              repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git
-              #          infraOperator:
-              #            config:
-              #              chart:
-              #                git: https://github.com/th2-net/infra-operator-tpl.git
-              #                ref: release-v0.7.1
-              #                path: ./
         values_files:
-          "{{ playbook_dir }}/../example-values/service.values.yaml"
-          # - ./secrets.yaml
+          - "{{ playbook_dir }}/deploy/ci.values.yaml"
         create_namespace: true
         wait: true
