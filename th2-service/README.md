@@ -130,6 +130,7 @@ th2 service Helm chart
 | proprietaryRegistry.registry | string | `""` |  |
 | proprietaryRegistry.secret | string | `"th2-proprietary"` |  |
 | proprietaryRegistry.username | string | `""` |  |
+| rabbitmq.extraConfig | string | `"disk_free_limit.absolute = 10GB"` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
 | rabbitmq.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | rabbitmq.livenessProbe.exec.command[0] | string | `"/bin/bash"` |  |
