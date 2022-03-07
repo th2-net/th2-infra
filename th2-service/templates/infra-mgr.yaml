@@ -66,8 +66,8 @@ spec:
                 key: cassandra-password
         livenessProbe:
           httpGet:
-            path: /actuator/health
-            port: 8080
+            path: /
+            port: 9752
           initialDelaySeconds: {{ .Values.infraMgr.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
           periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
