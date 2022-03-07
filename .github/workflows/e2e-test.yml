@@ -92,8 +92,6 @@ jobs:
             kubectl -n $SCHEMA_NAMESPACE logs deployment/$D --timestamps > $D.log || true
           done
 
-          kubectl -n service exec rabbitmq-0 rabbitmqctl status
-
       - name: Uploading logs
         if: always()
         uses: actions/upload-artifact@v2
