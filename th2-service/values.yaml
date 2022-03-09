@@ -64,7 +64,7 @@ infraOperator:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.4.3
+    tag: 3.5.2-infra-1.7.2-1916897649
   config:
     chart:
       repository: http://infra-repo:8080 #https://th2-net.github.io
@@ -102,7 +102,7 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.5.2
+    tag: 1.6.1-infra-1.7.2-1956928252
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
