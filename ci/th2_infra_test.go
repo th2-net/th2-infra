@@ -13,19 +13,20 @@ import (
 )
 
 const (
-	defaultSchemaNamespace = "schema-e2e-v110"
-	serviceNamespace       = "service"
-	monitoringNamespace    = "monitoring"
-	rabbitmqSvc            = "rabbitmq-discovery"
-	dataProviderSvc        = "rpt-data-provider"
-	reportViewerSvc        = "rpt-data-viewer"
-	infraMgrSvc            = "infra-mgr"
-	infraEditorSvc         = "infra-editor"
-	dashboardSvc           = "dashboard-kubernetes-dashboard"
+	defaultSchemaNamespace  = "th2-schema"
+	defaultServiceNamespace = "service"
+	monitoringNamespace     = "monitoring"
+	rabbitmqSvc             = "rabbitmq-discovery"
+	dataProviderSvc         = "rpt-data-provider"
+	reportViewerSvc         = "rpt-data-viewer"
+	infraMgrSvc             = "infra-mgr"
+	infraEditorSvc          = "infra-editor"
+	dashboardSvc            = "dashboard-kubernetes-dashboard"
 )
 
 var (
-	schemaNamespace = ""
+	serviceNamespace, schemaNamespace string
+	exists                            bool
 )
 
 func TestMain(m *testing.M) {
@@ -36,11 +37,11 @@ func TestMain(m *testing.M) {
 }
 
 func setUp() {
-	v, ok := os.LookupEnv("SCHEMA_NAMESPACE")
-	if ok {
-		schemaNamespace = v
-	} else {
+	if schemaNamespace, exists = os.LookupEnv("SCHEMA_NAMESPACE"); !exists {
 		schemaNamespace = defaultSchemaNamespace
+	}
+	if serviceNamespace, exists = os.LookupEnv("INFRA_NAMESPACE"); !exists {
+		serviceNamespace = defaultServiceNamespace
 	}
 }
 
@@ -63,7 +64,7 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 func TestDashboardEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard/"
-	options := k8s.NewKubectlOptions("", "", monitoringNamespace)
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dashboardSvc, 10, 3*time.Second)
 	validator := validFunc(t, 200, "<title>Kubernetes Dashboard</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, 0, time.Second, validator)
@@ -119,7 +120,7 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 }
 
 //func TestNamespaceDataProviderEndpoint(t *testing.T) {
-	// t.Parallel()
+// t.Parallel()
 //	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/search/events?timestampFrom=0&timestampTo=0", schemaNamespace)
 //	options := k8s.NewKubectlOptions("", "", schemaNamespace)
 //	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, 30, 10*time.Second)

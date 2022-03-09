@@ -3,5 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: connectivity-queues-config
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
 data:
   TH2_CONNECTIVITY_QUEUE_NAMES: ''

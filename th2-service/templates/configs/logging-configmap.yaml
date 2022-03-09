@@ -49,3 +49,5 @@ data:
 kind: ConfigMap
 metadata:
   name: logging-config
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
