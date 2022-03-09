@@ -10,6 +10,9 @@ rabbitmq:
     enabled: true
     storageClass: local-storage
     size: 10Gi
+  ingress:
+    enabled: true
+    hostName:
 
 cassandra:
   internal: false
