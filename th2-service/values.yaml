@@ -111,6 +111,8 @@ infraMgr:
     repositoryLocalCache: /home/service/repository
     httpAuthUsername: "" #should be stored in secret th2-git-access-schemas
     httpAuthPassword: "" #should be stored in secret th2-git-access-schemas
+    # -- Infra manager git fetch interval in milliseconds
+    gitFetchInterval: "14000"
   rabbitmq:
     vHostPrefix: th2-
     usernamePrefix: th2-user-
