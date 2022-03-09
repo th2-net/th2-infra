@@ -78,7 +78,7 @@ th2 service Helm chart
 | infraMgr.git.secretMountPath | string | `"/home/service/keys"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"1.6.1-infra-1.7.2-1956928252"` |  |
+| infraMgr.image.tag | string | `"1.6.1"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -116,7 +116,7 @@ th2 service Helm chart
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.username | string | `"th2"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"3.5.2-infra-1.7.2-1916897649"` |  |
+| infraOperator.image.tag | string | `"3.5.2"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraOperator.livenessProbe.periodSeconds | int | `30` |  |
