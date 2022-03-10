@@ -3,6 +3,9 @@
   gather_facts: false
   connection: local
   name: th2 deployment
+  vars:
+    infra_namespace: "{{ lookup('env', 'INFRA_NAMESPACE') | default ('service', True) }}"
+    monitoring_namespace: "{{ lookup('env', 'MONITORING_NAMESPACE') | default ('monitoring', True) }}"
 
   tasks:
     - name: Add helm repositories
@@ -22,15 +25,15 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - service
         - monitoring
+        - "{{ infra_namespace }}"
 
     - name: Deploy ingress-nginx controller
       kubernetes.core.helm:
         name: ingress
         chart_ref: ingress-nginx/ingress-nginx
         chart_version: 3.12.0
-        release_namespace: service
+        release_namespace: "{{ infra_namespace }}"
         values_files: "{{ playbook_dir }}/../example-values/ingress.values.yaml"
         create_namespace: true
         wait: true
@@ -54,25 +57,25 @@
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/infra-mgr-secret.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     - name: Create public key to infra-git
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/keys-repo-configmap.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     - name: Create infra-git persistent volume
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/infra-repo-pv.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     - name: Create Cassandra configmap
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/cassandra/cassandra-configmap.yaml"
-        namespace: service
+        namespace: "{{ infra_namespace }}"
 
     # - name: Cassandra Init
     #   kubernetes.core.k8s:
@@ -84,41 +87,8 @@
       kubernetes.core.helm:
         name: th2-infra
         chart_ref: "{{ playbook_dir }}/../th2-service/"
-        release_namespace: service
-        release_values:
-          infraGit:
-            internal: true
-          externalRabbitMQHost:
-            host: localhost
-          rabbitmq:
-            rabbitmqUser: th2
-            rabbitmqPassword: test
-            persistentVolume:
-              enabled: false
-          cassandra:
-            # existingConfiguration: cassandra-configuration
-            # initDBConfigMap: cassandra-init
-            dbUser:
-              user: cassandra
-              password: cassandra
-            cluster:
-              datacenter: datacenter1
-            host: cassandra-headless.service.svc.cluster.local
-            jvm:
-              maxHeapSize: 1G
-              newHeapSize: 800M
-            internal: true
-          infraMgr:
-            git:
-              repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git
-              #          infraOperator:
-              #            config:
-              #              chart:
-              #                git: https://github.com/th2-net/infra-operator-tpl.git
-              #                ref: release-v0.7.1
-              #                path: ./
+        release_namespace: "{{ infra_namespace }}"
         values_files:
-          "{{ playbook_dir }}/../example-values/service.values.yaml"
-          # - ./secrets.yaml
+          - "{{ playbook_dir }}/deploy/ci.values.yaml"
         create_namespace: true
         wait: true

@@ -1,6 +1,6 @@
 {{ include "infraOperator-config" . }}
 ---
-{{ include "infra-operator-service" .Values }}
+{{ include "infra-operator-service" . }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -9,6 +9,8 @@ metadata:
   labels:
     app: infra-operator
     {{ include "th2-labels" . }}
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
 spec:
   selector:
     matchLabels:
@@ -55,11 +57,18 @@ spec:
               name: rabbitmq
               {{- end }}
               key: rabbitmq-password
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9752
+          initialDelaySeconds: {{ .Values.infraOperator.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.infraOperator.livenessProbe.timeoutSeconds }}
+          periodSeconds: {{ .Values.infraOperator.livenessProbe.periodSeconds }}
       volumes:
         - name: configs
           projected:
             sources:
             - configMap:
                 name: logging-config
-            - configMap: 
+            - configMap:
                 name: infra-operator

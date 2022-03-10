@@ -13,23 +13,24 @@ import (
 )
 
 const (
-	defaultSchemaNamespace = "th2-schema"
-	serviceNamespace       = "service"
-	monitoringNamespace    = "monitoring"
-	rabbitmqPod            = "rabbitmq-0"
-	rabbitmqSvc            = "rabbitmq-discovery"
-	cassandraPod           = "cassandra-0"
-	dataProviderSvc        = "rpt-data-provider"
-	reportViewerSvc        = "rpt-data-viewer"
-	infraMgrSvc            = "infra-mgr"
-	infraEditorSvc         = "infra-editor"
-	dashboardSvc           = "th2-infra-dashboard"
-	retries                = 10
-	timeout                = 5 * time.Second
+	defaultSchemaNamespace  = "th2-schema"
+	defaultServiceNamespace = "service"
+	monitoringNamespace     = "monitoring"
+	rabbitmqPod             = "rabbitmq-0"
+	rabbitmqSvc             = "rabbitmq-discovery"
+	cassandraPod            = "cassandra-0"
+	dataProviderSvc         = "rpt-data-provider"
+	reportViewerSvc         = "rpt-data-viewer"
+	infraMgrSvc             = "infra-mgr"
+	infraEditorSvc          = "infra-editor"
+	dashboardSvc            = "th2-infra-dashboard"
+	retries                 = 10
+	timeout                 = 5 * time.Second
 )
 
 var (
-	schemaNamespace = ""
+	serviceNamespace, schemaNamespace string
+	exists                            bool
 )
 
 func TestMain(m *testing.M) {
@@ -40,11 +41,11 @@ func TestMain(m *testing.M) {
 }
 
 func setUp() {
-	v, ok := os.LookupEnv("SCHEMA_NAMESPACE")
-	if ok {
-		schemaNamespace = v
-	} else {
+	if schemaNamespace, exists = os.LookupEnv("SCHEMA_NAMESPACE"); !exists {
 		schemaNamespace = defaultSchemaNamespace
+	}
+	if serviceNamespace, exists = os.LookupEnv("INFRA_NAMESPACE"); !exists {
+		serviceNamespace = defaultServiceNamespace
 	}
 }
 
