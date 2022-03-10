@@ -71,14 +71,13 @@ grafana:
   grafana.ini:
     server:
       root_url: http://localhost:3000/grafana
-  datasources:
-    datasources.yaml:
-      apiVersion: 1
-      datasources:
-        - name: Loki
-          type: Loki
-          access: Proxy
-          url: http://loki:3100
+  additionalDataSources:
+  - name: Loki
+    access: proxy
+    type: loki
+    url: http://loki:3100
+    jsonData:
+      maxLines: "5000"
   persistence:
     enabled: true
     existingClaim: grafana
