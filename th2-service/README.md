@@ -69,6 +69,7 @@ th2 service Helm chart
 | infraGit.resources.requests.memory | string | `"100Mi"` |  |
 | infraMgr.cassandra.keyspacePrefix | string | `"schema_"` |  |
 | infraMgr.cassandra.secret | string | `"cassandra"` |  |
+| infraMgr.git.gitFetchInterval | string | `"14000"` | Infra manager git fetch interval in milliseconds |
 | infraMgr.git.httpAuthPassword | string | `""` |  |
 | infraMgr.git.httpAuthUsername | string | `""` |  |
 | infraMgr.git.privateKeyFileSecret | string | `"infra-mgr"` |  |
