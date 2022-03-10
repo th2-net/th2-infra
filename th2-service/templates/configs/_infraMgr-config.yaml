@@ -6,6 +6,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: infra-mgr
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
 data:
   config.yml: |
     prometheusConfiguration:
@@ -57,11 +59,6 @@ data:
       ingress: {{ .Values.infraMgr.kubernetes.ingress }}
 
       secretNames:
-      {{- if .Values.infraOperator.config.chart.git }}
-        {{- with list "git-chart-creds" }}
-          {{- toYaml . | nindent 6 }}
-        {{- end }}
-      {{- end }}
       {{- with .Values.infraMgr.kubernetes.secrets }}
         {{- toYaml . | nindent 6 }}
       {{- end }}

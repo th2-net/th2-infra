@@ -1,11 +1,13 @@
 {{ include "infraMgr-config" . }}
 ---
-{{ include "infra-mgr-service" .Values }}
+{{ include "infra-mgr-service" . }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: infra-mgr
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
   labels:
     app: infra-mgr
     {{ include "th2-labels" . }}
@@ -35,12 +37,7 @@ spec:
           containerPort: {{ default 9752 .Values.infraMgr.prometheusConfiguration.port }}
         {{- end }}
         resources:
-          limits:
-            cpu: 200m
-            memory: 2500Mi
-          requests:
-            cpu: 20m
-            memory: 300Mi
+{{ toYaml .Values.infraMgr.resources | indent 10 }}
         volumeMounts:
           - name: configs
             mountPath: /home/service/config/
@@ -48,8 +45,12 @@ spec:
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.secretMountPath }}
         env:
+          - name: HOME 
+            value: /home/service/
+          {{- if .Values.infraMgr.jvm.javaToolOptions }}
           - name: JAVA_TOOL_OPTIONS
-            value: -XX:MaxHeapSize=2048m
+            value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}
+          {{- end }}
           - name: HTTPS_AUTH_USERNAME 
             valueFrom:
               secretKeyRef:
@@ -65,6 +66,13 @@ spec:
               secretKeyRef:
                 name: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
                 key: cassandra-password
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9752
+          initialDelaySeconds: {{ .Values.infraMgr.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
+          periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
       volumes:
       - name : secrets
         secret:

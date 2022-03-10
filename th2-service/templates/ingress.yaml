@@ -3,15 +3,8 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      if ($request_uri ~ "^/rabbitmq(/.*)") {
-        proxy_pass http://upstream_balancer$1;
-        break;
-      }
+    {{- include "ingress-annotations" . | nindent 4  }}
+    {{- include "common-annotations" . | nindent 4  }}
   name: ingress-service
 spec:
   rules:
@@ -25,16 +18,8 @@ spec:
       - backend:
           serviceName: infra-editor
           servicePort: 8080
-        path: /editor/(.*)
+        path: /editor($|/.*)
       - backend:
           serviceName: infra-mgr
           servicePort: 8080
         path: /editor/backend/(.*)
-      - backend:
-          {{- if not .Values.rabbitmq.fullnameOverride }}
-          serviceName: rabbitmq-discovery
-          {{- else }}
-          serviceName: {{ .Values.rabbitmq.fullnameOverride }}
-          {{- end }}
-          servicePort: 15672
-        path: /rabbitmq/(.*)

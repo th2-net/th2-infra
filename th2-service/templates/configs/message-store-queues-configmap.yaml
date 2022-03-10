@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: messagestore-queues-config
-data:
-  TH2_MESSAGE_STORE_QUEUE_NAMES: ''
