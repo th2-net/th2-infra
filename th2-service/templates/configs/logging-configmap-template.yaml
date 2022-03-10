@@ -71,7 +71,7 @@ data:
     logger.cradle.name=com.exactpro.cradle
     logger.cradle.level=${LOGLEVEL_JAVA}
 
-    logger.sf.name=com.exactpro.sf.services.http
+    logger.sf.name=com.exactpro.sf
     logger.sf.level=${LOGLEVEL_JAVA}
 kind: ConfigMap
 metadata:
