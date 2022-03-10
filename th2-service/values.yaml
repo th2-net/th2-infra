@@ -213,13 +213,11 @@ rabbitmq:
       enabled: true
       alerts:
         enabled: true
-        selector:
-          role: alert-rules
-        labels:
-          rabbitmq: alerts
+        selector: false
       serviceMonitor:
         selector:
           release: prometheus
+          app: kube-prometheus-stack
 
 cassandra:
   cradle:

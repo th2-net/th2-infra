@@ -24,11 +24,6 @@ prometheusOperator:
       enabled: false
   # prometheusConfigReloaderImage:
   #   repository: quay.io/prometheus-operator/prometheus-config-reloader
-  prometheus:
-    prometheusSpec:
-      ruleSelector:
-        matchLabels:
-          rabbitmq: alerts
   tls:
     enabled: false
 
