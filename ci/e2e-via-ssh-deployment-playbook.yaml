@@ -36,7 +36,7 @@
         wait: true
 
     - name: Deploy ScyllaDB
-      community.kubernetes.k8s:
+      kubernetes.core.k8s:
         namespace: service
         state: present
         src: "{{ playbook_dir }}/scylla.yaml"
