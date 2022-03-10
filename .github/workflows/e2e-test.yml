@@ -6,11 +6,23 @@ on:
       - "ci/**"
       - "example-values/**"
       - "th2-service/**"
+      - "!th2-service/README.md"
       - ".github/workflows/e2e-test.yml"
   workflow_dispatch:
+    inputs:
+      infraNamespace:
+        description: "Infra namespace"
+        default: "service"
+        type: string
+      schemaNamespace:
+        description: "Schema namespace"
+        default: "th2-schema"
+        type: string
 
 env:
-  SCHEMA_NAMESPACE: th2-schema
+  INFRA_NAMESPACE: "${{ github.event.inputs.infraNamespace || 'service' }}"
+  MONITORING_NAMESPACE: monitoring
+  SCHEMA_NAMESPACE: "${{ github.event.inputs.schemaNamespace || 'th2-schema' }}"
 
 jobs:
   deploy-and-test:
@@ -57,8 +69,8 @@ jobs:
           E2E_PRIVATE_KEY: ${{ secrets.E2E_PRIVATE_KEY }}
         run: |
           ANSIBLE_STDOUT_CALLBACK=yaml ansible-playbook ./ci/e2e-via-ssh-deployment-playbook.yaml -e 'ansible_python_interpreter=/usr/bin/python3'
-          kubectl -n service patch deployments.apps infra-mgr -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz infra-git 22; do echo \"Waiting for infra-git service\"; sleep 2; done;"]}]}}}}'
-          kubectl -n service patch deployments.apps infra-operator -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz rabbitmq 5672; do echo \"Waiting for rabbitmq service\"; sleep 2; done;"]}]}}}}'
+          kubectl -n $INFRA_NAMESPACE patch deployments.apps infra-mgr -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz infra-git 22; do echo \"Waiting for infra-git service\"; sleep 2; done;"]}]}}}}'
+          kubectl -n $INFRA_NAMESPACE patch deployments.apps infra-operator -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz rabbitmq 5672; do echo \"Waiting for rabbitmq service\"; sleep 2; done;"]}]}}}}'
           kubectl get pods --all-namespaces
 
       - name: Testing
@@ -79,12 +91,12 @@ jobs:
           echo -e "\n[Events]" && kubectl get events --all-namespaces --sort-by='.metadata.creationTimestamp' || true
           echo -e "\n[PV]" && kubectl get pv || true
 
-          for D in $(kubectl -n service get deployments --no-headers -o custom-columns=":metadata.name")
+          for D in $(kubectl -n $INFRA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
-            kubectl -n service logs deployment/$D --all-containers --timestamps > $D.log || true
+            kubectl -n $INFRA_NAMESPACE logs deployment/$D --all-containers --timestamps > $D.log || true
           done
-          kubectl -n service logs cassandra-0 > cassandra.log || true
-          kubectl -n service exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
+          kubectl -n $INFRA_NAMESPACE logs cassandra-0 > cassandra.log || true
+          kubectl -n $INFRA_NAMESPACE exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
 
           for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do

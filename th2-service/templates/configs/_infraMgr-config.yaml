@@ -6,6 +6,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: infra-mgr
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
 data:
   config.yml: |
     prometheusConfiguration:
