@@ -47,6 +47,8 @@ spec:
         env:
           - name: HOME 
             value: /home/service/
+          - name: GIT_FETCH_INTERVAL 
+            value: "{{ .Values.infraMgr.git.gitFetchInterval }}"
           {{- if .Values.infraMgr.jvm.javaToolOptions }}
           - name: JAVA_TOOL_OPTIONS
             value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}
