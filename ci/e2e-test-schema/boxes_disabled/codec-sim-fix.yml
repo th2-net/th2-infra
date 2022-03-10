@@ -1,0 +1,93 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Box
+metadata:
+  name: codec-sim-fix
+spec:
+  image-name: ghcr.io/th2-net/th2-codec-fix
+  image-version: 2.1.0
+  type: th2-codec
+  custom-config:
+    codecClassName: com.exactpro.sf.externalapi.codec.impl.ExternalFixCodecFactory
+  pins:
+    # encoder
+    - name: in_codec_encode
+      connection-type: mq
+      attributes:
+        - encoder_in
+        - parsed
+        - subscribe
+    - name: out_codec_encode
+      connection-type: mq
+      attributes:
+        - encoder_out
+        - raw
+        - publish
+    # decoder
+    - name: in_codec_decode
+      connection-type: mq
+      attributes:
+        - decoder_in
+        - raw
+        - subscribe
+    - name: out_codec_decode
+      connection-type: mq
+      attributes:
+        - decoder_out
+        - parsed
+        - publish
+    # encoder general (technical)
+    - name: in_codec_general_encode
+      connection-type: mq
+      attributes:
+        - general_encoder_in
+        - parsed
+        - subscribe
+    - name: out_codec_general_encode
+      connection-type: mq
+      attributes:
+        - general_encoder_out
+        - raw
+        - publish
+    # decoder general (technical)
+    - name: in_codec_general_decode
+      connection-type: mq
+      attributes:
+        - general_decoder_in
+        - raw
+        - subscribe
+    - name: out_codec_general_decode
+      connection-type: mq
+      attributes:
+        - general_decoder_out
+        - parsed
+        - publish
+    - name: out_fix-demo-server1
+      connection-type: mq
+      attributes: ["decoder_out", "parsed", "publish"]
+      filters:
+        - metadata:
+            - field-name: session_alias
+              expected-value: fix-demo-server1
+              operation: EQUAL
+    - name: out_fix-demo-server2
+      connection-type: mq
+      attributes: ["decoder_out", "parsed", "publish"]
+      filters:
+        - metadata:
+            - field-name: session_alias
+              expected-value: fix-demo-server2
+              operation: EQUAL
+  extended-settings:
+    service:
+      enabled: false
+    envVariables:
+      JAVA_TOOL_OPTIONS: "-XX:+ExitOnOutOfMemoryError"
+    resources:
+      limits:
+        memory: 200Mi
+        cpu: 200m
+      requests:
+        memory: 100Mi
+        cpu: 20m
+#      mounitng:
+#        TBD
