@@ -7,8 +7,8 @@ metadata:
 data:
   cradle_manager.json: |
     {
-    "cradleMaxEventBatchSize": {{ .Values.cassandra.cradle.cradleMaxEventBatchSize }},
-    "cradleMaxMessageBatchSize": {{ .Values.cassandra.cradle.cradleMaxMessageBatchSize }},
-    "timeout": {{ .Values.cassandra.cradle.timeout }},
-    "pageSize": {{ .Values.cassandra.cradle.pageSize }}
+    "cradleMaxEventBatchSize": {{ .Values.cassandra.cradle.cradleMaxEventBatchSize | quote }},
+    "cradleMaxMessageBatchSize": {{ .Values.cassandra.cradle.cradleMaxMessageBatchSize | quote }},
+    "timeout": {{ .Values.cassandra.cradle.timeout | quote }},
+    "pageSize": {{ .Values.cassandra.cradle.pageSize | quote }}
     }
