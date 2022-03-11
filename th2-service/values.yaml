@@ -243,9 +243,11 @@ rabbitmq:
       enabled: true
       alerts:
         enabled: true
+        selector: false
       serviceMonitor:
         selector:
           release: prometheus
+          app: kube-prometheus-stack
   ingress:
     enabled: true
     hostName: *host
