@@ -34,7 +34,7 @@ spec:
           containerPort: 8080
         {{- if .Values.infraMgr.prometheusConfiguration.enabled }}
         - name: metrics
-          containerPort: {{ default 9752 .Values.infraMgr.prometheusConfiguration.port }}
+          containerPort: {{ .Values.infraMgr.prometheusConfiguration.port }}
         {{- end }}
         resources:
 {{ toYaml .Values.infraMgr.resources | indent 10 }}
@@ -71,7 +71,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /
-            port: 9752
+            port: {{ .Values.infraMgr.prometheusConfiguration.port }}
           initialDelaySeconds: {{ .Values.infraMgr.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
           periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}

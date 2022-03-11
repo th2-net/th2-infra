@@ -16,8 +16,8 @@ data:
     {{- .Values.ingress | toYaml | nindent 6 }}
     prometheusConfiguration:
       host: "0.0.0.0"
-      port: {{ default 9752 .Values.infraOperator.prometheusConfiguration.port | quote }}
-      enabled: {{ default true .Values.infraOperator.prometheusConfiguration.enabled | quote }}
+      port: {{ .Values.infraOperator.prometheusConfiguration.port | quote }}
+      enabled: {{ .Values.infraOperator.prometheusConfiguration.enabled | quote }}
     chart:
       {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
     namespacePrefixes:
