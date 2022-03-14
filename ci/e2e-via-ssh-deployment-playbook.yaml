@@ -86,7 +86,7 @@
     - name: Deploy th2-infra
       kubernetes.core.helm:
         name: th2-infra
-        chart_ref: "{{ playbook_dir }}/../th2-service/"
+        chart_ref: "{{ playbook_dir }}/../chart/"
         release_namespace: "{{ infra_namespace }}"
         values_files:
           - "{{ playbook_dir }}/deploy/ci.values.yaml"

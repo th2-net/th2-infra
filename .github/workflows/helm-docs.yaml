@@ -3,7 +3,7 @@ name: Auto generate helm-docs
 on:
   pull_request:
     paths:
-      - "th2-service/**"
+      - "chart/**"
       - ".github/workflows/helm-docs.yaml"
   workflow_dispatch:
 
