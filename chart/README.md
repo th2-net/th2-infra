@@ -1,6 +1,6 @@
 # th2
 
-![Version: 1.7.2](https://img.shields.io/badge/Version-1.7.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.8.0](https://img.shields.io/badge/Version-1.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 th2 service Helm chart
 
@@ -47,12 +47,19 @@ th2 service Helm chart
 | dashboard.serviceAccount.create | bool | `false` |  |
 | dashboard.serviceAccount.name | string | `"th2infra-kubernetes-dashboard"` |  |
 | helmoperator.chartsSyncInterval | string | `"300m"` |  |
+| helmoperator.chartsSyncInterval | string | `"300m"` |  |
 | helmoperator.fullnameOverride | string | `"helm-operator"` |  |
+| helmoperator.fullnameOverride | string | `"helm-operator"` |  |
+| helmoperator.helm.versions | string | `"v3"` |  |
 | helmoperator.helm.versions | string | `"v3"` |  |
 | helmoperator.internal | bool | `true` |  |
 | helmoperator.nameOverrde | string | `"helm-operator"` |  |
+| helmoperator.nameOverrde | string | `"helm-operator"` |  |
+| helmoperator.prometheus.enabled | string | `"enabled"` |  |
 | helmoperator.prometheus.enabled | string | `"enabled"` |  |
 | helmoperator.prometheus.serviceMonitor.create | bool | `true` |  |
+| helmoperator.prometheus.serviceMonitor.create | bool | `true` |  |
+| helmoperator.prometheus.serviceMonitor.namespace | string | `"monitoring"` |  |
 | helmoperator.prometheus.serviceMonitor.namespace | string | `"monitoring"` |  |
 | infraEditor.image.repository | string | `"ghcr.io/th2-net/th2-infra-editor"` |  |
 | infraEditor.image.tag | string | `"1.0.65"` |  |
