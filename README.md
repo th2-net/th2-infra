@@ -35,25 +35,27 @@ Then https://github.com/th2-net/th2-infra-schema-demo should be created in your 
 * [how to fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo#fork-an-example-repository)
 
 
-## th2 infra namespaces
-th2 infra components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
+## Infrastructure namespaces
+Infrastructure components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
 
-Next components of prometheus and grafana monitoring stack are deployed into _`monitoring`_ namespace:
+Next components of monitoring stack are deployed into _`monitoring`_ namespace:
 * [grafana](https://grafana.com/oss/grafana/)
 * [loki](https://grafana.com/oss/loki/)
 * [prometheus](https://grafana.com/oss/prometheus/)
 
-The _`service`_ namespace is used for core services of this project:
+The _`service`_ namespace is used for infrastructure services:
+* [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 * [RabbitMQ](https://www.rabbitmq.com/)
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Helm Operator](https://github.com/fluxcd/helm-operator)
   
-and for infrastructure components:
-* [th2-infra-editor]()
+and for th2-infra components:
+* [th2-infra-editor](https://github.com/th2-net/th2-infra-editor-v2)
 * [th2-infra-operator](https://github.com/th2-net/th2-infra-operator)
 * [th2-infra-mgr](https://github.com/th2-net/th2-infra-mgr)
+* [th2-infra-repo](https://github.com/th2-net/infra-operator-tpl)
   
-The following picture describes th2-infra cluster configuration:
+The following picture describes a cluser with monitoring stack, th2-infra and th2 namespace:
 
 ![k8s cluster](https://user-images.githubusercontent.com/690243/101762881-0925d080-3aef-11eb-9d15-70e9277b0fa5.jpg)
 
@@ -108,11 +110,13 @@ _Note: It's an optional step, but it gets slightly simpler checking the result o
 $ kubectl config set-context --current --namespace=monitoring
 ```
 * Define Grafana and Dashboard host names (the name must be resolved from QA boxes):
-  * in the [dashboard.values.yaml](./example-values/dashboard.values.yaml) file
+  * in the [values.yaml](./th2-service/values.yaml) file
     ```
-    ingress:
-      hosts:
-        - <th2_host_name>
+      ingress:
+        host: &host <th2_host_name>
+      kubernetes-dashboard:
+        ingress:
+          hosts: [*host]
     ```
   * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
     ```
@@ -121,12 +125,13 @@ $ kubectl config set-context --current --namespace=monitoring
         hosts:
           - <th2_host_name>
     ```
+
 * Deploy components
 ```
-$ helm repo add loki https://grafana.github.io/loki/charts
-$ helm repo add stable https://charts.helm.sh/stable
-$ helm upgrade --install loki --namespace=monitoring loki/loki-stack -f ./loki.values.yaml
-$ helm upgrade --install prometheus stable/prometheus-operator -n monitoring -f ./prometheus-operator.values.yaml
+$ helm repo add grafana https://grafana.github.io/helm-charts
+$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+$ helm install --version=2.4.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
 ```
@@ -207,6 +212,24 @@ infraMgr:
     repository: https://github.com/th2-net/th2-infra-schema-demo.git
 ```
 
+### Define cassandra host name
+* set `cassandra.host` value for cassandra in the [service.values.yaml](./example-values/service.values.yaml) file.
+```
+cassandra:
+  internal: false
+  host: <cassandra-host>
+```
+
+### Define rabbitMQ ingress parameters
+Add `rabbitmq.ingress.hostName` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
+
+### Define th2 ingress parameters
+* Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
+```
+ingress:
+  host: example.com
+```
+
 ### Create secret with th2 credentials
 
 Create secrets.yaml in `./` folder (*do not commit into git*). Example:
@@ -276,7 +299,7 @@ infraMgr:
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-$ helm install -n service --version=3.12.0 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
+$ helm install -n service --version=3.31.0 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
 ```
 Check:
 ```
@@ -290,19 +313,23 @@ ingress-ingress-nginx-controller-7979dcdd85-mw42w   1/1     Running   0         
 ### Install th2-infra components in the service namespace
 ```
 $ helm repo add th2 https://th2-net.github.io
-$ helm install -n service --version=<version> th2-infra-base th2/th2 -f ./service.values.yaml -f ./secrets.yaml
+$ helm install -n service --version=<version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
+_Note_: replace <version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
 
-### Upgrade/migration th2-infra
+### Upgrade th2-infra
 
-* Set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2 to delete it.
-* Uninstall th2-infra-base release:
+* Delete namespaces managed by th2-infra, there are two ways. Manual:
 ```
-$ helm -n service uninstall th2-infra-base
+$ kubectel delete <namespace-1> <namespace-2> <namespace-..>
 ```
-* Revise "Custom resource" files for namespaces according to the release documentation (if required).
+or set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2-infra. Wait until it is removed.
+* Uninstall th2-infra release:
+```
+$ helm -n service uninstall th2-infra
+```
 * Delete CRDs:
 ```
 $ kubectl delete customresourcedefinitions th2boxes.th2.exactpro.com th2coreboxes.th2.exactpro.com th2dictionaries.th2.exactpro.com th2estores.th2.exactpro.com th2links.th2.exactpro.com th2mstores.th2.exactpro.com
@@ -311,24 +338,68 @@ $ kubectl delete customresourcedefinitions th2boxes.th2.exactpro.com th2coreboxe
 ```
 $ kubectl get customresourcedefinitions | grep "^th2"
 ```
-* Change th2-service values file according to the th2-infra release notes (if required):
-* Check the state of pv in k8s.
+* Change service.values.yaml if it is required by th2-infra release notes
+* Revise "Custom Resource" files for namespaces if it is required by th2-infra release notes
+* Install th2-infra:
+```
+$ helm repo update
+$ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
+```
+_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
+
+### Upgrade loki
+
+* Loki can be upgraded without additional configuration only if new version uses the same schema version. Current config can be retrieved from cluster:
+```
+kubectl get secret -n monitoring loki -o jsonpath="{.data.loki\.yaml}"|base64 -d; echo
+``` 
+schema version is defined in `schema_config.schema` parameter.
+Schema of new version loki can be found in chart default values for loki
+
+* If schema versions are different should be used transition config for loki. Example of this config:
+```
+    schema_config:
+      configs:
+      - from: "2018-04-15"
+        index:
+          period: 168h
+          prefix: index_
+        object_store: filesystem
+        schema: v9
+        store: boltdb
+      - from: "2022-01-22"
+        store: boltdb-shipper
+        object_store: filesystem
+        schema: v11
+        index:
+          prefix: index_
+          period: 24h
+    storage_config:
+    # because boltdb is used in old schema we need to define this storage
+      boltdb:
+        directory: /data/loki/index
+``` 
+More information about seamless migration between schemas:
+https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
+https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
+
+  
+### Re-adding persistence for components in th2 namespaces
+PersistentVolumeClaim is namespace scoped resource, so after namespace re-creation PVCs should be added for components require persistence.
+* Check the state of PV in a cluster:
 ```
 $ kubectl get pv
 ```
-It has to be availalble, if Released:
+* Reset PVs that are in Released status:
 ```
 $ kubectl patch pv <pv-name> -p '{"spec":{"claimRef": null}}'
 ```
+* Apply PVCs
+```
+$ kubectl -n <th2-namespace> apply -f ./pvc.yaml
+```
+_Note_: replace <th2-namespace> with th2 namespace you use
   
-* Install th2-infra:
-```
-$ helm repo add th2 https://th2-net.github.io
-$ helm install -n service --version=<new_version> th2-infra-base th2/th2 -f ./service.values.yaml -f ./secrets.yaml
-```
-
-* Apply PVC in th2 namespaces (if required)
-
 ## th2 infra links:
 - Kubernetes dashboard http://your-host:30000/dashboard/
 - Grafana http://your-host:30000/grafana/
@@ -358,3 +429,7 @@ dependencies:
   name: kubernetes-dashboard
   version: 5.0.4
 ```
+## Migration to v1.7.x th2-infra chart
+* Loki stack 2.4.1 chart version must be used during deployment. Refer to [Upgrade-loki](README.md#upgrade-loki)
+* Helm operator chart now is included as dependency and should not be deployed separately. All its values are under *helmoperator* parent value.
+* Kubernetes dashboard chart now is included as dependency and should not be deployed separately. Previous deployment must be uninstalled from "monitoring" namespace. All its values are under *dashboard* parent value.

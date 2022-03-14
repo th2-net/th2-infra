@@ -35,10 +35,13 @@ dependencies:
   name: cassandra
   version: 5.6.7
 - alias: helmoperator
+  condition: helmoperator.internal
   repository: https://charts.fluxcd.io
   name: helm-operator
   version: 1.2.0
-- alias: kubernetes-dashboard
+- alias: dashboard
+  condition: dashboard.internal
   repository: https://kubernetes.github.io/dashboard/
   name: kubernetes-dashboard
   version: 5.0.4
+

@@ -133,6 +133,36 @@ spec:
                   - dictionary
                   type: object
                 type: array
+#              multi-dictionaries-relation:
+#                description: List of multi dictionary relations
+#                items:
+#                  properties:
+#                    name:
+#                      type: string
+#                      pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+#                      maxLength: 256
+#                    box:
+#                      type: string
+#                    dictionaries:
+#                      items:
+#                        properties:
+#                          name:
+#                            type: string
+#                            pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+#                          alias:
+#                            type: string
+#                            pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+#                        required:
+#                          - name
+#                          - alias
+#                        type: object
+#                      type: array
+#                  required:
+#                    - name
+#                    - box
+#                    - dictionaries
+#                  type: object
+#                type: array
             type: object
         required:
         - spec

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keys-repo
+  namespace: "{{ infra_namespace }}"
+data:
+  authorized_keys: "{{ lookup('file', 'id_ssh_rsa.pub') }}"

@@ -1,50 +1,65 @@
 global:
   imagePullSecrets:
-alertmanager:
-  alertmanagerSpec:
-    image:
-      repository: quay.io/prometheus/alertmanager
-      tag: v0.20.0
+# alertmanager:
+#   alertmanagerSpec:
+#     # image:
+#     #   repository: quay.io/prometheus/alertmanager
+#     # externalUrl:
+#   ingress:
+#     enabled: true
+#     annotations:
+#       kubernetes.io/ingress.class: "nginx"
+#       nginx.ingress.kubernetes.io/rewrite-target: /$1
+#       nginx.ingress.kubernetes.io/use-regex: "true"
+#     paths:
+#     - /alertmanager/?(.*)
+#     pathType: Prefix
+
 prometheusOperator:
-  image:
-    repository: quay.io/coreos/prometheus-operator
-    tag: v0.38.1
+  # image: 
+  #   repository: quay.io/prometheus-operator/prometheus-operator
   admissionWebhooks:
     enabled: false
     patch:
       enabled: false
-  prometheusConfigReloaderImage:
-    repository: quay.io/coreos/prometheus-config-reloader
-    tag: v0.38.1
-  configmapReloadImage:
-    repository: quay.io/coreos/configmap-reload
-    tag: v0.0.1
-  tlsProxy:
+  # prometheusConfigReloaderImage:
+  #   repository: quay.io/prometheus-operator/prometheus-config-reloader
+  tls:
     enabled: false
+
 prometheus:
   prometheusSpec:
-    image:
-      repository: quay.io/prometheus/prometheus
-      tag: v2.18.1
+    # image:
+    #   repository: quay.io/prometheus/prometheus
+    # externalUrl: 
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: local-storage
           selector:
             matchLabels:
               app: prometheus
           resources:
             requests:
               storage: 5Gi
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    paths:
+    - /prometheus/?(.*)
+    pathType: Prefix
+
 grafana:
-  image:
-    repository: grafana/grafana
-    tag: 7.0.3
-    pullSecrets:
-  sidecar:
-    image:
-      repository: kiwigrid/k8s-sidecar
-      tag: 0.1.151
+  testFramework:
+    enabled: false
+  # image:
+  #   repository: grafana/grafana
+  #   pullSecrets:
+  # sidecar:
+  #   image:
+  #     repository: kiwigrid/k8s-sidecar
   ingress:
     enabled: true
     annotations:
@@ -56,20 +71,26 @@ grafana:
   grafana.ini:
     server:
       root_url: http://localhost:3000/grafana
+  additionalDataSources:
+  - name: Loki
+    access: proxy
+    type: loki
+    url: http://loki:3100
+    jsonData:
+      maxLines: "5000"
   persistence:
     enabled: true
     existingClaim: grafana
   initChownData:
     enabled: false
-    image:
-      repository: busybox
-      tag: 1.31.1
-prometheus-node-exporter:
-  imagePullSecrets:
-  image:
-    repository: quay.io/prometheus/node-exporter
-    tag: v1.0.0
-kube-state-metrics:
-  image:
-    repository: quay.io/coreos/kube-state-metrics
-    tag: v1.9.6
+    # image:
+    #   repository: busybox
+
+# prometheus-node-exporter:
+#   serviceAccount:
+#     imagePullSecrets:
+#   image:
+#     repository: quay.io/prometheus/node-exporter
+# kube-state-metrics:
+#   image:
+#     repository: quay.io/coreos/kube-state-metrics

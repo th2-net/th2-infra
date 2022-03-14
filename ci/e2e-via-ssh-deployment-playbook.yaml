@@ -3,6 +3,9 @@
   gather_facts: false
   connection: local
   name: th2 deployment
+  vars:
+    infra_namespace: "{{ lookup('env', 'INFRA_NAMESPACE') | default ('service', True) }}"
+    monitoring_namespace: "{{ lookup('env', 'MONITORING_NAMESPACE') | default ('monitoring', True) }}"
 
   tasks:
     - name: Add helm repositories
@@ -10,137 +13,82 @@
         name: "{{ item.key }}"
         repo_url: "{{ item.value }}"
       with_dict:
-        kubernetes-dashboard: https://kubernetes.github.io/dashboard/
+        flux: https://charts.fluxcd.io
         ingress-nginx: https://kubernetes.github.io/ingress-nginx
         loki: https://grafana.github.io/loki/charts
         stable: https://charts.helm.sh/stable
 
     - name: Ensure k8s namespaces exist
-      community.kubernetes.k8s:
+      kubernetes.core.k8s:
         api_version: v1
         kind: Namespace
         name: "{{ item }}"
         state: present
       with_items:
-        - service
         - monitoring
-
-    - name: Deploy kubernetes dashboard
-      community.kubernetes.helm:
-        name: dashboard
-        chart_ref: kubernetes-dashboard/kubernetes-dashboard
-        chart_version: 3.0.1
-        release_namespace: monitoring
-        values_files: "{{ playbook_dir }}/../example-values/dashboard.values.yaml"
-        create_namespace: true
-        wait: true
+        - "{{ infra_namespace }}"
 
     - name: Deploy ingress-nginx controller
-      community.kubernetes.helm:
+      kubernetes.core.helm:
         name: ingress
         chart_ref: ingress-nginx/ingress-nginx
         chart_version: 3.12.0
-        release_namespace: service
+        release_namespace: "{{ infra_namespace }}"
         values_files: "{{ playbook_dir }}/../example-values/ingress.values.yaml"
         create_namespace: true
         wait: true
 
-    - name: Mocking Prometheus operator
-      k8s:
-        definition: "{{ item }}"
-      with_items: '{{ lookup("url", "https://raw.githubusercontent.com/helm/charts/master/stable/prometheus-operator/crds/crd-servicemonitor.yaml", split_lines=False) | from_yaml_all | list }}'
-
-    # - name: Deploy Prometheus operator
-    #   community.kubernetes.helm:
-    #     name: prometheus
-    #     chart_ref: stable/prometheus-operator
-    #     release_namespace: monitoring
-    #     values_files:
-    #       {{ playbook_dir }}/../example-values/prometheus-operator.values.yaml
-    #     create_namespace: true
-    #     wait: true
-
-    # - name: Generate an OpenSSH keypair
-    #   community.crypto.openssl_privatekey:
-    #     path: ./deployment_key_ssh_rsa
-
-    # - name: Generate an OpenSSL public key in OpenSSH format
-    #   community.crypto.openssl_publickey:
-    #     format: OpenSSH
-    #     path: ./deployment_key_ssh_rsa.pub
-    #     privatekey_path: ./deployment_key_ssh_rsa
-
-    - name: Create infra-mgr secret
-      community.kubernetes.k8s:
+    - name: Mocking prometheus operator
+      kubernetes.core.k8s:
         state: present
-        definition:
-          apiVersion: v1
-          kind: Secret
-          type: Opaque
-          metadata:
-            name: infra-mgr
-            namespace: service
-          data:
-            infra-mgr: "{{ lookup('env','E2E_PRIVATE_KEY') | b64encode }}"
+        template: "{{ playbook_dir }}/deploy/crd-servicemonitor.yaml"
 
-    - name: Create git-chart-creds secret
-      community.kubernetes.k8s:
+    - name: Generate an OpenSSH private key
+      community.crypto.openssl_privatekey:
+        path: "{{ playbook_dir }}/id_ssh_rsa"
+
+    - name: Generate an OpenSSL public key in OpenSSH format
+      community.crypto.openssl_publickey:
+        format: OpenSSH
+        path: "{{ playbook_dir }}/id_ssh_rsa.pub"
+        privatekey_path: "{{ playbook_dir }}/id_ssh_rsa"
+
+    - name: Create infra-mgr secret (private key)
+      kubernetes.core.k8s:
         state: present
-        definition:
-          apiVersion: v1
-          kind: Secret
-          type: Opaque
-          metadata:
-            name: git-chart-creds
-            namespace: service
-          data:
-            username: ""
-            password: ""
+        template: "{{ playbook_dir }}/deploy/infra-mgr-secret.yaml"
+        namespace: "{{ infra_namespace }}"
 
-    - name: Create cassandra configMap
-      community.kubernetes.k8s:
+    - name: Create public key to infra-git
+      kubernetes.core.k8s:
         state: present
-        src: "{{ playbook_dir }}/cassandra/cassandra-configmap.yaml"
-        namespace: service
+        template: "{{ playbook_dir }}/deploy/keys-repo-configmap.yaml"
+        namespace: "{{ infra_namespace }}"
 
-    - name: Cassandra Init
-      community.kubernetes.k8s:
+    - name: Create infra-git persistent volume
+      kubernetes.core.k8s:
         state: present
-        template: "{{ playbook_dir }}/cassandra/initdb.yaml"
-        namespace: service
+        template: "{{ playbook_dir }}/deploy/infra-repo-pv.yaml"
+        namespace: "{{ infra_namespace }}"
 
-    - name: Deploy th2-infra-base
-      community.kubernetes.helm:
-        name: th2-infra-base
+    - name: Create Cassandra configmap
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/cassandra/cassandra-configmap.yaml"
+        namespace: "{{ infra_namespace }}"
+
+    # - name: Cassandra Init
+    #   kubernetes.core.k8s:
+    #     state: present
+    #     template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
+    #     namespace: service
+
+    - name: Deploy th2-infra
+      kubernetes.core.helm:
+        name: th2-infra
         chart_ref: "{{ playbook_dir }}/../th2-service/"
-        release_namespace: service
-        release_values:
-          rabbitmq:
-            rabbitmqUser: th2
-            rabbitmqPassword: test
-            persistentVolume:
-              enabled: false
-          cassandra:
-            # existingConfiguration: cassandra-configuration
-            initDBConfigMap: cassandra-init
-            dbUser:
-              user: cassandra
-              password: cassandra
-            host: cassandra-headless.service.svc.cluster.local
-            jvm:
-              maxHeapSize: 1G
-              newHeapSize: 800M
-            internal: true
-          infraMgr:
-            git:
-              repository: git@github.com:th2-net/e2e-test-schema.git
-#           infraOperator:
-#             chart:
-#               git: https://github.com/th2-net/infra-operator-tpl.git
-#               ref: release-v0.3.2
-#               path: ./
+        release_namespace: "{{ infra_namespace }}"
         values_files:
-          "{{ playbook_dir }}/../example-values/service.values.yaml"
-          # - ./secrets.yaml
+          - "{{ playbook_dir }}/deploy/ci.values.yaml"
         create_namespace: true
         wait: true

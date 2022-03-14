@@ -1,7 +1,6 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  creationTimestamp: null
   name: th2estores.th2.exactpro.com
 spec:
   conversion:
@@ -123,6 +122,8 @@ spec:
                     description: map for selecting nodes
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  bookName:
+                    type: string
                   mounting:
                     items:
                       properties:
@@ -196,6 +197,11 @@ spec:
                               type: string
                     type: object
                 type: object
+              disabled:
+                type: string
+                enum:
+                  - "false"
+                  - "true"
               image-name:
                 type: string
               image-version:
