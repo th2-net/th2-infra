@@ -85,9 +85,12 @@ infraOperator:
     chart:
       # external mirror
       # repository: https://th2-net.github.io
-      repository: http://infra-repo:8080
-      version: 0.7.2
-      name: infra-operator-tpl
+#       repository: http://infra-repo:8080
+#       version: 0.7.2
+#       name: infra-operator-tpl
+      git: https://github.com/th2-net/infra-operator-tpl.git
+      ref: release-v0.8.0
+      path: ./
     namespacePrefixes:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
