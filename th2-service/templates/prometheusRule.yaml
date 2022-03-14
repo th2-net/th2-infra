@@ -5,7 +5,7 @@ metadata:
   name: prometheusRule
   annotations:
   {{- include "common-annotations" . | nindent 4  }}
-  namespace: {{ .Values.prometheus.operator.serviceMonitor.namespace }}
+  namespace: {{ .Values.rabbitmq.prometheus.operator.serviceMonitor.namespace }}
   labels:
     release: prometheus
 spec:
