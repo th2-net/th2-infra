@@ -39,12 +39,12 @@ Then https://github.com/th2-net/th2-infra-schema-demo should be created in your 
 Infrastructure components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
 
 Next components of monitoring stack are deployed into _`monitoring`_ namespace:
-* [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 * [grafana](https://grafana.com/oss/grafana/)
 * [loki](https://grafana.com/oss/loki/)
 * [prometheus](https://grafana.com/oss/prometheus/)
 
 The _`service`_ namespace is used for infrastructure services:
+* [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 * [RabbitMQ](https://www.rabbitmq.com/)
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Helm Operator](https://github.com/fluxcd/helm-operator)
@@ -110,11 +110,13 @@ _Note: It's an optional step, but it gets slightly simpler checking the result o
 $ kubectl config set-context --current --namespace=monitoring
 ```
 * Define Grafana and Dashboard host names (the name must be resolved from QA boxes):
-  * in the [dashboard.values.yaml](./example-values/dashboard.values.yaml) file
+  * in the [values.yaml](./th2-service/values.yaml) file
     ```
-    ingress:
-      hosts:
-        - <th2_host_name>
+      ingress:
+        host: &host <th2_host_name>
+      kubernetes-dashboard:
+        ingress:
+          hosts: [*host]
     ```
   * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
     ```
@@ -124,16 +126,11 @@ $ kubectl config set-context --current --namespace=monitoring
           - <th2_host_name>
     ```
 
-* Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-```
-$ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-$ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./dashboard.values.yaml
-```
 * Deploy components
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm install --version=0.40.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=2.4.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
 $ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
@@ -141,7 +138,6 @@ $ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/ku
 $ kubectl get pods
 NAME                                                     READY   STATUS    RESTARTS   AGE
 ........
-pod/dashboard-kubernetes-dashboard-77d85586db-j9v8f   1/1     Running   0          56s
 alertmanager-prometheus-prometheus-oper-alertmanager-0   2/2     Running   0          75s
 loki-0                                                   1/1     Running   0          4m47s
 loki-promtail-wqfml                                      1/1     Running   0          4m47s
@@ -196,8 +192,11 @@ cassandra:
   host: <cassandra-host>
 ```
 
-### Define th2 ingress hostname
-Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
+### Define rabbitMQ ingress parameters
+Add `rabbitmq.ingress.hostName` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
+
+### Define th2 ingress parameters
+* Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
 ```
 ingress:
   host: example.com
@@ -257,12 +256,6 @@ infraMgr:
 * after installation you should init new repo with the name that you define in previous step.
 
 ## th2 deployment
-### Install helm-operator 
-```
-$ helm repo add fluxcd https://charts.fluxcd.io
-$ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./helm-operator.values.yaml
-```
-
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -313,6 +306,43 @@ $ helm repo update
 $ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
 _Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
+
+### Upgrade loki
+
+* Loki can be upgraded without additional configuration only if new version uses the same schema version. Current config can be retrieved from cluster:
+```
+kubectl get secret -n monitoring loki -o jsonpath="{.data.loki\.yaml}"|base64 -d; echo
+``` 
+schema version is defined in `schema_config.schema` parameter.
+Schema of new version loki can be found in chart default values for loki
+
+* If schema versions are different should be used transition config for loki. Example of this config:
+```
+    schema_config:
+      configs:
+      - from: "2018-04-15"
+        index:
+          period: 168h
+          prefix: index_
+        object_store: filesystem
+        schema: v9
+        store: boltdb
+      - from: "2022-01-22"
+        store: boltdb-shipper
+        object_store: filesystem
+        schema: v11
+        index:
+          prefix: index_
+          period: 24h
+    storage_config:
+    # because boltdb is used in old schema we need to define this storage
+      boltdb:
+        directory: /data/loki/index
+``` 
+More information about seamless migration between schemas:
+https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
+https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
+
   
 ### Re-adding persistence for components in th2 namespaces
 PersistentVolumeClaim is namespace scoped resource, so after namespace re-creation PVCs should be added for components require persistence.
@@ -336,3 +366,8 @@ _Note_: replace <th2-namespace> with th2 namespace you use
 - th2-infra-editor http://your-host:30000/editor/
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
+
+## Migration to v1.7.x th2-infra chart
+* Loki stack 2.4.1 chart version must be used during deployment. Refer to [Upgrade-loki](README.md#upgrade-loki)
+* Helm operator chart now is included as dependency and should not be deployed separately. All its values are under *helmoperator* parent value.
+* Kubernetes dashboard chart now is included as dependency and should not be deployed separately. Previous deployment must be uninstalled from "monitoring" namespace. All its values are under *dashboard* parent value.
