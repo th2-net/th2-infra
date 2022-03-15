@@ -198,6 +198,7 @@ spec:
                             type: array
                             items:
                               type: string
+                              pattern: "^[a-zA-Z0-9_/]*$"
                     type: object
                 type: object
               disabled:
@@ -250,6 +251,27 @@ spec:
                     filters:
                       items:
                         properties:
+                          properties:
+                            items:
+                              properties:
+                                expected-value:
+                                  type: string
+                                field-name:
+                                  type: string
+                                operation:
+                                  enum:
+                                    - EQUAL
+                                    - NOT_EQUAL
+                                    - EMPTY
+                                    - NOT_EMPTY
+                                    - WILDCARD
+                                  type: string
+                              required:
+                                - field-name
+                                - expected-value
+                                - operation
+                              type: object
+                            type: array
                           message:
                             items:
                               properties:
@@ -433,4 +455,3 @@ status:
     singular: ""
   conditions: []
   storedVersions: []
-
