@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: prometheusRule
 metadata:
-  name: prometheusRule
+  name: prometheus-rule
   annotations:
   {{- include "common-annotations" . | nindent 4  }}
   namespace: {{ .Values.rabbitmq.prometheus.operator.serviceMonitor.namespace }}
