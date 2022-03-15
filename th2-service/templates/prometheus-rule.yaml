@@ -1,6 +1,6 @@
 {{ if and .Values.rabbitmq.prometheus.operator.enabled .Values.rabbitmq.prometheus.operator.alerts.enabled }}
 apiVersion: monitoring.coreos.com/v1
-kind: prometheusRule
+kind: PrometheusRule
 metadata:
   name: prometheus-rule
   annotations:
