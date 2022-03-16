@@ -51,4 +51,4 @@ If it is required to test infra operator template chart from git, then it can be
           #     path: ./
 ```
 
-Private key for infra-mgr is set as a repository secret and passed as E2E_PRIVATE_KEY env variable to playbook. Public key is set as e2e-test deploy key in the schema repository.
+Private key for infra-mgr is set as a repository secret and passed as _E2E_PRIVATE_KEY_NEW_ env variable to playbook. Public key is set as e2e-test deploy key in the schema repository.
