@@ -43,6 +43,11 @@
         state: present
         template: "{{ playbook_dir }}/deploy/crd-servicemonitor.yaml"
 
+    - name: Mocking alert rules
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/crd-alert-rules.yaml"
+
     - name: Generate an OpenSSH private key
       community.crypto.openssl_privatekey:
         path: "{{ playbook_dir }}/id_ssh_rsa"
