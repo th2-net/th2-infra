@@ -155,6 +155,7 @@
         #               git: https://github.com/th2-net/infra-operator-tpl.git
         #               ref: release-v0.3.2
         #               path: ./
+        
         values_files:
           "{{ playbook_dir }}/../example-values/service.values.yaml"
           # - ./secrets.yaml
