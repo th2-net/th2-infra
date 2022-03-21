@@ -95,7 +95,7 @@
             name: infra-mgr
             namespace: "{{ infra_namespace }}"
           data:
-            infra-mgr: "{{ lookup('env','E2E_PRIVATE_KEY') | b64encode }}"
+            id_rsa: "{{ lookup('env','E2E_PRIVATE_KEY_NEW') | b64encode }}"
 
     - name: Create git-chart-creds secret
       kubernetes.core.k8s:
