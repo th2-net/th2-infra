@@ -44,10 +44,11 @@ prometheus:
       # -- Namespace to install ServiceMonitor
       namespace: monitoring
       selector:
-        prometheus: kube-prometheus
+          release: prometheus
+          app: kube-prometheus-stack
+          prometheus: kube-prometheus
     alerts:
-      selector:
-        role: alert-rules
+      selector: {}
 
 ## -- Kubernetes cluster domain
 clusterDomain: cluster.local
