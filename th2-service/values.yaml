@@ -251,6 +251,8 @@ rabbitmq:
   ingress:
     enabled: true
     hostName: *host
+    # -- RabbitmMQ management UI ingess path
+    # @default -- `"/rabbitmq($\|/.*)"`
     path: /rabbitmq($|/.*)
     annotations:
       kubernetes.io/ingress.class: "nginx"
@@ -310,5 +312,7 @@ dashboard:
       nginx.ingress.kubernetes.io/rewrite-target: $1
       nginx.ingress.kubernetes.io/configuration-snippet: rewrite ^/([a-z\-0-9]*)$ $scheme://$http_host/$1/ redirect;
     paths:
+      # -- dashboard UI ingess path
+      # @default -- `"/dashboard($\|/.*)"`
       - /dashboard($|/.*)
     hosts: [*host]
