@@ -7,8 +7,8 @@ metadata:
   {{- include "common-annotations" . | nindent 4  }}
   namespace: {{ .Values.prometheus.operator.serviceMonitor.namespace }}
   labels:
-    app: {{ template "rabbitmq-ha.name" . }}
-    chart: {{ template "rabbitmq-ha.chart" . }}
+    app: {{ template "th2.name" . }}
+    chart: {{ template "th2.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- if .Values.rabbitmq.prometheus.operator.serviceMonitor.selector }}
