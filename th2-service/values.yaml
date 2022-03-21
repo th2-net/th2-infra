@@ -44,9 +44,9 @@ prometheus:
       # -- Namespace to install ServiceMonitor
       namespace: monitoring
       selector:
-          release: prometheus
-          app: kube-prometheus-stack
-          prometheus: kube-prometheus
+        release: prometheus
+        app: kube-prometheus-stack
+        prometheus: kube-prometheus
     alerts:
       selector: {}
 
