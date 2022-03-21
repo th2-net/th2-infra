@@ -1,11 +1,13 @@
 {{ include "infraMgr-config" . }}
 ---
-{{ include "infra-mgr-service" .Values }}
+{{ include "infra-mgr-service" . }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: infra-mgr
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
   labels:
     app: infra-mgr
     {{ include "th2-labels" . }}
@@ -32,7 +34,7 @@ spec:
           containerPort: 8080
         {{- if .Values.infraMgr.prometheusConfiguration.enabled }}
         - name: metrics
-          containerPort: {{ default 9752 .Values.infraMgr.prometheusConfiguration.port }}
+          containerPort: {{ .Values.infraMgr.prometheusConfiguration.port }}
         {{- end }}
         resources:
 {{ toYaml .Values.infraMgr.resources | indent 10 }}
@@ -45,6 +47,8 @@ spec:
         env:
           - name: HOME 
             value: /home/service/
+          - name: GIT_FETCH_INTERVAL 
+            value: "{{ .Values.infraMgr.git.gitFetchInterval }}"
           {{- if .Values.infraMgr.jvm.javaToolOptions }}
           - name: JAVA_TOOL_OPTIONS
             value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}
@@ -64,6 +68,13 @@ spec:
               secretKeyRef:
                 name: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
                 key: cassandra-password
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.infraMgr.prometheusConfiguration.port }}
+          initialDelaySeconds: {{ .Values.infraMgr.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
+          periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
       volumes:
       - name : secrets
         secret:

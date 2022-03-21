@@ -192,8 +192,11 @@ cassandra:
   host: <cassandra-host>
 ```
 
-### Define th2 ingress hostname
-Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
+### Define rabbitMQ ingress parameters
+Add `rabbitmq.ingress.hostName` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
+
+### Define th2 ingress parameters
+* Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
 ```
 ingress:
   host: example.com
