@@ -11,11 +11,11 @@ metadata:
     chart: {{ template "th2.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-{{- if .Values.rabbitmq.prometheus.operator.serviceMonitor.selector }}
-{{ toYaml .Values.rabbitmq.prometheus.operator.serviceMonitor.selector | indent 4 }}
+{{- if .Values.prometheus.operator.serviceMonitor.selector }}
+{{ toYaml .Values.prometheus.operator.serviceMonitor.selector | indent 4 }}
 {{- end }}
-{{- if .Values.rabbitmq.prometheus.operator.alerts.selector }}
-{{ toYaml .Values.rabbitmq.prometheus.operator.alerts.selector | indent 4 }}
+{{- if .Values.prometheus.operator.alerts.selector }}
+{{ toYaml .Values.prometheus.operator.alerts.selector | indent 4 }}
 {{- end }}
 spec:
   groups:
