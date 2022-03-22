@@ -339,6 +339,20 @@ Schema of new version loki can be found in chart default values for loki
       boltdb:
         directory: /data/loki/index
 ``` 
+
+### Adding Loki datasource in Prometheus-stack
+
+* Loki datasource can be added in Prometheus-stack by grafana.additionalDataSources.
+```
+  grafana:
+    additionalDataSources:
+    - name: Loki
+      access: proxy
+      type: loki
+      url: http://loki:3100
+      jsonData:
+        maxLines: "5000"
+``` 
 More information about seamless migration between schemas:
 https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
 https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
@@ -369,5 +383,6 @@ _Note_: replace <th2-namespace> with th2 namespace you use
 
 ## Migration to v1.7.x th2-infra chart
 * Loki stack 2.4.1 chart version must be used during deployment. Refer to [Upgrade-loki](README.md#upgrade-loki)
+* Loki must be added in grafana during deployment. Refer to [Adding Loki datasource in Prometheus-stack](README.md#adding-loki-datasource-in-prometheus-stack)
 * Helm operator chart now is included as dependency and should not be deployed separately. All its values are under *helmoperator* parent value.
 * Kubernetes dashboard chart now is included as dependency and should not be deployed separately. Previous deployment must be uninstalled from "monitoring" namespace. All its values are under *dashboard* parent value.
