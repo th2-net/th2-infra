@@ -18,9 +18,6 @@ data:
       remoteRepository: {{ .Values.infraMgr.git.repository }}
       localRepositoryRoot: {{ .Values.infraMgr.git.repositoryLocalCache }}
       sshDir: {{ .Values.infraMgr.git.secretMountPath }}
-      expectedMessagePrompts:
-        - Accept and store this key, and continue connecting\?
-        - ^Create file.*known_hosts \?$
       httpAuthUsername: "${HTTPS_AUTH_USERNAME}"
       httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
 
