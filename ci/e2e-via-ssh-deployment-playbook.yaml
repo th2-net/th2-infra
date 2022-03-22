@@ -83,6 +83,24 @@
     #     template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
     #     namespace: service
 
+    - name: Create infra-git persistent volume
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/infra-repo-pv.yaml"
+        namespace: service
+
+    - name: Create Cassandra configmap
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/cassandra/cassandra-configmap.yaml"
+        namespace: service
+
+    # - name: Cassandra Init
+    #   kubernetes.core.k8s:
+    #     state: present
+    #     template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
+    #     namespace: service
+
     - name: Deploy th2-infra
       kubernetes.core.helm:
         name: th2-infra

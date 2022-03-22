@@ -6,9 +6,9 @@ rabbitmq:
   prometheus:
     operator:
       enabled: false
-  persistentVolume:
+  persistence:
     enabled: true
-    storageClass: local-storage
+    storageClassName: local-storage
     size: 10Gi
   ingress:
     enabled: true

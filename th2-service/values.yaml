@@ -151,6 +151,7 @@ infraMgr:
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
+    #FIXME: delete git-chart-creds secrets once it will be deleted from operator resources https://github.com/th2-net/th2-infra-operator/tree/master/src/main/resources
     secrets:
       - th2-core
       - th2-solution
@@ -193,7 +194,10 @@ rabbitmq:
   # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
   # otherwise service will be deployed as a chart dependency
   internal: true
-  rabbitmqMemoryHighWatermark: 1024MB
+  memoryHighWatermark:
+    enable: true
+    type: absolute
+    value: 1024MB
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
@@ -204,33 +208,11 @@ rabbitmq:
   rabbitmqErlangCookie: ""
   rabbitmqExchange: th2-exchange
   replicaCount: 1
-  podAntiAffinity: hard
+  podAntiAffinityPreset: hard
   persistentVolume:
     enabled: true
     storageClass: local-storage
     size: 10Gi
-  livenessProbe:
-    exec:
-      command:
-        - /bin/bash
-        - -ec
-        - rabbitmq-diagnostics -q check_running
-    initialDelaySeconds: 120
-    timeoutSeconds: 20
-    periodSeconds: 30
-    failureThreshold: 6
-    successThreshold: 1
-  readinessProbe:
-    exec:
-      command:
-        - /bin/bash
-        - -ec
-        - rabbitmq-diagnostics -q check_running
-    initialDelaySeconds: 10
-    timeoutSeconds: 20
-    periodSeconds: 30
-    failureThreshold: 3
-    successThreshold: 1
   service:
     type: "NodePort"
     amqpNodePort: 32000
