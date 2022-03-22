@@ -2,6 +2,16 @@
 ---
 {{ include "infra-mgr-service" . }}
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ssh-config
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+data:
+  config: |
+    StrictHostKeyChecking no
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -63,8 +73,12 @@ spec:
                 key: httpAuthPassword
       volumes:
       - name : secrets
-        secret:
-          secretName: {{ .Values.infraMgr.git.secretName }}
+        projected:
+          sources:
+          - secret:
+              name: {{ .Values.infraMgr.git.secretName }}
+          - configMap:
+              name: ssh-config
       - name: configs
         projected:
           sources:
