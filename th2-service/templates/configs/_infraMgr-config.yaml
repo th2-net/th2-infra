@@ -17,8 +17,7 @@ data:
     git:
       remoteRepository: {{ .Values.infraMgr.git.repository }}
       localRepositoryRoot: {{ .Values.infraMgr.git.repositoryLocalCache }}
-      privateKeyFile: {{ .Values.infraMgr.git.secretMountPath }}/{{ .Values.infraMgr.git.privateKeyFileSecret }}
-      ignoreInsecureHosts: true
+      sshDir: {{ .Values.infraMgr.git.secretMountPath }}
       httpAuthUsername: "${HTTPS_AUTH_USERNAME}"
       httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
 
