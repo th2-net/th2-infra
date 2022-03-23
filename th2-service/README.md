@@ -34,13 +34,12 @@ th2 service Helm chart
 | infraMgr.cassandra.secret | string | `"cassandra"` |  |
 | infraMgr.git.httpAuthPassword | string | `""` |  |
 | infraMgr.git.httpAuthUsername | string | `""` |  |
-| infraMgr.git.privateKeyFileSecret | string | `"infra-mgr"` |  |
 | infraMgr.git.repository | string | `"git@github.com:th2-net/th2-demo-configuration.git"` |  |
 | infraMgr.git.repositoryLocalCache | string | `"/home/service/repository"` |  |
-| infraMgr.git.secretMountPath | string | `"/home/service/keys"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
+| infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"1.2.11"` |  |
+| infraMgr.image.tag | string | `"1.2.13"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
 | infraMgr.kubernetes.configMaps.logging | string | `"logging-config-template"` |  |
@@ -111,7 +110,7 @@ th2 service Helm chart
 | rabbitmq.rabbitmqErlangCookie | string | `""` |  |
 | rabbitmq.rabbitmqExchange | string | `"th2-exchange"` |  |
 | rabbitmq.rabbitmqMemoryHighWatermark | string | `"1024MB"` |  |
-| rabbitmq.rabbitmqPassword | string | `""` | will be generated if empty |
+| rabbitmq.rabbitmqPassword | string | `""` | Will be generated if empty |
 | rabbitmq.rabbitmqPrometheusPlugin.enabled | bool | `true` |  |
 | rabbitmq.rabbitmqUsername | string | `"th2"` |  |
 | rabbitmq.rabbitmqVhost | string | `"th2"` |  |

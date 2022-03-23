@@ -2,16 +2,6 @@
 ---
 {{ include "infra-mgr-service" . }}
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ssh-config
-  annotations:
-  {{- include "common-annotations" . | nindent 4  }}
-data:
-  config: |
-    StrictHostKeyChecking no
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -57,7 +47,7 @@ spec:
             mountPath: /home/service/config/
           - name: secrets
             readOnly: true
-            mountPath: {{ .Values.infraMgr.git.secretMountPath }}
+            mountPath: {{ .Values.infraMgr.git.sshDir }}
         env:
           - name: JAVA_TOOL_OPTIONS
             value: -XX:MaxHeapSize=2048m
