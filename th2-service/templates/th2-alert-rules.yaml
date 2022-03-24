@@ -7,16 +7,7 @@ metadata:
   {{- include "common-annotations" . | nindent 4  }}
   namespace: {{ .Values.prometheus.operator.serviceMonitor.namespace }}
   labels:
-    app: {{ template "th2.name" . }}
-    chart: {{ template "th2.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-{{- if .Values.prometheus.operator.serviceMonitor.selector }}
 {{ toYaml .Values.prometheus.operator.serviceMonitor.selector | indent 4 }}
-{{- end }}
-{{- if .Values.prometheus.operator.alerts.selector }}
-{{ toYaml .Values.prometheus.operator.alerts.selector | indent 4 }}
-{{- end }}
 spec:
   groups:
   {{ if .Values.rabbitmq.prometheus.operator.enabled }}

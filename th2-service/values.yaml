@@ -46,7 +46,7 @@ prometheus:
       selector:
         release: prometheus
         app: kube-prometheus-stack
-        prometheus: kube-prometheus
+#        prometheus: kube-prometheus
     alerts:
       selector: {}
 
