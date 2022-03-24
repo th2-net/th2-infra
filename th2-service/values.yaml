@@ -46,7 +46,6 @@ prometheus:
       selector:
         release: prometheus
         app: kube-prometheus-stack
-#        prometheus: kube-prometheus
 
 ## -- Kubernetes cluster domain
 clusterDomain: cluster.local
