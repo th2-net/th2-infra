@@ -3,9 +3,6 @@ infraMgr:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
 
 rabbitmq:
-  prometheus:
-    operator:
-      enabled: false
   persistence:
     enabled: true
     storageClassName: local-storage

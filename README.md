@@ -232,10 +232,11 @@ cassandra:
 
 rabbitmq:
 # set admin user credentials, it will be created during deployment
-  rabbitmqUsername: th2
-  rabbitmqPassword: rab-pass
-  # must be random string
-  rabbitmqErlangCookie: cookie
+  auth:
+    username: th2
+    password: rab-pass
+    # must be random string
+    erlangCookie: cookie
 ```
 ### infra-git deployment
 
