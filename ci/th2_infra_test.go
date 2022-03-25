@@ -10,6 +10,9 @@ import (
 	http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
 	"github.com/gruntwork-io/terratest/modules/k8s"
 	"github.com/gruntwork-io/terratest/modules/logger"
+
+	"http"
+    "moul.io/http2curl"
 )
 
 const (
@@ -18,6 +21,8 @@ const (
 	monitoringNamespace    = "monitoring"
 	rabbitmqPod            = "rabbitmq-0"
 	rabbitmqSvc            = "rabbitmq-discovery"
+	rabbitmqUser           = "th2"
+	rabbitmqPassword       = "test"
 	cassandraPod           = "cassandra-0"
 	dataProviderSvc        = "rpt-data-provider"
 	reportViewerSvc        = "rpt-data-viewer"
@@ -120,6 +125,30 @@ func TestRabbitMQRedirectEndpoint(t *testing.T) {
 
 	validator := validFunc(t, 200, "<title>RabbitMQ Management</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestRabbitMQQueues(t *testing.T) {
+	// t.Parallel()
+	req, err := http.NewRequest("GET", "http://localhost:30000/rabbitmq/api/queues/th2-schema/", nil)
+	if err != nil {
+		return false
+	}
+	req.SetBasicAuth(rabbitmqUser, rabbitmqPassword)
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return false
+	}
+	defer resp.Body.Close()
+	str, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return false
+	}
+	if string(str) == `{"error":"Object Not Found","reason":"Not Found"}` {
+		return false
+	}
+	if string(str) != "" {
+		return true
+	}
 }
 
 func TestInfraMgrEndpoint(t *testing.T) {
