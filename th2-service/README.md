@@ -143,6 +143,8 @@ th2 service Helm chart
 | productRegistry.username | string | `""` |  |
 | prometheus.operator.enabled | bool | `true` |  |
 | prometheus.operator.serviceMonitor.namespace | string | `"monitoring"` | Namespace to install ServiceMonitor |
+| prometheus.operator.serviceMonitor.selector.app | string | `"kube-prometheus-stack"` |  |
+| prometheus.operator.serviceMonitor.selector.release | string | `"prometheus"` |  |
 | proprietaryRegistry.password | string | `""` |  |
 | proprietaryRegistry.registry | string | `""` |  |
 | proprietaryRegistry.secret | string | `"th2-proprietary"` |  |
