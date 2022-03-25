@@ -43,7 +43,7 @@ spec:
             mountPath: /home/service/config/
           - name: secrets
             readOnly: true
-            mountPath: {{ .Values.infraMgr.git.secretMountPath }}
+            mountPath: {{ .Values.infraMgr.git.sshDir }}
         env:
           - name: HOME 
             value: /home/service/
@@ -77,8 +77,12 @@ spec:
           periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
       volumes:
       - name : secrets
-        secret:
-          secretName: {{ .Values.infraMgr.git.secretName }}
+        projected:
+          sources:
+          - secret:
+              name: {{ .Values.infraMgr.git.secretName }}
+          - configMap:
+              name: ssh-config
       - name: configs
         projected:
           sources:
