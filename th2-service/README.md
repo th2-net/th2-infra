@@ -39,7 +39,7 @@ th2 service Helm chart
 | dashboard.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | dashboard.ingress.enabled | bool | `true` |  |
 | dashboard.ingress.hosts[0] | string | `""` |  |
-| dashboard.ingress.paths[0] | string | `"/dashboard($|/.*)"` |  |
+| dashboard.ingress.paths[0] | string | `"/dashboard($\|/.*)"` | dashboard UI ingess path |
 | dashboard.internal | bool | `true` | Kubernetes dashboard values. If true - will be deployed as dependency |
 | dashboard.protocolHttp | bool | `true` |  |
 | dashboard.rbac.clusterRoleMetrics | bool | `true` |  |
@@ -156,7 +156,7 @@ th2 service Helm chart
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | rabbitmq.ingress.enabled | bool | `true` |  |
 | rabbitmq.ingress.hostName | string | `""` |  |
-| rabbitmq.ingress.path | string | `"/rabbitmq($|/.*)"` |  |
+| rabbitmq.ingress.path | string | `"/rabbitmq($\|/.*)"` | RabbitmMQ management UI ingess path |
 | rabbitmq.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | rabbitmq.livenessProbe.exec.command[0] | string | `"/bin/bash"` |  |
 | rabbitmq.livenessProbe.exec.command[1] | string | `"-ec"` |  |
