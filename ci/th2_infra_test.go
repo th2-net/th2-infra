@@ -11,7 +11,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/k8s"
 	"github.com/gruntwork-io/terratest/modules/logger"
 
-	"http"
+	"net/http"
     "moul.io/http2curl"
 )
 
