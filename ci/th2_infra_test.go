@@ -129,7 +129,7 @@ func TestRabbitMQRedirectEndpoint(t *testing.T) {
 
 func TestRabbitMQQueues(t *testing.T) {
 	// t.Parallel()
-	req, err := http.NewRequest("GET", "http://localhost:30000/rabbitmq/api/queues/th2-schema/", nil)
+	req, err := http.NewRequest("GET", "http://localhost:30000/rabbitmq/api/queues/th2-schema/link%5Bth2-schema%3Arpt-data-provider%3Afrom_codec%5D", nil)
 	if err != nil {
 		return false
 	}
@@ -149,6 +149,7 @@ func TestRabbitMQQueues(t *testing.T) {
 	if string(str) != "" {
 		return true
 	}
+	return false
 }
 
 func TestInfraMgrEndpoint(t *testing.T) {
