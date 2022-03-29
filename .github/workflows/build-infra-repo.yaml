@@ -1,0 +1,67 @@
+name: Publish chart
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+          path: infra-operator-tpl
+
+      - name: Checkout Helm repository
+        uses: actions/checkout@v2.3.4
+        with:
+          repository: th2-net/th2-net.github.io
+          ref: master
+          token: ${{ secrets.PAT_CI_ACTION }}
+          path: th2-net.github.io
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.1
+
+      - name: Create package and index
+        run: |
+          helm package ./infra-operator-tpl/ --destination ./th2-net.github.io/
+          helm repo index --merge ./th2-net.github.io/index.yaml ./th2-net.github.io/
+
+      - name: Read Helm Chart
+        id: chart
+        uses: jacobtomlinson/gha-read-helm-chart@master
+        with:
+          path: ./infra-operator-tpl/
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          branch: master
+          directory: ./th2-net.github.io/
+          repository: th2-net/th2-net.github.io
+          author_name: ${{ github.actor }}
+          author_email: ${{ github.actor }}@users.noreply.github.com
+          github_token: ${{ secrets.PAT_CI_ACTION }}
+
+      - name: set up docker buildx plugin
+        uses: docker/setup-buildx-action@v1
+
+      - name: log in to github container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: build image & push to registry
+        uses: docker/build-push-action@v2
+        with:
+          file: ./infra-operator-tpl/infra-repo/Dockerfile
+          context: .
+          push: true
+          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
