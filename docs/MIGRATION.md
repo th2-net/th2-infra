@@ -11,7 +11,6 @@
 
 ### Add New Secret 
 
-``` 
 * [Add a new deploy key to your schema repository on GitHub ](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 * Create infra-mgr secret from the private key:
 ```
