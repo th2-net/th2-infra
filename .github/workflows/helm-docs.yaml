@@ -8,14 +8,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate-docs:
+  createPullRequest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT_CI_ACTION }}
+      - uses: actions/checkout@v3
+
       - name: Generate helm docs
         run: make docs
-      - uses: stefanzweifel/git-auto-commit-action@v4
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
         with:
-          commit_message: "Auto-generated helm chart docs"
+          token: ${{ secrets.PAT }}
+          commit-message: Update helm docs
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: example-patches
+          delete-branch: true
+          title: 'Auto-update helm docs'
+          labels: |
+            automated
