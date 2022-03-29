@@ -148,7 +148,9 @@ prometheus-prometheus-oper-operator-df668d457-snxks      1/1     Running   0    
 prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1          65s        
 ........
 ```
-
+* Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
+  http://your-host:30000/grafana/login
+  
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.
 
@@ -325,4 +327,4 @@ _Note_: replace <th2-namespace> with th2 namespace you use
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
 
-## Migration to v1.7.x th2-infra chart [MIGRATION](MIGRATION.md)
+## Migration to v1.7.x th2-infra chart [MIGRATION](docs/MIGRATION.md)

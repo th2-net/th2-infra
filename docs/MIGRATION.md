@@ -1,15 +1,22 @@
 # Migrations
 
 ## Migration to RELEASE v1.7.1
-* Loki stack 2.4.1 chart version must be used during deployment. Refer to [Upgrade-loki](README.md#upgrade-loki)
+* Loki stack 2.4.1 chart version must be used during deployment. Refer to [Upgrade-loki](MIGRATION.md#upgrade-loki)
 * Helm operator chart now is included as dependency and should not be deployed separately. All its values are under *helmoperator* parent value.
 * Kubernetes dashboard chart now is included as dependency and should not be deployed separately. Previous deployment must be uninstalled from "monitoring" namespace. All its values are under *dashboard* parent value.
 
 ## Migration to RELEASE v1.7.2
-* Loki stack 2.4.1 chart version must be used during deployment. Refer to [Upgrade-loki](README.md#upgrade-loki)
-* Loki must be added in grafana during deployment. Refer to [Adding Loki datasource in Prometheus-stack](README.md#adding-loki-datasource-in-prometheus-stack)
-* Helm operator chart now is included as dependency and should not be deployed separately. All its values are under *helmoperator* parent value.
-* Kubernetes dashboard chart now is included as dependency and should not be deployed separately. Previous deployment must be uninstalled from "monitoring" namespace. All its values are under *dashboard* parent value.
+* Loki must be added in grafana during deployment. Refer to [Adding Loki datasource in Prometheus-stack](MIGRATION.md#adding-loki-datasource-in-prometheus-stack)
+* Delete old infra-mgr secret and replace it with new one. Refer to [Add New Secret](MIGRATION.md#add-new-secret)
+
+### Add New Secret 
+
+``` 
+* [Add a new deploy key to your schema repository on GitHub ](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
+* Create infra-mgr secret from the private key:
+```
+$ kubectl -n service create secret generic infra-mgr --from-file=id_rsa=./infra-mgr-rsa.key
+```
 
 ### Upgrade loki
 
