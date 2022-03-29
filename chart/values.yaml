@@ -127,7 +127,8 @@ infraMgr:
     tag: 1.7.7-infra-1.8.0-2057987187
   git:
     secretName: infra-mgr
-    sshDir: /home/service/keys
+    privateKeyFileSecret: infra-mgr
+    secretMountPath: /home/service/keys
     repository: git@github.com:th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
     httpAuthUsername: "" #should be stored in secret th2-git-access-schemas
