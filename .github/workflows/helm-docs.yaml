@@ -17,6 +17,7 @@ jobs:
         run: |
           make docs
           date +%s > report.txt
+          git status
 
       - name: Create Pull Request
         id: cpr
