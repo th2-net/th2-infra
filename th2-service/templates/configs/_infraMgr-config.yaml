@@ -2,6 +2,17 @@
 Generating configMap for k8
 */}}
 {{- define "infraMgr-config" }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ssh-config
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+data:
+  config: |
+    StrictHostKeyChecking no
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -17,8 +28,7 @@ data:
     git:
       remoteRepository: {{ .Values.infraMgr.git.repository }}
       localRepositoryRoot: {{ .Values.infraMgr.git.repositoryLocalCache }}
-      privateKeyFile: {{ .Values.infraMgr.git.secretMountPath }}/{{ .Values.infraMgr.git.privateKeyFileSecret }}
-      ignoreInsecureHosts: true
+      sshDir: {{ .Values.infraMgr.git.sshDir }}
       httpAuthUsername: "${HTTPS_AUTH_USERNAME}"
       httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
 
