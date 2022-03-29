@@ -24,6 +24,7 @@ jobs:
           commit-message: Update helm docs
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          base: ${{ github.event.pull_request.base.ref }}
           branch: example-patches
           delete-branch: true
           title: 'Auto-update helm docs'
