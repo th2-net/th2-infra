@@ -47,7 +47,7 @@ spec:
             mountPath: /home/service/config/
           - name: secrets
             readOnly: true
-            mountPath: {{ .Values.infraMgr.git.secretMountPath }}
+            mountPath: {{ .Values.infraMgr.git.sshDir }}
         env:
           - name: JAVA_TOOL_OPTIONS
             value: -XX:MaxHeapSize=2048m
@@ -63,8 +63,12 @@ spec:
                 key: httpAuthPassword
       volumes:
       - name : secrets
-        secret:
-          secretName: {{ .Values.infraMgr.git.secretName }}
+        projected:
+          sources:
+          - secret:
+              name: {{ .Values.infraMgr.git.secretName }}
+          - configMap:
+              name: ssh-config
       - name: configs
         projected:
           sources:

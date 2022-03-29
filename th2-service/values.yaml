@@ -83,11 +83,10 @@ infraMgr:
     enabled: true
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.2.11
+    tag: 1.2.13
   git:
     secretName: infra-mgr
-    privateKeyFileSecret: infra-mgr
-    secretMountPath: /home/service/keys
+    sshDir: /home/service/keys
     repository: git@github.com:th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
     httpAuthUsername: "" #should be stored in secret th2-git-access-schemas
