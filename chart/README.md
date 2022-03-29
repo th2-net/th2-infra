@@ -72,10 +72,11 @@ th2 service Helm chart
 | infraMgr.git.gitFetchInterval | string | `"14000"` | Infra manager git fetch interval in milliseconds |
 | infraMgr.git.httpAuthPassword | string | `""` |  |
 | infraMgr.git.httpAuthUsername | string | `""` |  |
+| infraMgr.git.privateKeyFileSecret | string | `"infra-mgr"` |  |
 | infraMgr.git.repository | string | `"git@github.com:th2-net/th2-demo-configuration.git"` |  |
 | infraMgr.git.repositoryLocalCache | string | `"/home/service/repository"` |  |
+| infraMgr.git.secretMountPath | string | `"/home/service/keys"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
-| infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
 | infraMgr.image.tag | string | `"1.7.7-infra-1.8.0-2057987187"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
