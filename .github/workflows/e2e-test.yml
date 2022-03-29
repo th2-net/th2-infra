@@ -26,6 +26,8 @@ env:
 
 jobs:
   deploy-and-test:
+    if: |
+      !contains(github.event.pull_request.labels == 'automated')
     runs-on: ubuntu-latest
     steps:
       - name: Go cache dependencies
