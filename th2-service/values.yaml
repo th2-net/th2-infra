@@ -21,6 +21,7 @@ proprietaryRegistry:
   password: ""
 
 ingress:
+  ## -- Hostname to access ingress
   host: &host ""
   annotations:
     default:
