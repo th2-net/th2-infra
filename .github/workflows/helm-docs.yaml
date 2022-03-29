@@ -23,13 +23,15 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
-          token: ${{ secrets.PAT_CI_ACTION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update helm docs
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           base: ${{ github.event.pull_request.head.ref }}
+          branch: ${{ github.event.pull_request.head.ref }}-helm-docs
           delete-branch: true
           title: 'Auto-update helm docs'
+          body: 'Generating helm chart README'
           labels: |
             automated
       - name: Check outputs
