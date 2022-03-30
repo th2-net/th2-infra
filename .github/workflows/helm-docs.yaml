@@ -28,7 +28,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           base: ${{ github.event.pull_request.head.ref }}
-          branch: ${{ github.event.pull_request.head.ref }}-helm-docs
+          branch: helm-docs-${{ github.event.pull_request.head.ref }}
           delete-branch: true
           title: "${{ github.event.pull_request.title }} helm chart readme"
           body: "Generating helm chart README"
