@@ -72,7 +72,7 @@ helmoperator:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.0.65
+    tag: 1.0.65-000
 
 infraRepo:
   image:
