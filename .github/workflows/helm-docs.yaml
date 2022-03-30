@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  createPullRequest:
+  generate-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,8 +28,8 @@ jobs:
           base: ${{ github.event.pull_request.head.ref }}
           branch: ${{ github.event.pull_request.head.ref }}-helm-docs
           delete-branch: true
-          title: 'Auto-update helm docs'
-          body: 'Generating helm chart README'
+          title: "Auto-update helm docs"
+          body: "Generating helm chart README"
           labels: |
             automated
       - name: Check outputs
