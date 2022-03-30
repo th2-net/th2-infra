@@ -2,6 +2,8 @@ name: Auto generate helm-docs
 
 on:
   pull_request:
+    branches:
+      - release-v*
     paths:
       - "th2-service/**"
       - ".github/workflows/helm-docs.yaml"
@@ -28,7 +30,7 @@ jobs:
           base: ${{ github.event.pull_request.head.ref }}
           branch: ${{ github.event.pull_request.head.ref }}-helm-docs
           delete-branch: true
-          title: "Auto-update helm docs"
+          title: "${{ github.event.pull_request.title }} helm chart readme"
           body: "Generating helm chart README"
           labels: |
             automated
