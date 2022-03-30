@@ -16,6 +16,7 @@ solutionRegistry:
 
 proprietaryRegistry:
   secret: th2-proprietary
+  ## -- Registry host e.g. myregistry.com:6000
   registry: ""
   username: ""
   password: ""
