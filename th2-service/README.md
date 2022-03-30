@@ -1,6 +1,6 @@
 # th2
 
-![Version: 1.7.2](https://img.shields.io/badge/Version-1.7.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.7.000](https://img.shields.io/badge/Version-1.7.000-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 th2 service Helm chart
 
@@ -55,7 +55,7 @@ th2 service Helm chart
 | helmoperator.prometheus.serviceMonitor.create | bool | `true` |  |
 | helmoperator.prometheus.serviceMonitor.namespace | string | `"monitoring"` |  |
 | infraEditor.image.repository | string | `"ghcr.io/th2-net/th2-infra-editor"` |  |
-| infraEditor.image.tag | string | `"1.0.65"` |  |
+| infraEditor.image.tag | string | `"1.0.65-000"` |  |
 | infraGit.image.repository | string | `"ghcr.io/th2-net/git-ssh"` |  |
 | infraGit.image.tag | string | `"v0.1.0"` |  |
 | infraGit.internal | bool | `false` | If there is no ability to get access for cluster to repo with schemas namespaces configs git repo can be deployed internal in the cluster. Change to "internal = true" in case you need internal git repo. |
