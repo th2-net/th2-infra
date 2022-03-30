@@ -6,13 +6,18 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: infra-operator
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
 data:
   infra-operator.yml: |
+    commonAnnotations:
+    {{- include "common-annotations" . | nindent 6 }}
+    ingress:
+    {{- .Values.ingress | toYaml | nindent 6 }}
     prometheusConfiguration:
       host: "0.0.0.0"
-      port: {{ default 9752 .Values.infraOperator.prometheusConfiguration.port | quote }}
-      enabled: {{ default true .Values.infraOperator.prometheusConfiguration.enabled | quote }}
-    ingressHost: {{ .Values.ingress.host | quote }}
+      port: {{ .Values.infraOperator.prometheusConfiguration.port | quote }}
+      enabled: {{ .Values.infraOperator.prometheusConfiguration.enabled | quote }}
     chart:
       {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
     namespacePrefixes:
@@ -25,7 +30,7 @@ data:
       {{- if .Values.rabbitmq.host }}
       host: {{ .Values.rabbitmq.host | quote }}
       {{- else }}
-      host: "{{ .Values.rabbitmq.fullnameOverride }}-discovery.service.svc.cluster.local"
+      host: "{{ .Values.rabbitmq.fullnameOverride }}-discovery.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
       {{- end }}
       port: {{ .Values.infraOperator.config.rabbitMQManagement.port | quote }}
       username: {{ .Values.infraOperator.config.rabbitMQManagement.username | quote }}

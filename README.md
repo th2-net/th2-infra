@@ -170,10 +170,10 @@ $ kubectl config set-context --current --namespace=service
 ```
 $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ``` 
-* [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
+* [Add a new deploy key to your schema repository on GitHub ](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 * Create infra-mgr secret from the private key:
 ```
-$ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
+$ kubectl -n service create secret generic infra-mgr --from-file=id_rsa=./infra-mgr-rsa.key
 ```
 
 ### Set the repository with schema configuration
@@ -192,8 +192,11 @@ cassandra:
   host: <cassandra-host>
 ```
 
-### Define th2 ingress hostname
-Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
+### Define rabbitMQ ingress parameters
+Add `rabbitmq.ingress.hostName` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
+
+### Define th2 ingress parameters
+* Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
 ```
 ingress:
   host: example.com

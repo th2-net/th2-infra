@@ -34,7 +34,8 @@ const (
 )
 
 var (
-	schemaNamespace = ""
+	serviceNamespace, schemaNamespace string
+	exists                            bool
 )
 
 func TestMain(m *testing.M) {
@@ -45,11 +46,11 @@ func TestMain(m *testing.M) {
 }
 
 func setUp() {
-	v, ok := os.LookupEnv("SCHEMA_NAMESPACE")
-	if ok {
-		schemaNamespace = v
-	} else {
+	if schemaNamespace, exists = os.LookupEnv("SCHEMA_NAMESPACE"); !exists {
 		schemaNamespace = defaultSchemaNamespace
+	}
+	if serviceNamespace, exists = os.LookupEnv("INFRA_NAMESPACE"); !exists {
+		serviceNamespace = defaultServiceNamespace
 	}
 }
 
