@@ -1,0 +1,53 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Link
+metadata:
+  name: from-codec-links
+spec:
+  boxes-relation:
+    router-mq:
+      # conn
+      - name: codec-to-act
+        from:
+          box: codec-fix
+          pin: out_codec_decode
+        to:
+          box: act-fix
+          pin: from_codec
+      - name: codec-to-check1
+        from:
+          box: codec-fix
+          pin: out_codec_decode
+        to:
+          box: check1
+          pin: from_codec
+      - name: codec-to-recon
+        from:
+          box: codec-fix
+          pin: out_codec_decode
+        to:
+          box: recon
+          pin: incoming
+######################RPT-PROVIDER################
+      - name: provider-to-codec
+        from:
+          box: rpt-data-provider
+          pin: to_codec
+        to:
+          box: codec-fix
+          pin: in_codec_general_decode
+      - name: codec-to-provider
+        from:
+          box: codec-fix
+          pin: out_codec_general_decode
+        to:
+          box: rpt-data-provider
+          pin: from_codec
+###############SIM###############################
+      - name: codec-sim-to-sim
+        from:
+          box: codec-sim-fix
+          pin: out_codec_decode
+        to:
+          box: sim-demo
+          pin: subscribe
+

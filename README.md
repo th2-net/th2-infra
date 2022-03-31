@@ -39,12 +39,12 @@ Then https://github.com/th2-net/th2-infra-schema-demo should be created in your 
 Infrastructure components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
 
 Next components of monitoring stack are deployed into _`monitoring`_ namespace:
-* [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 * [grafana](https://grafana.com/oss/grafana/)
 * [loki](https://grafana.com/oss/loki/)
 * [prometheus](https://grafana.com/oss/prometheus/)
 
 The _`service`_ namespace is used for infrastructure services:
+* [kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 * [RabbitMQ](https://www.rabbitmq.com/)
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Helm Operator](https://github.com/fluxcd/helm-operator)
@@ -110,11 +110,13 @@ _Note: It's an optional step, but it gets slightly simpler checking the result o
 $ kubectl config set-context --current --namespace=monitoring
 ```
 * Define Grafana and Dashboard host names (the name must be resolved from QA boxes):
-  * in the [dashboard.values.yaml](./example-values/dashboard.values.yaml) file
+  * in the [values.yaml](./th2-service/values.yaml) file
     ```
-    ingress:
-      hosts:
-        - <th2_host_name>
+      ingress:
+        host: &host <th2_host_name>
+      kubernetes-dashboard:
+        ingress:
+          hosts: [*host]
     ```
   * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
     ```
@@ -124,16 +126,11 @@ $ kubectl config set-context --current --namespace=monitoring
           - <th2_host_name>
     ```
 
-* Install [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-```
-$ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-$ helm install dashboard -n monitoring kubernetes-dashboard/kubernetes-dashboard -f ./dashboard.values.yaml
-```
 * Deploy components
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm install --version=0.40.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=2.4.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
 $ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
@@ -141,7 +138,6 @@ $ helm install --version=15.0.0 prometheus -n monitoring prometheus-community/ku
 $ kubectl get pods
 NAME                                                     READY   STATUS    RESTARTS   AGE
 ........
-pod/dashboard-kubernetes-dashboard-77d85586db-j9v8f   1/1     Running   0          56s
 alertmanager-prometheus-prometheus-oper-alertmanager-0   2/2     Running   0          75s
 loki-0                                                   1/1     Running   0          4m47s
 loki-promtail-wqfml                                      1/1     Running   0          4m47s
@@ -152,12 +148,9 @@ prometheus-prometheus-oper-operator-df668d457-snxks      1/1     Running   0    
 prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1          65s        
 ........
 ```
-
-Add loki Datasource as http://loki:3100 and import Dashboard from components-logs.json and RabbitMQ Overview from here: https://grafana.com/grafana/dashboards/10991
-
 * Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
   http://your-host:30000/grafana/login
-
+  
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.
 
@@ -174,10 +167,10 @@ $ kubectl config set-context --current --namespace=service
 ```
 $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ``` 
-* [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
+* [Add a new deploy key to your schema repository on GitHub ](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 * Create infra-mgr secret from the private key:
 ```
-$ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
+$ kubectl -n service create secret generic infra-mgr --from-file=id_rsa=./infra-mgr-rsa.key
 ```
 
 ### Set the repository with schema configuration
@@ -196,8 +189,11 @@ cassandra:
   host: <cassandra-host>
 ```
 
-### Define th2 ingress hostname
-Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
+### Define rabbitMQ ingress parameters
+Add `rabbitmq.ingress.hostName` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
+
+### Define th2 ingress parameters
+* Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
 ```
 ingress:
   host: example.com
@@ -257,12 +253,6 @@ infraMgr:
 * after installation you should init new repo with the name that you define in previous step.
 
 ## th2 deployment
-### Install helm-operator 
-```
-$ helm repo add fluxcd https://charts.fluxcd.io
-$ helm install --version=1.2.0 helm-operator -n service fluxcd/helm-operator -f ./helm-operator.values.yaml
-```
-
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -312,7 +302,7 @@ $ kubectl get customresourcedefinitions | grep "^th2"
 $ helm repo update
 $ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
-_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
+_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/release
   
 ### Re-adding persistence for components in th2 namespaces
 PersistentVolumeClaim is namespace scoped resource, so after namespace re-creation PVCs should be added for components require persistence.
@@ -336,3 +326,6 @@ _Note_: replace <th2-namespace> with th2 namespace you use
 - th2-infra-editor http://your-host:30000/editor/
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
+
+## Migration to v1.7.x th2-infra chart 
+Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)

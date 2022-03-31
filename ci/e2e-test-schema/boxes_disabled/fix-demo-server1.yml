@@ -1,0 +1,93 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Box
+metadata:
+  name: fix-demo-server1
+spec:
+  image-name: ghcr.io/th2-net/th2-conn-fix
+  image-version: 2.1.0
+  type: th2-conn
+  custom-config:
+    session-alias: fix-demo-server1
+    workspace: /home/sailfish/workspace
+    type: th2_service:FIX_Server
+    name: fix-demo-server1
+    settings:
+      autoStartable: true
+      expectedTimeOfStarting: 2000
+      invertStoredMessageTypes: false
+      performDump: false
+      persistMessages: true
+      waitingTimeBeforeStarting: 0
+      allowUnknownMsgFields: false
+      beginString: FIXT.1.1
+      checkLatency: false
+      defaultApplVerID: 9
+      duplicateTagsAllowed: false
+      endTime: 00:00:00
+      fileStorePath: store/fix/sessions
+      logHeartbeats: true
+      maxLatency: 120
+      microsecondsInTimeStampFields: false
+      millisecondsInTimeStampFields: true
+      orderingFields: false
+      receiveLimit: 0
+      rejectInvalidMessage: false
+      resetOnDisconnect: false
+      resetOnLogout: false
+      senderCompID: FGW
+      startTime: 00:00:00
+      targetCompID: DEMO-CONN1
+      useLocalTime: false
+      useSSL: false
+      validateFieldsHaveValues: true
+      validateFieldsOutOfOrder: true
+      validateFieldsOutOfRange: true
+      validateSequenceNumbers: true
+      validateUserDefinedFields: true
+      applicationClassName: com.exactpro.sf.services.fix.ServerApplication
+      keepMessagesInMemory: true
+      socketAcceptPort: 8089
+  pins:
+    - name: in
+      connection-type: mq
+      attributes:
+        - first
+        - parsed
+        - publish
+        - store
+    - name: in_raw
+      connection-type: mq
+      attributes:
+        - first
+        - raw
+        - publish
+    - name: out
+      connection-type: mq
+      attributes:
+        - second
+        - parsed
+        - publish
+    - name: out_raw
+      connection-type: mq
+      attributes:
+        - second
+        - raw
+        - publish
+    - name: fix_to_send
+      connection-type: mq
+      attributes:
+        - send
+        - parsed
+        - subscribe
+  extended-settings:
+    service:
+      enabled: true
+      targetPort: "8089"
+    envVariables:
+      JAVA_TOOL_OPTIONS: "-XX:+ExitOnOutOfMemoryError"
+    resources:
+      limits:
+        memory: 200Mi
+        cpu: 200m
+#      mounitng:
+#        TBD
