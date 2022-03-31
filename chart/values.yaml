@@ -43,6 +43,9 @@ prometheus:
     serviceMonitor:
       # -- Namespace to install ServiceMonitor
       namespace: monitoring
+      selector:
+        release: prometheus
+        app: kube-prometheus-stack
 
 ## -- Kubernetes cluster domain
 clusterDomain: cluster.local
@@ -80,17 +83,14 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.5.3-grpc-filters-1979795453
+    tag: 3.5.2
   config:
     chart:
       # external mirror
       # repository: https://th2-net.github.io
-#       repository: http://infra-repo:8080
-#       version: 0.7.2
-#       name: infra-operator-tpl
-      git: https://github.com/th2-net/infra-operator-tpl.git
-      ref: release-v0.8.0
-      path: ./
+      repository: http://infra-repo:8080
+      version: 0.7.2
+      name: infra-operator-tpl
     namespacePrefixes:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
@@ -124,11 +124,10 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.6.6-infra-1.8.0-1993544213
+    tag: 1.6.2
   git:
     secretName: infra-mgr
-    privateKeyFileSecret: infra-mgr
-    secretMountPath: /home/service/keys
+    sshDir: /home/service/keys
     repository: git@github.com:th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
     httpAuthUsername: "" #should be stored in secret th2-git-access-schemas
@@ -254,6 +253,8 @@ rabbitmq:
   ingress:
     enabled: true
     hostName: *host
+    # -- RabbitmMQ management UI ingess path
+    # @default -- `"/rabbitmq($\|/.*)"`
     path: /rabbitmq($|/.*)
     annotations:
       kubernetes.io/ingress.class: "nginx"
@@ -313,5 +314,7 @@ dashboard:
       nginx.ingress.kubernetes.io/rewrite-target: $1
       nginx.ingress.kubernetes.io/configuration-snippet: rewrite ^/([a-z\-0-9]*)$ $scheme://$http_host/$1/ redirect;
     paths:
+      # -- dashboard UI ingess path
+      # @default -- `"/dashboard($\|/.*)"`
       - /dashboard($|/.*)
     hosts: [*host]
