@@ -160,6 +160,6 @@ func TestRabbitMQQueues(t *testing.T) {
 	endpoint := fmt.Sprintf("http://%[1]s:%[2]s@localhost:30000/rabbitmq/api/queues/%[3]s/link%%5B%[3]s%%3Arpt-data-provider%%3Afrom_codec%%5D", rabbitmqUser, rabbitmqPassword, schemaNamespace)
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
-	validator := validFunc(t, 200, "{\"name\":\"link[th2-commonv3:act-custom-ext:from_codec]\"}")
+	validator := validFunc(t, 200, "\"name\":\"link[th2-commonv3:act-custom-ext:from_codec]\"")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
