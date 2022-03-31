@@ -165,51 +165,6 @@ th2 service Helm chart
 | rabbitmq.memoryHighWatermark.type | string | `"absolute"` |  |
 | rabbitmq.memoryHighWatermark.value | string | `"1024MB"` |  |
 | rabbitmq.metrics.enabled | bool | `true` |  |
-| rabbitmq.metrics.plugins | string | `"rabbitmq_prometheus"` |  |
-| rabbitmq.metrics.prometheusRule.enabled | bool | `true` |  |
-| rabbitmq.metrics.prometheusRule.namespace | string | `"monitoring"` |  |
-| rabbitmq.metrics.prometheusRule.rules[0].alert | string | `"RabbitMqClusterNodeDown"` |  |
-| rabbitmq.metrics.prometheusRule.rules[0].annotations.description | string | `"RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} is down"` |  |
-| rabbitmq.metrics.prometheusRule.rules[0].annotations.summary | string | `"RabbitMQ Node Is Down"` |  |
-| rabbitmq.metrics.prometheusRule.rules[0].expr | string | `"rabbitmq_up{service=\"rabbitmq\"} == 0"` |  |
-| rabbitmq.metrics.prometheusRule.rules[0].for | string | `"5m"` |  |
-| rabbitmq.metrics.prometheusRule.rules[0].labels.severity | string | `"critical"` |  |
-| rabbitmq.metrics.prometheusRule.rules[1].alert | string | `"RabbitMqClusterNotAllNodesRunning"` |  |
-| rabbitmq.metrics.prometheusRule.rules[1].annotations.description | string | `"Some RabbitMQ Cluster Nodes Are Down in Service {{ $labels.namespace }}/{{ $labels.service}}"` |  |
-| rabbitmq.metrics.prometheusRule.rules[1].annotations.summary | string | `"Some RabbitMQ Cluster Nodes Are Down in Service {{ $labels.namespace }}/{{ $labels.service}}"` |  |
-| rabbitmq.metrics.prometheusRule.rules[1].expr | string | `"sum(rabbitmq_up{service=\"rabbitmq\"}) by (service) < 1"` |  |
-| rabbitmq.metrics.prometheusRule.rules[1].for | string | `"5m"` |  |
-| rabbitmq.metrics.prometheusRule.rules[1].labels.severity | string | `"critical"` |  |
-| rabbitmq.metrics.prometheusRule.rules[2].alert | string | `"RabbitMqDiskSpaceAlarm"` |  |
-| rabbitmq.metrics.prometheusRule.rules[2].annotations.description | string | `"RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} Disk Space Alarm is going off.  Which means the node hit highwater mark and has cut off network connectivity, see RabbitMQ WebUI"` |  |
-| rabbitmq.metrics.prometheusRule.rules[2].annotations.summary | string | `"RabbitMQ is Out of Disk Space"` |  |
-| rabbitmq.metrics.prometheusRule.rules[2].expr | string | `"rabbitmq_node_disk_free_alarm{service=\"rabbitmq\"} == 1"` |  |
-| rabbitmq.metrics.prometheusRule.rules[2].for | string | `"1m"` |  |
-| rabbitmq.metrics.prometheusRule.rules[2].labels.severity | string | `"critical"` |  |
-| rabbitmq.metrics.prometheusRule.rules[3].alert | string | `"RabbitMqMemoryAlarm"` |  |
-| rabbitmq.metrics.prometheusRule.rules[3].annotations.description | string | `"RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} High Memory Alarm is going off.  Which means the node hit highwater mark and has cut off network connectivity, see RabbitMQ WebUI"` |  |
-| rabbitmq.metrics.prometheusRule.rules[3].annotations.summary | string | `"RabbitMQ is Out of Memory"` |  |
-| rabbitmq.metrics.prometheusRule.rules[3].expr | string | `"rabbitmq_node_mem_alarm{service=\"rabbitmq\"} == 1"` |  |
-| rabbitmq.metrics.prometheusRule.rules[3].for | string | `"1m"` |  |
-| rabbitmq.metrics.prometheusRule.rules[3].labels.severity | string | `"critical"` |  |
-| rabbitmq.metrics.prometheusRule.rules[4].alert | string | `"RabbitMqMemoryUsageHigh"` |  |
-| rabbitmq.metrics.prometheusRule.rules[4].annotations.description | string | `"RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} Memory Usage > 90%"` |  |
-| rabbitmq.metrics.prometheusRule.rules[4].annotations.summary | string | `"RabbitMQ Node > 90% Memory Usage"` |  |
-| rabbitmq.metrics.prometheusRule.rules[4].expr | string | `"(rabbitmq_node_mem_used{service=\"rabbitmq\"} / rabbitmq_node_mem_limit{service=\"rabbitmq\"}) > .9"` |  |
-| rabbitmq.metrics.prometheusRule.rules[4].for | string | `"1m"` |  |
-| rabbitmq.metrics.prometheusRule.rules[4].labels.severity | string | `"critical"` |  |
-| rabbitmq.metrics.prometheusRule.rules[5].alert | string | `"RabbitMqFileDescriptorsLow"` |  |
-| rabbitmq.metrics.prometheusRule.rules[5].annotations.description | string | `"RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} File Descriptor Usage > 90%"` |  |
-| rabbitmq.metrics.prometheusRule.rules[5].annotations.summary | string | `"RabbitMQ Low File Descriptor Available"` |  |
-| rabbitmq.metrics.prometheusRule.rules[5].expr | string | `"(rabbitmq_fd_used{service=\"rabbitmq\"} / rabbitmq_fd_total{service=\"rabbitmq\"}) > .9"` |  |
-| rabbitmq.metrics.prometheusRule.rules[5].for | string | `"5m"` |  |
-| rabbitmq.metrics.prometheusRule.rules[5].labels.severity | string | `"critical"` |  |
-| rabbitmq.metrics.prometheusRule.rules[6].alert | string | `"RabbitMqDiskSpaceLow"` |  |
-| rabbitmq.metrics.prometheusRule.rules[6].annotations.description | string | `"RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} will hit disk limit in the next hr based on last 15 mins trend."` |  |
-| rabbitmq.metrics.prometheusRule.rules[6].annotations.summary | string | `"RabbitMQ is Low on Disk Space and will Run Out in the next hour"` |  |
-| rabbitmq.metrics.prometheusRule.rules[6].expr | string | `"predict_linear(rabbitmq_node_disk_free{service=\"rabbitmq\"}[15m], 1 * 60 * 60) < rabbitmq_node_disk_free_limit{service=\"rabbitmq\"}"` |  |
-| rabbitmq.metrics.prometheusRule.rules[6].for | string | `"5m"` |  |
-| rabbitmq.metrics.prometheusRule.rules[6].labels.severity | string | `"critical"` |  |
 | rabbitmq.metrics.serviceMonitor.additionalLabels.app | string | `"kube-prometheus-stack"` |  |
 | rabbitmq.metrics.serviceMonitor.additionalLabels.release | string | `"prometheus"` |  |
 | rabbitmq.metrics.serviceMonitor.enabled | bool | `true` |  |
@@ -218,6 +173,7 @@ th2 service Helm chart
 | rabbitmq.persistence.size | string | `"10Gi"` |  |
 | rabbitmq.persistence.storageClass | string | `"local-storage"` |  |
 | rabbitmq.podAntiAffinityPreset | string | `"hard"` |  |
+| rabbitmq.prometheus.operator.enabled | bool | `true` |  |
 | rabbitmq.rabbitmqExchange | string | `"th2-exchange"` |  |
 | rabbitmq.replicaCount | int | `1` |  |
 | rabbitmq.service.amqpNodePort | int | `32000` |  |
