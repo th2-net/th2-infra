@@ -43,6 +43,9 @@ prometheus:
     serviceMonitor:
       # -- Namespace to install ServiceMonitor
       namespace: monitoring
+      selector:
+        release: prometheus
+        app: kube-prometheus-stack
 
 ## -- Kubernetes cluster domain
 clusterDomain: cluster.local
@@ -124,11 +127,10 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.6.6-infra-1.8.0-1993544213
+    tag: 1.7.7-infra-1.8.0-2057987187
   git:
     secretName: infra-mgr
-    privateKeyFileSecret: infra-mgr
-    secretMountPath: /home/service/keys
+    sshDir: /home/service/keys
     repository: git@github.com:th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
     httpAuthUsername: "" #should be stored in secret th2-git-access-schemas
@@ -154,7 +156,6 @@ infraMgr:
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
-    #FIXME: delete git-chart-creds secrets once it will be deleted from operator resources https://github.com/th2-net/th2-infra-operator/tree/master/src/main/resources
     secrets:
       - th2-core
       - th2-solution
@@ -372,5 +373,7 @@ dashboard:
       nginx.ingress.kubernetes.io/rewrite-target: $1
       nginx.ingress.kubernetes.io/configuration-snippet: rewrite ^/([a-z\-0-9]*)$ $scheme://$http_host/$1/ redirect;
     paths:
+      # -- dashboard UI ingess path
+      # @default -- `"/dashboard($\|/.*)"`
       - /dashboard($|/.*)
     hosts: [*host]

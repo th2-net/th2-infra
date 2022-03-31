@@ -39,7 +39,7 @@ th2 service Helm chart
 | dashboard.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | dashboard.ingress.enabled | bool | `true` |  |
 | dashboard.ingress.hosts[0] | string | `""` |  |
-| dashboard.ingress.paths[0] | string | `"/dashboard($|/.*)"` |  |
+| dashboard.ingress.paths[0] | string | `"/dashboard($\|/.*)"` | dashboard UI ingess path |
 | dashboard.internal | bool | `true` | Kubernetes dashboard values. If true - will be deployed as dependency |
 | dashboard.protocolHttp | bool | `true` |  |
 | dashboard.rbac.clusterRoleMetrics | bool | `true` |  |
@@ -72,13 +72,12 @@ th2 service Helm chart
 | infraMgr.git.gitFetchInterval | string | `"14000"` | Infra manager git fetch interval in milliseconds |
 | infraMgr.git.httpAuthPassword | string | `""` |  |
 | infraMgr.git.httpAuthUsername | string | `""` |  |
-| infraMgr.git.privateKeyFileSecret | string | `"infra-mgr"` |  |
 | infraMgr.git.repository | string | `"git@github.com:th2-net/th2-demo-configuration.git"` |  |
 | infraMgr.git.repositoryLocalCache | string | `"/home/service/repository"` |  |
-| infraMgr.git.secretMountPath | string | `"/home/service/keys"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
+| infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"1.6.6-infra-1.8.0-1993544213"` |  |
+| infraMgr.image.tag | string | `"1.7.7-infra-1.8.0-2057987187"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -143,6 +142,8 @@ th2 service Helm chart
 | productRegistry.username | string | `""` |  |
 | prometheus.operator.enabled | bool | `true` |  |
 | prometheus.operator.serviceMonitor.namespace | string | `"monitoring"` | Namespace to install ServiceMonitor |
+| prometheus.operator.serviceMonitor.selector.app | string | `"kube-prometheus-stack"` |  |
+| prometheus.operator.serviceMonitor.selector.release | string | `"prometheus"` |  |
 | proprietaryRegistry.password | string | `""` |  |
 | proprietaryRegistry.registry | string | `""` |  |
 | proprietaryRegistry.secret | string | `"th2-proprietary"` |  |

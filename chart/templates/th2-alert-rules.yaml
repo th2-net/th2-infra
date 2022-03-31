@@ -1,0 +1,28 @@
+{{ if .Values.prometheus.operator.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: th2-alert-rules
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+  namespace: {{ .Values.prometheus.operator.serviceMonitor.namespace }}
+  labels:
+{{ toYaml .Values.prometheus.operator.serviceMonitor.selector | indent 4 }}
+spec:
+  groups:
+  {{ if .Values.rabbitmq.prometheus.operator.enabled }}
+  - name: th2.rules
+    rules:
+    - alert: RabbitmqTooMuchMessages
+      expr: rabbitmq_queue_messages_ready > 100000
+      for: 2m
+      labels:
+        severity: high
+        team: devops
+      annotations:
+        summary: |-
+          Rabbitmq has more than 100000 messages in a queue
+        description: |-
+          Queue {{`{{ $labels.queue }}`}}: {{`{{ $value }}`}}
+  {{ end }}
+{{ end }}

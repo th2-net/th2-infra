@@ -43,6 +43,11 @@
         state: present
         template: "{{ playbook_dir }}/deploy/crd-servicemonitor.yaml"
 
+    - name: Mocking prometheus rules
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/crd-prometheusrules.yaml"
+
     - name: Generate an OpenSSH private key
       community.crypto.openssl_privatekey:
         path: "{{ playbook_dir }}/id_ssh_rsa"
@@ -76,24 +81,6 @@
         state: present
         template: "{{ playbook_dir }}/deploy/cassandra/cassandra-configmap.yaml"
         namespace: "{{ infra_namespace }}"
-
-    # - name: Cassandra Init
-    #   kubernetes.core.k8s:
-    #     state: present
-    #     template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
-    #     namespace: service
-
-    - name: Create infra-git persistent volume
-      kubernetes.core.k8s:
-        state: present
-        template: "{{ playbook_dir }}/deploy/infra-repo-pv.yaml"
-        namespace: service
-
-    - name: Create Cassandra configmap
-      kubernetes.core.k8s:
-        state: present
-        template: "{{ playbook_dir }}/deploy/cassandra/cassandra-configmap.yaml"
-        namespace: service
 
     # - name: Cassandra Init
     #   kubernetes.core.k8s:

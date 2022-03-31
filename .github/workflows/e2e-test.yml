@@ -24,7 +24,6 @@ env:
   MONITORING_NAMESPACE: monitoring
   SCHEMA_NAMESPACE: "${{ github.event.inputs.schemaNamespace || 'th2-schema' }}"
 
-
 jobs:
   deploy-and-test:
     runs-on: ubuntu-latest
