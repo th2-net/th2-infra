@@ -13,27 +13,26 @@ import (
 )
 
 const (
-	defaultSchemaNamespace    = "th2-schema"
-	defaultServiceNamespace   = "service"
-	monitoringNamespace       = "monitoring"
-	rabbitmqPod               = "rabbitmq-0"
-	rabbitmqSvc               = "rabbitmq-discovery"
-	rabbitmqUser              = "th2"
-	rabbitmqPassword          = "test"
-	cassandraPod              = "cassandra-0"
-	dataProviderSvc           = "rpt-data-provider"
-	reportViewerSvc           = "rpt-data-viewer"
-	infraMgrSvc               = "infra-mgr"
-	infraEditorSvc            = "infra-editor"
-	dashboardSvc              = "th2-infra-dashboard"
-	retries                   = 10
-	timeout                   = 5 * time.Second
+	defaultSchemaNamespace  = "th2-schema"
+	defaultServiceNamespace = "service"
+	monitoringNamespace     = "monitoring"
+	rabbitmqPod             = "rabbitmq-0"
+	rabbitmqSvc             = "rabbitmq-discovery"
+	rabbitmqUser            = "th2"
+	rabbitmqPassword        = "test"
+	cassandraPod            = "cassandra-0"
+	dataProviderSvc         = "rpt-data-provider"
+	reportViewerSvc         = "rpt-data-viewer"
+	infraMgrSvc             = "infra-mgr"
+	infraEditorSvc          = "infra-editor"
+	dashboardSvc            = "th2-infra-dashboard"
+	retries                 = 10
+	timeout                 = 5 * time.Second
 )
 
 var (
 	serviceNamespace, schemaNamespace string
 	exists                            bool
-	expectedString                    string
 )
 
 func TestMain(m *testing.M) {
@@ -158,7 +157,9 @@ func TestNamespaceDataProviderEndpoint(t *testing.T) {
 
 func TestRabbitMQQueues(t *testing.T) {
 	// t.Parallel()
-	endpoint := fmt.Sprintf("http://%[1]s:%[2]s@localhost:30000/rabbitmq/api/queues/%[3]s/link%%5B%[3]s%%3Arpt-data-provider%%3Afrom_codec%%5D", rabbitmqUser, rabbitmqPassword, schemaNamespace)
+	endpoint := fmt.Sprintf("http://%[1]s:%[2]s@localhost:30000/rabbitmq/api/queues/%[3]s/link%%5B%[3]s%%3Arpt-data-provider%%3Afrom_codec%%5D",
+		rabbitmqUser, rabbitmqPassword, schemaNamespace,
+	)
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
 	expectedString := fmt.Sprintf("\"name\":\"link[%s:rpt-data-provider:from_codec]\"", schemaNamespace)
