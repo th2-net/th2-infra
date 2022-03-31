@@ -5,8 +5,8 @@ on:
     paths:
       - "ci/**"
       - "example-values/**"
-      - "th2-service/**"
-      - "!th2-service/README.md"
+      - "chart/**"
+      - "!chart/README.md"
       - ".github/workflows/e2e-test.yml"
   workflow_dispatch:
     inputs:

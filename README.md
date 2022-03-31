@@ -149,7 +149,7 @@ prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1    
 ........
 ```
 
-Add loki Datasource as http://loki:3100 and import Dashboard from components-logs.json and RabbitMQ Overview from here: https://grafana.com/grafana/dashboards/10991
+Add loki Datasource as http://loki:3100 
 
 * Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
   http://your-host:30000/grafana/login
@@ -164,7 +164,9 @@ $ kubectl config set-context --current --namespace=service
 
 ### Access for infra-mgr th2 schema git repository:
 
-`ssh` access with write permissions is required by **th2-infra-mgr** component
+`ssh` or `https` access with write permissions is required by **th2-infra-mgr** component
+
+#### Set up __ssh__ access 
 
 * Generate keys without passphrase  
 ```
@@ -176,12 +178,24 @@ $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 $ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
 ```
 
+#### Set up __https__ access
+
+* [Generate access token for schema repository with read and write permissions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+* Set up values in secrets.yaml file (described below)
+
 ### Set the repository with schema configuration
-* set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
+set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to link of your schema repository, `ssh` or `https`:
+* **ssh**
 ```
 infraMgr:
   git:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
+```
+* **https**
+```
+infraMgr:
+  git:
+    repository: https://github.com/th2-net/th2-infra-schema-demo.git
 ```
 
 ### Define cassandra host name
@@ -232,11 +246,25 @@ cassandra:
 
 rabbitmq:
 # set admin user credentials, it will be created during deployment
+<<<<<<< HEAD
   auth:
     username: th2
     password: rab-pass
     # must be random string
     erlangCookie: cookie
+
+# required if http(s) access to gitlab/github repositories is used
+#infraMgr:
+#  git:
+#    httpAuthUsername: username
+#    # authentication username
+#    # when using token auth for GitLab it should be equal to "oauth2"
+#    # when using token auth for GitHub it should be equal to token itself
+#    httpAuthPassword: 
+#    # authentication password
+#    # when using token auth for GitLab it should be equal to token itself
+#    # when using token auth for GitHub it should be equal to empty string
+>>>>>>> origin/dev-to-1.8.0
 ```
 ### infra-git deployment
 
@@ -245,14 +273,14 @@ If you have any restrictions to get access to any external repositories from the
 *  Create PersistentVolume "repos-volume", example is presented in the ./example-values/persistence/pv.yaml;
 *  Create configmap "keys-repo" from public part of key from point "Access for infra-mgr th2 schema git repository":
 ```
-$ kubectl -n service create configmap keys-repo -–from-file=git_keys=./infra-mgr-rsa.pub
+$ kubectl -n service create configmap keys-repo --from-file=git_keys=./infra-mgr-rsa.pub
 ```
 *  Define configs for infra-git in services.values.yaml. 
 *  set `infraMgr.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
 ```
 infraMgr:
   git:
-    repository: ssh://git@git-ssh/home/git/repo/<your_repo_name>.git
+    repository: ssh://git@infra-git/home/git/repo/<your_repo_name>.git
 ```
 * after installation you should init new repo with the name that you define in previous step.
 
@@ -368,6 +396,28 @@ _Note_: replace <th2-namespace> with th2 namespace you use
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
 
+## th2-service chart embedded dependencies:
+```
+dependencies:
+- alias: rabbitmq
+  condition: rabbitmq.internal
+  repository: https://charts.helm.sh/stable
+  name: rabbitmq-ha
+  version: 1.44.4
+- alias: cassandra
+  condition: cassandra.internal
+  repository: https://charts.bitnami.com/bitnami
+  name: cassandra
+  version: 5.6.7
+- alias: helmoperator
+  repository: https://charts.fluxcd.io
+  name: helm-operator
+  version: 1.2.0
+- alias: kubernetes-dashboard
+  repository: https://kubernetes.github.io/dashboard/
+  name: kubernetes-dashboard
+  version: 5.0.4
+```
 ## Migration to v1.7.x th2-infra chart
 * Loki stack 2.4.1 chart version must be used during deployment. Refer to [Upgrade-loki](README.md#upgrade-loki)
 * Helm operator chart now is included as dependency and should not be deployed separately. All its values are under *helmoperator* parent value.

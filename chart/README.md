@@ -1,6 +1,6 @@
 # th2
 
-![Version: 1.7.2](https://img.shields.io/badge/Version-1.7.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.8.0](https://img.shields.io/badge/Version-1.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 th2 service Helm chart
 
@@ -78,7 +78,7 @@ th2 service Helm chart
 | infraMgr.git.secretMountPath | string | `"/home/service/keys"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"1.6.1"` |  |
+| infraMgr.image.tag | string | `"1.6.6-infra-1.8.0-1993544213"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -104,9 +104,9 @@ th2 service Helm chart
 | infraMgr.resources.limits.memory | string | `"2500Mi"` |  |
 | infraMgr.resources.requests.cpu | string | `"200m"` |  |
 | infraMgr.resources.requests.memory | string | `"500Mi"` |  |
-| infraOperator.config.chart.name | string | `"infra-operator-tpl"` |  |
-| infraOperator.config.chart.repository | string | `"http://infra-repo:8080"` |  |
-| infraOperator.config.chart.version | string | `"0.7.2"` |  |
+| infraOperator.config.chart.git | string | `"https://github.com/th2-net/infra-operator-tpl.git"` |  |
+| infraOperator.config.chart.path | string | `"./"` |  |
+| infraOperator.config.chart.ref | string | `"release-v0.8.0"` |  |
 | infraOperator.config.k8sUrl | string | `"<kubernetes-external-entrypoint>"` |  |
 | infraOperator.config.namespacePrefixes[0] | string | `"th2-"` |  |
 | infraOperator.config.rabbitMQManagement.password | string | `"${RABBITMQ_PASS}"` |  |
@@ -117,7 +117,7 @@ th2 service Helm chart
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.username | string | `"th2"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"3.5.2"` |  |
+| infraOperator.image.tag | string | `"3.5.3-grpc-filters-1979795453"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraOperator.livenessProbe.periodSeconds | int | `30` |  |

@@ -118,8 +118,10 @@ spec:
                     - "false"
                     - "true"
                     type: string
-                  nodeName:
-                    type: string
+                  nodeSelector:
+                    description: map for selecting nodes
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   bookName:
                     type: string
                   mounting:
@@ -193,6 +195,7 @@ spec:
                             type: array
                             items:
                               type: string
+                              pattern: "^[a-zA-Z0-9_/]*$"
                     type: object
                 type: object
               disabled:
