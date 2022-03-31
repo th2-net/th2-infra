@@ -88,12 +88,6 @@
     #     template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
     #     namespace: service
 
-    # - name: Cassandra Init
-    #   kubernetes.core.k8s:
-    #     state: present
-    #     template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
-    #     namespace: service
-
     - name: Deploy th2-infra
       kubernetes.core.helm:
         name: th2-infra
