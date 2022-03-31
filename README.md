@@ -246,7 +246,6 @@ cassandra:
 
 rabbitmq:
 # set admin user credentials, it will be created during deployment
-<<<<<<< HEAD
   auth:
     username: th2
     password: rab-pass
@@ -264,7 +263,6 @@ rabbitmq:
 #    # authentication password
 #    # when using token auth for GitLab it should be equal to token itself
 #    # when using token auth for GitHub it should be equal to empty string
->>>>>>> origin/dev-to-1.8.0
 ```
 ### infra-git deployment
 

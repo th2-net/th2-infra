@@ -85,18 +85,12 @@ infraOperator:
     chart:
       # external mirror
       # repository: https://th2-net.github.io
-<<<<<<< HEAD:th2-service/values.yaml
-      repository: http://infra-repo:8080
-      version: 0.7.2
-      name: infra-operator-tpl
-=======
-#       repository: http://infra-repo:8080
-#       version: 0.7.2
-#       name: infra-operator-tpl
+      #       repository: http://infra-repo:8080
+      #       version: 0.7.2
+      #       name: infra-operator-tpl
       git: https://github.com/th2-net/infra-operator-tpl.git
       ref: release-v0.8.0
       path: ./
->>>>>>> origin/dev-to-1.8.0:chart/values.yaml
     namespacePrefixes:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
@@ -130,11 +124,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-<<<<<<< HEAD:th2-service/values.yaml
-    tag: 1.6.1
-=======
     tag: 1.6.6-infra-1.8.0-1993544213
->>>>>>> origin/dev-to-1.8.0:chart/values.yaml
   git:
     secretName: infra-mgr
     privateKeyFileSecret: infra-mgr
@@ -232,16 +222,16 @@ rabbitmq:
     amqpNodePort: 32000
   metrics:
     enabled: true
-    plugins: 'rabbitmq_prometheus'
+    plugins: "rabbitmq_prometheus"
     serviceMonitor:
       enabled: true
-      additionalLabels: 
+      additionalLabels:
         release: prometheus
         app: kube-prometheus-stack
       path: /metrics
     prometheusRule:
       enabled: true
-      namespace: 'monitoring'
+      namespace: "monitoring"
       rules:
         - alert: RabbitMqClusterNodeDown
           annotations:
@@ -253,9 +243,11 @@ rabbitmq:
             severity: critical
         - alert: RabbitMqClusterNotAllNodesRunning
           annotations:
-            description: Some RabbitMQ Cluster Nodes Are Down in Service {{ $labels.namespace
+            description:
+              Some RabbitMQ Cluster Nodes Are Down in Service {{ $labels.namespace
               }}/{{ $labels.service}}
-            summary: Some RabbitMQ Cluster Nodes Are Down in Service {{ $labels.namespace
+            summary:
+              Some RabbitMQ Cluster Nodes Are Down in Service {{ $labels.namespace
               }}/{{ $labels.service}}
           expr: sum(rabbitmq_up{service="rabbitmq"}) by (service) < 1
           for: 5m
@@ -263,7 +255,8 @@ rabbitmq:
             severity: critical
         - alert: RabbitMqDiskSpaceAlarm
           annotations:
-            description: RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} Disk Space
+            description:
+              RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} Disk Space
               Alarm is going off.  Which means the node hit highwater mark and has cut
               off network connectivity, see RabbitMQ WebUI
             summary: RabbitMQ is Out of Disk Space
@@ -273,7 +266,8 @@ rabbitmq:
             severity: critical
         - alert: RabbitMqMemoryAlarm
           annotations:
-            description: RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} High Memory
+            description:
+              RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} High Memory
               Alarm is going off.  Which means the node hit highwater mark and has cut
               off network connectivity, see RabbitMQ WebUI
             summary: RabbitMQ is Out of Memory
@@ -283,30 +277,36 @@ rabbitmq:
             severity: critical
         - alert: RabbitMqMemoryUsageHigh
           annotations:
-            description: RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} Memory Usage
+            description:
+              RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} Memory Usage
               > 90%
             summary: RabbitMQ Node > 90% Memory Usage
-          expr: (rabbitmq_node_mem_used{service="rabbitmq"} / rabbitmq_node_mem_limit{service="rabbitmq"})
+          expr:
+            (rabbitmq_node_mem_used{service="rabbitmq"} / rabbitmq_node_mem_limit{service="rabbitmq"})
             > .9
           for: 1m
           labels:
             severity: critical
         - alert: RabbitMqFileDescriptorsLow
           annotations:
-            description: RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} File Descriptor
+            description:
+              RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} File Descriptor
               Usage > 90%
             summary: RabbitMQ Low File Descriptor Available
-          expr: (rabbitmq_fd_used{service="rabbitmq"} / rabbitmq_fd_total{service="rabbitmq"})
+          expr:
+            (rabbitmq_fd_used{service="rabbitmq"} / rabbitmq_fd_total{service="rabbitmq"})
             > .9
           for: 5m
           labels:
             severity: critical
         - alert: RabbitMqDiskSpaceLow
           annotations:
-            description: RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} will hit disk
+            description:
+              RabbitMQ {{ $labels.namespace }}/{{ $labels.pod}} will hit disk
               limit in the next hr based on last 15 mins trend.
             summary: RabbitMQ is Low on Disk Space and will Run Out in the next hour
-          expr: predict_linear(rabbitmq_node_disk_free{service="rabbitmq"}[15m], 1 * 60
+          expr:
+            predict_linear(rabbitmq_node_disk_free{service="rabbitmq"}[15m], 1 * 60
             * 60) < rabbitmq_node_disk_free_limit{service="rabbitmq"}
           for: 5m
           labels:
@@ -325,7 +325,7 @@ rabbitmq:
           break;
         }
   diskFreeLimit: 10GB
-  
+
 cassandra:
   cradle:
     #    networkTopologyStrategy:
