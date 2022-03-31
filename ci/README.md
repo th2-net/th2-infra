@@ -25,7 +25,6 @@ Output:
 
 ## Settings and variables
 There are no special settings and variables except default. Test schema is deployed from e2e-test-schema directory into th2-schema namespace
-
 Namespaces for th2-infra can be set up in the following workflow variables:
 ```yaml
 env:
