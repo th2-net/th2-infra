@@ -30,7 +30,7 @@ jobs:
 
       - name: Create package and index
         run: |
-          helm package ./th2-infra/th2-service/ --destination ./th2-net.github.io/
+          helm package ./th2-infra/chart/ --destination ./th2-net.github.io/
           cd ./th2-net.github.io/
           helm repo index --merge ./index.yaml .
 
@@ -40,6 +40,7 @@ jobs:
           branch: master
           directory: ./th2-net.github.io/
           repository: th2-net/th2-net.github.io
+          branch: master
           author_name: ${{ github.actor }}
           author_email: ${{ github.actor }}@users.noreply.github.com
           github_token: ${{ secrets.PAT_CI_ACTION }}
