@@ -1,16 +1,16 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: th2boxes.th2.exactpro.com
+  name: th2coreboxes.th2.exactpro.com
 spec:
   conversion:
     strategy: None
   group: th2.exactpro.com
   names:
-    kind: Th2Box
-    listKind: Th2BoxList
-    plural: th2boxes
-    singular: th2box
+    kind: Th2CoreBox
+    listKind: Th2CoreBoxList
+    plural: th2coreboxes
+    singular: th2corebox
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -32,7 +32,7 @@ spec:
     name: v1
     schema:
       openAPIV3Schema:
-        description: Th2Box defines generic Th2 component instance
+        description: Th2CoreBox defines Th2 core component instance
         properties:
           apiVersion:
             type: string
@@ -74,6 +74,15 @@ spec:
                       ref:
                         type: string
                     type: object
+                  replicas:
+                    type: string
+                    pattern: "^[0-9]+$"
+                  k8sProbes:
+                    type: string
+                    enum:
+                      - "false"
+                      - "true"
+                    default: "false"
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -85,15 +94,6 @@ spec:
                           - "false"
                           - "true"
                         type: string
-                  replicas:
-                    type: string
-                    pattern: "^[0-9]+$"
-                  k8sProbes:
-                    type: string
-                    enum:
-                      - "false"
-                      - "true"
-                    default: "false"
                   externalBox:
                     properties:
                       address:
@@ -121,8 +121,10 @@ spec:
                     - "false"
                     - "true"
                     type: string
-                  nodeName:
-                    type: string
+                  nodeSelector:
+                    description: map for selecting nodes
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   bookName:
                     type: string
                   mounting:
@@ -196,6 +198,7 @@ spec:
                             type: array
                             items:
                               type: string
+                              pattern: "^[a-zA-Z0-9_/]*$"
                     type: object
                 type: object
               disabled:
@@ -248,6 +251,27 @@ spec:
                     filters:
                       items:
                         properties:
+                          properties:
+                            items:
+                              properties:
+                                expected-value:
+                                  type: string
+                                field-name:
+                                  type: string
+                                operation:
+                                  enum:
+                                    - EQUAL
+                                    - NOT_EQUAL
+                                    - EMPTY
+                                    - NOT_EMPTY
+                                    - WILDCARD
+                                  type: string
+                              required:
+                                - field-name
+                                - expected-value
+                                - operation
+                              type: object
+                            type: array
                           message:
                             items:
                               properties:
@@ -310,8 +334,8 @@ spec:
                         storageOnDemand:
                           type: string
                           enum:
-                          - "false"
-                          - "true"
+                            - "false"
+                            - "true"
                           default: "false"
                       type: object
                   required:

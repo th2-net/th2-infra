@@ -161,7 +161,9 @@ $ kubectl config set-context --current --namespace=service
 
 ### Access for infra-mgr th2 schema git repository:
 
-`ssh` access with write permissions is required by **th2-infra-mgr** component
+`ssh` or `https` access with write permissions is required by **th2-infra-mgr** component
+
+#### Set up __ssh__ access 
 
 * Generate keys without passphrase  
 ```
@@ -173,12 +175,24 @@ $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 $ kubectl -n service create secret generic infra-mgr --from-file=id_rsa=./infra-mgr-rsa.key
 ```
 
+#### Set up __https__ access
+
+* [Generate access token for schema repository with read and write permissions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+* Set up values in secrets.yaml file (described below)
+
 ### Set the repository with schema configuration
-* set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to **ssh** link of your schema repository, e.g:
+set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to link of your schema repository, `ssh` or `https`:
+* **ssh**
 ```
 infraMgr:
   git:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
+```
+* **https**
+```
+infraMgr:
+  git:
+    repository: https://github.com/th2-net/th2-infra-schema-demo.git
 ```
 
 ### Define cassandra host name
@@ -233,6 +247,18 @@ rabbitmq:
   rabbitmqPassword: rab-pass
   # must be random string
   rabbitmqErlangCookie: cookie
+
+# required if http(s) access to gitlab/github repositories is used
+#infraMgr:
+#  git:
+#    httpAuthUsername: username
+#    # authentication username
+#    # when using token auth for GitLab it should be equal to "oauth2"
+#    # when using token auth for GitHub it should be equal to token itself
+#    httpAuthPassword: 
+#    # authentication password
+#    # when using token auth for GitLab it should be equal to token itself
+#    # when using token auth for GitHub it should be equal to empty string
 ```
 ### infra-git deployment
 
@@ -241,14 +267,14 @@ If you have any restrictions to get access to any external repositories from the
 *  Create PersistentVolume "repos-volume", example is presented in the ./example-values/persistence/pv.yaml;
 *  Create configmap "keys-repo" from public part of key from point "Access for infra-mgr th2 schema git repository":
 ```
-$ kubectl -n service create configmap keys-repo -–from-file=git_keys=./infra-mgr-rsa.pub
+$ kubectl -n service create configmap keys-repo --from-file=git_keys=./infra-mgr-rsa.pub
 ```
 *  Define configs for infra-git in services.values.yaml. 
 *  set `infraMgr.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
 ```
 infraMgr:
   git:
-    repository: ssh://git@git-ssh/home/git/repo/<your_repo_name>.git
+    repository: ssh://git@infra-git/home/git/repo/<your_repo_name>.git
 ```
 * after installation you should init new repo with the name that you define in previous step.
 
