@@ -124,7 +124,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.7.6-infra-1.8.0-2052208261
+    tag: 1.7.7-infra-1.8.0-2057987187
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
