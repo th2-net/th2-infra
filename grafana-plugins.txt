@@ -1,0 +1,6 @@
+flant-statusmap-panel
+vonage-status-panel
+blackmirror1-statusbygroup-panel
+grafana-polystat-panel
+briangann-gauge-panel
+yesoreyeram-boomtable-panel
