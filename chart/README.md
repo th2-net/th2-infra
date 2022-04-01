@@ -151,14 +151,13 @@ th2 service Helm chart
 | rabbitmq.auth.erlangCookie | string | `""` |  |
 | rabbitmq.auth.password | string | `""` |  |
 | rabbitmq.auth.username | string | `"th2"` |  |
-| rabbitmq.diskFreeLimit | string | `"10GB"` |  |
-| rabbitmq.extraConfiguration | string | `"default_vhost = th2"` |  |
+| rabbitmq.extraConfiguration | string | `"default_vhost = th2\ndisk_free_limit.absolute = 10GB"` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
 | rabbitmq.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;\nif ($request_uri ~ \"^/rabbitmq(/.*)\") {\n  proxy_pass http://upstream_balancer$1;\n  break;\n}\n"` |  |
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | rabbitmq.ingress.enabled | bool | `true` |  |
-| rabbitmq.ingress.hostname | string | `""` |  |
+| rabbitmq.ingress.hostname[0] | string | `""` |  |
 | rabbitmq.ingress.path | string | `"/rabbitmq($|/.*)"` |  |
 | rabbitmq.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | rabbitmq.memoryHighWatermark.enable | bool | `true` |  |
