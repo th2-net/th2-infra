@@ -207,6 +207,7 @@ rabbitmq:
   fullnameOverride: rabbitmq
   extraConfiguration: |-
     default_vhost = th2
+    disk_free_limit.absolute = 10GB
   auth:
     username: th2
     password: ""
@@ -234,7 +235,7 @@ rabbitmq:
       enabled: true
   ingress:
     enabled: true
-    hostname: *host
+    hostname: [*host]
     path: /rabbitmq($|/.*)
     annotations:
       kubernetes.io/ingress.class: "nginx"
@@ -245,7 +246,6 @@ rabbitmq:
           proxy_pass http://upstream_balancer$1;
           break;
         }
-  diskFreeLimit: 10GB
 
 cassandra:
   cradle:
