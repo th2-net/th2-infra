@@ -9,7 +9,7 @@ Generating configMap for k8 with th2 installed configuration overview
   proprietaryRegistry: {{ if .Values.proprietaryRegistry.name }}{{ .Values.proprietaryRegistry.name }}{{ else }}{{ "unset" }}{{ end }}
   infraEditor: {{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}
   infraRepo: {{ .Values.infraRepo.image.repository }}:{{ .Values.infraRepo.image.tag }}
-  rabbitmqEntrypoint: {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.nodePort }}
+  rabbitmqEntrypoint: {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
 
   infraOperator: |
     version: {{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}
