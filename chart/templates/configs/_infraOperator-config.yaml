@@ -30,7 +30,7 @@ data:
       {{- if .Values.rabbitmq.host }}
       host: {{ .Values.rabbitmq.host | quote }}
       {{- else }}
-      host: "{{ .Values.rabbitmq.fullnameOverride }}-discovery.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
+      host: "{{ .Values.rabbitmq.fullnameOverride }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
       {{- end }}
       port: {{ .Values.infraOperator.config.rabbitMQManagement.port | quote }}
       username: {{ .Values.infraOperator.config.rabbitMQManagement.username | quote }}
