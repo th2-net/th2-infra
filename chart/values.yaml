@@ -235,8 +235,8 @@ rabbitmq:
       enabled: true
   ingress:
     enabled: true
-    hostname: [*host]
-    path: /rabbitmq($|/.*)
+    #hostname: [*host]
+    #path: /rabbitmq($|/.*)
     annotations:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/rewrite-target: $1
@@ -246,6 +246,9 @@ rabbitmq:
           proxy_pass http://upstream_balancer$1;
           break;
         }
+    extraHosts:
+      - name: *host
+        path: /rabbitmq($|/.*)
 
 cassandra:
   cradle:
