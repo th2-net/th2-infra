@@ -218,22 +218,13 @@ ingress:
 Create secrets.yaml in `./` folder (*do not commit into git*). Example:
 ```
 # reguired only for images from a private registry, will be attached as the first PullSecret to deployments
-#productRegistry:
-#  username: user
-#  password: password
-#  name: private-registry-1.example.com # core components registry
-
-# reguired only for images from a private registry, will be attached as the second PullSecret to deployments
-#solutionRegistry:
-#  username: user
-#  password: password
-#  name: private-registry-2.example.com # components registry
-
-# reguired only for images from a private registry, will be attached as the third PullSecret to deployments
-#proprietaryRegistry:
-#  username: user
-#  password: password
-#  name: private-registry-3.example.com # components registry
+#registries:
+#  registry1.name.com:8080:
+#      username: <username>
+#      password: <password>
+#  registry2.name.com:8080:
+#      username: <username>
+#      password: <password>
 
 cassandra:
 # set credentials for existing Cassandra cluster
