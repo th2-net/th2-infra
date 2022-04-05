@@ -246,8 +246,10 @@ rabbitmq:
         }
     extraHosts:
       - name: *host
+        # -- RabbitmMQ management UI ingess path
+        # @default -- `"/rabbitmq($\|/.*)"`
         path: /rabbitmq($|/.*)
-
+        
 cassandra:
   cradle:
     #    networkTopologyStrategy:
