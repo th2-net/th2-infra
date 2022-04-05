@@ -156,10 +156,8 @@ infraMgr:
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
-    secrets:
-      - th2-core
-      - th2-solution
-      - th2-proprietary
+    secrets: []
+#      - th2-core
   livenessProbe:
     initialDelaySeconds: 30
     timeoutSeconds: 5

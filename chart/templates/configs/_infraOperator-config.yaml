@@ -26,6 +26,14 @@ data:
     schemaSecrets:
       rabbitMQ: rabbitmq
       cassandra: cassandra
+    registrySecrets:
+    {{- range $registry, $values := .Values.registries }}
+    - {{ $registry | replace "." "-" | replace ":" "-" }}
+    {{- end }}
+    {{- with .Values.infraMgr.kubernetes.secrets }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+ 
     rabbitMQManagement:
       {{- if .Values.rabbitmq.host }}
       host: {{ .Values.rabbitmq.host | quote }}
