@@ -148,12 +148,9 @@ prometheus-prometheus-oper-operator-df668d457-snxks      1/1     Running   0    
 prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1          65s        
 ........
 ```
-
-Add loki Datasource as http://loki:3100 
-
 * Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
   http://your-host:30000/grafana/login
-
+  
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.
 
@@ -186,10 +183,10 @@ ingress:
 ```
 $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ``` 
-* [Add a new SSH key to your GitHub account](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
+* [Add a new deploy key to your schema repository on GitHub ](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 * Create infra-mgr secret from the private key:
 ```
-$ kubectl -n service create secret generic infra-mgr --from-file=infra-mgr=./infra-mgr-rsa.key
+$ kubectl -n service create secret generic infra-mgr --from-file=id_rsa=./infra-mgr-rsa.key
 ```
 
 #### Set up __https__ access
@@ -345,44 +342,7 @@ $ kubectl get customresourcedefinitions | grep "^th2"
 $ helm repo update
 $ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
-_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
-
-### Upgrade loki
-
-* Loki can be upgraded without additional configuration only if new version uses the same schema version. Current config can be retrieved from cluster:
-```
-kubectl get secret -n monitoring loki -o jsonpath="{.data.loki\.yaml}"|base64 -d; echo
-``` 
-schema version is defined in `schema_config.schema` parameter.
-Schema of new version loki can be found in chart default values for loki
-
-* If schema versions are different should be used transition config for loki. Example of this config:
-```
-    schema_config:
-      configs:
-      - from: "2018-04-15"
-        index:
-          period: 168h
-          prefix: index_
-        object_store: filesystem
-        schema: v9
-        store: boltdb
-      - from: "2022-01-22"
-        store: boltdb-shipper
-        object_store: filesystem
-        schema: v11
-        index:
-          prefix: index_
-          period: 24h
-    storage_config:
-    # because boltdb is used in old schema we need to define this storage
-      boltdb:
-        directory: /data/loki/index
-``` 
-More information about seamless migration between schemas:
-https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
-https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
-
+_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/release
   
 ### Re-adding persistence for components in th2 namespaces
 PersistentVolumeClaim is namespace scoped resource, so after namespace re-creation PVCs should be added for components require persistence.
@@ -407,29 +367,5 @@ _Note_: replace <th2-namespace> with th2 namespace you use
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
 
-## th2-service chart embedded dependencies:
-```
-dependencies:
-- alias: rabbitmq
-  condition: rabbitmq.internal
-  repository: https://charts.helm.sh/stable
-  name: rabbitmq-ha
-  version: 1.44.4
-- alias: cassandra
-  condition: cassandra.internal
-  repository: https://charts.bitnami.com/bitnami
-  name: cassandra
-  version: 5.6.7
-- alias: helmoperator
-  repository: https://charts.fluxcd.io
-  name: helm-operator
-  version: 1.2.0
-- alias: kubernetes-dashboard
-  repository: https://kubernetes.github.io/dashboard/
-  name: kubernetes-dashboard
-  version: 5.0.4
-```
-## Migration to v1.7.x th2-infra chart
-* Loki stack 2.4.1 chart version must be used during deployment. Refer to [Upgrade-loki](README.md#upgrade-loki)
-* Helm operator chart now is included as dependency and should not be deployed separately. All its values are under *helmoperator* parent value.
-* Kubernetes dashboard chart now is included as dependency and should not be deployed separately. Previous deployment must be uninstalled from "monitoring" namespace. All its values are under *dashboard* parent value.
+## Migration to v1.7.x th2-infra chart 
+Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
