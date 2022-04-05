@@ -26,7 +26,7 @@ data:
     schemaSecrets:
       rabbitMQ: rabbitmq
       cassandra: cassandra
-    registrySecrets:
+    secretNames:
     {{- range $registry, $values := .Values.registries }}
     - {{ $registry | replace "." "-" | replace ":" "-" }}
     {{- end }}
