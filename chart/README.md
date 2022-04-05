@@ -87,9 +87,7 @@ th2 service Helm chart
 | infraMgr.kubernetes.configMaps.rabbitmq-ext | string | `"rabbit-mq-external-app-config"` |  |
 | infraMgr.kubernetes.ingress | string | `"ingress-rules"` |  |
 | infraMgr.kubernetes.namespacePrefix | string | `"th2-"` | must be not more than 5 symbols |
-| infraMgr.kubernetes.secrets[0] | string | `"th2-core"` |  |
-| infraMgr.kubernetes.secrets[1] | string | `"th2-solution"` |  |
-| infraMgr.kubernetes.secrets[2] | string | `"th2-proprietary"` |  |
+| infraMgr.kubernetes.secrets | list | `[]` |  |
 | infraMgr.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraMgr.livenessProbe.periodSeconds | int | `30` |  |
 | infraMgr.livenessProbe.timeoutSeconds | int | `5` |  |
