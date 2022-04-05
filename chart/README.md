@@ -158,7 +158,7 @@ th2 service Helm chart
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | rabbitmq.ingress.enabled | bool | `true` |  |
 | rabbitmq.ingress.extraHosts[0].name | string | `""` |  |
-| rabbitmq.ingress.extraHosts[0].path | string | `"/rabbitmq($|/.*)"` |  |
+| rabbitmq.ingress.extraHosts[0].path | string | `"/rabbitmq($\|/.*)"` | RabbitmMQ management UI ingess path |
 | rabbitmq.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | rabbitmq.memoryHighWatermark.enable | bool | `true` |  |
 | rabbitmq.memoryHighWatermark.type | string | `"absolute"` |  |
