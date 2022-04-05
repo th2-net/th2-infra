@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cradle-external
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+data:
+  cradle.json: |
+    {
+    "dataCenter": {{ .Values.cassandra.cluster.datacenter | quote }},
+    {{- if .Values.cassandra.host }}
+    "host": {{ .Values.cassandra.host | quote }},
+    "port": "9042",
+    {{- else }}
+    "host": {{ .Values.ingress.host | quote }},
+    "port": {{ .Values.cassandra.service.nodePorts.cql | quote }},
+    {{- end }}
+    "keyspace": "${CASSANDRA_KEYSPACE}",
+    "username": {{ .Values.cassandra.dbUser.user | quote }},
+    "password": "${CASSANDRA_PASS}"
+    }

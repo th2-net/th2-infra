@@ -25,6 +25,16 @@ Output:
 
 ## Settings and variables
 There are no special settings and variables except default. Test schema is deployed from e2e-test-schema directory into th2-schema namespace
+<<<<<<< HEAD
+=======
+Namespaces for th2-infra can be set up in the following workflow variables:
+```yaml
+env:
+  INFRA_NAMESPACE: "${{ github.event.inputs.infraNamespace || 'service' }}"
+  MONITORING_NAMESPACE: monitoring
+  SCHEMA_NAMESPACE: "${{ github.event.inputs.schemaNamespace || 'th2-v150' }}"
+```
+>>>>>>> origin/release-v1.8.0
 
 If it is required to test infra operator template chart from git, then it can be set in e2e-via-ssh-deployment-playbook.yaml > "Deploy th2-infra":
 ```yaml

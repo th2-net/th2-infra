@@ -1,11 +1,12 @@
 name: Lint and Test Charts
-on: 
+on:
   pull_request:
     paths:
-    - 'ci/**'
-    - 'example-values/**'
-    - 'th2-service/**'
-    - '.github/workflows/lint-chart.yaml'
+      - "ci/**"
+      - "example-values/**"
+      - "chart/**"
+      - "!chart/README.md"
+      - ".github/workflows/lint-chart.yaml"
   workflow_dispatch:
 
 jobs:
@@ -43,4 +44,4 @@ jobs:
           ct lint \
             --lint-conf=ci/cfg/lint-cfg.yml \
             --check-version-increment \
-            --validate-maintainers=false --debug --charts ./th2-service
+            --validate-maintainers=false --debug --charts ./chart

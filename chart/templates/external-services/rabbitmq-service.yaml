@@ -1,0 +1,11 @@
+{{- if not .Values.rabbitmq.internal -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+spec:
+  type: ExternalName
+  externalName: {{ .Values.rabbitmq.host }}
+{{ end }}

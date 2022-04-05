@@ -1,0 +1,33 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    {{- include "ingress-annotations" . | nindent 4  }}
+    {{- include "common-annotations" . | nindent 4  }}
+  name: ingress-rules
+spec:
+  rules:
+  {{- if .Values.ingress.host }}
+  - host: "{{ .Values.ingress.host -}}"
+    http:
+  {{- else }}
+  - http:
+  {{- end }}
+      paths:
+      - path: /${SCHEMA_NAMESPACE}/backend/(.*)
+        backend:
+          serviceName: rpt-data-provider
+          servicePort: 8080
+      - path: /${SCHEMA_NAMESPACE}/(.*)
+        backend:
+          serviceName: rpt-data-viewer
+          servicePort: 8080
+      - path: /${SCHEMA_NAMESPACE}/act-ui/(.*)
+        backend:
+          serviceName: act-ui
+          servicePort: 8080
+      - path: /${SCHEMA_NAMESPACE}/act-ui/backend/(.*)
+        backend:
+          serviceName: act-ui-backend
+          servicePort: 8080

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mq-router
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+data:
+  mq_router.json: |
+    {
+    "connectionTimeout": "-1",
+    "connectionCloseTimeout": "10000",
+    "maxRecoveryAttempts": "5",
+    "minConnectionRecoveryTimeout": "10000",
+    "maxConnectionRecoveryTimeout": "60000",
+    "prefetchCount": "10"
+    }

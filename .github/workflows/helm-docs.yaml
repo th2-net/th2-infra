@@ -1,0 +1,21 @@
+name: Auto generate helm-docs
+
+on:
+  pull_request:
+    paths:
+      - "chart/**"
+      - ".github/workflows/helm-docs.yaml"
+  workflow_dispatch:
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT_CI_ACTION }}
+      - name: Generate helm docs
+        run: make docs
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Auto-generated helm chart docs"

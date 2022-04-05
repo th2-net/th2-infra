@@ -1,0 +1,11 @@
+{{- if not .Values.cassandra.internal -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: cassandra
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+spec:
+  type: ExternalName
+  externalName: {{ .Values.cassandra.host }}
+{{ end }}
