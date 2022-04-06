@@ -1,9 +1,18 @@
 FROM golang:alpine AS builder
 WORKDIR /app/
-COPY ./infra-operator-tpl/infra-repo/ .
+COPY ./go.mod ./main.go .
 RUN go build -v -o infra-repo .
-COPY ./th2-net.github.io/infra-operator-tpl-* ./th2-net.github.io/index.yaml /app/charts/
+
+FROM alpine/helm as helm-builder
+WORKDIR /app/
+COPY ./box-chart ./box-chart
+RUN helm package ./box-chart/ --destination ./repo && \
+	helm repo index . && \
+    cp index.yaml ./repo
 
 FROM alpine:3.13
-COPY --from=builder /app /app/
-ENTRYPOINT ["/app/infra-repo", "-port=8080", "-path=/app/charts"]
+COPY --from=builder /app/infra-repo /app/infra-repo
+COPY ./dashboards /app/repo/dashboards
+COPY ./plugins /app/repo/plugins
+COPY --from=helm-builder /app/repo /app/repo
+ENTRYPOINT ["/app/infra-repo", "-port=8080", "-path=/app/repo"]
