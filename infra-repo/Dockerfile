@@ -8,7 +8,8 @@ WORKDIR /app/
 COPY ./box-chart ./box-chart
 RUN helm package ./box-chart/ --destination ./repo && \
 	helm repo index . && \
-    cp index.yaml ./repo
+    cp index.yaml ./repo && \
+    mkdir ./repo/plugins
 
 FROM alpine:3.13
 COPY --from=builder /app/infra-repo /app/infra-repo
