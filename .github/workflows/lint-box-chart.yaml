@@ -1,4 +1,4 @@
-name: Lint and Test Charts
+name: Lint box chart
 on:
   pull_request:
     paths:
@@ -32,7 +32,7 @@ jobs:
         with:
           version: v3.3.0
 
-      - name: Run box chart test (lint)
+      - name: Run box chart linting
         run: |
           ct lint \
             --lint-conf=ci/cfg/lint-cfg.yml \

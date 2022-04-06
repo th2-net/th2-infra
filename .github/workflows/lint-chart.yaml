@@ -1,4 +1,4 @@
-name: Lint and Test Charts
+name: Lint infra chart
 on:
   pull_request:
     paths:
@@ -35,7 +35,7 @@ jobs:
         with:
           version: v3.3.0
 
-      - name: Run chart-testing (lint)
+      - name: Run infra chart linting
         run: |
           helm repo add rabbitmq-ha https://charts.helm.sh/stable
           helm repo add cassandra https://charts.bitnami.com/bitnami
