@@ -25,9 +25,3 @@ cassandra:
 infraMgr:
   git:
     repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git
-infraOperator:
-  config:
-    chart:
-      git: https://github.com/th2-net/infra-operator-tpl.git
-      ref: release-v0.7.2
-      path: ./
