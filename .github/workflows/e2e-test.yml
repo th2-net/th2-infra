@@ -23,7 +23,7 @@ env:
   INFRA_NAMESPACE: "${{ github.event.inputs.infraNamespace || 'service' }}"
   MONITORING_NAMESPACE: monitoring
   SCHEMA_NAMESPACE: "${{ github.event.inputs.schemaNamespace || 'th2-schema' }}"
-  REPOSITORY_URL: "${{ github.event.pull_request.clone_url }}"
+  REPOSITORY_URL: "${{ github.event.pull_request.base.clone_url }}"
   REPOSITORY_REF_NAME: "${{ github.event.pull_request.head.ref }}"
 
 jobs:
