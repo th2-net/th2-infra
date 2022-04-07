@@ -220,11 +220,11 @@ Create secrets.yaml in `./` folder (*do not commit into git*). Example:
 # reguired only for images from a private registry, will be attached as the first PullSecret to deployments
 #registries:
 #  registry1.name.com:8080:
-#      username: <username>
-#      password: <password>
+#    username: <username>
+#    password: <password>
 #  registry2.name.com:8080:
-#      username: <username>
-#      password: <password>
+#    username: <username>
+#    password: <password>
 
 cassandra:
 # set credentials for existing Cassandra cluster
