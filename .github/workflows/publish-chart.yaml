@@ -1,4 +1,4 @@
-name: Publish chart
+name: Publish infra chart
 on:
   workflow_dispatch:
   push:

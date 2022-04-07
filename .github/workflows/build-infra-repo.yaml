@@ -1,4 +1,4 @@
-name: Publish chart
+name: Build infra-repo
 on:
   push:
     # tags:
