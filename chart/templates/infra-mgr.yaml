@@ -54,7 +54,7 @@ spec:
             value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}
           {{- end }}
           - name: HTTPS_AUTH_USERNAME 
-          {{- if .Values.infraMgr.git.repository contains "https"}}
+          {{- if hasPrefix "https" .Values.infraMgr.git.repository }}
             value: ""
           {{- else}}
             valueFrom:
@@ -63,7 +63,7 @@ spec:
                 key: httpAuthUsername
           {{- end}}
           - name: HTTPS_AUTH_PASSWORD 
-          {{- if .Values.infraMgr.git.repository contains "https"}}
+          {{- if hasPrefix "https" .Values.infraMgr.git.repository }}
             value: ""
           {{- else}}
             valueFrom:
