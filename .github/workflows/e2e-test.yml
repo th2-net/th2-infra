@@ -6,7 +6,7 @@ on:
       - "ci/**"
       - "example-values/**"
       - "chart/**"
-      - "!chart/README.md"
+      - "box-chart/**"
       - ".github/workflows/e2e-test.yml"
   workflow_dispatch:
     inputs:

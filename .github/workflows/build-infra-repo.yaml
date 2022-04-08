@@ -3,6 +3,10 @@ on:
   push:
     # tags:
     #   - "v*"
+    paths:
+      - "infra-repo/**"
+      - "box-chart/**"
+      - ".github/workflows/lint-box-chart.yaml"
 
 jobs:
   release:

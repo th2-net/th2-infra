@@ -5,7 +5,6 @@ on:
       - "ci/**"
       - "example-values/**"
       - "chart/**"
-      - "!chart/README.md"
       - ".github/workflows/lint-chart.yaml"
   workflow_dispatch:
 
