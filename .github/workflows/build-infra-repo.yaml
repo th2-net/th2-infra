@@ -40,3 +40,5 @@ jobs:
           context: ./infra-repo/
           push: false
           tags: ghcr.io/th2-net/infra-repo:${{ github.sha }}
+          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache
+          cache-to: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache,mode=max
