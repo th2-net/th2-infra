@@ -54,15 +54,23 @@ spec:
             value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}
           {{- end }}
           - name: HTTPS_AUTH_USERNAME 
+          {{- if .Values.infraMgr.git.repository contains "https"}}
+            value: ""
+          {{- else}}
             valueFrom:
               secretKeyRef:
                 name: th2-git-access-schemas
                 key: httpAuthUsername
+          {{- end}}
           - name: HTTPS_AUTH_PASSWORD 
+          {{- if .Values.infraMgr.git.repository contains "https"}}
+            value: ""
+          {{- else}}
             valueFrom:
               secretKeyRef:
                 name: th2-git-access-schemas
                 key: httpAuthPassword
+          {{- end}}
           - name: CASSANDRA_PASS
             valueFrom:
               secretKeyRef:
