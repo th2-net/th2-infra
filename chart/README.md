@@ -103,9 +103,9 @@ th2 service Helm chart
 | infraMgr.resources.limits.memory | string | `"2500Mi"` |  |
 | infraMgr.resources.requests.cpu | string | `"200m"` |  |
 | infraMgr.resources.requests.memory | string | `"500Mi"` |  |
-| infraOperator.config.chart.git | string | `"https://github.com/th2-net/infra-operator-tpl.git"` |  |
-| infraOperator.config.chart.path | string | `"./"` |  |
-| infraOperator.config.chart.ref | string | `"release-v0.8.0"` |  |
+| infraOperator.config.chart.name | string | `"box-chart"` |  |
+| infraOperator.config.chart.repository | string | `"http://infra-repo:8080"` |  |
+| infraOperator.config.chart.version | string | `"1.0.0"` | Do not change the version |
 | infraOperator.config.k8sUrl | string | `"<kubernetes-external-entrypoint>"` |  |
 | infraOperator.config.namespacePrefixes[0] | string | `"th2-"` |  |
 | infraOperator.config.rabbitMQManagement.password | string | `"${RABBITMQ_PASS}"` |  |
@@ -128,7 +128,7 @@ th2 service Helm chart
 | infraOperator.resources.requests.cpu | string | `"200m"` |  |
 | infraOperator.resources.requests.memory | string | `"500Mi"` |  |
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
-| infraRepo.image.tag | string | `"0.7.2"` |  |
+| infraRepo.image.tag | string | `"1.0.0"` |  |
 | ingress.annotations.default."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | ingress.annotations.default."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;"` |  |
 | ingress.annotations.default."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
