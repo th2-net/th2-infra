@@ -18,6 +18,7 @@ cassandra:
     password: cassandra
   cluster:
     datacenter: datacenter1
+    numTokens: 16
   jvm:
     maxHeapSize: 1G
     newHeapSize: 800M
