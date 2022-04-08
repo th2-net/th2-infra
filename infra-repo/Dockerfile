@@ -15,7 +15,7 @@ FROM alpine:3.13
 COPY --from=builder /app/infra-repo /app/infra-repo
 COPY ./dashboards /app/repo/dashboards
 # COPY ./plugins /app/repo/plugins
-ADD ./run.sh ./repo/run.sh
-RUN ./repo/run.sh
+ADD ./run.sh /app/repo/run.sh
+RUN /app/repo/run.sh
 COPY --from=helm-builder /app/repo /app/repo
 ENTRYPOINT ["/app/infra-repo", "-port=8080", "-path=/app/repo"]

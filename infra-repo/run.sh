@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd plugins/ 
+
 while read line; do
-  curl (cd /plugins/ && $line -O)
+  curl $line -O
 done < grafana-plugins.txt
