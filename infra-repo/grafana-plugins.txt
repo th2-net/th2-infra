@@ -1,6 +1,6 @@
-https://grafana.com/api/plugins/flant-statusmap-panel/versions/0.4.2/download
-https://grafana.com/api/plugins/vonage-status-panel/versions/1.0.11/download
-https://grafana.com/api/plugins/blackmirror1-statusbygroup-panel/versions/1.1.2/download
-https://grafana.com/api/plugins/grafana-polystat-panel/versions/1.2.8/download
-https://grafana.com/api/plugins/briangann-gauge-panel/versions/0.0.9/download
-https://grafana.com/api/plugins/yesoreyeram-boomtable-panel/versions/1.4.1/download
+https://storage.googleapis.com/plugins-community/flant-statusmap-panel/release/0.4.2/flant-statusmap-panel-0.4.2.zip
+https://storage.googleapis.com/plugins-community/vonage-status-panel/release/1.0.11/vonage-status-panel-1.0.11.zip
+https://storage.googleapis.com/plugins-community/blackmirror1-statusbygroup-panel/release/1.1.2/blackmirror1-statusbygroup-panel-1.1.2.zip
+https://storage.googleapis.com/plugins-community/grafana-polystat-panel/release/1.2.8/grafana-polystat-panel-1.2.8.zip
+https://storage.googleapis.com/plugins-community/briangann-gauge-panel/release/0.0.9/briangann-gauge-panel-0.0.9.zip
+https://storage.googleapis.com/plugins-community/yesoreyeram-boomtable-panel/release/1.4.1/yesoreyeram-boomtable-panel-1.4.1.zip
