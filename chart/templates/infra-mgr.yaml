@@ -41,9 +41,11 @@ spec:
         volumeMounts:
           - name: configs
             mountPath: /home/service/config/
+        {{- if hasPrefix "!https" .Values.infraMgr.git.repository }}
           - name: secrets
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.sshDir }}
+        {{- end}}
         env:
           - name: HOME 
             value: /home/service/
