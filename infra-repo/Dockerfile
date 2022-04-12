@@ -16,6 +16,6 @@ COPY --from=builder /app/infra-repo /app/infra-repo
 COPY ./dashboards /app/repo/dashboards
 COPY ./grafana-plugins.txt /app/repo/plugins/
 COPY ./run.sh /app/repo/plugins/
-RUN ./run.sh
+RUN /app/repo/plugins/run.sh
 COPY --from=helm-builder /app/repo /app/repo
 ENTRYPOINT ["/app/infra-repo", "-port=8080", "-path=/app/repo"]
