@@ -81,10 +81,9 @@ spec:
       - name : secrets
         projected:
           sources:
-          {{- if hasPrefix "https" .Values.infraMgr.git.repository }}
           - secret:
               name: {{ .Values.infraMgr.git.secretName }}
-          {{- else}}
+          {{- if hasPrefix "!https" .Values.infraMgr.git.repository }}
           - configMap:
               name: ssh-config
           {{- end}}
