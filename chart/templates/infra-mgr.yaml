@@ -85,7 +85,6 @@ spec:
               name: {{ .Values.infraMgr.git.secretName }}
           - configMap:
               name: ssh-config
-          {{- end}}
       - name: configs
         projected:
           sources:
