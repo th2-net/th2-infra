@@ -41,7 +41,7 @@ spec:
         volumeMounts:
           - name: configs
             mountPath: /home/service/config/
-          {{- if hasPrefix !"https" .Values.infraMgr.git.repository }}
+          {{- if not (hasPrefix "https" .Values.infraMgr.git.repository) }}
           - name: secrets
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.sshDir }}
@@ -80,7 +80,7 @@ spec:
           timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
           periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
       volumes:
-      {{- if hasPrefix !"https" .Values.infraMgr.git.repository }}
+      {{- if not (hasPrefix "https" .Values.infraMgr.git.repository)}}
       - name : secrets
         projected:
           sources:
