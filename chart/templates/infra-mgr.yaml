@@ -83,7 +83,6 @@ spec:
           sources:
           - secret:
               name: {{ .Values.infraMgr.git.secretName }}
-          {{- if hasPrefix "!https" .Values.infraMgr.git.repository }}
           - configMap:
               name: ssh-config
           {{- end}}
