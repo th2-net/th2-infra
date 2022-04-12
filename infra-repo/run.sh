@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 file = 'grafana-plugins.txt'
 
