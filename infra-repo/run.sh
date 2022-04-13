@@ -1,5 +1,5 @@
 #!/bin/sh
 
 while read line; do
-wget "$line -O"
+wget "$line"
 done < grafana-plugins.txt
