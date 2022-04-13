@@ -41,9 +41,11 @@ spec:
         volumeMounts:
           - name: configs
             mountPath: /home/service/config/
+          {{- if not (hasPrefix "https" .Values.infraMgr.git.repository) }}
           - name: secrets
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.sshDir }}
+          {{- end}}
         env:
           - name: HOME 
             value: /home/service/
@@ -52,8 +54,9 @@ spec:
           {{- if .Values.infraMgr.jvm.javaToolOptions }}
           - name: JAVA_TOOL_OPTIONS
             value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}
-          {{- end }}
-          - name: HTTPS_AUTH_USERNAME 
+          {{- end }}          
+          {{- if hasPrefix "https" .Values.infraMgr.git.repository }}
+          - name: HTTPS_AUTH_USERNAME           
             valueFrom:
               secretKeyRef:
                 name: th2-git-access-schemas
@@ -63,6 +66,7 @@ spec:
               secretKeyRef:
                 name: th2-git-access-schemas
                 key: httpAuthPassword
+          {{- end}}
           - name: CASSANDRA_PASS
             valueFrom:
               secretKeyRef:
@@ -76,6 +80,7 @@ spec:
           timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
           periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
       volumes:
+      {{- if not (hasPrefix "https" .Values.infraMgr.git.repository)}}
       - name : secrets
         projected:
           sources:
@@ -83,6 +88,7 @@ spec:
               name: {{ .Values.infraMgr.git.secretName }}
           - configMap:
               name: ssh-config
+      {{- end}}
       - name: configs
         projected:
           sources:
