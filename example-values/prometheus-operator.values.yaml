@@ -4,7 +4,7 @@ alertmanager:
   alertmanagerSpec:
      # image:
      #   repository: quay.io/prometheus/alertmanager
-      externalUrl: http://localhost:3000/alertmanager
+      externalUrl: http://localhost:9093/alertmanager
   ingress:
     enabled: true
     annotations:
@@ -32,7 +32,7 @@ prometheus:
   prometheusSpec:
     # image:
     #   repository: quay.io/prometheus/prometheus
-    externalUrl: http://localhost:3000/prometheus
+    externalUrl: http://localhost:9090/prometheus
     storageSpec:
       volumeClaimTemplate:
         spec:
