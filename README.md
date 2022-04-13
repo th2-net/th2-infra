@@ -131,7 +131,6 @@ $ kubectl config set-context --current --namespace=monitoring
       plugins:
         - http://infra-repo.service.svc.cluster.local:8080/grafana-plugins/<plugin.zip>;<plugin-folder>
     ```
-    Instructions on putting dashboards and plugins into grafana are below.
 
 * Deploy components
 ```
@@ -282,17 +281,6 @@ $ helm install -n service --version=<version> th2-infra th2/th2 -f ./service.val
 _Note_: replace <version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
 
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
-
-### Place grafana dashboards and plugins in infra-repo
-* Copy dashboard Json file into infra-repo:
-```
-$ kubectl cp <dashbaord.Json> <infra-repo pod>:/app/charts/grafana-dashboards/
-```
-* Copy plugin zip file into infra-repo:
-```
-$ kubectl cp <plugin.zip> <infra-repo pod>:/app/charts/grafana-plugins/
-```
-_note_: All dashboards and plugins should be added individually in grafana values. Restart grafana pod.
 
 ### Upgrade th2-infra
 
