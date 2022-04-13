@@ -196,67 +196,43 @@ rabbitmq:
   # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
   # otherwise service will be deployed as a chart dependency
   internal: true
-  rabbitmqMemoryHighWatermark: 1024MB
+  memoryHighWatermark:
+    enable: true
+    type: absolute
+    value: 1024MB
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
-  rabbitmqVhost: th2
-  rabbitmqUsername: th2
-  # -- Will be generated if empty
-  rabbitmqPassword: ""
-  rabbitmqErlangCookie: ""
+  extraConfiguration: |-
+    default_vhost = th2
+    disk_free_limit.absolute = 10GB
+  auth:
+    username: th2
+    password: ""
+    erlangCookie: ""
   rabbitmqExchange: th2-exchange
   replicaCount: 1
-  podAntiAffinity: hard
-  persistentVolume:
+  podAntiAffinityPreset: hard
+  persistence:
     enabled: true
     storageClass: local-storage
     size: 10Gi
-  livenessProbe:
-    exec:
-      command:
-        - /bin/bash
-        - -ec
-        - rabbitmq-diagnostics -q check_running
-    initialDelaySeconds: 120
-    timeoutSeconds: 20
-    periodSeconds: 30
-    failureThreshold: 6
-    successThreshold: 1
-  readinessProbe:
-    exec:
-      command:
-        - /bin/bash
-        - -ec
-        - rabbitmq-diagnostics -q check_running
-    initialDelaySeconds: 10
-    timeoutSeconds: 20
-    periodSeconds: 30
-    failureThreshold: 3
-    successThreshold: 1
   service:
     type: "NodePort"
     amqpNodePort: 32000
-  rabbitmqPrometheusPlugin:
+  metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus
+        app: kube-prometheus-stack
+      path: /metrics
   prometheus:
-    exporter:
-      enabled: false
     operator:
       enabled: true
-      alerts:
-        enabled: true
-        selector: false
-      serviceMonitor:
-        selector:
-          release: prometheus
-          app: kube-prometheus-stack
   ingress:
     enabled: true
-    hostName: *host
-    # -- RabbitmMQ management UI ingess path
-    # @default -- `"/rabbitmq($\|/.*)"`
-    path: /rabbitmq($|/.*)
     annotations:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/rewrite-target: $1
@@ -266,9 +242,12 @@ rabbitmq:
           proxy_pass http://upstream_balancer$1;
           break;
         }
-  extraConfig: |-
-    disk_free_limit.absolute = 10GB
-
+    extraHosts:
+      - name: *host
+        # -- RabbitmMQ management UI ingess path
+        # @default -- `"/rabbitmq($\|/.*)"`
+        path: /rabbitmq($|/.*)
+        
 cassandra:
   cradle:
     #    networkTopologyStrategy:
