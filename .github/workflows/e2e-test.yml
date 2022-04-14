@@ -6,7 +6,7 @@ on:
       - "ci/**"
       - "example-values/**"
       - "chart/**"
-      - "!chart/README.md"
+      - "box-chart/**"
       - ".github/workflows/e2e-test.yml"
   workflow_dispatch:
     inputs:
@@ -43,7 +43,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.1.0
+        uses: helm/kind-action@v1.2.0
         with:
           config: ./ci/kind-cluster.yaml
           version: v0.11.0

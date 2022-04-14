@@ -50,10 +50,6 @@ prometheus:
 ## -- Kubernetes cluster domain
 clusterDomain: cluster.local
 
-#Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
-#externalRabbitMQHost:
-#  host: localhost
-
 helmoperator:
   internal: true
   helm:
@@ -75,7 +71,7 @@ infraEditor:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 0.7.2
+    tag: 1.0.0
 
 infraOperator:
   prometheusConfiguration:
@@ -83,17 +79,13 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.5.3-grpc-filters-1979795453
+    tag: 3.6.1-infra-1.8-2097234185
   config:
     chart:
-      # external mirror
-      # repository: https://th2-net.github.io
-      #       repository: http://infra-repo:8080
-      #       version: 0.7.2
-      #       name: infra-operator-tpl
-      git: https://github.com/th2-net/infra-operator-tpl.git
-      ref: release-v0.8.0
-      path: ./
+      repository: http://infra-repo:8080
+      # -- Do not change the version
+      version: 1.0.0
+      name: box-chart
     namespacePrefixes:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
@@ -127,7 +119,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.7.7-infra-1.8.0-2057987187
+    tag: 1.7.11-infra-1.8.0-2159845007
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
@@ -156,10 +148,8 @@ infraMgr:
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
-    secrets:
-      - th2-core
-      - th2-solution
-      - th2-proprietary
+    secrets: []
+#      - th2-core
   livenessProbe:
     initialDelaySeconds: 30
     timeoutSeconds: 5
