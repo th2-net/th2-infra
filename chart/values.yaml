@@ -1,24 +1,24 @@
 ---
 # Default values for th2-core.
 
-productRegistry:
-  secret: th2-core
+#productRegistry:
+#  secret: th2-core
   # -- Image repository and credentials to create pull secrets
-  name: ""
-  username: ""
-  password: ""
+#  name: ""
+#  username: ""
+#  password: ""
 
-solutionRegistry:
-  secret: th2-solution
-  registry: ""
-  username: ""
-  password: ""
+#solutionRegistry:
+#  secret: th2-solution
+#  registry: ""
+#  username: ""
+#  password: ""
 
-proprietaryRegistry:
-  secret: th2-proprietary
-  registry: ""
-  username: ""
-  password: ""
+#proprietaryRegistry:
+#  secret: th2-proprietary
+#  registry: ""
+#  username: ""
+#  password: ""
 
 ingress:
   host: &host ""

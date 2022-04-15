@@ -1,3 +1,7 @@
+registries:
+  nexus.data.com:30000:
+    username: user
+    password: pwd
 infraGit:
   internal: true
 externalRabbitMQHost:
