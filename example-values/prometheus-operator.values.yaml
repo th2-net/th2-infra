@@ -73,7 +73,7 @@ grafana:
   dashboards:
     default:
       <dashboard-name>:
-        url: http://infra-repo.service.svc.cluster.local:8080/grafana-dashboards/<dashboard.json>
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/<dashboard.json>
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -104,7 +104,7 @@ grafana:
     # image:
     #   repository: busybox
   plugins:
-    - http://infra-repo.service.svc.cluster.local:8080/grafana-plugins/<plugin.zip>;<plugin-folder>
+    - http://infra-repo.service.svc.cluster.local:8080/plugins/<plugin.zip>;<plugin-folder>
 
 # prometheus-node-exporter:
 #   serviceAccount:
