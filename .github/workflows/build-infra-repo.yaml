@@ -32,11 +32,12 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
 
-      - name: Read box-chart version
-        id: chart
-        uses: jacobtomlinson/gha-read-helm-chart@master
+      - name: Read infra-repo version
+        id: yaml-data
+        uses: KJ002/read-yaml@main
         with:
-          path: ./box-chart
+          file: "./chart/values.yaml"
+          key-path: '["infraRepo", "image", "tag"]'
 
       - name: build image & push to registry
         uses: docker/build-push-action@v2
@@ -44,6 +45,6 @@ jobs:
           file: ./infra-repo/Dockerfile
           context: ./infra-repo/
           push: true
-          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
+          tags: ghcr.io/th2-net/infra-repo:${{ steps.yaml-data.outputs.data }}
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache
           cache-to: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache,mode=max
