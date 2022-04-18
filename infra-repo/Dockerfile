@@ -4,17 +4,16 @@ COPY ./go.mod ./main.go .
 RUN go build -v -o infra-repo .
 
 FROM alpine:3.13 as plugin-builder
-WORKDIR /app/repo/plugins/
-COPY grafana-plugins.txt run.sh .
-RUN chmod +x run.sh && ./run.sh
+WORKDIR /app/repo/
+COPY grafana-plugins.txt download-plugins.sh .
+RUN ./download-plugins.sh
 
 FROM alpine/helm as helm-builder
 WORKDIR /app/
 COPY ./box-chart ./box-chart
 RUN helm package ./box-chart/ --destination ./repo && \
 	helm repo index . && \
-    cp index.yaml ./repo && \
-    mkdir ./repo/plugins
+    cp index.yaml ./repo
 
 FROM alpine:3.13
 COPY --from=builder /app/infra-repo /app/infra-repo
