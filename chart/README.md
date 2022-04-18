@@ -54,8 +54,8 @@ th2 service Helm chart
 | helmoperator.prometheus.enabled | string | `"enabled"` |  |
 | helmoperator.prometheus.serviceMonitor.create | bool | `true` |  |
 | helmoperator.prometheus.serviceMonitor.namespace | string | `"monitoring"` |  |
-| infraEditor.image.repository | string | `"ghcr.io/th2-net/th2-infra-editor"` |  |
-| infraEditor.image.tag | string | `"1.0.65"` |  |
+| infraEditor.image.repository | string | `"ghcr.io/th2-net/th2-infra-editor-v2"` |  |
+| infraEditor.image.tag | string | `"2.0.15-TH2-3209-2183869724"` |  |
 | infraGit.image.repository | string | `"ghcr.io/th2-net/git-ssh"` |  |
 | infraGit.image.tag | string | `"v0.1.0"` |  |
 | infraGit.internal | bool | `false` | If there is no ability to get access for cluster to repo with schemas namespaces configs git repo can be deployed internal in the cluster. Change to "internal = true" in case you need internal git repo. |
