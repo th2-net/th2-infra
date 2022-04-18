@@ -169,7 +169,6 @@ th2 service Helm chart
 | rabbitmq.podAntiAffinity | string | `"hard"` |  |
 | rabbitmq.prometheus.exporter.enabled | bool | `false` |  |
 | rabbitmq.prometheus.operator.alerts.enabled | bool | `true` |  |
-| rabbitmq.prometheus.operator.alerts.selector | bool | `false` |  |
 | rabbitmq.prometheus.operator.enabled | bool | `true` |  |
 | rabbitmq.prometheus.operator.serviceMonitor.selector.app | string | `"kube-prometheus-stack"` |  |
 | rabbitmq.prometheus.operator.serviceMonitor.selector.release | string | `"prometheus"` |  |
