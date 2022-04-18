@@ -3,6 +3,11 @@ WORKDIR /app/
 COPY ./go.mod ./main.go .
 RUN go build -v -o infra-repo .
 
+FROM alpine:3.13 as plugin-builder
+WORKDIR /app/repo/plugins/
+COPY grafana-plugins.txt run.sh .
+RUN chmod +x run.sh && ./run.sh
+
 FROM alpine/helm as helm-builder
 WORKDIR /app/
 COPY ./box-chart ./box-chart
@@ -14,10 +19,6 @@ RUN helm package ./box-chart/ --destination ./repo && \
 FROM alpine:3.13
 COPY --from=builder /app/infra-repo /app/infra-repo
 COPY ./dashboards /app/repo/dashboards
-WORKDIR /app/repo/plugins/
-COPY grafana-plugins.txt .
-COPY run.sh .
-RUN chmod +x run.sh
-RUN ./run.sh
+COPY --from=plugin-builder /app/repo/plugins/ /app/repo/plugins/
 COPY --from=helm-builder /app/repo /app/repo
 ENTRYPOINT ["/app/infra-repo", "-port=8080", "-path=/app/repo"]
