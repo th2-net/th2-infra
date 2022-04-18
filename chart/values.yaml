@@ -149,7 +149,6 @@ infraMgr:
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
     secrets: []
-  #      - th2-core
   livenessProbe:
     initialDelaySeconds: 30
     timeoutSeconds: 5
@@ -239,7 +238,7 @@ rabbitmq:
         # -- RabbitmMQ management UI ingess path
         # @default -- `"/rabbitmq($\|/.*)"`
         path: /rabbitmq($|/.*)
-        
+
 cassandra:
   cradle:
     #    networkTopologyStrategy:
