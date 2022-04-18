@@ -1,0 +1,48 @@
+{{/*
+Generating envVariables for k8
+*/}}
+{{- define "envVariable" }}
+        {{- $java_default := "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85" }}
+        {{- $var := dict "0" $java_default }}
+        {{- if .component.extendedSettings.envVariables }}
+          {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
+            {{- if eq $envName "JAVA_TOOL_OPTIONS" }}
+              {{- if contains "${JAVA_TOOL_OPTIONS}" $envValue }}
+                {{- $temp := $envValue | trimAll "${JAVA_TOOL_OPTIONS}" }}
+                {{- $_ := set $var "1" $temp }}
+              {{- else }}
+                {{- $_ := set $var "0" $envValue }}
+              {{- end }}
+            {{- else }} {{/* else if Java_Tool_options */}}
+        - name: {{ $envName }}
+          value: {{ $envValue | quote }}
+            {{- end }} {{/* end if Java_Tool_options */}}
+          {{- end }} {{/* end range envVariables */}}
+        - name: JAVA_TOOL_OPTIONS
+          value: {{ get $var "0" }}{{ get $var "1"}}
+        {{- else }}
+        - name: JAVA_TOOL_OPTIONS
+          value: {{ get $var "0" }}
+        {{- end }} {{/* end if envVariables */}}
+        {{- range $envName, $secKey := .component.secretPathsConfig }}
+        - name: {{ $envName }}
+          value: /var/th2/config/secrets/{{ $secKey }}/{{ $secKey }}
+        {{- end }}
+        {{- range $envName, $envValue := .component.secretValuesConfig }}
+        - name: {{ $envName }}
+          valueFrom:
+            secretKeyRef:
+              name: secret-custom-config
+              key: {{ $envValue }}
+        {{- end }}
+        - name: RABBITMQ_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .component.secrets.rabbitMQ }}
+              key: rabbitmq-password
+        - name: CASSANDRA_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .component.secrets.cassandra }}
+              key: cassandra-password
+{{- end }}

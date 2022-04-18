@@ -1,0 +1,17 @@
+{{/*
+Adding annotations
+*/}}
+{{- define "ingress-annotations" -}}
+{{- if .component.ingress.annotations.default -}}
+{{ .component.ingress.annotations.default | toYaml }}
+{{- end -}}
+{{- if .component.ingress.annotations.extra }}
+{{ .component.ingress.annotations.extra | toYaml }}
+{{- end -}}
+{{- end -}}
+
+{{- define "common-annotations" -}}
+{{- if .commonAnnotations -}}
+{{ .commonAnnotations | toYaml }}
+{{- end -}}
+{{- end -}}

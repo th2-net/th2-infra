@@ -1,11 +1,9 @@
-name: Lint infra chart
+name: Lint box chart
 on:
   pull_request:
     paths:
-      - "ci/**"
-      - "example-values/**"
-      - "chart/**"
-      - ".github/workflows/lint-chart.yaml"
+      - "box-chart/**"
+      - ".github/workflows/lint-box-chart.yaml"
   workflow_dispatch:
 
 jobs:
@@ -34,13 +32,9 @@ jobs:
         with:
           version: v3.3.0
 
-      - name: Run infra chart linting
+      - name: Run box chart linting
         run: |
-          helm repo add rabbitmq-ha https://charts.helm.sh/stable
-          helm repo add cassandra https://charts.bitnami.com/bitnami
-          helm repo add helm-operator https://charts.fluxcd.io
-          helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard
           ct lint \
             --lint-conf=ci/cfg/lint-cfg.yml \
             --check-version-increment \
-            --validate-maintainers=false --debug --charts ./chart
+            --validate-maintainers=false --debug --charts ./box-chart

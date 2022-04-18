@@ -1,0 +1,29 @@
+{{/*
+Generating _svc-ports for k8
+*/}}
+{{- define "svc-ports" }}
+    {{- range $key, $val := .Values.component.extendedSettings.service.endpoints }}
+    - protocol: TCP
+      name: {{ $val.name }}
+      {{- if $val.nodePort }}
+      nodePort: {{ $val.nodePort }}
+      {{- end }}
+
+      {{- if not $val.targetPort }}
+      {{- if not $val.port }}
+      port: 8080
+      {{- else }}
+      port: {{ $val.port }}
+      {{- end }}
+
+      {{- else }}
+      targetPort: {{ $val.targetPort }}
+      {{- if not $val.port }}
+      port: {{ $val.targetPort }}
+      {{- else }}
+      port: {{ $val.port }}
+      {{- end }}
+
+      {{- end }}
+    {{- end }}
+{{- end }}
