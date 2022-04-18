@@ -1,0 +1,31 @@
+{{/*
+Generating ingress rules for pod
+*/}}
+{{- define "ingress" }}
+---
+{{- if .Values.component.extendedSettings.service.ingress }}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    {{- include "ingress-annotations" .Values | nindent 4  }}
+    {{- include "common-annotations" .Values | nindent 4  }}
+  name: {{ .Values.component.name }}-rules
+spec:
+  rules:
+  {{- if .Values.component.ingress.host }}
+  - host: {{ .Values.component.ingress.host | quote }}
+    http:
+  {{- else }}
+  - http:
+  {{- end }}
+      paths:
+      {{- range $path := .Values.component.extendedSettings.service.ingress.urlPaths }}
+      - backend:
+          serviceName: {{ $.Values.component.name }}
+          servicePort: 8080
+        path: /{{ $.Release.Namespace }}{{ $path }}
+      {{- end }}
+{{- end }}
+
+{{- end }}

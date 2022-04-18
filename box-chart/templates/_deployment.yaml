@@ -1,0 +1,59 @@
+{{/* 
+Generating deployment for k8
+*/}}
+{{- define "deployment" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .component.name }}
+  name: {{ .component.name }}
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+spec:
+  {{- if .component.extendedSettings.replicas }}      
+  replicas: {{ .component.extendedSettings.replicas }}
+  {{- else }}
+  replicas: 1
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .component.name }}
+  template:
+    metadata:
+      annotations:
+        {{- include "checksum" . }}
+        {{- include "common-annotations" . | nindent 8  }}
+      labels:
+        app: {{ .component.name }}
+        {{- if not .component.prometheus }}
+        monitoring-pod: "true"
+        {{- else }}
+        {{- if .component.prometheus.enabled }}
+        monitoring-pod: "true"
+        {{- end }}
+        {{- end }}
+    spec:
+      containers:
+      - image: {{ .component.image }}
+        {{- include "probes-deploy" . }}
+        name: {{ .component.name }}
+        {{- include "prometheus-deploy" . }}
+        {{- include "resources" . }}
+        env:
+        {{- include "envVariable" . }}
+        {{- include "volumes" . }}
+      imagePullSecrets:
+      - name: th2-solution
+      - name: th2-core
+      - name: th2-proprietary
+      {{- if .component.extendedSettings.nodeSelector }}
+      nodeSelector:
+        {{ .component.extendedSettings.nodeSelector | toYaml }}
+      {{- end }}
+      {{- if .component.extendedSettings.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirst
+      {{- end }}
+  revisionHistoryLimit: 2
+{{- end }}
