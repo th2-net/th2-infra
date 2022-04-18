@@ -117,7 +117,7 @@ grafana:
     - http://infra-repo.service.svc.cluster.local:8080/plugins/flant-statusmap-panel-0.4.2.zip;flant-statusmap-panel
     - http://infra-repo.service.svc.cluster.local:8080/plugins/vonage-status-panel-1.0.11.zip;vonage-status-panel
     - http://infra-repo.service.svc.cluster.local:8080/plugins/blackmirror1-statusbygroup-panel-1.1.2.zip;blackmirror1-statusbygroup-panel
-    - http://infra-repo.service.svc.cluster.local:8080/plugins/grafana-polystat-panel-1.2.8.zip;grafana-polystat-panel
+    - http://infra-repo.service.svc.cluster.local:8080/plugins/grafana-polystat-panel-1.2.8.any.zip;grafana-polystat-panel
     - http://infra-repo.service.svc.cluster.local:8080/plugins/briangann-gauge-panel-0.0.9.zip;briangann-gauge-panel
     - http://infra-repo.service.svc.cluster.local:8080/plugins/yesoreyeram-boomtable-panel-1.4.1.zip;yesoreyeram-boomtable-panel
   initChownData:

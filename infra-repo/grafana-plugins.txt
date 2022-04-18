@@ -1,6 +1,6 @@
 https://storage.googleapis.com/plugins-community/flant-statusmap-panel/release/0.4.2/flant-statusmap-panel-0.4.2.zip
 https://storage.googleapis.com/plugins-community/vonage-status-panel/release/1.0.11/vonage-status-panel-1.0.11.zip
 https://storage.googleapis.com/plugins-community/blackmirror1-statusbygroup-panel/release/1.1.2/blackmirror1-statusbygroup-panel-1.1.2.zip
-https://storage.googleapis.com/plugins-community/grafana-polystat-panel/release/1.2.8/grafana-polystat-panel-1.2.8.zip
+https://storage.googleapis.com/integration-artifacts/grafana-polystat-panel/release/1.2.8/any/grafana-polystat-panel-1.2.8.any.zip
 https://storage.googleapis.com/plugins-community/briangann-gauge-panel/release/0.0.9/briangann-gauge-panel-0.0.9.zip
 https://storage.googleapis.com/plugins-community/yesoreyeram-boomtable-panel/release/1.4.1/yesoreyeram-boomtable-panel-1.4.1.zip
