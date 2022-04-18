@@ -1,0 +1,21 @@
+{{/*
+Generating liveness & readness probes
+*/}}
+{{- define "probes-deploy" }}
+        {{- if .component.extendedSettings.k8sProbes }}
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/ready
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        {{- end }}
+{{- end }}

@@ -1,0 +1,49 @@
+{{/*
+Generating configMap for k8
+*/}}
+{{- define "configMap" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+  name: {{ .component.name }}-app-config
+  labels:
+    app: {{ .component.name }}
+data: 
+  custom.json: |
+    {{ .component.custom | toJson }}
+  grpc.json: |
+    {{ .component.grpc | toJson }}
+  mq.json: |
+    {{ .component.mq | toJson }}
+  {{- if .component.prometheus }}
+  prometheus.json: |
+    {{ .component.prometheus | toJson }}
+  {{- end }}
+  {{- if .component.mqRouter.config }}
+  mq_router.json: |
+    {{ .component.mqRouter.config | toJson }}
+  {{- end }}
+  {{- if .component.grpcRouter.config }}
+  grpc_router.json: |
+    {{ .component.grpcRouter.config | toJson }}
+  {{- end }}
+  {{- if .component.cradleManager.config }}
+  cradle_manager.json: |
+    {{ .component.cradleManager.config | toJson }}
+  {{- end }}
+  {{- if .component.logging.config }}
+  log4j.properties: |
+    {{- .component.logging.config | nindent 4 }}
+  log4py.conf: |
+    {{- .component.logging.config | nindent 4 }}
+  log4cxx.properties: |
+    {{- .component.logging.config | nindent 4 }}
+  log4j2.properties: |
+    {{- .component.logging.config | nindent 4 }}
+  {{- end }}
+  box.json: |
+    {"boxName":{{ .component.name | quote }}}
+
+{{ end }}
