@@ -9,8 +9,8 @@ th2 service Helm chart
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | cassandra(cassandra) | 5.6.7 |
+| https://charts.bitnami.com/bitnami | rabbitmq(rabbitmq) | 8.15.3 |
 | https://charts.fluxcd.io | helmoperator(helm-operator) | 1.2.0 |
-| https://charts.helm.sh/stable | rabbitmq(rabbitmq-ha) | 1.44.4 |
 | https://kubernetes.github.io/dashboard/ | dashboard(kubernetes-dashboard) | 5.0.4 |
 
 ## Values
@@ -146,48 +146,32 @@ th2 service Helm chart
 | proprietaryRegistry.registry | string | `""` |  |
 | proprietaryRegistry.secret | string | `"th2-proprietary"` |  |
 | proprietaryRegistry.username | string | `""` |  |
-| rabbitmq.extraConfig | string | `"disk_free_limit.absolute = 10GB"` |  |
+| rabbitmq.auth.erlangCookie | string | `""` |  |
+| rabbitmq.auth.password | string | `""` |  |
+| rabbitmq.auth.username | string | `"th2"` |  |
+| rabbitmq.extraConfiguration | string | `"default_vhost = th2\ndisk_free_limit.absolute = 10GB"` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
 | rabbitmq.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;\nif ($request_uri ~ \"^/rabbitmq(/.*)\") {\n  proxy_pass http://upstream_balancer$1;\n  break;\n}\n"` |  |
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | rabbitmq.ingress.enabled | bool | `true` |  |
-| rabbitmq.ingress.hostName | string | `""` |  |
-| rabbitmq.ingress.path | string | `"/rabbitmq($\|/.*)"` | RabbitmMQ management UI ingess path |
+| rabbitmq.ingress.extraHosts[0].name | string | `""` |  |
+| rabbitmq.ingress.extraHosts[0].path | string | `"/rabbitmq($\|/.*)"` | RabbitmMQ management UI ingess path |
 | rabbitmq.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
-| rabbitmq.livenessProbe.exec.command[0] | string | `"/bin/bash"` |  |
-| rabbitmq.livenessProbe.exec.command[1] | string | `"-ec"` |  |
-| rabbitmq.livenessProbe.exec.command[2] | string | `"rabbitmq-diagnostics -q check_running"` |  |
-| rabbitmq.livenessProbe.failureThreshold | int | `6` |  |
-| rabbitmq.livenessProbe.initialDelaySeconds | int | `120` |  |
-| rabbitmq.livenessProbe.periodSeconds | int | `30` |  |
-| rabbitmq.livenessProbe.successThreshold | int | `1` |  |
-| rabbitmq.livenessProbe.timeoutSeconds | int | `20` |  |
-| rabbitmq.persistentVolume.enabled | bool | `true` |  |
-| rabbitmq.persistentVolume.size | string | `"10Gi"` |  |
-| rabbitmq.persistentVolume.storageClass | string | `"local-storage"` |  |
-| rabbitmq.podAntiAffinity | string | `"hard"` |  |
-| rabbitmq.prometheus.exporter.enabled | bool | `false` |  |
-| rabbitmq.prometheus.operator.alerts.enabled | bool | `true` |  |
-| rabbitmq.prometheus.operator.alerts.selector | bool | `false` |  |
+| rabbitmq.memoryHighWatermark.enable | bool | `true` |  |
+| rabbitmq.memoryHighWatermark.type | string | `"absolute"` |  |
+| rabbitmq.memoryHighWatermark.value | string | `"1024MB"` |  |
+| rabbitmq.metrics.enabled | bool | `true` |  |
+| rabbitmq.metrics.serviceMonitor.additionalLabels.app | string | `"kube-prometheus-stack"` |  |
+| rabbitmq.metrics.serviceMonitor.additionalLabels.release | string | `"prometheus"` |  |
+| rabbitmq.metrics.serviceMonitor.enabled | bool | `true` |  |
+| rabbitmq.metrics.serviceMonitor.path | string | `"/metrics"` |  |
+| rabbitmq.persistence.enabled | bool | `true` |  |
+| rabbitmq.persistence.size | string | `"10Gi"` |  |
+| rabbitmq.persistence.storageClass | string | `"local-storage"` |  |
+| rabbitmq.podAntiAffinityPreset | string | `"hard"` |  |
 | rabbitmq.prometheus.operator.enabled | bool | `true` |  |
-| rabbitmq.prometheus.operator.serviceMonitor.selector.app | string | `"kube-prometheus-stack"` |  |
-| rabbitmq.prometheus.operator.serviceMonitor.selector.release | string | `"prometheus"` |  |
-| rabbitmq.rabbitmqErlangCookie | string | `""` |  |
 | rabbitmq.rabbitmqExchange | string | `"th2-exchange"` |  |
-| rabbitmq.rabbitmqMemoryHighWatermark | string | `"1024MB"` |  |
-| rabbitmq.rabbitmqPassword | string | `""` | Will be generated if empty |
-| rabbitmq.rabbitmqPrometheusPlugin.enabled | bool | `true` |  |
-| rabbitmq.rabbitmqUsername | string | `"th2"` |  |
-| rabbitmq.rabbitmqVhost | string | `"th2"` |  |
-| rabbitmq.readinessProbe.exec.command[0] | string | `"/bin/bash"` |  |
-| rabbitmq.readinessProbe.exec.command[1] | string | `"-ec"` |  |
-| rabbitmq.readinessProbe.exec.command[2] | string | `"rabbitmq-diagnostics -q check_running"` |  |
-| rabbitmq.readinessProbe.failureThreshold | int | `3` |  |
-| rabbitmq.readinessProbe.initialDelaySeconds | int | `10` |  |
-| rabbitmq.readinessProbe.periodSeconds | int | `30` |  |
-| rabbitmq.readinessProbe.successThreshold | int | `1` |  |
-| rabbitmq.readinessProbe.timeoutSeconds | int | `20` |  |
 | rabbitmq.replicaCount | int | `1` |  |
 | rabbitmq.service.amqpNodePort | int | `32000` |  |
 | rabbitmq.service.type | string | `"NodePort"` |  |

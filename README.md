@@ -204,7 +204,7 @@ cassandra:
 ```
 
 ### Define rabbitMQ ingress parameters
-Add `rabbitmq.ingress.hostName` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
+Add `rabbitmq.ingress.extraHosts.name` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
 
 ### Define th2 ingress parameters
 * Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
@@ -234,10 +234,11 @@ cassandra:
 
 rabbitmq:
 # set admin user credentials, it will be created during deployment
-  rabbitmqUsername: th2
-  rabbitmqPassword: rab-pass
-  # must be random string
-  rabbitmqErlangCookie: cookie
+  auth:
+    username: th2
+    password: rab-pass
+    # must be random string
+    erlangCookie: cookie
 
 # required if http(s) access to gitlab/github repositories is used
 #infraMgr:
