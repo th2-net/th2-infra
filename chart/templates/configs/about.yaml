@@ -9,5 +9,5 @@ metadata:
   labels:
     app: th2-info
 data:
-  about.yaml:
+  about.yaml: |
   {{- include "collect-info" . | trim | nindent 4 }}
