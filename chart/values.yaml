@@ -1,5 +1,12 @@
 ---
-# Default values for th2-core.
+# Default values for th2-infra.
+
+# -- Registries are attached as pull secrets to pods
+# registries:
+#   myregistry.com:
+#     username: user
+#     password: password
+registries: {}
 
 ingress:
   # -- Hostname to access ingress
