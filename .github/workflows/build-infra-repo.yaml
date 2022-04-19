@@ -6,6 +6,7 @@ on:
     paths:
       - "infra-repo/**"
       - "box-chart/**"
+  workflow_dispatch:
 
 jobs:
   release:
