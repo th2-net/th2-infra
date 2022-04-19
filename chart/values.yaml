@@ -79,7 +79,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.6.1-infra-1.8-2097234185
+    tag: 3.6.2-infra-1.8-2188526846
   config:
     chart:
       repository: http://infra-repo:8080
@@ -119,7 +119,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.7.11-infra-1.8.0-2159845007
+    tag: 1.7.12-infra-1.8.0-2185133265
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
