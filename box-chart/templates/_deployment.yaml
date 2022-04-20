@@ -44,9 +44,9 @@ spec:
         {{- include "envVariable" . }}
         {{- include "volumes" . }}
       imagePullSecrets:
-      - name: th2-solution
-      - name: th2-core
-      - name: th2-proprietary
+      {{- range $pullSecret := .component.imagePullSecrets }}
+      - name: {{ $pullSecret | replace "." "-" | replace ":" "-" }}
+      {{- end }}
       {{- if .component.extendedSettings.nodeSelector }}
       nodeSelector:
         {{ .component.extendedSettings.nodeSelector | toYaml }}

@@ -63,10 +63,21 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+Creating pull secrets list
+*/}}
+{{- define "imagePullSecretList" }}
+{{- range $registry, $values := . }}
+- {{ $registry | replace "." "-" | replace ":" "-" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Creating pull secrets
 */}}
-{{- define "imagePullSecret" -}}
-{{- printf `{"auths": {"%s": {"auth": "%s"}}}` .name (printf "%s:%s" .username .password | b64enc) | b64enc }}
+{{- define "imagePullSecret" }}
+{{- range $registry, $values := . }}
+- name: {{ $registry | replace "." "-" | replace ":" "-" }}
+{{- end }}
 {{- end }}
 
 {{/*
