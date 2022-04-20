@@ -26,10 +26,8 @@ data:
     schemaSecrets:
       rabbitMQ: rabbitmq
       cassandra: cassandra
-    secretNames:
-    {{- range $registry, $values := .Values.registries }}
-    - {{ $registry | replace "." "-" | replace ":" "-" }}
-    {{- end }}
+    imagePullSecrets:
+    {{- include "imagePullSecretList" .Values.registries | trim | nindent 4 -}}
     {{- with .Values.infraMgr.kubernetes.secrets }}
       {{- toYaml . | nindent 4 }}
     {{- end }}

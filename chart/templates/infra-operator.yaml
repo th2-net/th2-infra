@@ -24,7 +24,7 @@ spec:
         app: infra-operator
     spec:
       imagePullSecrets:
-      - name: th2-core
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
       serviceAccountName: infra-operator-service
       containers:
       - name: infra-operator
