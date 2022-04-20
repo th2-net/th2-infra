@@ -11,7 +11,7 @@ RUN ./download-plugins.sh
 FROM alpine/helm as helm-builder
 WORKDIR /app/repo
 COPY ./box-chart ./box-chart
-RUN helm package ./repo/box-chart/ --destination . && \
+RUN helm package ./box-chart/ --destination . && \
     helm repo index . && \
     cp index.yaml .
 
