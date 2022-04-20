@@ -2,25 +2,28 @@
 # Default values for th2-core.
 
 productRegistry:
-  secret: th2-core
   # -- Image repository and credentials to create pull secrets
+  secret: th2-core
   name: ""
   username: ""
   password: ""
 
 solutionRegistry:
   secret: th2-solution
+  # -- Registry host e.g. myregistry.com:6000
   registry: ""
   username: ""
   password: ""
 
 proprietaryRegistry:
   secret: th2-proprietary
+  # -- Registry host e.g. myregistry.com:6000
   registry: ""
   username: ""
   password: ""
 
 ingress:
+  # -- Hostname to access ingress
   host: &host ""
   annotations:
     default:
@@ -38,7 +41,7 @@ commonAnnotations: {}
 prometheus:
   ## -- Create prometheus-operator resources like ServiceMonitors and Alerts
   operator:
-    ## -- Set true if kube-prometheus-stack is used
+    # -- Set true if kube-prometheus-stack is used
     enabled: true
     serviceMonitor:
       # -- Namespace to install ServiceMonitor
@@ -47,7 +50,7 @@ prometheus:
         release: prometheus
         app: kube-prometheus-stack
 
-## -- Kubernetes cluster domain
+# -- Kubernetes cluster domain
 clusterDomain: cluster.local
 
 helmoperator:
