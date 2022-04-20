@@ -1,26 +1,14 @@
 ---
-# Default values for th2-core.
+# Default values for th2-infra.
 
-productRegistry:
-  secret: th2-core
-  # -- Image repository and credentials to create pull secrets
-  name: ""
-  username: ""
-  password: ""
-
-solutionRegistry:
-  secret: th2-solution
-  registry: ""
-  username: ""
-  password: ""
-
-proprietaryRegistry:
-  secret: th2-proprietary
-  registry: ""
-  username: ""
-  password: ""
+# -- Registries are attached as pull secrets to pods
+registries: {}
+#   myregistry.com:
+#     username: user
+#     password: password
 
 ingress:
+  # -- Hostname to access ingress
   host: &host ""
   annotations:
     default:
@@ -38,7 +26,7 @@ commonAnnotations: {}
 prometheus:
   ## -- Create prometheus-operator resources like ServiceMonitors and Alerts
   operator:
-    ## -- Set true if kube-prometheus-stack is used
+    # -- Set true if kube-prometheus-stack is used
     enabled: true
     serviceMonitor:
       # -- Namespace to install ServiceMonitor
@@ -47,7 +35,7 @@ prometheus:
         release: prometheus
         app: kube-prometheus-stack
 
-## -- Kubernetes cluster domain
+# -- Kubernetes cluster domain
 clusterDomain: cluster.local
 
 helmoperator:
@@ -79,7 +67,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.6.2-infra-1.8-2188526846
+    tag: 3.6.3-infra-1.8-2194615570
   config:
     chart:
       repository: http://infra-repo:8080

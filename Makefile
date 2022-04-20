@@ -2,7 +2,7 @@ all: docs
 
 .PHONY: docs
 docs:
-	docker run --rm -v "$$(pwd):/helm-docs" -u $$(id -u) jnorwood/helm-docs:v1.7.0 -i /helm-docs/ci/.helmdocsignore
+	docker run --rm -v "$$(pwd):/helm-docs" -u $$(id -u) jnorwood/helm-docs:v1.8.1 -i /helm-docs/ci/.helmdocsignore
 
 .PHONY: box-chart
 box-chart:
@@ -13,3 +13,7 @@ box-chart:
 infra-repo:
 	cp -r ./box-chart/ ./infra-repo
 	docker build -t infra-repo:latest --progress=plain -f ./infra-repo/Dockerfile ./infra-repo
+
+.PHONY: lint-infra-chart
+lint-infra-chart:
+	helm lint ./chart
