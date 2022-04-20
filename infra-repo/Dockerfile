@@ -12,8 +12,7 @@ FROM alpine/helm as helm-builder
 WORKDIR /app/repo/
 COPY ./box-chart ./box-chart
 RUN helm package ./box-chart/ --destination . && \
-    helm repo index . && \
-    cp index.yaml .
+    helm repo index .
 
 FROM alpine:3.13
 COPY --from=builder /app/infra-repo /app/infra-repo
