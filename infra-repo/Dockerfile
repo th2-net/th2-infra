@@ -9,11 +9,11 @@ COPY grafana-plugins.txt download-plugins.sh .
 RUN ./download-plugins.sh
 
 FROM alpine/helm as helm-builder
-WORKDIR /app/
+WORKDIR /app/repo
 COPY ./box-chart ./box-chart
-RUN helm package ./box-chart/ --destination ./repo && \
-    helm repo index ./repo && \
-    cp index.yaml ./repo
+RUN helm package ./box-chart/ --destination . && \
+    helm repo index . && \
+    cp index.yaml .
 
 FROM alpine:3.13
 COPY --from=builder /app/infra-repo /app/infra-repo
