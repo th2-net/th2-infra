@@ -12,6 +12,7 @@ on:
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'release-v')
     steps:
       - uses: actions/checkout@v3
 
