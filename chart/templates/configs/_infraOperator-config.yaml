@@ -26,7 +26,7 @@ data:
     schemaSecrets:
       rabbitMQ: rabbitmq
       cassandra: cassandra
-    secretNames:
+    imagePullSecrets:
     {{- include "imagePullSecretList" .Values.registries | trim | nindent 4 -}}
     {{- with .Values.infraMgr.kubernetes.secrets }}
       {{- toYaml . | nindent 4 }}
