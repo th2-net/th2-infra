@@ -45,7 +45,7 @@ spec:
         {{- include "volumes" . }}
       imagePullSecrets:
       {{- range $pullSecret := .component.imagePullSecrets }}
-      - name: {{ $pullSecret | replace "." "-" | replace ":" "-" | nindent 6 }}
+      - name: {{ $pullSecret | replace "." "-" | replace ":" "-" }}
       {{- end }}
       {{- if .component.extendedSettings.nodeSelector }}
       nodeSelector:
