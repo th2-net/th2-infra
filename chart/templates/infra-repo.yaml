@@ -41,6 +41,5 @@ spec:
             initialDelaySeconds: 40
             periodSeconds: 20
       imagePullSecrets:
-        - name: th2-core
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
   revisionHistoryLimit: 2
----
