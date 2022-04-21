@@ -141,12 +141,16 @@ spec:
                             type: string
                           memory:
                             type: string
+                          ephemeral-storage:
+                            type: string
                         type: object
                       requests:
                         properties:
                           cpu:
                             type: string
                           memory:
+                            type: string
+                          ephemeral-storage:
                             type: string
                         type: object
                     type: object

@@ -7,14 +7,17 @@ Generating resources section for k8
           limits:
             memory: 200Mi
             cpu: 200m
+            ephemeral-storage: "2Gi"
           requests:
             memory: 100Mi
             cpu: 50m
+            ephemeral-storage: "1Gi"
         {{- else }}
           limits:
           {{- if not .component.extendedSettings.resources.limits }}
             memory: 200Mi
             cpu: 200m
+            ephemeral-storage: "2Gi"
           {{- else }}
             {{- if not .component.extendedSettings.resources.limits.memory }}
             memory: 200Mi
@@ -26,11 +29,17 @@ Generating resources section for k8
             {{- else }}
             cpu: {{ .component.extendedSettings.resources.limits.cpu }}
             {{- end }}
+            {{- if not .component.extendedSettings.resources.limits.ephemeral-storage }}
+            ephemeral-storage: "2Gi"
+            {{- else }}
+            ephemeral-storage: {{ .component.extendedSettings.resources.limits.ephemeral-storage }}
+            {{- end }}
           {{- end }}
           requests:
           {{- if not .component.extendedSettings.resources.requests }}
             memory: 100Mi
             cpu: 20m
+            ephemeral-storage: "1Gi"
           {{- else }}
             {{- if not .component.extendedSettings.resources.requests.memory }}
             memory: 100Mi
@@ -41,6 +50,11 @@ Generating resources section for k8
             cpu: 20m
             {{- else }}
             cpu: {{ .component.extendedSettings.resources.requests.cpu }}
+            {{- end }}
+            {{- if not .component.extendedSettings.resources.requests.ephemeral-storage }}
+            ephemeral-storage: "1Gi"
+            {{- else }}
+            ephemeral-storage: {{ .component.extendedSettings.resources.requests.ephemeral-storage }}
             {{- end }}
           {{- end }}
           {{- end }}
