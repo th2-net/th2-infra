@@ -1,0 +1,23 @@
+{{/*
+Generating service for prometheus stats from pods
+*/}}
+{{- define "prometheus-service" }}
+
+{{- if .component.prometheus }}{{- if .component.prometheus.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .component.name }}
+  {{- if .annotations }}
+  annotations:
+    th2.exactpro.com/antecedent: {{ .annotations }}
+  {{- end }}
+  labels:
+    monitoring-pod: "true"
+spec:
+  selector:
+    app: {{ .component.name }}
+  ports:
+    {{- include "svc-prometheus-port" . }}
+{{- end }}{{- end }}
+{{- end }}

@@ -1,0 +1,25 @@
+---
+{{/*
+Generating configMap for k8
+*/}}
+{{- include "configMap" .Values }}
+---
+{{/*
+Generating deployment for k8
+*/}}
+{{- if not .Values.component.extendedSettings.externalBox }}
+
+{{- include "deployment" .Values }}
+{{- include "service" . }}
+{{- include "ingress" . }}
+
+{{- else }}
+
+{{- if not .Values.component.extendedSettings.externalBox.enabled }}
+
+{{- include "deployment" .Values }}
+{{- include "service" . }}
+{{- include "ingress" . }}
+
+{{- end }}
+{{- end }}
