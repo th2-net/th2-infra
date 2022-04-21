@@ -77,7 +77,7 @@ th2 service Helm chart
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"1.6.3-infra-1.7.3-2148590693"` |  |
+| infraMgr.image.tag | string | `"1.6.3"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
