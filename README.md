@@ -204,7 +204,7 @@ cassandra:
 ```
 
 ### Define rabbitMQ ingress parameters
-Add `rabbitmq.ingress.hostName` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
+Add `rabbitmq.ingress.extraHosts.name` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
 
 ### Define th2 ingress parameters
 * Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
@@ -218,22 +218,13 @@ ingress:
 Create secrets.yaml in `./` folder (*do not commit into git*). Example:
 ```
 # reguired only for images from a private registry, will be attached as the first PullSecret to deployments
-#productRegistry:
-#  username: user
-#  password: password
-#  name: private-registry-1.example.com # core components registry
-
-# reguired only for images from a private registry, will be attached as the second PullSecret to deployments
-#solutionRegistry:
-#  username: user
-#  password: password
-#  name: private-registry-2.example.com # components registry
-
-# reguired only for images from a private registry, will be attached as the third PullSecret to deployments
-#proprietaryRegistry:
-#  username: user
-#  password: password
-#  name: private-registry-3.example.com # components registry
+#registries:
+#  registry1.name.com:8080:
+#    username: <username>
+#    password: <password>
+#  registry2.name.com:8080:
+#    username: <username>
+#    password: <password>
 
 cassandra:
 # set credentials for existing Cassandra cluster
@@ -243,10 +234,11 @@ cassandra:
 
 rabbitmq:
 # set admin user credentials, it will be created during deployment
-  rabbitmqUsername: th2
-  rabbitmqPassword: rab-pass
-  # must be random string
-  rabbitmqErlangCookie: cookie
+  auth:
+    username: th2
+    password: rab-pass
+    # must be random string
+    erlangCookie: cookie
 
 # required if http(s) access to gitlab/github repositories is used
 #infraMgr:

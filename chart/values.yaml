@@ -1,26 +1,14 @@
 ---
-# Default values for th2-core.
+# Default values for th2-infra.
 
-productRegistry:
-  secret: th2-core
-  # -- Image repository and credentials to create pull secrets
-  name: ""
-  username: ""
-  password: ""
-
-solutionRegistry:
-  secret: th2-solution
-  registry: ""
-  username: ""
-  password: ""
-
-proprietaryRegistry:
-  secret: th2-proprietary
-  registry: ""
-  username: ""
-  password: ""
+# -- Registries are attached as pull secrets to pods
+registries: {}
+#   myregistry.com:
+#     username: user
+#     password: password
 
 ingress:
+  # -- Hostname to access ingress
   host: &host ""
   annotations:
     default:
@@ -38,7 +26,7 @@ commonAnnotations: {}
 prometheus:
   ## -- Create prometheus-operator resources like ServiceMonitors and Alerts
   operator:
-    ## -- Set true if kube-prometheus-stack is used
+    # -- Set true if kube-prometheus-stack is used
     enabled: true
     serviceMonitor:
       # -- Namespace to install ServiceMonitor
@@ -47,12 +35,8 @@ prometheus:
         release: prometheus
         app: kube-prometheus-stack
 
-## -- Kubernetes cluster domain
+# -- Kubernetes cluster domain
 clusterDomain: cluster.local
-
-#Deprecated setting.It will be removed next release. Now host is taken from k8Url in infra-operator settings
-#externalRabbitMQHost:
-#  host: localhost
 
 helmoperator:
   internal: true
@@ -75,7 +59,7 @@ infraEditor:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 0.7.2
+    tag: pre-release-1.0.0
 
 infraOperator:
   prometheusConfiguration:
@@ -83,17 +67,13 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.5.3-grpc-filters-1979795453
+    tag: 3.6.3-infra-1.8-2194615570
   config:
     chart:
-      # external mirror
-      # repository: https://th2-net.github.io
-      #       repository: http://infra-repo:8080
-      #       version: 0.7.2
-      #       name: infra-operator-tpl
-      git: https://github.com/th2-net/infra-operator-tpl.git
-      ref: release-v0.8.0
-      path: ./
+      repository: http://infra-repo:8080
+      # -- Do not change the version
+      version: 1.0.0
+      name: box-chart
     namespacePrefixes:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
@@ -127,7 +107,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.7.7-infra-1.8.0-2057987187
+    tag: 1.7.11-infra-1.8.0-2159845007
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
@@ -156,10 +136,7 @@ infraMgr:
       cassandra: cradle
       cassandra-ext: cradle-external
       prometheus: prometheus-app-config
-    secrets:
-      - th2-core
-      - th2-solution
-      - th2-proprietary
+    secrets: []
   livenessProbe:
     initialDelaySeconds: 30
     timeoutSeconds: 5
@@ -198,67 +175,43 @@ rabbitmq:
   # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
   # otherwise service will be deployed as a chart dependency
   internal: true
-  rabbitmqMemoryHighWatermark: 1024MB
+  memoryHighWatermark:
+    enable: true
+    type: absolute
+    value: 1024MB
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
-  rabbitmqVhost: th2
-  rabbitmqUsername: th2
-  # -- Will be generated if empty
-  rabbitmqPassword: ""
-  rabbitmqErlangCookie: ""
+  extraConfiguration: |-
+    default_vhost = th2
+    disk_free_limit.absolute = 10GB
+  auth:
+    username: th2
+    password: ""
+    erlangCookie: ""
   rabbitmqExchange: th2-exchange
   replicaCount: 1
-  podAntiAffinity: hard
-  persistentVolume:
+  podAntiAffinityPreset: hard
+  persistence:
     enabled: true
     storageClass: local-storage
     size: 10Gi
-  livenessProbe:
-    exec:
-      command:
-        - /bin/bash
-        - -ec
-        - rabbitmq-diagnostics -q check_running
-    initialDelaySeconds: 120
-    timeoutSeconds: 20
-    periodSeconds: 30
-    failureThreshold: 6
-    successThreshold: 1
-  readinessProbe:
-    exec:
-      command:
-        - /bin/bash
-        - -ec
-        - rabbitmq-diagnostics -q check_running
-    initialDelaySeconds: 10
-    timeoutSeconds: 20
-    periodSeconds: 30
-    failureThreshold: 3
-    successThreshold: 1
   service:
     type: "NodePort"
     amqpNodePort: 32000
-  rabbitmqPrometheusPlugin:
+  metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus
+        app: kube-prometheus-stack
+      path: /metrics
   prometheus:
-    exporter:
-      enabled: false
     operator:
       enabled: true
-      alerts:
-        enabled: true
-        selector: false
-      serviceMonitor:
-        selector:
-          release: prometheus
-          app: kube-prometheus-stack
   ingress:
     enabled: true
-    hostName: *host
-    # -- RabbitmMQ management UI ingess path
-    # @default -- `"/rabbitmq($\|/.*)"`
-    path: /rabbitmq($|/.*)
     annotations:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/rewrite-target: $1
@@ -268,8 +221,11 @@ rabbitmq:
           proxy_pass http://upstream_balancer$1;
           break;
         }
-  extraConfig: |-
-    disk_free_limit.absolute = 10GB
+    extraHosts:
+      - name: *host
+        # -- RabbitmMQ management UI ingess path
+        # @default -- `"/rabbitmq($\|/.*)"`
+        path: /rabbitmq($|/.*)
 
 cassandra:
   cradle:

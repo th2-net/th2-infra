@@ -69,6 +69,7 @@ data:
       ingress: {{ .Values.infraMgr.kubernetes.ingress }}
 
       secretNames:
+      {{- include "imagePullSecretList" .Values.registries | trim | nindent 6 }}
       {{- with .Values.infraMgr.kubernetes.secrets }}
         {{- toYaml . | nindent 6 }}
       {{- end }}

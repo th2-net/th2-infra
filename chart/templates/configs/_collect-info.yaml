@@ -2,30 +2,31 @@
 Generating configMap for k8 with th2 installed configuration overview
 */}}
 {{- define "collect-info" }}
-  infraVersion: {{ .Chart.Name }}-{{ .Chart.Version }}
-  host: {{ .Values.ingress.host | default "unset, will be availible on nodes IP" }}
-  productRegistry: {{ if .Values.productRegistry.name }}{{ .Values.productRegistry.name }}{{ else }}{{ "unset" }}{{ end }}
-  solutionRegistry: {{ if .Values.solutionRegistry.name }}{{ .Values.solutionRegistry.name }}{{ else }}{{ "unset" }}{{ end }}
-  proprietaryRegistry: {{ if .Values.proprietaryRegistry.name }}{{ .Values.proprietaryRegistry.name }}{{ else }}{{ "unset" }}{{ end }}
-  infraEditor: {{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}
-  infraRepo: {{ .Values.infraRepo.image.repository }}:{{ .Values.infraRepo.image.tag }}
-  rabbitmqEntrypoint: {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
+infraVersion: {{ .Chart.Name }}-{{ .Chart.Version }}
+host: {{ .Values.ingress.host | default "unset, will be availible on nodes IP" }}
+registries:
+{{- if .Values.registries }}
+{{- include "imagePullSecretList" .Values.registries | trim | nindent 2 }}
+{{- end }}
+infraEditor: {{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}
+infraRepo: {{ .Values.infraRepo.image.repository }}:{{ .Values.infraRepo.image.tag }}
+rabbitmqEntrypoint: {{ .Values.infraOperator.config.k8sUrl }}:{{ .Values.rabbitmq.service.amqpNodePort }}
 
-  infraOperator: |
-    version: {{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}
-    git:
-      repository: {{ .Values.infraOperator.config.chart.repository }}
-      chart: {{ .Values.infraOperator.config.chart.version }}
-    k8sUrl: {{ .Values.infraOperator.config.k8sUrl }}
-    namespace prefixes: {{ .Values.infraOperator.config.namespacePrefixes }}
+infraOperator:
+  version: {{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}
+  git:
+    repository: {{ .Values.infraOperator.config.chart.repository }}
+    chart: {{ .Values.infraOperator.config.chart.version }}
+  k8sUrl: {{ .Values.infraOperator.config.k8sUrl }}
+  namespace prefixes: {{ .Values.infraOperator.config.namespacePrefixes }}
 
-  infraMgr: |
-    version: {{ .Values.infraMgr.image.repository }}:{{ .Values.infraMgr.image.tag }}
-    git:
-      repository: {{ .Values.infraMgr.git.repository }}
-    prefixes:
-      cassandra keyspace: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
-      rabbitMQ vHost: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
-      rabbitMQ username: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
-      kubernetes namespace: {{ .Values.infraMgr.kubernetes.namespacePrefix }}
-{{ end }}
+infraMgr:
+  version: {{ .Values.infraMgr.image.repository }}:{{ .Values.infraMgr.image.tag }}
+  git:
+    repository: {{ .Values.infraMgr.git.repository }}
+  prefixes:
+    cassandra keyspace: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
+    rabbitMQ vHost: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
+    rabbitMQ username: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
+    kubernetes namespace: {{ .Values.infraMgr.kubernetes.namespacePrefix }}
+{{- end }}
