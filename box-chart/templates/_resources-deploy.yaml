@@ -29,10 +29,10 @@ Generating resources section for k8
             {{- else }}
             cpu: {{ .component.extendedSettings.resources.limits.cpu }}
             {{- end }}
-            {{- if not .component.extendedSettings.resources.limits.ephemeral-storage }}
+            {{- if not .component.extendedSettings.resources.limits.ephemeralStorage }}
             ephemeral-storage: "2Gi"
             {{- else }}
-            ephemeral-storage: {{ .component.extendedSettings.resources.limits.ephemeral-storage }}
+            ephemeral-storage: {{ .component.extendedSettings.resources.limits.ephemeralStorage }}
             {{- end }}
           {{- end }}
           requests:
@@ -51,10 +51,10 @@ Generating resources section for k8
             {{- else }}
             cpu: {{ .component.extendedSettings.resources.requests.cpu }}
             {{- end }}
-            {{- if not .component.extendedSettings.resources.requests.ephemeral-storage }}
+            {{- if not .component.extendedSettings.resources.requests.ephemeralStorage }}
             ephemeral-storage: "1Gi"
             {{- else }}
-            ephemeral-storage: {{ .component.extendedSettings.resources.requests.ephemeral-storage }}
+            ephemeral-storage: {{ .component.extendedSettings.resources.requests.ephemeralStorage }}
             {{- end }}
           {{- end }}
           {{- end }}
