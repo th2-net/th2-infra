@@ -108,9 +108,7 @@ jobs:
           do
             kubectl -n $SCHEMA_NAMESPACE logs deployment/$D --timestamps > $D.log || true
           done
-
-          echo -e "\n\033[0;31m[GRAFANA AGENT LOGS CONFIG MAP]\033[0m" && kubectl -n $INFRA_NAMESPACE get cm grafana-agent-logs -o yaml || true
-
+          
       - name: Uploading logs
         if: always()
         uses: actions/upload-artifact@v2

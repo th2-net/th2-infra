@@ -159,4 +159,4 @@ data:
         positions_directory: /tmp/positions
     server:
         http_listen_port: 8080
-        log_level: info
+        log_level: debug
