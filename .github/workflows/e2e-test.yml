@@ -100,7 +100,8 @@ jobs:
           kubectl -n $INFRA_NAMESPACE logs rabbitmq-0 > rabbitmq.log || true
           kubectl -n $INFRA_NAMESPACE logs cassandra-0 > cassandra.log || true
           kubectl -n $INFRA_NAMESPACE exec cassandra-0 -- cat /opt/bitnami/cassandra/logs/cassandra.log > cassandra-container.log || true
-
+          kubectl -n $INFRA_NAMESPACE logs daemonsets/grafana-agent-logs --all-containers --timestamps > grafana-agent-logs.log || true
+          
           for D in $(kubectl -n $SCHEMA_NAMESPACE get deployments --no-headers -o custom-columns=":metadata.name")
           do
             kubectl -n $SCHEMA_NAMESPACE logs deployment/$D --timestamps > $D.log || true
