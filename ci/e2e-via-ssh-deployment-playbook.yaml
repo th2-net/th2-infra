@@ -54,8 +54,8 @@
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/grafana-agent.yaml"
-        namespace: "{{ monitoring_namespace }}"
-
+        namespace: "{{ infra_namespace }}"
+        
     - name: Generate an OpenSSH private key
       community.crypto.openssl_privatekey:
         path: "{{ playbook_dir }}/id_ssh_rsa"
