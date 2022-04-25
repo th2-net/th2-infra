@@ -28,7 +28,7 @@ dependencies:
   condition: rabbitmq.internal
   repository: https://charts.bitnami.com/bitnami
   name: rabbitmq
-  version: 8.15.3
+  version: 8.24.13
 - alias: cassandra
   condition: cassandra.internal
   repository: https://charts.bitnami.com/bitnami
