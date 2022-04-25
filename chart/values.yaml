@@ -176,9 +176,9 @@ rabbitmq:
   # otherwise service will be deployed as a chart dependency
   internal: true
   memoryHighWatermark:
-    enable: true
+    enabled: true
     type: absolute
-    value: 1024MB
+    value: 2048MB
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
