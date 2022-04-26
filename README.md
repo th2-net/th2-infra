@@ -278,13 +278,11 @@ Wait for all pods in service namespace are up and running, once completed procee
 
 ### Upgrade th2-infra
 
-* Delete namespaces managed by th2-infra.
-  
-Uninstall th2-infra release
+* Purge th2 namespaces and uninstall th2-infra Helm release
 ```
 $ helm -n service uninstall th2-infra
 ```
-and remove th2 namespaces
+remove th2 namespaces
 ```
 $ kubectel delete <namespace-1> <namespace-2> <namespace-..>
 ```
