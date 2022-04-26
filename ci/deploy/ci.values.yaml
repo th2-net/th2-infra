@@ -20,6 +20,7 @@ cassandra:
     user: cassandra
     password: cassandra
   cluster:
+    numTokens: 16
     datacenter: datacenter1
   jvm:
     maxHeapSize: 1G

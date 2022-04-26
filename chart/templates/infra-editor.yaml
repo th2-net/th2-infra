@@ -53,5 +53,5 @@ spec:
         configMap:
           name: logging-config
       imagePullSecrets:
-      - name: th2-core
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
   revisionHistoryLimit: 2
