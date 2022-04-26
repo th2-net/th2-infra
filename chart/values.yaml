@@ -1,26 +1,11 @@
 ---
-# Default values for th2-core.
+# Default values for th2-infra.
 
-productRegistry:
-  # -- Image repository and credentials to create pull secrets
-  secret: th2-core
-  name: ""
-  username: ""
-  password: ""
-
-solutionRegistry:
-  secret: th2-solution
-  # -- Registry host e.g. myregistry.com:6000
-  registry: ""
-  username: ""
-  password: ""
-
-proprietaryRegistry:
-  secret: th2-proprietary
-  # -- Registry host e.g. myregistry.com:6000
-  registry: ""
-  username: ""
-  password: ""
+# -- Registries are attached as pull secrets to pods
+registries: {}
+#   myregistry.com:
+#     username: user
+#     password: password
 
 ingress:
   # -- Hostname to access ingress
@@ -82,7 +67,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.6.1-infra-1.8-2097234185
+    tag: 3.6.3-infra-1.8-2194615570
   config:
     chart:
       repository: http://infra-repo:8080
@@ -190,10 +175,13 @@ rabbitmq:
   # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
   # otherwise service will be deployed as a chart dependency
   internal: true
+  resources:
+    limits:
+      memory: 3000Mi
   memoryHighWatermark:
-    enable: true
+    enabled: true
     type: absolute
-    value: 1024MB
+    value: 2500MB
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
