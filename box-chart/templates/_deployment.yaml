@@ -11,11 +11,7 @@ metadata:
   annotations:
   {{- include "common-annotations" . | nindent 4  }}
 spec:
-  {{- if .component.extendedSettings.replicas }}      
   replicas: {{ .component.extendedSettings.replicas }}
-  {{- else }}
-  replicas: 1
-  {{- end }}
   selector:
     matchLabels:
       app: {{ .component.name }}
@@ -39,7 +35,8 @@ spec:
         {{- include "probes-deploy" . }}
         name: {{ .component.name }}
         {{- include "prometheus-deploy" . }}
-        {{- include "resources" . }}
+        resources:
+          {{- .component.extendedSettings.resources | toYaml | nindent 10 }}
         env:
         {{- include "envVariable" . }}
         {{- include "volumes" . }}
