@@ -175,10 +175,13 @@ rabbitmq:
   # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
   # otherwise service will be deployed as a chart dependency
   internal: true
+  resources:
+    limits:
+      memory: 3000Mi
   memoryHighWatermark:
-    enable: true
+    enabled: true
     type: absolute
-    value: 1024MB
+    value: 2500MB
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
