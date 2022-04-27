@@ -241,7 +241,7 @@ If you have any restrictions to get access to any external repositories from the
 *  Create PersistentVolume "repos-volume", example is presented in the ./example-values/persistence/pv.yaml;
 *  Create configmap "keys-repo" from public part of key from point "Access for infra-mgr th2 schema git repository":
 ```
-$ kubectl -n service create configmap keys-repo -–from-file=git_keys=./infra-mgr-rsa.pub
+$ kubectl -n service create configmap keys-repo --from-file=authorized_keys=./infra-mgr-rsa.pub
 ```
 *  Define configs for infra-git in services.values.yaml. 
 *  set `infraMgr.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
@@ -278,12 +278,15 @@ Wait for all pods in service namespace are up and running, once completed procee
 
 ### Upgrade th2-infra
 
-* Delete namespaces managed by th2-infra, there are two ways. Manual:
+* Purge th2 namespaces and uninstall th2-infra Helm release
+```
+$ helm -n service uninstall th2-infra
+```
+remove th2 namespaces
 ```
 $ kubectel delete <namespace-1> <namespace-2> <namespace-..>
 ```
-or set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2-infra. Wait until it is removed.
-* Uninstall th2-infra release:
+or set "deny" in "infra-mgr-config.yml" file for all namespaces managed by th2-infra. Wait until it is removed, once completed uninstall th2-infra release
 ```
 $ helm -n service uninstall th2-infra
 ```
