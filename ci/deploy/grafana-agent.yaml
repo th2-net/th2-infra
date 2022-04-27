@@ -60,7 +60,7 @@ spec:
         command:
         - /bin/agent
         env:
-        - name: localhost
+        - name: HOSTNAME
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
