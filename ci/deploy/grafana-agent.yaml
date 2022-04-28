@@ -125,7 +125,7 @@ data:
                   - role: pod
                 pipeline_stages:
                   - cri: {}
-                static_config:
+                static_configs:
                   - labels:
                     - work_flow: {{ lookup('env', 'pull_request') }}/{{ lookup('env', 'commit_hash') }}
                 relabel_configs:
