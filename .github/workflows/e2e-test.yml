@@ -27,6 +27,8 @@ env:
   REPOSITORY_REF_NAME: "${{ github.event.pull_request.head.ref }}"
   LOKI_USERNAME: "${{ secrets.LOKI_USERNAME }}"
   LOKI_PASSWORD: "${{ secrets.LOKI_PASSWORD }}"
+  pull_request: "${{ github.event.pull_request.number }}"
+  commit_hash: "${{ github.event.pull_request.head.sha }}"
 
 jobs:
   deploy-and-test:
