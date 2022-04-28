@@ -126,7 +126,8 @@ data:
                 pipeline_stages:
                   - cri: {}
                 static_configs:
-                  - labels:
+                  - targets: [localhost]
+                    labels:
                       work_flow: "{{ lookup('env', 'pull_request') }}/{{ lookup('env', 'commit_hash') }}"
                 relabel_configs:
                   - source_labels:
