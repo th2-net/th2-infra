@@ -89,9 +89,10 @@
     ### Add ingress rules to Prometheus Operator
     * ingress rules should be added in prometheusOperator.
     ```
-      prometheusOperator:
+      prometheus:
         prometheusSpec:
           externalUrl: http://localhost:9090/prometheus
+        ingress:
           hosts: []
     ```
   </details>
