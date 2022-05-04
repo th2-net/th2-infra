@@ -72,6 +72,7 @@
           extraHosts:
             - name: <hostname>
     ```
+    _note: Persistence data from previous rabbitmq should be deleted before instalation
   </details>
 * Prometheus and Alert Manager should be added in Prometheus-stack.
   <details>
