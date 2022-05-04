@@ -62,7 +62,7 @@
   <details>
     <summary>Updating rabbitmq values</summary>
 
-    ### Rabbitmq should be adjusted to bitnamo chart
+    ### Rabbitmq should be adjusted to bitnami chart
     * Rabbitmq values should be changed in service.values.
     ```
       rabbitmq:
