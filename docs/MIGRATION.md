@@ -72,6 +72,16 @@
           extraHosts:
             - name: <hostname>
     ```
+    ### Authentication format should be updated
+    * rabbitmqUsername and rabbitmqPassword should be replaced in secrets.yaml
+    ```
+      rabbitmq:
+        auth:
+          username: th2
+          password: rab-pass
+          # must be random string
+          erlangCookie: cookie
+    ```
     _Note: Persistence data from previous rabbitmq should be deleted before instalation_
   </details>
 * Prometheus and Alert Manager should be added in Prometheus-stack.
