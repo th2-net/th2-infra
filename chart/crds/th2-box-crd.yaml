@@ -127,7 +127,7 @@ spec:
                     type: object
                   hostAliases:
                     type: array
-                    properties:
+                    items:
                       ip:
                         type: string
                       hostnames:
@@ -140,6 +140,9 @@ spec:
                     #   hostnames:
                     #   - "foo.remote"
                     #   - "bar.remote"
+                    requited:
+                    - ip
+                    - hostname
                   hostNetwork:
                     enum:
                     - "false"
