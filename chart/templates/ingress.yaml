@@ -26,7 +26,7 @@ spec:
       - backend:
           serviceName: infra-editor-v2
           servicePort: 8080
-        path: /editor($|/.*)
+        path: /editor-2($|/.*)
       {{- end }}
       - backend:
           serviceName: infra-mgr
