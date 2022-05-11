@@ -132,14 +132,6 @@ spec:
                         type: string
                       hostnames:
                         type: array
-                    # - ip: "127.0.0.1"
-                    #   hostnames:
-                    #   - "foo.local"
-                    #   - "bar.local"
-                    # - ip: "10.1.2.3"
-                    #   hostnames:
-                    #   - "foo.remote"
-                    #   - "bar.remote"
                     requited:
                     - ip
                     - hostname
