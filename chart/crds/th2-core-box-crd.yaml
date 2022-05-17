@@ -116,6 +116,20 @@ spec:
                           type: object
                         type: array
                     type: object
+                  hostAliases:
+                    type: array
+                    items:
+                      properties:
+                        ip:
+                          type: string
+                        hostnames:
+                          items:
+                            type: string
+                          type: array
+                      required:
+                        - ip
+                        - hostname
+                      type: object
                   hostNetwork:
                     enum:
                     - "false"
