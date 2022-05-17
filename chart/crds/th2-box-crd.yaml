@@ -42,15 +42,6 @@ spec:
             type: object
           spec:
             description: Specification of desired box
-            hostAliases:
-            - ip: "127.0.0.1"
-              hostnames:
-              - "foo.local"
-              - "bar.local"
-            - ip: "10.1.2.3"
-              hostnames:
-              - "foo.remote"
-              - "bar.remote"
             properties:
               custom-config:
                 description: this is custom configuration
@@ -128,13 +119,17 @@ spec:
                   hostAliases:
                     type: array
                     items:
-                      ip:
-                        type: string
-                      hostnames:
-                        type: array
-                    requited:
-                    - ip
-                    - hostname
+                      properties:
+                        ip:
+                          type: string
+                        hostnames:
+                          items:
+                            type: string
+                          type: array
+                      required:
+                        - ip
+                        - hostname
+                      type: object
                   hostNetwork:
                     enum:
                     - "false"
