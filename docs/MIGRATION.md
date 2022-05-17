@@ -66,7 +66,7 @@
     * Rabbitmq values should be changed in service.values.
     ```
       rabbitmq:
-        persistance:
+        persistence:
           storageClassName: local-storage
         ingress:
           extraHosts:
