@@ -7,9 +7,9 @@ dependencies:
   version: 5.6.7
 - name: helm-operator
   repository: https://charts.fluxcd.io
-  version: 1.2.0
+  version: 1.4.2
 - name: kubernetes-dashboard
   repository: https://kubernetes.github.io/dashboard/
   version: 5.0.4
-digest: sha256:f7efdf3d24737d8be21ff02e82f67275243655c69bdaca9372a275f0375d00c0
-generated: "2022-04-25T17:27:45.532115992+04:00"
+digest: sha256:71384cde3640ddead9b98bf9541571e5bd0091248e32c5f67c11a60d266d581e
+generated: "2022-05-18T21:25:23.751533713+04:00"
