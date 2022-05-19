@@ -42,7 +42,7 @@ spec:
             cpu: 100m
           requests:
             memory: 50Mi
-            cpu: 100m
+            cpu: 50m
         envFrom:
         volumeMounts:
         - name: logging-volume
