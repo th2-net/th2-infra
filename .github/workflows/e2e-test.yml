@@ -111,8 +111,9 @@ jobs:
             kubectl -n $SCHEMA_NAMESPACE logs deployment/$D --timestamps > $D.log || true
           done
 
-          echo -e "\n\033[0;31m[Grafana link]\033[0m: https://th2.grafana.net/explore?orgId=1&left=%7B%22datasource%22:%22grafanacloud-th2-logs%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Brun%3D%5C%22${{pull_request}}:${{commit_hash}}%5C%22%7D%22%7D%5D,%22range%22:%7B%22from%22:%22now-15m%22,%22to%22:%22now%22%7D%7D "
-          
+          echo -e '\n\e]8;;https://th2.grafana.net/explore?orgId=1&left=%7B%22datasource%22:%22grafanacloud-th2-logs%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Brun%3D%5C%22${{pull_request}}:${{commit_hash}}%5C%22%7D%22%7D%5D,%22range%22:%7B%22from%22:%22now-15m%22,%22to%22:%22now%22%7D%7D\a\033[0;31m[Grafana link]\033[0m'
+          echo -e '\n'
+
       - name: Uploading logs
         if: always()
         uses: actions/upload-artifact@v2
