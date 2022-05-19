@@ -130,6 +130,7 @@ data:
                   - targets: [chart-testing-control-plane]
                     labels:
                       run: "{{ lookup('env', 'pull_request') }}:{{ lookup('env', 'commit_hash') }}"
+                      __path__: /var/log/pods/**/*.log
                 relabel_configs:
                   - source_labels:
                       - __meta_kubernetes_pod_node_name
