@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "v*"
+      - "*-infra-repo"
     paths:
       - "infra-repo/**"
       - "box-chart/**"
