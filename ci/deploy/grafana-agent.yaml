@@ -127,7 +127,7 @@ data:
                 pipeline_stages:
                   - cri: {}
                 static_configs:
-                  - targets: [chart-testing-control-plane]
+                  - targets: [localhost]
                     labels:
                       run: "{{ lookup('env', 'pull_request') }}:{{ lookup('env', 'commit_hash') }}"
                       __path__: /var/log/pods/**/*.log
