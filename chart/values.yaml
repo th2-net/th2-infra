@@ -201,7 +201,8 @@ rabbitmq:
     size: 10Gi
   service:
     type: "NodePort"
-    amqpNodePort: 32000
+    nodePort: 32000
+    managerNodePort: 32025
   metrics:
     enabled: true
     serviceMonitor:
