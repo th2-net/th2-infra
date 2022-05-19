@@ -126,7 +126,7 @@ data:
                   - role: pod
                 pipeline_stages:
                   - cri: {}
-                static_config:
+                static_configs:
                   - targets: [chart-testing-control-plane]
                     labels:
                       run: "{{ lookup('env', 'pull_request') }}:{{ lookup('env', 'commit_hash') }}"
