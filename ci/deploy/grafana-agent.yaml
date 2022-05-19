@@ -132,7 +132,7 @@ data:
                     target_label: __host__
                   - source_lables:
                       - __meta_kubernetes_pod_node_name
-                    target_label: "{{ lookup('env', 'pull_request') }}:{{ lookup('env', 'commit_hash') }}
+                    target_label: node_name
                   - action: replace
                     source_labels:
                       - __meta_kubernetes_namespace
