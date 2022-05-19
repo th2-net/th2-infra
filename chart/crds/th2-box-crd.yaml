@@ -117,12 +117,15 @@ spec:
                         type: array
                     type: object
                   hostAliases:
+                    description: HostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. This is only valid for non-hostNetwork pods.
                     type: array
                     items:
                       properties:
                         ip:
+                          description: IP address of the host file entry.
                           type: string
                         hostnames:
+                          description: Hostnames for the above IP address.
                           items:
                             type: string
                           type: array
