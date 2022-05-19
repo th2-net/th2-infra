@@ -1,13 +1,13 @@
----
+{{- if .Values.infraEditorV2.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: infra-editor
+  name: infra-editor-v2
   annotations:
   {{- include "common-annotations" . | nindent 4  }}
 spec:
   selector:
-    app: infra-editor
+    app: infra-editor-v2
   type: ClusterIP
   ports:
   - protocol: TCP
@@ -18,24 +18,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: infra-editor
+    app: infra-editor-v2
     {{ include "th2-labels" . }}
-  name: infra-editor
+  name: infra-editor-v2
   annotations:
     {{- include "common-annotations" . | nindent 4  }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: infra-editor
+      app: infra-editor-v2
   template:
     metadata:
       labels:
-        app: infra-editor
+        app: infra-editor-v2
     spec:
       containers:
-      - image: "{{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}"
-        name: infra-editor
+      - image: "{{ .Values.infraEditorV2.image.repository }}:{{ .Values.infraEditorV2.image.tag }}"
+        name: infra-editor-v2
         resources:
           limits:
             memory: 100Mi
@@ -55,4 +55,4 @@ spec:
       imagePullSecrets:
       {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
   revisionHistoryLimit: 2
----
+{{- end }}
