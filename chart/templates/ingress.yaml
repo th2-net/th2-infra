@@ -30,3 +30,12 @@ spec:
             name: infra-mgr
             port:
               number: 8080
+      {{- if .Values.infraEditorV2.enabled }}
+      - backend:
+          service:
+            name: infra-editor-v2
+            port:
+              number: 8080
+        path: /editor-2($|/.*)
+        pathType: Prefix
+      {{- end }}
