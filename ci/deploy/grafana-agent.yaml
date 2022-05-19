@@ -126,13 +126,15 @@ data:
                   - role: pod
                 pipeline_stages:
                   - cri: {}
+                static_config:
+                  - targets:
+                    - chart-testing-control-plane
+                  - labels:
+                    - run: "{{ lookup('env', 'pull_request') }}:{{ lookup('env', 'commit_hash') }}
                 relabel_configs:
                   - source_labels:
                       - __meta_kubernetes_pod_node_name
                     target_label: __host__
-                  - source_labels:
-                      - __meta_kubernetes_pod_node_name
-                    target_label: node_name
                   - action: replace
                     source_labels:
                       - __meta_kubernetes_namespace
