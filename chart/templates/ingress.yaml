@@ -1,5 +1,5 @@
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -7,6 +7,7 @@ metadata:
     {{- include "common-annotations" . | nindent 4  }}
   name: ingress-service
 spec:
+  ingressClassName: "{{ .Values.ingress.ingressClass }}"
   rules:
   {{- if .Values.ingress.host }}
   - host: "{{ .Values.ingress.host -}}"
@@ -15,11 +16,17 @@ spec:
   - http:
   {{- end }}
       paths:
-      - backend:
-          serviceName: infra-editor
-          servicePort: 8080
-        path: /editor($|/.*)
-      - backend:
-          serviceName: infra-mgr
-          servicePort: 8080
-        path: /editor/backend/(.*)
+      - path: /editor($|/.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: infra-editor
+            port:
+              number: 8080
+      - path: /editor/backend/(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: infra-mgr
+            port:
+              number: 8080

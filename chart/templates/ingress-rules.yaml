@@ -1,5 +1,5 @@
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -16,18 +16,30 @@ spec:
   {{- end }}
       paths:
       - path: /${SCHEMA_NAMESPACE}/backend/(.*)
+        pathType: Prefix
         backend:
-          serviceName: rpt-data-provider
-          servicePort: 8080
+          service:
+            name: rpt-data-provider
+            port:
+              number: 8080
       - path: /${SCHEMA_NAMESPACE}/(.*)
+        pathType: Prefix
         backend:
-          serviceName: rpt-data-viewer
-          servicePort: 8080
+          service:
+            name: rpt-data-viewer
+            port:
+              number: 8080
       - path: /${SCHEMA_NAMESPACE}/act-ui/(.*)
+        pathType: Prefix
         backend:
-          serviceName: act-ui
-          servicePort: 8080
+          service:
+            name: act-ui
+            port:
+              number: 8080
       - path: /${SCHEMA_NAMESPACE}/act-ui/backend/(.*)
+        pathType: Prefix
         backend:
-          serviceName: act-ui-backend
-          servicePort: 8080
+          service:
+            name: act-ui-backend
+            port:
+              number: 8080
