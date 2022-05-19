@@ -15,14 +15,11 @@ spec:
   - http:
   {{- end }}
       paths:
-      {{- if eq .Values.infraEditor.enabled true}}
       - backend:
           serviceName: infra-editor
           servicePort: 8080
-        path: /editor($|/.*)
-      {{- end }}
-      
-      {{- if eq .Values.infraEditorV2.enabled true}}      
+        path: /editor($|/.*)   
+      {{- if .Values.infraEditorV2.enabled }}      
       - backend:
           serviceName: infra-editor-v2
           servicePort: 8080
