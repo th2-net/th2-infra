@@ -126,14 +126,14 @@ data:
                   - role: pod
                 pipeline_stages:
                   - cri: {}
-                static_configs:
-                  - labels:
-                      run: "{{ lookup('env', 'pull_request') }}:{{ lookup('env', 'commit_hash') }}"
-                      __path__: /var/log/pods/**/*.log
                 relabel_configs:
                   - source_labels:
                       - __meta_kubernetes_pod_node_name
                     target_label: __host__
+                  - source_labels:
+                      - run
+                    target_label: run
+                    replacement: "{{ lookup('env', 'pull_request') }}:{{ lookup('env', 'commit_hash') }}"
                   - action: replace
                     source_labels:
                       - __meta_kubernetes_namespace
