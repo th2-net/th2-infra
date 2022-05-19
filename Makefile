@@ -13,3 +13,7 @@ box-chart:
 infra-repo:
 	cp -r ./box-chart/ ./infra-repo
 	docker build -t infra-repo:latest --progress=plain -f ./infra-repo/Dockerfile ./infra-repo
+
+.PHONY: lint-infra-chart
+lint-infra-chart:
+	helm lint ./chart

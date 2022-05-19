@@ -1,5 +1,6 @@
 name: Build infra-repo
 on:
+  workflow_dispatch:
   push:
     tags:
       - "v*"
