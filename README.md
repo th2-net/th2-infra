@@ -348,5 +348,5 @@ _Note_: replace <th2-namespace> with th2 namespace you use
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
 
-## Migration to v1.7.x th2-infra chart 
+## Migration to v1.8.0 th2-infra chart 
 Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
