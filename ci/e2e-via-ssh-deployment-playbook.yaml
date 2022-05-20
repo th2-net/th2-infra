@@ -17,7 +17,6 @@
       with_dict:
         ingress-nginx: https://kubernetes.github.io/ingress-nginx
         loki: https://grafana.github.io/loki/charts
-        stable: https://charts.helm.sh/stable
 
     - name: Ensure k8s namespaces exist
       kubernetes.core.k8s:
@@ -26,7 +25,7 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - monitoring
+        - "{{ monitoring_namespace }}"
         - "{{ infra_namespace }}"
 
     - name: Deploy ingress-nginx controller
@@ -48,7 +47,13 @@
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/crd-prometheusrules.yaml"
-
+   
+    - name: Deploy Grafana Agent
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/grafana-agent.yaml"
+        namespace: "{{ infra_namespace }}"
+        
     - name: Generate an OpenSSH private key
       community.crypto.openssl_privatekey:
         path: "{{ playbook_dir }}/id_ssh_rsa"
