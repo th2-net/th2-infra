@@ -15,7 +15,7 @@ data:
     log4j.logger.com.exactpro.th2=${LOGLEVEL_JAVA}
     log4j.logger.com.exactpro.evolution=${LOGLEVEL_JAVA}
     log4j.logger.com.exactpro.cradle=${LOGLEVEL_JAVA}
-    log4j.logger.com.exactpro.sf=${LOGLEVEL_JAVA}
+    log4j.logger.com.exactpro.sf.services.http=${LOGLEVEL_JAVA}
   log4py.conf: |
     [loggers]
     keys=root,th2_common,pika
@@ -71,10 +71,8 @@ data:
     logger.cradle.name=com.exactpro.cradle
     logger.cradle.level=${LOGLEVEL_JAVA}
 
-    logger.sf.name=com.exactpro.sf
+    logger.sf.name=com.exactpro.sf.services.http
     logger.sf.level=${LOGLEVEL_JAVA}
 kind: ConfigMap
 metadata:
   name: logging-config-template
-  annotations:
-  {{- include "common-annotations" . | nindent 4  }}

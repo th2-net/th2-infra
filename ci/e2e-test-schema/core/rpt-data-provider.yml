@@ -4,7 +4,7 @@ metadata:
   name: rpt-data-provider
 spec:
   image-name: ghcr.io/th2-net/th2-rpt-data-provider
-  image-version: 5.3.20
+  image-version: 5.0.15
   type: th2-rpt-data-provider
   custom-config:
     hostname: localhost
@@ -14,9 +14,7 @@ spec:
     clientCacheTimeout: 60
     eventCacheSize: 100000
     messageCacheSize: 100000
-    ioDispatcherThreadPoolSize: 10
-    maxMessagesLimit: 1000
-    messageSearchPipelineBuffer: 500
+    ioDispatcherThreadPoolSize: 1
   pins:
     - name: to_codec
       connection-type: mq
@@ -35,7 +33,7 @@ spec:
       enabled: true
       type: ClusterIP
       endpoints:
-        - name: "grpc"
+        - name: 'grpc'
           targetPort: 8080
     envVariables:
       JAVA_TOOL_OPTIONS: '-XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="10000 milliseconds" -Ddatastax-java-driver.basic.request.timeout="10 seconds"'
@@ -46,3 +44,5 @@ spec:
       requests:
         memory: 300Mi
         cpu: 20m
+#      mounitng:
+#        TBD 

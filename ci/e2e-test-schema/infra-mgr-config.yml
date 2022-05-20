@@ -3,10 +3,8 @@ metadata:
   name: infra-mgr-config
 spec:
   k8s-propagation: rule
-  th2BoxConfig:
-    logging:
-      logLevelTh2: DEBUG
-      logLevelRoot: INFO
+  logLevelTh2: DEBUG
+  logLevelRoot: INFO
 #
 #  values for k8s-propagation property:
 #

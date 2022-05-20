@@ -1,17 +1,15 @@
-name: Lint infra chart
-on:
+name: Lint and Test Charts
+on: 
   pull_request:
     paths:
-      - "ci/**"
-      - "example-values/**"
-      - "chart/**"
-      - ".github/workflows/lint-chart.yaml"
+    - 'ci/**'
+    - 'example-values/**'
+    - 'chart/**'
+    - '.github/workflows/lint-chart.yaml'
   workflow_dispatch:
 
 jobs:
   lint-test:
-    if: |
-      !contains(github.event.pull_request.labels, 'automated')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,7 +34,7 @@ jobs:
         with:
           version: v3.3.0
 
-      - name: Run infra chart linting
+      - name: Run chart-testing (lint)
         run: |
           helm repo add rabbitmq-ha https://charts.helm.sh/stable
           helm repo add cassandra https://charts.bitnami.com/bitnami

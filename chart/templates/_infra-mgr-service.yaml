@@ -6,11 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: infra-mgr
-  annotations:
-  {{- include "common-annotations" . | nindent 4  }}
+  namespace: service
   labels:
     app: infra-mgr
-    {{- if .Values.infraMgr.prometheusConfiguration.enabled }}
+    {{- if .infraMgr.prometheusConfiguration.enabled }}
     monitoring-pod: "true"
     {{- end }}
 spec:
@@ -22,7 +21,7 @@ spec:
       protocol: TCP
       port: 8080
       targetPort: default
-{{- if .Values.infraMgr.prometheusConfiguration.enabled }}
+{{- if .infraMgr.prometheusConfiguration.enabled }}
     {{- include "svc-prometheus-port" .Values }}
 {{- end }}
 {{- end }}

@@ -127,8 +127,6 @@ spec:
                     description: map for selecting nodes
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  bookName:
-                    type: string
                   mounting:
                     items:
                       properties:
@@ -202,11 +200,6 @@ spec:
                               type: string
                     type: object
                 type: object
-              disabled:
-                type: string
-                enum:
-                  - "false"
-                  - "true"
               image-name:
                 type: string
               image-version:
@@ -252,27 +245,6 @@ spec:
                     filters:
                       items:
                         properties:
-                          properties:
-                            items:
-                              properties:
-                                expected-value:
-                                  type: string
-                                field-name:
-                                  type: string
-                                operation:
-                                  enum:
-                                    - EQUAL
-                                    - NOT_EQUAL
-                                    - EMPTY
-                                    - NOT_EMPTY
-                                    - WILDCARD
-                                  type: string
-                              required:
-                                - field-name
-                                - expected-value
-                                - operation
-                              type: object
-                            type: array
                           message:
                             items:
                               properties:

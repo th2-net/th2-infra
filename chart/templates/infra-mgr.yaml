@@ -1,13 +1,11 @@
 {{ include "infraMgr-config" . }}
 ---
-{{ include "infra-mgr-service" . }}
+{{ include "infra-mgr-service" .Values }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: infra-mgr
-  annotations:
-  {{- include "common-annotations" . | nindent 4  }}
   labels:
     app: infra-mgr
     {{ include "th2-labels" . }}
@@ -24,7 +22,7 @@ spec:
         app: infra-mgr
     spec:
       imagePullSecrets:
-      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+      - name: th2-core
       serviceAccountName: infra-mgr-service
       containers:
       - name: infra-mgr
@@ -34,29 +32,24 @@ spec:
           containerPort: 8080
         {{- if .Values.infraMgr.prometheusConfiguration.enabled }}
         - name: metrics
-          containerPort: {{ .Values.infraMgr.prometheusConfiguration.port }}
+          containerPort: {{ default 9752 .Values.infraMgr.prometheusConfiguration.port }}
         {{- end }}
         resources:
 {{ toYaml .Values.infraMgr.resources | indent 10 }}
         volumeMounts:
           - name: configs
             mountPath: /home/service/config/
-          {{- if not (hasPrefix "https" .Values.infraMgr.git.repository) }}
           - name: secrets
             readOnly: true
-            mountPath: {{ .Values.infraMgr.git.sshDir }}
-          {{- end}}
+            mountPath: {{ .Values.infraMgr.git.secretMountPath }}
         env:
-          - name: HOME 
+          - name: HOME
             value: /home/service/
-          - name: GIT_FETCH_INTERVAL 
-            value: "{{ .Values.infraMgr.git.gitFetchInterval }}"
           {{- if .Values.infraMgr.jvm.javaToolOptions }}
           - name: JAVA_TOOL_OPTIONS
             value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}
-          {{- end }}          
-          {{- if hasPrefix "https" .Values.infraMgr.git.repository }}
-          - name: HTTPS_AUTH_USERNAME           
+          {{- end }}
+          - name: HTTPS_AUTH_USERNAME 
             valueFrom:
               secretKeyRef:
                 name: th2-git-access-schemas
@@ -66,29 +59,15 @@ spec:
               secretKeyRef:
                 name: th2-git-access-schemas
                 key: httpAuthPassword
-          {{- end}}
           - name: CASSANDRA_PASS
             valueFrom:
               secretKeyRef:
                 name: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
                 key: cassandra-password
-        livenessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.infraMgr.prometheusConfiguration.port }}
-          initialDelaySeconds: {{ .Values.infraMgr.livenessProbe.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
-          periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
       volumes:
-      {{- if not (hasPrefix "https" .Values.infraMgr.git.repository)}}
       - name : secrets
-        projected:
-          sources:
-          - secret:
-              name: {{ .Values.infraMgr.git.secretName }}
-          - configMap:
-              name: ssh-config
-      {{- end}}
+        secret:
+          secretName: {{ .Values.infraMgr.git.secretName }}
       - name: configs
         projected:
           sources:

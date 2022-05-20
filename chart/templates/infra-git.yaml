@@ -65,7 +65,7 @@ spec:
           configMap:
             name: keys-repo
       imagePullSecrets:
-      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+        - name: th2-core
   revisionHistoryLimit: 2
 ---
 apiVersion: v1
