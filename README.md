@@ -109,15 +109,7 @@ _Note: It's an optional step, but it gets slightly simpler checking the result o
 ```
 $ kubectl config set-context --current --namespace=monitoring
 ```
-* Define Grafana and Dashboard host names (the name must be resolved from QA boxes):
-  * in the [values.yaml](./th2-service/values.yaml) file
-    ```
-      ingress:
-        host: &host <th2_host_name>
-      kubernetes-dashboard:
-        ingress:
-          hosts: [*host]
-    ```
+* Define Grafana host names (the name must be resolved from QA boxes):
   * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
     ```
     grafana:
@@ -203,14 +195,21 @@ cassandra:
   host: <cassandra-host>
 ```
 
-### Define rabbitMQ ingress parameters
-Add `rabbitmq.ingress.extraHosts.name` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
-
 ### Define th2 ingress parameters
 * Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
 ```
 ingress:
   host: example.com
+...
+kubernetes-dashboard:
+  ingress:
+    hosts:
+    - example.com
+...
+rabbitmq:
+  ingress:
+    extraHosts:
+    - name: example.com
 ```
 
 ### Create secret with th2 credentials
