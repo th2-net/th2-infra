@@ -1,9 +1,0 @@
-{{- if not .Values.cassandra.internal -}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: cassandra
-spec:
-  type: ExternalName
-  externalName: {{ .Values.cassandra.host }}
-{{ end }}

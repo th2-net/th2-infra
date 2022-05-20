@@ -2,13 +2,15 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: rabbit-mq-app-config
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
 data:
   rabbitMQ.json: |
     {
     {{- if .Values.rabbitmq.host }}
     "host": {{ .Values.rabbitmq.host | quote }},
     {{- else }}
-    "host": "{{ .Values.rabbitmq.fullnameOverride }}-discovery.service.svc.cluster.local",
+    "host": "{{ .Values.rabbitmq.fullnameOverride }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}",
     {{- end }}
     "vHost": "",
     "port": "5672",

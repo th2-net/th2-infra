@@ -1,7 +1,7 @@
 dependencies:
-- name: rabbitmq-ha
-  repository: https://charts.helm.sh/stable
-  version: 1.44.4
+- name: rabbitmq
+  repository: https://charts.bitnami.com/bitnami
+  version: 8.24.13
 - name: cassandra
   repository: https://charts.bitnami.com/bitnami
   version: 5.6.7
@@ -11,5 +11,5 @@ dependencies:
 - name: kubernetes-dashboard
   repository: https://kubernetes.github.io/dashboard/
   version: 5.0.4
-digest: sha256:74f03f24557740c7700fb17c7a28bb647a24ac27832d631e02cf8c90653b446f
-generated: "2022-02-02T20:55:37.823189219+03:00"
+digest: sha256:f7efdf3d24737d8be21ff02e82f67275243655c69bdaca9372a275f0375d00c0
+generated: "2022-04-25T17:27:45.532115992+04:00"

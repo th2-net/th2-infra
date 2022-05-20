@@ -1,0 +1,31 @@
+infraGit:
+  internal: true
+externalRabbitMQHost:
+  host: localhost
+rabbitmq:
+  auth:
+    username: th2
+    password: test
+  persistence:
+    enabled: false
+  prometheus:
+    operator:
+      enabled: false
+  metrics:
+    enabled: false
+cassandra:
+  # existingConfiguration: cassandra-configuration
+  # initDBConfigMap: cassandra-init
+  dbUser:
+    user: cassandra
+    password: cassandra
+  cluster:
+    numTokens: 16
+    datacenter: datacenter1
+  jvm:
+    maxHeapSize: 1G
+    newHeapSize: 800M
+  internal: true
+infraMgr:
+  git:
+    repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git

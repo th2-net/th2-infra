@@ -1,0 +1,40 @@
+name: Lint box chart
+on:
+  pull_request:
+    paths:
+      - "box-chart/**"
+      - ".github/workflows/lint-box-chart.yaml"
+  workflow_dispatch:
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.1
+
+      # Python is required because `ct lint` runs Yamale (https://github.com/23andMe/Yamale) and
+      # yamllint (https://github.com/adrienverge/yamllint) which require Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.0.1
+        with:
+          version: v3.3.0
+
+      - name: Run box chart linting
+        run: |
+          ct lint \
+            --lint-conf=ci/cfg/lint-cfg.yml \
+            --check-version-increment \
+            --validate-maintainers=false --debug --charts ./box-chart
