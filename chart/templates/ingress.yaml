@@ -29,3 +29,9 @@ spec:
           serviceName: infra-mgr
           servicePort: 8080
         path: /editor/backend/(.*)
+      {{- if .Values.infraEditorV2.enabled }}  
+      - backend:
+          serviceName: infra-mgr
+          servicePort: 8080
+        path: /editor-2/backend/(.*)
+      {{- end }}
