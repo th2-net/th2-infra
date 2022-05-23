@@ -5,9 +5,8 @@ Generating configMap for k8
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  {{- if .annotations }}
-{{- include "annotations" . }}
-  {{- end }}
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
   name: {{ .component.name }}-app-config
   labels:
     app: {{ .component.name }}
