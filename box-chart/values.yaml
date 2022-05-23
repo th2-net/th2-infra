@@ -1,7 +1,13 @@
 ---
+commonAnnotations: {}
 component:
   bookConfig:
     bookName: defaultBook
+  ingress:
+    host:
+    annotations:
+      default: {}
+      extra: {}
   secrets:
     rabbitMQ: rabbitMQ
     cassandra: cassandra
@@ -10,6 +16,16 @@ component:
   extendedSettings:
     service:
       enabled: false
+    resources:
+      limits:
+        memory: 200Mi
+        cpu: 200m
+        ephemeral-storage: "1Gi"
+      requests:
+        memory: 100Mi
+        cpu: 50m
+        ephemeral-storage: "1Gi"
+    replicas: 1
   prometheus:
     enabled: false
   logging:
