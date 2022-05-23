@@ -7,7 +7,7 @@ Generating container port for prometheus stats from pods
         - name: metrics
           containerPort: 9752
         {{- else }}
-        {{- if .component.prometheus.enabled }}
+        {{- if eq .component.prometheus.enabled "true" }}
         ports:
         - name: metrics
           {{- if .component.prometheus.port }}
