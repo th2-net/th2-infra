@@ -3,14 +3,16 @@ infraMgr:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
 
 rabbitmq:
-  prometheus:
-    operator:
-      enabled: false
-  persistentVolume:
+  persistence:
     enabled: true
-    storageClass: local-storage
+    storageClassName: local-storage
     size: 10Gi
+  ingress:
+    enabled: true
+    extraHosts:
+      - name: <hostname>
 
 cassandra:
   internal: false
   host: <cassandra-host>
+

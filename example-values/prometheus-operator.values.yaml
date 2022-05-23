@@ -1,19 +1,20 @@
 global:
   imagePullSecrets:
-# alertmanager:
-#   alertmanagerSpec:
-#     # image:
-#     #   repository: quay.io/prometheus/alertmanager
-#     # externalUrl:
-#   ingress:
-#     enabled: true
-#     annotations:
-#       kubernetes.io/ingress.class: "nginx"
-#       nginx.ingress.kubernetes.io/rewrite-target: /$1
-#       nginx.ingress.kubernetes.io/use-regex: "true"
-#     paths:
-#     - /alertmanager/?(.*)
-#     pathType: Prefix
+alertmanager:
+  alertmanagerSpec:
+     # image:
+     #   repository: quay.io/prometheus/alertmanager
+      externalUrl: http://localhost:9093/alertmanager
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    paths:
+    - /alertmanager/?(.*)
+    pathType: Prefix
+    hosts: []
 
 prometheusOperator:
   # image: 
@@ -31,7 +32,7 @@ prometheus:
   prometheusSpec:
     # image:
     #   repository: quay.io/prometheus/prometheus
-    # externalUrl: 
+    externalUrl: http://localhost:9090/prometheus
     storageSpec:
       volumeClaimTemplate:
         spec:
@@ -49,6 +50,7 @@ prometheus:
       nginx.ingress.kubernetes.io/use-regex: "true"
     paths:
     - /prometheus/?(.*)
+    hosts: []
     pathType: Prefix
 
 grafana:
@@ -68,12 +70,56 @@ grafana:
       nginx.ingress.kubernetes.io/use-regex: "true"
     path: /grafana/?(.*)
     hosts: []
+  dashboards:
+    default:
+      Cassandra-dashboard:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/cassandra-dashboard_rev2.json
+      Rabbitmq-dashboard:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/rabbitmq-overview_rev11.json
+      Node-monitoring:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/nodes-monitoring-v1.0.0.json
+      Namespace-health:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.0.json
+      Components-logs:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
+      Monitoring-1:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1632997642909.json
+      Monitoring-2:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1636451927534.json
+      Monitoring-3:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1648485494141.json
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
   grafana.ini:
     server:
       root_url: http://localhost:3000/grafana
+  additionalDataSources:
+  - name: Loki
+    access: proxy
+    type: loki
+    url: http://loki:3100
+    jsonData:
+      maxLines: "5000"
   persistence:
     enabled: true
     existingClaim: grafana
+  plugins:
+    - http://infra-repo.service.svc.cluster.local:8080/plugins/flant-statusmap-panel-0.4.2.zip;flant-statusmap-panel
+    - http://infra-repo.service.svc.cluster.local:8080/plugins/vonage-status-panel-1.0.11.zip;vonage-status-panel
+    - http://infra-repo.service.svc.cluster.local:8080/plugins/blackmirror1-statusbygroup-panel-1.1.2.zip;blackmirror1-statusbygroup-panel
+    - http://infra-repo.service.svc.cluster.local:8080/plugins/grafana-polystat-panel-1.2.8.any.zip;grafana-polystat-panel
+    - http://infra-repo.service.svc.cluster.local:8080/plugins/briangann-gauge-panel-0.0.9.zip;briangann-gauge-panel
+    - http://infra-repo.service.svc.cluster.local:8080/plugins/yesoreyeram-boomtable-panel-1.4.1.zip;yesoreyeram-boomtable-panel
   initChownData:
     enabled: false
     # image:

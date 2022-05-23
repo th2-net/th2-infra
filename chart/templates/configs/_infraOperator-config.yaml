@@ -6,13 +6,18 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: infra-operator
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
 data:
   infra-operator.yml: |
+    commonAnnotations:
+    {{- include "common-annotations" . | nindent 6 }}
+    ingress:
+    {{- .Values.ingress | toYaml | nindent 6 }}
     prometheusConfiguration:
       host: "0.0.0.0"
-      port: {{ default 9752 .Values.infraOperator.prometheusConfiguration.port | quote }}
-      enabled: {{ default true .Values.infraOperator.prometheusConfiguration.enabled | quote }}
-    ingressHost: {{ .Values.ingress.host | quote }}
+      port: {{ .Values.infraOperator.prometheusConfiguration.port | quote }}
+      enabled: {{ .Values.infraOperator.prometheusConfiguration.enabled | quote }}
     chart:
       {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
     namespacePrefixes:
@@ -21,11 +26,17 @@ data:
     schemaSecrets:
       rabbitMQ: rabbitmq
       cassandra: cassandra
+    imagePullSecrets:
+    {{- include "imagePullSecretList" .Values.registries | trim | nindent 4 -}}
+    {{- with .Values.infraMgr.kubernetes.secrets }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+ 
     rabbitMQManagement:
       {{- if .Values.rabbitmq.host }}
       host: {{ .Values.rabbitmq.host | quote }}
       {{- else }}
-      host: "{{ .Values.rabbitmq.fullnameOverride }}-discovery.service.svc.cluster.local"
+      host: "{{ .Values.rabbitmq.fullnameOverride }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
       {{- end }}
       managementPort: {{ default 15672 .Values.rabbitmq.rabbitmqManagerPort | quote }}
       applicationPort: {{ default 5672 .Values.rabbitmq.rabbitmqNodePort | quote }}

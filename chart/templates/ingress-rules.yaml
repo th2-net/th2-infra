@@ -3,11 +3,8 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: rewrite ^/([^.?]*[^/])$ $scheme://$http_host/$1/ redirect;
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    {{- include "ingress-annotations" . | nindent 4  }}
+    {{- include "common-annotations" . | nindent 4  }}
   name: ingress-rules
 spec:
   rules:
@@ -26,7 +23,7 @@ spec:
         backend:
           serviceName: rpt-data-viewer
           servicePort: 8080
-      - path: /${SCHEMA_NAMESPACE}/act-ui($|/.*)
+      - path: /${SCHEMA_NAMESPACE}/act-ui/(.*)
         backend:
           serviceName: act-ui
           servicePort: 8080

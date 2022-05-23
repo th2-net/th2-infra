@@ -1,0 +1,17 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Mstore
+metadata:
+  name: mstore
+spec:
+  disabled: true
+  image-name: ghcr.io/th2-net/th2-mstore
+  image-version: 3.2.0
+  extended-settings:
+    service:
+      enabled: false
+    envVariables:
+      JAVA_TOOL_OPTIONS: '-XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="5000 milliseconds"'
+    resources:
+      limits:
+        memory: 300Mi
+        cpu: 300m

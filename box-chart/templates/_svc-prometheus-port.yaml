@@ -1,0 +1,11 @@
+{{/*
+Generating _svc-ports for k8
+*/}}
+{{- define "svc-prometheus-port" }}
+    {{- if .component.prometheus }}{{- if .component.prometheus.enabled }}
+    - name: metrics
+      port: 9752
+      protocol: TCP
+      targetPort: metrics
+    {{- end }}{{- end }}
+{{- end }}

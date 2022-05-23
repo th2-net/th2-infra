@@ -1,0 +1,58 @@
+{{- if .Values.infraEditorV2.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: infra-editor-v2
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+spec:
+  selector:
+    app: infra-editor-v2
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: infra-editor-v2
+    {{ include "th2-labels" . }}
+  name: infra-editor-v2
+  annotations:
+    {{- include "common-annotations" . | nindent 4  }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infra-editor-v2
+  template:
+    metadata:
+      labels:
+        app: infra-editor-v2
+    spec:
+      containers:
+      - image: "{{ .Values.infraEditorV2.image.repository }}:{{ .Values.infraEditorV2.image.tag }}"
+        name: infra-editor-v2
+        resources:
+          limits:
+            memory: 100Mi
+            cpu: 100m
+          requests:
+            memory: 50Mi
+            cpu: 50m
+        envFrom:
+        volumeMounts:
+        - name: logging-volume
+          mountPath: /home/etc/log4j.properties
+          subPath: log4j.properties
+      volumes:
+      - name: logging-volume
+        configMap:
+          name: logging-config
+      imagePullSecrets:
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+  revisionHistoryLimit: 2
+{{- end }}
