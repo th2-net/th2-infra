@@ -1,8 +1,17 @@
 {{/*
-Generating annotations for k8
-Pay attention to pod annotation in _deployment.yaml at changing this file
+Adding annotations
 */}}
-{{- define "annotations" }}
-  annotations:
-{{ toYaml .annotations | indent 4 }}
-{{- end }}
+{{- define "ingress-annotations" -}}
+{{- if .component.ingress.annotations.default -}}
+{{ .component.ingress.annotations.default | toYaml }}
+{{- end -}}
+{{- if .component.ingress.annotations.extra }}
+{{ .component.ingress.annotations.extra | toYaml }}
+{{- end -}}
+{{- end -}}
+
+{{- define "common-annotations" -}}
+{{- if .commonAnnotations -}}
+{{ .commonAnnotations | toYaml }}
+{{- end -}}
+{{- end -}}
