@@ -18,14 +18,18 @@ spec:
       - backend:
           serviceName: infra-editor
           servicePort: 8080
-        path: /editor($|/.*)   
-      {{- if .Values.infraEditorV2.enabled }}      
-      - backend:
-          serviceName: infra-editor-v2
-          servicePort: 8080
-        path: /editor-2($|/.*)
-      {{- end }}
+        path: /editor($|/.*)
       - backend:
           serviceName: infra-mgr
           servicePort: 8080
         path: /editor/backend/(.*)
+      {{- if .Values.infraEditorV2.enabled }}
+      - backend:
+          serviceName: infra-editor-v2
+          servicePort: 8080
+        path: /editor-2($|/.*)
+      - backend:
+          serviceName: infra-mgr
+          servicePort: 8080
+        path: /editor-2/backend/(.*)
+      {{- end }}
