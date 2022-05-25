@@ -280,8 +280,8 @@ GIT_SSH_COMMAND="ssh -p 32600 -i ~/path_to_private_key/infra-mgr-rsa.key" git cl
 ```
 * as alternative way you can add this host to your ~/.ssh/config
 ```
-Host infra-repo-nodeName
-    Hostname infra-repo-nodeName
+Host <infra-repo-nodeName>
+    Hostname <infra-repo-nodeName>
     User git
     IdentityFile ~/path_to_private_key/infra-mgr-rsa.key
 ```
