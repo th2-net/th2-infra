@@ -265,10 +265,27 @@ $ kubectl -n service create configmap keys-repo --from-file=git_keys=./infra-mgr
 ```
 infraMgr:
   git:
-    repository: ssh://git@infra-git/home/git/repo/<your_repo_name>.git
+    repository: ssh://git@<hostname>/home/git/repo/<your_repo_name>.git
 ```
-* after installation you should init new repo with the name that you define in previous step.
-
+* after installation you should create folder with the same path and the name **<your_repo_name>**.git that you define in previous step inside infra-git pod and initialise it as a git repo. 
+```
+$ su git
+$ mkdir /home/git/repo/<your_repo_name>.git
+$ cd /home/git/repo/<your_repo_name>.git
+$ git init --bare
+```
+* then you should clone your newly initialised repo from your host machine using this command.
+```
+GIT_SSH_COMMAND="ssh -p 32600 -i ~/path_to_private_key/infra-mgr-rsa.key" git clone ssh://git@<infra-repo-nodeName>/home/git/repo/your_repo_name.git
+```
+* as alternative way you can add this host to your ~/.ssh/config
+```
+Host infra-repo-nodeName
+    Hostname infra-repo-nodeName
+    User git
+    IdentityFile ~/path_to_private_key/infra-mgr-rsa.key
+```
+* now you can use that to place your schemas as a regular repository.
 ## th2 deployment
 ### Install NGINX Ingress Controller
 ```
