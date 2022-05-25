@@ -84,11 +84,9 @@ infraOperator:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
     rabbitMQManagement:
-      #      host: "" -  host is taken from rabbitmq config
-      port: "15672"
-      username: "th2"
       password: "${RABBITMQ_PASS}"
       persistence: true
+      exchangeName: "global-notification"
       schemaPermissions:
         configure: ""
         read: ".*"
