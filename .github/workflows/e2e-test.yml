@@ -1,4 +1,4 @@
-name: e2e test with kind
+name: e2e test Kubernetes 1.20
 
 on:
   pull_request:
