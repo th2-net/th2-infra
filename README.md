@@ -283,7 +283,8 @@ Host infra-git
     IdentityFile ~/path_to_private_key/infra-mgr-rsa.key
 ```
 * clone your infra-git repo using 
-```git clone git@infra-git:/home/git/repo/test-schema.git
+```
+$ git clone git@infra-git:/home/git/repo/test-schema.git
 ``` 
 ## th2 deployment
 ### Install NGINX Ingress Controller
