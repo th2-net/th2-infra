@@ -10,7 +10,7 @@ metadata:
   annotations:
     {{- include "ingress-annotations" .Values | nindent 4  }}
     {{- include "common-annotations" .Values | nindent 4  }}
-  name: {{ .Values.component.name }}-rules
+  name: {{ .Values.component.name }}
 spec:
   rules:
   {{- if .Values.component.ingress.host }}
@@ -36,7 +36,7 @@ metadata:
   annotations:
     {{- include "ingress-annotations" .Values | nindent 4  }}
     {{- include "common-annotations" .Values | nindent 4  }}
-  name: {{ .Values.component.name }}-rules
+  name: {{ .Values.component.name }}
 spec:
   rules:
   {{- if .Values.component.ingress.host }}
