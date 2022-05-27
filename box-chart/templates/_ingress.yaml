@@ -2,6 +2,7 @@
 Generating ingress rules for pod
 */}}
 {{- define "ingress" }}
+---
 {{- if or (gt (len .Values.component.extendedSettings.service.ingress.urlPaths) 0) }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
