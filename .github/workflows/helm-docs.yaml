@@ -2,6 +2,8 @@ name: Auto generate helm-docs
 
 on:
   pull_request:
+    branches:
+      - release-v*
     paths:
       - "chart/**"
       - ".github/workflows/helm-docs.yaml"
@@ -10,12 +12,31 @@ on:
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'release-v')
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT_CI_ACTION }}
+      - uses: actions/checkout@v3
+
       - name: Generate helm docs
-        run: make docs
-      - uses: stefanzweifel/git-auto-commit-action@v4
+        run: |
+          make docs
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
         with:
-          commit_message: "Auto-generated helm chart docs"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update helm docs
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          base: ${{ github.event.pull_request.head.ref }}
+          branch: helm-docs-${{ github.event.pull_request.head.ref }}
+          delete-branch: true
+          title: "${{ github.event.pull_request.title }} helm chart readme"
+          body: "Generating helm chart README"
+          labels: |
+            automated
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"

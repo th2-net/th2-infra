@@ -42,7 +42,7 @@ spec:
             cpu: 100m
           requests:
             memory: 50Mi
-            cpu: 100m
+            cpu: 50m
         envFrom:
         volumeMounts:
         - name: logging-volume
@@ -53,5 +53,6 @@ spec:
         configMap:
           name: logging-config
       imagePullSecrets:
-      - name: th2-core
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
   revisionHistoryLimit: 2
+---
