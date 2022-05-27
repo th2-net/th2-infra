@@ -12,6 +12,7 @@ metadata:
     {{- include "common-annotations" .Values | nindent 4  }}
   name: {{ .Values.component.name }}
 spec:
+  ingressClassName: "nginx"
   rules:
   {{- if .Values.component.ingress.host }}
   - host: {{ .Values.component.ingress.host | quote }}
@@ -38,6 +39,7 @@ metadata:
     {{- include "common-annotations" .Values | nindent 4  }}
   name: {{ .Values.component.name }}
 spec:
+  ingressClassName: "nginx"
   rules:
   {{- if .Values.component.ingress.host }}
   - host: {{ .Values.component.ingress.host | quote }}
