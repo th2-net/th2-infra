@@ -47,9 +47,9 @@ spec:
   {{- end }}
       paths:
       {{ if eq .Values.component.name "rpt-data-viewer" }}
-      - path: /{{ .Release.Namespace }}/
+      - path: /{{ .Release.Namespace }}/(.*)
       {{ else if eq .Values.component.name "rpt-data-provider" }}
-      - path: /{{ .Release.Namespace }}/backend/
+      - path: /{{ .Release.Namespace }}/backend/(.*)
       {{ end }}
         pathType: Prefix
         backend:
