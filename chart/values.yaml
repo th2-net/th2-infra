@@ -134,7 +134,7 @@ infraMgr:
   kubernetes:
     # -- must be not more than 5 symbols
     namespacePrefix: "th2-"
-    ingress: ingress-rules
+    ingress: ""
     configMaps:
       logging: logging-config-template
       rabbitmq: rabbit-mq-app-config
