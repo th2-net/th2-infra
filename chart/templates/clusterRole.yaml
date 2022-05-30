@@ -32,7 +32,7 @@ rules:
     verbs: ["get", "watch", "list"]
   - apiGroups:
       - th2.exactpro.com
-    resources: ["configmaps", "secrets", ""]
+    resources: ["configmaps", "secrets", "pods", "customresourcedefinitions", "deployments"]
     verbs: ["*"]
 ---
 apiVersion: v1
