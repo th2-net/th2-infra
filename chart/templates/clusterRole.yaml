@@ -76,7 +76,7 @@ metadata:
   {{- include "common-annotations" . | nindent 4  }}
 roleRef:
   kind: ClusterRole
-  name: infra-mgr-role
+  name: infra-mgr
   apiGroup: rbac.authorization.k8s.io
 subjects:
   - kind: ServiceAccount
