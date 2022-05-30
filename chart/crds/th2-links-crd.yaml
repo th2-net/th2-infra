@@ -14,7 +14,7 @@ spec:
     singular: th2link
   scope: Namespaced
   versions:
-  - name: v1
+  - name: v2
     schema:
       openAPIV3Schema:
         description: Th2link defines th2 link instance
@@ -28,9 +28,9 @@ spec:
           spec:
             description: Specification of desired links
             properties:
-              boxes-relation:
+              boxesRelation:
                 properties:
-                  router-grpc:
+                  routerGrpc:
                     description: List of grpc connection pins
                     items:
                       properties:
@@ -65,7 +65,7 @@ spec:
                       type: object
                     type: array
                     nullable: true
-                  router-mq:
+                  routerMq:
                     description: List of mq connection pins
                     items:
                       properties:
@@ -102,7 +102,7 @@ spec:
                     nullable: true
                 type: object
                 nullable: true
-              dictionaries-relation:
+              dictionariesRelation:
                 description: List of dictionary relations
                 items:
                   properties:
@@ -133,7 +133,7 @@ spec:
                   - dictionary
                   type: object
                 type: array
-              multi-dictionaries-relation:
+              multiDictionariesRelation:
                 description: List of multi dictionary relations
                 items:
                   properties:

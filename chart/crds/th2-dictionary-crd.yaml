@@ -14,7 +14,7 @@ spec:
     singular: th2dictionary
   scope: Namespaced
   versions:
-  - name: v1
+  - name: v2
     schema:
       openAPIV3Schema:
         description: Th2Dictionary defines th2 dictionary instance
@@ -29,10 +29,7 @@ spec:
             description: Specification of desired dictionary
             properties:
               compressed:
-                type: string
-                enum:
-                  - "false"
-                  - "true"
+                type: boolean
               data:
                 type: string
             required:

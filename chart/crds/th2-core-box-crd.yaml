@@ -29,7 +29,7 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v1
+    name: v2
     schema:
       openAPIV3Schema:
         description: Th2CoreBox defines Th2 core component instance
@@ -43,22 +43,18 @@ spec:
           spec:
             description: Specification of desired box
             properties:
-              custom-config:
+              customConfig:
                 description: this is custom configuration
-                type: object
-                x-kubernetes-preserve-unknown-fields: true
-              secret-custom-config:
-                description: this is custom configuration for secrets
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               loggingConfig:
                 type: string
               mqRouter:
-                description: this is custom configuration for rouer mq
+                description: this is custom configuration for router mq
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               grpcRouter:
-                description: this is custom configuration for rouer grpc
+                description: this is custom configuration for router grpc
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               cradleManager:
@@ -67,9 +63,9 @@ spec:
                 x-kubernetes-preserve-unknown-fields: true
               bookName:
                 type: string
-              extended-settings:
+              extendedSettings:
                 properties:
-                  chart-cfg:
+                  chartCfg:
                     properties:
                       path:
                         type: string
@@ -77,14 +73,10 @@ spec:
                         type: string
                     type: object
                   replicas:
-                    type: string
-                    pattern: "^[0-9]+$"
+                    type: integer
                   k8sProbes:
-                    type: string
-                    enum:
-                      - "false"
-                      - "true"
-                    default: "false"
+                    type: boolean
+                    default: false
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -92,26 +84,20 @@ spec:
                     type: object
                     properties:
                       enabled:
-                        enum:
-                          - "false"
-                          - "true"
-                        type: string
+                        type: boolean
                   externalBox:
                     properties:
                       address:
                         type: string
                       enabled:
-                        enum:
-                        - "false"
-                        - "true"
-                        type: string
+                        type: boolean
                       endpoints:
                         items:
                           properties:
                             name:
                               type: string
                             targetPort:
-                              type: string
+                              type: integer
                           required:
                           - name
                           - targetPort
@@ -119,16 +105,11 @@ spec:
                         type: array
                     type: object
                   hostNetwork:
-                    enum:
-                    - "false"
-                    - "true"
-                    type: string
+                    type: boolean
                   nodeSelector:
                     description: map for selecting nodes
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  bookName:
-                    type: string
                   mounting:
                     items:
                       properties:
@@ -158,34 +139,22 @@ spec:
                   service:
                     properties:
                       enabled:
-                        enum:
-                        - "false"
-                        - "true"
-                        type: string
+                        type: boolean
                       endpoints:
                         items:
                           properties:
                             name:
                               type: string
                             nodePort:
-                              type: string
-                              pattern: "^[0-9]+$"
+                              type: integer
                             targetPort:
-                              type: string
-                              pattern: "^[0-9]+$"
+                              type: integer
                             port:
-                              type: string
-                              pattern: "^[0-9]+$"
+                              type: integer
                           required:
                           - name
                           type: object
                         type: array
-                      nodePort:
-                        type: string
-                        pattern: "^[0-9]+$"
-                      targetPort:
-                        type: string
-                        pattern: "^[0-9]+$"
                       type:
                         enum:
                         - ClusterIP
@@ -203,15 +172,12 @@ spec:
                     type: object
                 type: object
               disabled:
+                type: boolean
+              imageName:
                 type: string
-                enum:
-                  - "false"
-                  - "true"
-              image-name:
+              imageVersion:
                 type: string
-              image-version:
-                type: string
-              version-range:
+              versionRange:
                 type: string
               params:
                 description: List of generic parameters
@@ -227,134 +193,181 @@ spec:
                   type: object
                 type: array
               pins:
-                description: List of connection pins
-                items:
-                  properties:
-                    attributes:
-                      items:
-                        type: string
-                      type: array
-                    service-class:
-                      type: string
-                    service-classes:
-                      items:
-                        type: string
-                      type: array
-                    strategy:
-                      type: string
-                      default: robin
-                    connection-type:
-                      enum:
-                      - mq
-                      - grpc-server
-                      - grpc-client
-                      type: string
-                    filters:
-                      items:
-                        properties:
+                type: object
+                properties:
+                  grpc:
+                    type: object
+                    properties:
+                      server:
+                        type: array
+                        items:
+                          type: object
                           properties:
-                            items:
-                              properties:
-                                expected-value:
-                                  type: string
-                                field-name:
-                                  type: string
-                                operation:
-                                  enum:
-                                    - EQUAL
-                                    - NOT_EQUAL
-                                    - EMPTY
-                                    - NOT_EMPTY
-                                    - WILDCARD
-                                  type: string
-                              required:
-                                - field-name
-                                - expected-value
-                                - operation
-                              type: object
-                            type: array
-                          message:
-                            items:
-                              properties:
-                                expected-value:
-                                  type: string
-                                field-name:
-                                  type: string
-                                operation:
-                                  enum:
-                                  - EQUAL
-                                  - NOT_EQUAL
-                                  - EMPTY
-                                  - NOT_EMPTY
-                                  - WILDCARD
-                                  type: string
-                              required:
-                              - field-name
-                              - expected-value
-                              - operation
-                              type: object
-                            type: array
-                          metadata:
-                            items:
-                              properties:
-                                expected-value:
-                                  type: string
-                                field-name:
-                                  type: string
-                                operation:
-                                  enum:
-                                  - EQUAL
-                                  - NOT_EQUAL
-                                  - EMPTY
-                                  - NOT_EMPTY
-                                  - WILDCARD
-                                  type: string
-                              required:
-                              - field-name
-                              - expected-value
-                              - operation
-                              type: object
-                            type: array
-                        type: object
-                      type: array
-                    name:
-                      type: string
-                      pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                      maxLength: 71
-                    settings:
-                      properties:
-                        overloadStrategy:
-                          type: string
-                          enum:
-                            - "drop-head"
-                            - "reject-publish"
-                          default: "drop-head"
-                        queueLength:
-                          type: string
-                          default: "1000"
-                        storageOnDemand:
-                          type: string
-                          enum:
-                            - "false"
-                            - "true"
-                          default: "false"
+                            serviceClasses:
+                              items:
+                                type: string
+                              type: array
+                            name:
+                              type: string
+                              pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                              maxLength: 71
+                          required:
+                            - name
+                            - serviceClasses
+                      client:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            attributes:
+                              items:
+                                type: string
+                              type: array
+                            serviceClass:
+                              type: string
+                            strategy:
+                              type: string
+                              default: robin
+                            filters:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  properties:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          type: string
+                                        fieldName:
+                                          type: string
+                                        operation:
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                            name:
+                              type: string
+                              pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                              maxLength: 71
+                        required:
+                          - name
+                          - serviceClass
+                  mq:
+                    type: array
+                    items:
                       type: object
-                  required:
-                  - name
-                  - connection-type
-                  type: object
-                type: array
+                      properties:
+                        attributes:
+                          items:
+                            type: string
+                          type: array
+                        filters:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              properties:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    expectedValue:
+                                      type: string
+                                    fieldName:
+                                      type: string
+                                    operation:
+                                      enum:
+                                        - EQUAL
+                                        - NOT_EQUAL
+                                        - EMPTY
+                                        - NOT_EMPTY
+                                        - WILDCARD
+                                      type: string
+                                  required:
+                                    - fieldName
+                                    - expectedValue
+                                    - operation
+                              message:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    expectedValue:
+                                      type: string
+                                    fieldName:
+                                      type: string
+                                    operation:
+                                      enum:
+                                        - EQUAL
+                                        - NOT_EQUAL
+                                        - EMPTY
+                                        - NOT_EMPTY
+                                        - WILDCARD
+                                      type: string
+                                  required:
+                                    - fieldName
+                                    - expectedValue
+                                    - operation
+                              metadata:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    expectedValue:
+                                      type: string
+                                    fieldName:
+                                      type: string
+                                    operation:
+                                      enum:
+                                        - EQUAL
+                                        - NOT_EQUAL
+                                        - EMPTY
+                                        - NOT_EMPTY
+                                        - WILDCARD
+                                      type: string
+                                  required:
+                                    - fieldName
+                                    - expectedValue
+                                    - operation
+
+                        name:
+                          type: string
+                          pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                          maxLength: 71
+                        settings:
+                          properties:
+                            overloadStrategy:
+                              type: string
+                              enum:
+                                - "drop-head"
+                                - "reject-publish"
+                              default: "drop-head"
+                            queueLength:
+                              type: integer
+                              default: 1000
+                            storageOnDemand:
+                              type: boolean
+                              default: false
+                          type: object
+                    required:
+                      - name
               prometheus:
                 properties:
                   enabled:
-                    enum:
-                    - "false"
-                    - "true"
-                    type: string
+                    type: boolean
                   host:
                     type: string
                   port:
-                    type: string
+                    type: integer
                 type: object
               type:
                 enum:
@@ -380,8 +393,8 @@ spec:
                 - th2-monkey
                 type: string
             required:
-            - image-name
-            - image-version
+            - imageName
+            - imageVersion
             - type
             type: object
           status:
