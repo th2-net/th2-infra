@@ -18,7 +18,6 @@ rules:
       - th2estores
       - th2links
       - th2mstores
-      - ingresses
       - helmreleases
     verbs: ["*"]
 ---
@@ -34,6 +33,7 @@ rules:
       - ""
       - apps
       - networking.k8s.io
+      - helm.fluxcd.io
     resources: 
       - configmaps
       - secrets
@@ -45,6 +45,7 @@ rules:
       - th2estores
       - th2links
       - th2mstores
+      - helmreleases
       - ingresses
     verbs: ["*"]
 ---
