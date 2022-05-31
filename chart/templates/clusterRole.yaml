@@ -10,15 +10,16 @@ rules:
       - th2.exactpro.com
       - helm.fluxcd.io
     resources: 
-      - "configmaps" 
-      - "secrets" 
-      - "th2boxes" 
-      - "th2coreboxes"
-      - "th2dictionaries"
-      - "th2estores"
-      - "th2links"
-      - "th2mstores"
-      - "helmreleases"
+      - configmaps
+      - secrets
+      - th2boxes
+      - th2coreboxes
+      - th2dictionaries
+      - th2estores
+      - th2links
+      - th2mstores
+      - ingresses
+      - helmreleases
     verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -34,17 +35,17 @@ rules:
       - apps
       - networking.k8s.io
     resources: 
-      - "configmaps" 
-      - "secrets" 
-      - "pods" 
-      - "deployments" 
-      - "th2boxes" 
-      - "th2coreboxes"
-      - "th2dictionaries"
-      - "th2estores"
-      - "th2links"
-      - "th2mstores"
-      - "ingresses"
+      - configmaps
+      - secrets
+      - pods 
+      - deployments
+      - th2boxes
+      - th2coreboxes
+      - th2dictionaries
+      - th2estores
+      - th2links
+      - th2mstores
+      - ingresses
     verbs: ["*"]
 ---
 apiVersion: v1
