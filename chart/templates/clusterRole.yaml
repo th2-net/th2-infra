@@ -1,3 +1,4 @@
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -32,21 +33,19 @@ metadata:
   {{- include "common-annotations" . | nindent 4  }}
 rules:
   - apiGroups:
-      - th2.exactpro.com
       - ""
-      - apps
+      - th2.exactpro.com
       - networking.k8s.io
     resources: 
       - configmaps
       - secrets
-      - pods 
-      - deployments
       - th2boxes
       - th2coreboxes
       - th2dictionaries
       - th2estores
       - th2links
       - th2mstores
+      - namespaces
       - ingresses
     verbs: ["*"]
 ---
@@ -60,7 +59,7 @@ metadata:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: infra-mgr
+  name: infra-mgr-service
   annotations:
   {{- include "common-annotations" . | nindent 4  }}
 ---
@@ -93,3 +92,4 @@ subjects:
   - kind: ServiceAccount
     name: infra-mgr
     namespace: {{ .Release.Namespace }}
+---
