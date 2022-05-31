@@ -90,6 +90,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 subjects:
   - kind: ServiceAccount
-    name: infra-mgr
+    name: infra-mgr-service
     namespace: {{ .Release.Namespace }}
 ---
