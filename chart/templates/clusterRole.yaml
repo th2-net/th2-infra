@@ -36,6 +36,7 @@ rules:
       - ""
       - th2.exactpro.com
       - networking.k8s.io
+      - apps
     resources: 
       - configmaps
       - secrets
@@ -47,6 +48,9 @@ rules:
       - th2mstores
       - namespaces
       - ingresses
+      - services
+      - pods
+      - deployments
     verbs: ["*"]
 ---
 apiVersion: v1
