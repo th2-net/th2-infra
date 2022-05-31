@@ -15,11 +15,16 @@ rules:
       - configmaps
       - secrets
       - th2boxes
+      - th2boxes/status   
       - th2coreboxes
+      - th2coreboxes/status
       - th2dictionaries
       - th2estores
+      - th2estores/status
       - th2links
+      - th2links/status
       - th2mstores
+      - th2mstores/status
       - helmreleases
       - namespaces
       - customresourcedefinitions
