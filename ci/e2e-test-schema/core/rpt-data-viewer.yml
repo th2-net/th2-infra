@@ -1,19 +1,22 @@
-apiVersion: th2.exactpro.com/v1
+apiVersion: th2.exactpro.com/v2
 kind: Th2CoreBox
 metadata:
   name: rpt-data-viewer
 spec:
-  image-name: ghcr.io/th2-net/th2-rpt-viewer
-  image-version: 3.1.127
+  imageName: ghcr.io/th2-net/th2-rpt-viewer
+  imageVersion: 3.1.127
   type: th2-rpt-viewer
-  extended-settings:
+  extendedSettings:
+    resources:
+      limits:
+        cpu: 50m
+        memory: 50Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
     service:
       enabled: true
-      type: ClusterIP
       endpoints:
-        - name: "gui"
-          targetPort: 8080
-    resources:
-      requests:
-        memory: 50Mi
-        cpu: 50m
+      - name: gui
+        targetPort: 8080
+      type: ClusterIP
