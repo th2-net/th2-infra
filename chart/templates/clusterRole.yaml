@@ -9,6 +9,7 @@ rules:
       - ""
       - th2.exactpro.com
       - helm.fluxcd.io
+      - apiextensions.k8s.io
     resources: 
       - configmaps
       - secrets
@@ -19,6 +20,7 @@ rules:
       - th2links
       - th2mstores
       - helmreleases
+      - namespaces
     verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -33,7 +35,6 @@ rules:
       - ""
       - apps
       - networking.k8s.io
-      - helm.fluxcd.io
     resources: 
       - configmaps
       - secrets
@@ -45,7 +46,6 @@ rules:
       - th2estores
       - th2links
       - th2mstores
-      - helmreleases
       - ingresses
     verbs: ["*"]
 ---
