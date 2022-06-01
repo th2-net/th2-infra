@@ -7,6 +7,10 @@ spec:
   image-version: 3.1.127
   type: th2-rpt-viewer
   extended-settings:
+    hostAliases:
+    - ip: "127.0.0.1"
+      hostnames: 
+      - "test.local"
     service:
       enabled: true
       type: ClusterIP
