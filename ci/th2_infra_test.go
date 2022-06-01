@@ -14,6 +14,7 @@ import (
 
 const (
 	defaultSchemaNamespace  = "th2-schema"
+	defaultVhost            = "th2"
 	defaultServiceNamespace = "service"
 	monitoringNamespace     = "monitoring"
 	rabbitmqPod             = "rabbitmq-0"
@@ -147,18 +148,18 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 
 func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	// t.Parallel()
-	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/messageStreams", schemaNamespace)
+	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/filters/sse-events", schemaNamespace)
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, retries, timeout)
 
-	validator := validFunc(t, 200, "[]")
+	validator := validFunc(t, 200, "[\"attachedMessageId\",\"type\",\"name\",\"body\",\"status\"]")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
 func TestRabbitMQQueues(t *testing.T) {
 	// t.Parallel()
-	endpoint := fmt.Sprintf("http://%[1]s:%[2]s@localhost:30000/rabbitmq/api/queues/%[3]s/link%%5B%[3]s%%3Arpt-data-provider%%3Afrom_codec%%5D",
-		rabbitmqUser, rabbitmqPassword, schemaNamespace,
+	endpoint := fmt.Sprintf("http://%s:%s@localhost:30000/rabbitmq/api/queues/%s/link%%5B%s%%3Arpt-data-provider%%3Afrom_codec%%5D",
+		rabbitmqUser, rabbitmqPassword, defaultVhost, schemaNamespace,
 	)
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
