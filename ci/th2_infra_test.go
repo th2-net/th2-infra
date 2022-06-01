@@ -14,6 +14,7 @@ import (
 
 const (
 	defaultSchemaNamespace  = "th2-schema"
+	defaultVhost            = "th2"
 	defaultServiceNamespace = "service"
 	monitoringNamespace     = "monitoring"
 	rabbitmqPod             = "rabbitmq-0"
@@ -158,7 +159,7 @@ func TestNamespaceDataProviderEndpoint(t *testing.T) {
 func TestRabbitMQQueues(t *testing.T) {
 	// t.Parallel()
 	endpoint := fmt.Sprintf("http://%[1]s:%[2]s@localhost:30000/rabbitmq/api/queues/%[3]s/link%%5B%[3]s%%3Arpt-data-provider%%3Afrom_codec%%5D",
-		rabbitmqUser, rabbitmqPassword, schemaNamespace,
+		rabbitmqUser, rabbitmqPassword, defaultVhost,
 	)
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
