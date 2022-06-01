@@ -159,7 +159,7 @@ func TestNamespaceDataProviderEndpoint(t *testing.T) {
 func TestRabbitMQQueues(t *testing.T) {
 	// t.Parallel()
 	endpoint := fmt.Sprintf("http://%s:%s@localhost:30000/rabbitmq/api/queues/%s/link%%5B%s%%3Arpt-data-provider%%3Afrom_codec%%5D",
-		rabbitmqUser, rabbitmqPassword, defaultVhost, serviceNamespace
+		rabbitmqUser, rabbitmqPassword, defaultVhost, serviceNamespace,
 	)
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
