@@ -65,7 +65,7 @@ infraEditorV2:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 1.0.0
+    tag: 2.0.0-alpha1
 
 infraOperator:
   prometheusConfiguration:
@@ -73,7 +73,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.6.4
+    tag: 4.2.1-infra-2.0-2378051844
   config:
     chart:
       repository: http://infra-repo:8080
@@ -84,11 +84,9 @@ infraOperator:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
     rabbitMQManagement:
-      #      host: "" -  host is taken from rabbitmq config
-      port: "15672"
-      username: "th2"
       password: "${RABBITMQ_PASS}"
       persistence: true
+      exchangeName: "global-notification"
       schemaPermissions:
         configure: ""
         read: ".*"
@@ -113,7 +111,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.7.18
+    tag: 2.0.3-infra-2.0.0-2383039690
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
@@ -129,7 +127,7 @@ infraMgr:
     secret: rabbitmq
     passwordLength: 24
   cassandra:
-    keyspacePrefix: schema_
+    keyspacePrefix: th2_
     secret: cassandra
   kubernetes:
     # -- must be not more than 5 symbols
@@ -191,6 +189,9 @@ rabbitmq:
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
+  # -- Value for compatibility with bitnami rabbitmq chart, must be changed with extraConfiguration
+  rabbitmqVhost: th2
+  # default_vhost must be updated with rabbitmqVhost value
   extraConfiguration: |-
     default_vhost = th2
     disk_free_limit.absolute = 10GB

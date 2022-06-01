@@ -38,8 +38,11 @@ data:
       {{- else }}
       host: "{{ .Values.rabbitmq.fullnameOverride }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
       {{- end }}
-      port: {{ .Values.infraOperator.config.rabbitMQManagement.port | quote }}
-      username: {{ .Values.infraOperator.config.rabbitMQManagement.username | quote }}
+      managementPort: {{ .Values.rabbitmq.service.managerPort | quote }}
+      applicationPort: {{ .Values.rabbitmq.service.port | quote }}
+      vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
+      exchangeName: {{ .Values.infraOperator.config.rabbitMQManagement.exchangeName | quote }}
+      username: {{ .Values.rabbitmq.auth.username | quote }}
       password: {{ .Values.infraOperator.config.rabbitMQManagement.password | quote }}
       persistence: {{ .Values.infraOperator.config.rabbitMQManagement.persistence | quote }}
       schemaPermissions:

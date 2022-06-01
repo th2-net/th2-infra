@@ -65,6 +65,8 @@ spec:
                 description: this is custom configuration for cradle
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              bookName:
+                type: string
               extended-settings:
                 properties:
                   chart-cfg:

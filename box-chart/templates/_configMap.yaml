@@ -44,6 +44,9 @@ data:
     {{- .component.logging.config | nindent 4 }}
   {{- end }}
   box.json: |
-    {"boxName":{{ .component.name | quote }}}
+    {
+        "boxName":{{ .component.name | quote }},
+        "bookName":{{ .component.bookConfig.bookName | quote }}
+    }
 
 {{ end }}

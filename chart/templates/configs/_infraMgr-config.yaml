@@ -33,34 +33,13 @@ data:
       httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
 
     rabbitmq:
-      vhostPrefix: {{ .Values.infraMgr.rabbitmq.vHostPrefix }}
-      usernamePrefix: {{ .Values.infraMgr.rabbitmq.usernamePrefix }}
+      vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
       secret: {{ default .Values.infraMgr.rabbitmq.secret .Values.rabbitmq.fullnameOverride }}
       passwordLength: {{ .Values.infraMgr.rabbitmq.passwordLength }}
 
     cassandra:
       keyspacePrefix: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
       secret: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
-      username: {{ .Values.cassandra.dbUser.user | quote }}
-      password: "${CASSANDRA_PASS}"	
-      {{- if .Values.cassandra.host }}
-      host: {{ .Values.cassandra.host | quote }}
-      {{- else }}
-      host: "{{ .Values.cassandra.fullnameOverride }}-headless.service.svc.cluster.local"
-      {{- end }}
-      port: "9042"
-      dataCenter: {{ .Values.cassandra.cluster.datacenter | quote }}
-      timeout: {{ .Values.cassandra.cradle.timeout | quote }}
-      instanceName: {{ .Values.cassandra.cradle.instanceName | quote }}
-      pageSize: {{ .Values.cassandra.cradle.pageSize | quote }}
-      cradleMaxEventBatchSize: {{ .Values.cassandra.cradle.cradleMaxEventBatchSize | quote }}
-      cradleMaxMessageBatchSize: {{ .Values.cassandra.cradle.cradleMaxMessageBatchSize | quote }}
-      {{- if .Values.cassandra.cradle.networkTopologyStrategy }}
-      networkTopologyStrategy:
-      {{- range $centre, $value := .Values.cassandra.cradle.networkTopologyStrategy }}
-        {{ $centre }}: {{ $value }}
-      {{- end }}
-      {{- end }}
 
     kubernetes:
       useCustomConfig: false

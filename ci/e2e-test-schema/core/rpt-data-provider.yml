@@ -4,7 +4,7 @@ metadata:
   name: rpt-data-provider
 spec:
   image-name: ghcr.io/th2-net/th2-rpt-data-provider
-  image-version: 5.3.20
+  image-version: 5.3.9-master_migration_to_cradle_4.0.0-TH2-2150-1779274740
   type: th2-rpt-data-provider
   custom-config:
     hostname: localhost
