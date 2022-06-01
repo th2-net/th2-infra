@@ -147,11 +147,11 @@ func TestNamespaceReportEndpoint(t *testing.T) {
 
 func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	// t.Parallel()
-	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/messageStreams?bookId=defaultBook", schemaNamespace)
+	endpoint := fmt.Sprintf("http://localhost:30000/%s/backend/filters/sse-events", schemaNamespace)
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, retries, timeout)
 
-	validator := validFunc(t, 200, "[]")
+	validator := validFunc(t, 200, "[\"attachedMessageId\",\"type\",\"name\",\"body\",\"status\"]")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
