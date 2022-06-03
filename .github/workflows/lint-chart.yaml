@@ -32,17 +32,12 @@ jobs:
           python-version: 3.7
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.0.1
-        with:
-          version: v3.3.0
+        uses: helm/chart-testing-action@v2.2.1
 
       - name: Run infra chart linting
         run: |
-          helm repo add rabbitmq-ha https://charts.helm.sh/stable
-          helm repo add cassandra https://charts.bitnami.com/bitnami
-          helm repo add helm-operator https://charts.fluxcd.io
-          helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard
           ct lint \
-            --lint-conf=ci/cfg/lint-cfg.yml \
+            --chart-repos rabbitmq=https://charts.bitnami.com/bitnami,helm-operator=https://charts.fluxcd.io,kubernetes-dashboard=https://kubernetes.github.io/dashboard \
+            --lint-conf=./ci/cfg/lint-cfg.yml \
             --check-version-increment \
             --validate-maintainers=false --debug --charts ./chart
