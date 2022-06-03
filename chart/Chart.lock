@@ -3,7 +3,7 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   version: 8.24.13
 - name: cassandra
-  repository: https://charts.bitnami.com/bitnami
+  repository: ""
   version: 5.6.7
 - name: helm-operator
   repository: https://charts.fluxcd.io
@@ -11,5 +11,5 @@ dependencies:
 - name: kubernetes-dashboard
   repository: https://kubernetes.github.io/dashboard/
   version: 5.0.4
-digest: sha256:f7efdf3d24737d8be21ff02e82f67275243655c69bdaca9372a275f0375d00c0
-generated: "2022-04-25T17:27:45.532115992+04:00"
+digest: sha256:3aeb58c46cd87508ed82b7d95fe07592ad9ac8d012de8759d97a09698fce2e42
+generated: "2022-06-03T15:03:13.823363875+04:00"
