@@ -131,7 +131,7 @@ spec:
                           type: array
                       required:
                         - ip
-                        - hostname
+                          hostname
                       type: object
                   hostNetwork:
                     enum:

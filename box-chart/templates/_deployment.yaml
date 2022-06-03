@@ -37,10 +37,6 @@ spec:
         {{- include "prometheus-deploy" . }}
         resources:
           {{- .component.extendedSettings.resources | toYaml | nindent 10 }}
-        {{- if .component.extendedSettings.hostAliases }}
-        hostAliases:
-          {{ .component.extendedSettings.hostAliases | toYaml | nindent 2 }}
-        {{- end }}
         env:
         {{- include "envVariable" . }}
         {{- include "volumes" . }}
@@ -55,6 +51,10 @@ spec:
       {{- if .component.extendedSettings.hostNetwork }}
       hostNetwork: true
       dnsPolicy: ClusterFirst
+      {{- end }}
+      {{- if .component.extendedSettings.hostAliases }}
+      hostAliases:
+        {{ .component.extendedSettings.hostAliases | toYaml | nindent 2 }}
       {{- end }}
   revisionHistoryLimit: 2
 {{- end }}
