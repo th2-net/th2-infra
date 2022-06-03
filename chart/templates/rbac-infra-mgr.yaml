@@ -1,0 +1,52 @@
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: infra-mgr
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+rules:
+  - apiGroups:
+      - ""
+      - th2.exactpro.com
+      - networking.k8s.io
+      - apps
+    resources: 
+      - configmaps
+      - secrets
+      - th2boxes
+      - th2coreboxes
+      - th2dictionaries
+      - th2estores
+      - th2links
+      - th2mstores
+      - namespaces
+      - ingresses
+      - services
+      - pods
+      - deployments
+    verbs: ["*"]
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: infra-mgr-service
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: infra-mgr-binding
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+roleRef:
+  kind: ClusterRole
+  name: infra-mgr
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: infra-mgr-service
+    namespace: {{ .Release.Namespace }}
+---
