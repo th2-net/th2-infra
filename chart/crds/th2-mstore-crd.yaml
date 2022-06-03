@@ -26,7 +26,7 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v1
+    name: v2
     schema:
       openAPIV3Schema:
         description: Th2Mstore defines th2 message store instance
@@ -40,22 +40,18 @@ spec:
           spec:
             description: Specification of desired message store
             properties:
-              custom-config:
+              customConfig:
                 description: this is custom configuration
-                type: object
-                x-kubernetes-preserve-unknown-fields: true
-              secret-custom-config:
-                description: this is custom configuration for secrets
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               loggingConfig:
                 type: string
               mqRouter:
-                description: this is custom configuration for rouer mq
+                description: this is custom configuration for router mq
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               grpcRouter:
-                description: this is custom configuration for rouer grpc
+                description: this is custom configuration for router grpc
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               cradleManager:
@@ -64,9 +60,9 @@ spec:
                 x-kubernetes-preserve-unknown-fields: true
               bookName:
                 type: string
-              extended-settings:
+              extendedSettings:
                 properties:
-                  chart-cfg:
+                  chartCfg:
                     properties:
                       path:
                         type: string
@@ -74,14 +70,10 @@ spec:
                         type: string
                     type: object
                   replicas:
-                    type: string
-                    pattern: "^[0-9]+$"
+                    type: integer
                   k8sProbes:
-                    type: string
-                    enum:
-                      - "false"
-                      - "true"
-                    default: "false"
+                    type: boolean
+                    default: false
                   envVariables:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -89,26 +81,20 @@ spec:
                     type: object
                     properties:
                       enabled:
-                        enum:
-                          - "false"
-                          - "true"
-                        type: string
+                        type: boolean
                   externalBox:
                     properties:
                       address:
                         type: string
                       enabled:
-                        enum:
-                        - "false"
-                        - "true"
-                        type: string
+                        type: boolean
                       endpoints:
                         items:
                           properties:
                             name:
                               type: string
                             targetPort:
-                              type: string
+                              type: integer
                           required:
                           - name
                           - targetPort
@@ -116,16 +102,11 @@ spec:
                         type: array
                     type: object
                   hostNetwork:
-                    enum:
-                    - "false"
-                    - "true"
-                    type: string
+                    type: boolean
                   nodeSelector:
                     description: map for selecting nodes
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  bookName:
-                    type: string
                   mounting:
                     items:
                       properties:
@@ -155,34 +136,22 @@ spec:
                   service:
                     properties:
                       enabled:
-                        enum:
-                        - "false"
-                        - "true"
-                        type: string
+                        type: boolean
                       endpoints:
                         items:
                           properties:
                             name:
                               type: string
                             nodePort:
-                              type: string
-                              pattern: "^[0-9]+$"
+                              type: integer
                             targetPort:
-                              type: string
-                              pattern: "^[0-9]+$"
+                              type: integer
                             port:
-                              type: string
-                              pattern: "^[0-9]+$"
+                              type: integer
                           required:
                           - name
                           type: object
                         type: array
-                      nodePort:
-                        type: string
-                        pattern: "^[0-9]+$"
-                      targetPort:
-                        type: string
-                        pattern: "^[0-9]+$"
                       type:
                         enum:
                         - ClusterIP
@@ -200,15 +169,12 @@ spec:
                     type: object
                 type: object
               disabled:
+                type: boolean
+              imageName:
                 type: string
-                enum:
-                  - "false"
-                  - "true"
-              image-name:
+              imageVersion:
                 type: string
-              image-version:
-                type: string
-              version-range:
+              versionRange:
                 type: string
               params:
                 description: List of generic parameters
@@ -226,22 +192,19 @@ spec:
               prometheus:
                 properties:
                   enabled:
-                    enum:
-                    - "false"
-                    - "true"
-                    type: string
+                    type: boolean
                   host:
                     type: string
                   port:
-                    type: string
+                    type: integer
                 type: object
               type:
                 enum:
                 - th2-mstore
                 type: string
             required:
-            - image-name
-            - image-version
+            - imageName
+            - imageVersion
             type: object
           status:
             description: contains status information about this resource
