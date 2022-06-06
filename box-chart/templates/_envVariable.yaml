@@ -49,5 +49,5 @@ Generating envVariables for k8
           valueFrom:
             secretKeyRef:
               name: secret-custom-config
-              key: cassandra-password
+              key: cassandraPassword
 {{- end }}
