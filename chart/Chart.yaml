@@ -31,7 +31,6 @@ dependencies:
   version: 8.24.13
 - alias: cassandra
   condition: cassandra.internal
-  repository: https://charts.bitnami.com/bitnami
   name: cassandra
   version: 5.6.7
 - alias: helmoperator
