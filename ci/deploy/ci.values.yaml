@@ -25,7 +25,7 @@ cassandra:
   jvm:
     maxHeapSize: 1G
     newHeapSize: 800M
-    extaOpts: "-Dcassandra.skip_wait_for_gossip_to_settle=0"
+    extraOpts: "-Dcassandra.skip_wait_for_gossip_to_settle=0"
   internal: true
 infraMgr:
   git:
