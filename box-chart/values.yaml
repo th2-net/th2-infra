@@ -14,6 +14,8 @@ component:
   extendedSettings:
     service:
       enabled: false
+      ingress:
+        urlPaths: []
     resources:
       limits:
         memory: 200Mi

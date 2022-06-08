@@ -77,6 +77,7 @@ chart and their default values.
 | `extraVolumeMounts`                               | `[]`                                                 | Extra volume mounts to be added to the Helm Operator pod(s)
 | `extraVolumes`                                    | `[]`                                                 | Extra volume to be added to the Helm Operator pod(s)
 | `priorityClassName`                               | `""`                                                 | Set priority class for Helm Operator
+| `terminationGracePeriodSeconds`                   | `300`                                                | Set terminationGracePeriod in seconds for Helm Operator
 | `extraEnvs`                                       | `[]`                                                 | Extra environment variables for the Helm Operator pod(s)
 | `podAnnotations`                                  | `{}`                                                 | Additional pod annotations
 | `podLabels`                                       | `{}`                                                 | Additional pod labels
@@ -99,7 +100,8 @@ chart and their default values.
 | `git.ssh.configMapName`                           | `None`                                               | The name of a kubernetes config map containing the ssh config
 | `git.ssh.configMapKey`                            | `config`                                             | The name of the key in the kubernetes config map specified above
 | `git.config.enabled`                              | `false`                                              | If `true`, mount the .gitconfig into the Helm Operator pod created from the `git.config.data`
-| `git.config.secretName`                           | `None`                                               | The name of the kubernetes secret to store .gitconfig data created from the `git.config.data`
+| `git.config.secretName`                           | `None`                                               | The name of the kubernetes secret with .gitconfig data. It can be created manually or automatically using `git.config.createSecret` and `git.config.data`
+| `git.config.createSecret`                         | `true`                                               | If `true`, create the kubernetes secret with the value of `git.config.data`
 | `git.config.data`                                 | `None`                                               | The .gitconfig to be mounted into the home directory of the Helm Operator pod
 | `chartsSyncInterval`                              | `3m`                                                 | Period on which to reconcile the Helm releases with `HelmRelease` resources
 | `statusUpdateInterval`                            | `30s`                                                | Period on which to update the Helm release status in `HelmRelease` resources
@@ -148,6 +150,8 @@ chart and their default values.
 | `initContainers`                                  | `[]`                                                 | Init containers and their specs
 | `hostAliases`                                     | `{}`                                                 | Host aliases allow the modification of the hosts file (`/etc/hosts`) inside Helm Operator container. See <https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/>
 | `dashboards.enabled`                              | `false`                                              | If enabled, helm-operator will create a configmap with a dashboard in json that's going to be picked up by grafana (see [sidecar.dashboards.enabled](https://github.com/helm/charts/tree/master/stable/grafana#configuration))
+| `dashboards.namespace`                            | ``                                                   | The namespace where the dashboard is deployed, defaults to the installation namespace
+| `dashboards.nameprefix`                           | `flux-dashboards`                                    | The prefix of the generated configmaps
 | `securityContext`                                 | `{}`                                                 | Adding `securityContext` options to the pod
 | `containerSecurityContext.helmOperator`           | `{}`                                                 | Adding `securityContext` options to the helm operator container
 | `containerSecurityContext.tiller`                 | `{}`                                                 | Adding `securityContext` options to the tiller container

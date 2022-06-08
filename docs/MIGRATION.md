@@ -1,6 +1,15 @@
 # Migrations
 
 ## Migration to RELEASE v1.8.0
+* Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
+* NGINX Ingress Controller chart must be upgraded 3.31.0 > 4.1.2
+```
+$ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
+```
+* HelmOperator dependency upgraded 1.2.0 > 1.4.2. HelmRelease CRD must be removed before infra installation
+```
+$ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
+```
 * Dashboards, Dashboard Provider and grafana plugins should be added in grafana during deployment.
   <details>
     <summary>Adding Dashboard Provider, Dashboards and plugins in Prometheus-stack</summary>

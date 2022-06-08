@@ -10,7 +10,7 @@ rabbitmq:
     enabled: false
   prometheus:
     operator:
-      enabled: false
+      enabled: true
   metrics:
     enabled: false
 cassandra:
