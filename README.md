@@ -284,7 +284,7 @@ Host <node-address>
 ```
 * clone your infra-git repo using 
 ```
-$ git clone git@infra-git:/home/git/repo/schema.git
+$ git clone git@<node-address>:/home/git/repo/schema.git
 ``` 
 ## th2 deployment
 ### Install NGINX Ingress Controller
