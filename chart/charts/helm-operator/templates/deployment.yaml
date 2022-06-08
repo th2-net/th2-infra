@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "helm-operator.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "helm-operator.name" . }}
     chart: {{ template "helm-operator.chart" . }}
@@ -50,6 +51,9 @@ spec:
       {{- if .Values.securityContext }}
       securityContext:
 {{ toYaml .Values.securityContext | indent 8 }}
+      {{- end }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
       volumes:
       {{- if .Values.kube.config }}
@@ -268,6 +272,12 @@ spec:
         {{- else }}
         - --tiller-namespace={{ .Values.tillerNamespace }}
         {{- end }}
+        {{- if .Values.convert.releaseStorage }}
+        - --convert-release-storage={{ .Values.convert.releaseStorage }}
+        {{- end }}
+        {{- if .Values.convert.tillerOutCluster }}
+        - --convert-tiller-out-cluster={{ .Values.convert.tillerOutCluster }}
+        {{- end }}
         {{- if .Values.tls.enable }}
         - --tiller-tls-enable={{ .Values.tls.enable }}
         - --tiller-tls-key-path=/etc/fluxd/helm/{{ .Values.tls.keyFile }}
@@ -277,12 +287,6 @@ spec:
         - --tiller-tls-ca-cert-path=/etc/fluxd/helm-ca/ca.crt
         {{- if .Values.tls.hostname }}
         - --tiller-tls-hostname={{ .Values.tls.hostname }}
-        {{- end }}
-        {{- if .Values.convert.releaseStorage }}
-        - --convert-release-storage={{ .Values.convert.releaseStorage }}
-        {{- end }}
-        {{- if .Values.convert.tillerOutCluster }}
-        - --convert-tiller-out-cluster={{ .Values.convert.tillerOutCluster }}
         {{- end }}
         {{- end }}
         {{- end }}
