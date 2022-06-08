@@ -46,7 +46,7 @@ data:
       {{- if .Values.cassandra.host }}
       host: {{ .Values.cassandra.host | quote }}
       {{- else }}
-      host: "{{ .Values.cassandra.fullnameOverride }}-headless.service.svc.cluster.local"
+      host: "{{ .Values.cassandra.fullnameOverride }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
       {{- end }}
       port: "9042"
       dataCenter: {{ .Values.cassandra.cluster.datacenter | quote }}
