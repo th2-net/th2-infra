@@ -21,7 +21,7 @@ jobs:
           version: v3.4.1
 
       - name: Set up unit test
-        uses: quintush/helm-unittest
+        uses: quintush/helm-unittest@v0.2.8
         with:
           version: v0.2.8
       
