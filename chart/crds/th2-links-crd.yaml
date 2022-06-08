@@ -17,7 +17,6 @@ spec:
   - name: v2
     schema:
       openAPIV3Schema:
-        description: Th2link defines th2 link instance
         properties:
           apiVersion:
             type: string
@@ -26,23 +25,27 @@ spec:
           metadata:
             type: object
           spec:
-            description: Specification of desired links
+            description: Specification of desired links. Includes three main sections - boxesRelation, dictionariesRelation and multiDictionariesRelation
             properties:
               boxesRelation:
+                description: this section includes two subsections routerGrpc and routerMq. Note that the link is invalid if the boxes “from” and  “to” have the same name.
                 properties:
                   routerGrpc:
-                    description: List of grpc connection pins
+                    description: List of grpc connection pins. Used to enable messaging between boxes.
                     items:
                       properties:
                         name:
+                          description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$  and max length of 256
                           type: string
                           pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
                           maxLength: 256
                         from:
                           properties:
                             box:
+                              description: name of the box
                               type: string
                             pin:
+                              description: represents the pin of the box that we want to connect
                               type: string
                           required:
                           - box
@@ -51,8 +54,10 @@ spec:
                         to:
                           properties:
                             box:
+                              description: name of the box
                               type: string
                             pin:
+                              description: represents the pin of the box that we want to connect
                               type: string
                           required:
                           - box
@@ -66,18 +71,21 @@ spec:
                     type: array
                     nullable: true
                   routerMq:
-                    description: List of mq connection pins
+                    description: List of mq connection pins. Used to enable messaging between boxes.
                     items:
                       properties:
                         name:
+                          description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$  and max length of 256
                           type: string
                           pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
                           maxLength: 256
                         from:
                           properties:
                             box:
+                              description: name of the box
                               type: string
                             pin:
+                              description: represents the pin of the box that we want to connect
                               type: string
                           required:
                           - box
@@ -86,8 +94,10 @@ spec:
                         to:
                           properties:
                             box:
+                              description: name of the box
                               type: string
                             pin:
+                              description: represents the pin of the box that we want to connect
                               type: string
                           required:
                           - box
@@ -103,20 +113,25 @@ spec:
                 type: object
                 nullable: true
               dictionariesRelation:
-                description: List of dictionary relations
+                description: this section is used to link boxes with their associated dictionaries
                 items:
                   properties:
                     name:
+                      description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$  and max length of 256
                       type: string
                       pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
                       maxLength: 256
                     box:
+                      description: name of the box that we want to link to the dictionary
                       type: string
                     dictionary:
+                      description: section of dictionary
                       properties:
                         name:
+                          description: name of a dictionary
                           type: string
                         type:
+                          description: type of a dictionary
                           enum:
                           - MAIN
                           - LEVEL1
@@ -134,22 +149,26 @@ spec:
                   type: object
                 type: array
               multiDictionariesRelation:
-                description: List of multi dictionary relations
+                description: this section is used to link boxes with their associated multidictionaries
                 items:
                   properties:
                     name:
+                      description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$  and max length of 256
                       type: string
                       pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
                       maxLength: 256
                     box:
+                      description: name of the box that we want to link to the multidictionary
                       type: string
                     dictionaries:
                       items:
                         properties:
                           name:
+                            description: name for the dictionary. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$
                             type: string
                             pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
                           alias:
+                            description: alias for the dictionary. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$
                             type: string
                             pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
                         required:
