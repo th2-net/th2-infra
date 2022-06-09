@@ -165,9 +165,11 @@ infraGit:
     repository: ghcr.io/th2-net/git-ssh
     tag: v0.1.0
   pvc:
+    enable: true
+    existingVolume:
     accessModes: ReadWriteMany
     storage: 5Gi
-    storageClassName: local-storage
+    storageClassName: ""
   resources:
     limits:
       cpu: 100m
