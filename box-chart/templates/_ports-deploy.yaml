@@ -1,0 +1,31 @@
+{{/*
+Generating containers ports for k8
+*/}}
+{{- define "ports-deploy" }}
+
+
+{{- if not .component.prometheus }}
+        ports:
+        {{- include "prometheus-deploy" . }}
+        {{- include "container-ports-deploy" . }}
+{{- else }}
+  {{- if .component.prometheus.enabled }}
+        ports:
+        {{- include "prometheus-deploy" . }}
+        {{- include "container-ports-deploy" . }}
+  {{- else }}
+
+        {{- if not .component.extendedSettings.service }}
+        {{- else }}
+        {{- if .component.extendedSettings.service.enabled }}
+        ports:
+        {{- include "prometheus-deploy" . }}
+        {{- include "container-ports-deploy" . }}
+        {{- end }}
+        {{- end }}
+
+  {{- end }}
+{{- end }}
+
+
+{{- end }}

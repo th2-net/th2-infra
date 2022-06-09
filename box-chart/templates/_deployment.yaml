@@ -38,7 +38,7 @@ spec:
       - image: {{ .component.image }}
         {{- include "probes-deploy" . }}
         name: {{ .component.name }}
-        {{- include "prometheus-deploy" . }}
+        {{- include "ports-deploy" . }}
         resources:
           {{- .component.extendedSettings.resources | toYaml | nindent 10 }}
         env:

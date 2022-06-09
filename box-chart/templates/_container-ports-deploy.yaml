@@ -1,0 +1,38 @@
+{{/*
+Generating container port for prometheus stats from pods
+*/}}
+{{- define "container-ports-deploy" }}
+
+{{- if not .component.extendedSettings.service }}
+{{- else }}
+{{- if .component.extendedSettings.service.enabled }}
+
+    {{- if .component.extendedSettings.service.nodePort }}
+        {{- range $list := .component.extendedSettings.service.nodePort }}
+        - name: {{ $list.name }}
+          {{- if not $list.containerPort }}
+          containerPort: 8080
+          {{- else }}
+          containerPort: {{ $list.containerPort }}
+          {{- end }}
+        {{- end }}
+    {{- else }}
+    
+    {{- if  not .component.extendedSettings.service.clusterIP }}
+        - name: default
+          containerPort: 8080
+    {{ else }}
+        {{- range $list := .component.extendedSettings.service.clusterIP }}
+        - name: {{ $list.name }}
+          {{- if not $list.containerPort }}
+          containerPort: 8080
+          {{- else }}
+          containerPort: {{ $list.containerPort }}
+          {{- end }}
+        {{- end }}
+    {{- end }}
+    {{- end }}
+    
+{{- end }}
+{{- end }}
+{{- end }}

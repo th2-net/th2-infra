@@ -10,7 +10,7 @@ metadata:
   name: {{ .component.name }}
   {{- if .annotations }}
   annotations:
-    th2.exactpro.com/antecedent: {{ .annotations }}
+  {{- include "common-annotations" . | nindent 4  }}
   {{- end }}
   labels:
     monitoring-pod: "true"
