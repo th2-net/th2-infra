@@ -17,13 +17,7 @@ rules:
     verbs: ["*"]
   - apiGroups:
       - th2.exactpro.com
-    resources:
-      - th2boxes
-      - th2coreboxes
-      - th2dictionaries
-      - th2estores
-      - th2links
-      - th2mstores
+    resources: ["*"]
     verbs: ["*"]
   - apiGroups:
       - networking.k8s.io

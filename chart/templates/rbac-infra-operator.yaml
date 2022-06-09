@@ -15,25 +15,7 @@ rules:
     verbs: ["*"]
   - apiGroups:
       - th2.exactpro.com
-    resources:
-      - th2boxes
-      - th2boxes/status
-      - th2boxes/finalizers
-      - th2coreboxes
-      - th2coreboxes/status
-      - th2coreboxes/finalizers
-      - th2dictionaries
-      - th2dictionaries/status
-      - th2dictionaries/finalizers
-      - th2estores
-      - th2estores/status
-      - th2estores/finalizers
-      - th2links
-      - th2links/status
-      - th2links/finalizers
-      - th2mstores
-      - th2mstores/status
-      - th2mstores/finalizers
+    resources: ["*"]
     verbs: ["*"]
   - apiGroups:
       - helm.fluxcd.io
