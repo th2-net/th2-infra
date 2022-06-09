@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 103,
-  "iteration": 1648384396918,
+  "iteration": 1654769669790,
   "links": [],
   "panels": [
     {
@@ -81,7 +81,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "kube_pod_container_status_restarts_total{namespace=\"$namespace\", container=\"$component\"}",
+          "expr": "rate(kube_pod_container_status_restarts_total{namespace=\"$namespace\", container=\"$component\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "{{pod}}",
           "refId": "A"
@@ -225,7 +225,7 @@
       }
     },
     {
-      "collapsed": false,
+      "collapsed": true,
       "datasource": null,
       "gridPos": {
         "h": 1,
@@ -234,672 +234,10 @@
         "y": 10
       },
       "id": 70,
-      "panels": [],
-      "title": "Message statistic",
-      "type": "row"
-    },
-    {
-      "datasource": null,
-      "description": "Shows total message quantity for selected pins about the selected range ",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 4,
-        "x": 0,
-        "y": 11
-      },
-      "id": 53,
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "diff"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "text": {}
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(th2_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"})",
-          "interval": "",
-          "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "> Total messages quantity",
-      "type": "gauge"
-    },
-    {
-      "datasource": null,
-      "description": "Shows total message quantity per th2 message stream for selected pins about the selected range ",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 4,
-        "x": 4,
-        "y": 11
-      },
-      "id": 54,
-      "options": {
-        "displayMode": "gradient",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "diff"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true,
-        "text": {
-          "titleSize": 15
-        }
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(th2_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}) by (message_type,session_alias,direction)",
-          "interval": "",
-          "legendFormat": "{{session_alias}}:{{direction}}, {{message_type}}",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "> Total messages quantity per th2 stream",
-      "type": "bargauge"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 8,
-        "y": 11
-      },
-      "hiddenSeries": false,
-      "id": 65,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": true,
-        "min": true,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "th2_message_group_sequence_publish{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}",
-          "interval": "",
-          "legendFormat": "{{session_alias}}:{{direction}}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "> Sessions sequence numbers",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:172",
-          "format": "none",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:173",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 10,
-        "x": 14,
-        "y": 11
-      },
-      "hiddenSeries": false,
-      "id": 55,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sideWidth": 400,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "rate(th2_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
-          "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "th2_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", session_alias=\"grpc_203.4.179.42\"}",
-          "hide": true,
-          "interval": "",
-          "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "> Rate of messages by th2 stream and message kind",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:158",
-          "format": "none",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:159",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "datasource": null,
-      "description": "Shows total message quantity for selected pins about the selected range ",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 4,
-        "x": 0,
-        "y": 18
-      },
-      "id": 49,
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "diff"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "text": {}
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(th2_message_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"})",
-          "interval": "",
-          "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "< Total messages quantity",
-      "type": "gauge"
-    },
-    {
-      "datasource": null,
-      "description": "Shows total message quantity per th2 message stream for selected pins about the selected range ",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 4,
-        "x": 4,
-        "y": 18
-      },
-      "id": 52,
-      "options": {
-        "displayMode": "gradient",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "diff"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true,
-        "text": {
-          "titleSize": 15
-        }
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(th2_message_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}) by (message_type,session_alias,direction)",
-          "interval": "",
-          "legendFormat": "{{session_alias}}:{{direction}}, {{message_type}}",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Total messages quantity per th2 stream",
-      "type": "bargauge"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 8,
-        "y": 18
-      },
-      "hiddenSeries": false,
-      "id": 66,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": true,
-        "min": true,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "th2_message_group_sequence_subscribe{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}",
-          "interval": "",
-          "legendFormat": "{{session_alias}}:{{direction}}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "< Sessions sequence numbers",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:172",
-          "format": "none",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:173",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 10,
-        "x": 14,
-        "y": 18
-      },
-      "hiddenSeries": false,
-      "id": 46,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sideWidth": 400,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "rate(th2_message_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
-          "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "th2_message_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", session_alias=\"grpc_203.4.179.42\"}",
-          "hide": true,
-          "interval": "",
-          "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "< Rate of messages by th2 stream and message kind in items/sec",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:158",
-          "format": "none",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:159",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "collapsed": true,
-      "datasource": null,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 25
-      },
-      "id": 72,
       "panels": [
         {
           "datasource": null,
-          "description": "Shows total message size for selected pins about the selected range ",
+          "description": "Shows total message quantity for selected pins about the selected range ",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -922,7 +260,671 @@
             "h": 7,
             "w": 4,
             "x": 0,
-            "y": 26
+            "y": 11
+          },
+          "id": 53,
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "diff"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "7.5.3",
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(th2_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"})",
+              "interval": "",
+              "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "> Total messages quantity",
+          "type": "gauge"
+        },
+        {
+          "datasource": null,
+          "description": "Shows total message quantity per th2 message stream for selected pins about the selected range ",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 4,
+            "x": 4,
+            "y": 11
+          },
+          "id": 54,
+          "options": {
+            "displayMode": "gradient",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "diff"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": true,
+            "text": {
+              "titleSize": 15
+            }
+          },
+          "pluginVersion": "7.5.3",
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(th2_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}) by (message_type,session_alias,direction)",
+              "interval": "",
+              "legendFormat": "{{session_alias}}:{{direction}}, {{message_type}}",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "> Total messages quantity per th2 stream",
+          "type": "bargauge"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 8,
+            "y": 11
+          },
+          "hiddenSeries": false,
+          "id": 65,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "th2_message_group_sequence_publish{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}",
+              "interval": "",
+              "legendFormat": "{{session_alias}}:{{direction}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "> Sessions sequence numbers",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:172",
+              "format": "none",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:173",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 10,
+            "x": 14,
+            "y": 11
+          },
+          "hiddenSeries": false,
+          "id": 55,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sideWidth": 400,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "rate(th2_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
+              "refId": "A"
+            },
+            {
+              "exemplar": true,
+              "expr": "th2_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", session_alias=\"grpc_203.4.179.42\"}",
+              "hide": true,
+              "interval": "",
+              "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
+              "refId": "B"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "> Rate of messages by th2 stream and message kind",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:158",
+              "format": "none",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:159",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "datasource": null,
+          "description": "Shows total message quantity for selected pins about the selected range ",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 4,
+            "x": 0,
+            "y": 18
+          },
+          "id": 49,
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "diff"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "7.5.3",
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(th2_message_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"})",
+              "interval": "",
+              "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "< Total messages quantity",
+          "type": "gauge"
+        },
+        {
+          "datasource": null,
+          "description": "Shows total message quantity per th2 message stream for selected pins about the selected range ",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 4,
+            "x": 4,
+            "y": 18
+          },
+          "id": 52,
+          "options": {
+            "displayMode": "gradient",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "diff"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": true,
+            "text": {
+              "titleSize": 15
+            }
+          },
+          "pluginVersion": "7.5.3",
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(th2_message_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}) by (message_type,session_alias,direction)",
+              "interval": "",
+              "legendFormat": "{{session_alias}}:{{direction}}, {{message_type}}",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Total messages quantity per th2 stream",
+          "type": "bargauge"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 8,
+            "y": 18
+          },
+          "hiddenSeries": false,
+          "id": 66,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "th2_message_group_sequence_subscribe{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}",
+              "interval": "",
+              "legendFormat": "{{session_alias}}:{{direction}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "< Sessions sequence numbers",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:172",
+              "format": "none",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:173",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 10,
+            "x": 14,
+            "y": 18
+          },
+          "hiddenSeries": false,
+          "id": 46,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sideWidth": 400,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "rate(th2_message_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
+              "refId": "A"
+            },
+            {
+              "exemplar": true,
+              "expr": "th2_message_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", session_alias=\"grpc_203.4.179.42\"}",
+              "hide": true,
+              "interval": "",
+              "legendFormat": "{{message_type}},{{session_alias}}:{{direction}}",
+              "refId": "B"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "< Rate of messages by th2 stream and message kind in items/sec",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:158",
+              "format": "none",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:159",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "Message statistic",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 72,
+      "panels": [
+        {
+          "datasource": null,
+          "description": "Shows total message size for selected pins about the selected range ",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 4,
+            "x": 0,
+            "y": 12
           },
           "id": 60,
           "options": {
@@ -978,7 +980,7 @@
             "h": 7,
             "w": 6,
             "x": 4,
-            "y": 26
+            "y": 12
           },
           "id": 61,
           "options": {
@@ -1027,7 +1029,7 @@
             "h": 7,
             "w": 7,
             "x": 10,
-            "y": 26
+            "y": 12
           },
           "hiddenSeries": false,
           "id": 62,
@@ -1129,7 +1131,7 @@
             "h": 7,
             "w": 7,
             "x": 17,
-            "y": 26
+            "y": 12
           },
           "hiddenSeries": false,
           "id": 63,
@@ -1230,7 +1232,8 @@
                     "value": null
                   }
                 ]
-              }
+              },
+              "unit": "bytes"
             },
             "overrides": []
           },
@@ -1238,7 +1241,7 @@
             "h": 7,
             "w": 4,
             "x": 0,
-            "y": 33
+            "y": 19
           },
           "id": 59,
           "options": {
@@ -1294,7 +1297,7 @@
             "h": 7,
             "w": 6,
             "x": 4,
-            "y": 33
+            "y": 19
           },
           "id": 58,
           "options": {
@@ -1343,7 +1346,7 @@
             "h": 7,
             "w": 7,
             "x": 10,
-            "y": 33
+            "y": 19
           },
           "hiddenSeries": false,
           "id": 43,
@@ -1445,7 +1448,7 @@
             "h": 7,
             "w": 7,
             "x": 17,
-            "y": 33
+            "y": 19
           },
           "hiddenSeries": false,
           "id": 56,
@@ -1540,7 +1543,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 12
       },
       "id": 80,
       "panels": [],
@@ -1564,7 +1567,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 27
+        "y": 13
       },
       "hiddenSeries": false,
       "id": 82,
@@ -1662,7 +1665,7 @@
         "h": 7,
         "w": 6,
         "x": 6,
-        "y": 27
+        "y": 13
       },
       "hiddenSeries": false,
       "id": 84,
@@ -1720,7 +1723,7 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:143",
+          "$$hashKey": "object:123",
           "format": "bytes",
           "label": null,
           "logBase": 1,
@@ -1729,7 +1732,7 @@
           "show": true
         },
         {
-          "$$hashKey": "object:144",
+          "$$hashKey": "object:124",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1762,7 +1765,7 @@
         "h": 7,
         "w": 6,
         "x": 12,
-        "y": 27
+        "y": 13
       },
       "hiddenSeries": false,
       "id": 86,
@@ -1875,7 +1878,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 34
+        "y": 20
       },
       "hiddenSeries": false,
       "id": 83,
@@ -1973,7 +1976,7 @@
         "h": 7,
         "w": 6,
         "x": 6,
-        "y": 34
+        "y": 20
       },
       "hiddenSeries": false,
       "id": 85,
@@ -2005,7 +2008,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(increase(th2_rabbitmq_message_size_subscribe_bytes{namespace=\"${namespace}\", job=\"${component}\", th2_type=\"MESSAGE_GROUP\", th2_pin=~\"${th2_pin}\"}[1m])) by (th2_pin)\n/\nsum(increase(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", th2_type=\"MESSAGE_GROUP\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)",
+          "expr": "sum(increase(th2_rabbitmq_message_size_subscribe_bytes{namespace=\"${namespace}\", job=\"${component}\", th2_type=\"MESSAGE_GROUP\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)\n/\nsum(increase(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", th2_type=\"MESSAGE_GROUP\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)",
           "interval": "",
           "legendFormat": "{{th2_pin}}",
           "refId": "A"
@@ -2031,6 +2034,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:199",
           "format": "bytes",
           "label": null,
           "logBase": 1,
@@ -2039,6 +2043,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:200",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2071,7 +2076,7 @@
         "h": 7,
         "w": 6,
         "x": 12,
-        "y": 34
+        "y": 20
       },
       "hiddenSeries": false,
       "id": 87,
@@ -2157,7 +2162,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 41
+        "y": 27
       },
       "id": 74,
       "panels": [
@@ -2186,7 +2191,7 @@
             "h": 7,
             "w": 4,
             "x": 0,
-            "y": 5
+            "y": 19
           },
           "id": 75,
           "options": {
@@ -2233,9 +2238,9 @@
           "fillGradient": 0,
           "gridPos": {
             "h": 7,
-            "w": 9,
+            "w": 7,
             "x": 4,
-            "y": 5
+            "y": 19
           },
           "hiddenSeries": false,
           "id": 14,
@@ -2322,6 +2327,361 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": null,
+          "description": "This panel shows the ratio of outgoing events to outgoing event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 10,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 11,
+            "y": 19
+          },
+          "hiddenSeries": false,
+          "id": 94,
+          "legend": {
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 0,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": true,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(rate(th2_rabbitmq_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[$__rate_interval])) by (th2_pin)",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{th2_pin}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "> Event batch rate",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:643",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:644",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "datasource": null,
+          "description": "Shows total event quantity for selected pins about the selected range ",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 4,
+            "x": 0,
+            "y": 26
+          },
+          "id": 77,
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "diff"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "7.5.3",
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"})",
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "< Total events quantity",
+          "type": "gauge"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "This panel shows the ratio of outgoing events to outgoing event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 10,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 7,
+            "x": 4,
+            "y": 26
+          },
+          "hiddenSeries": false,
+          "id": 78,
+          "legend": {
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 0,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": true,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(increase(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)\n/\nsum(increase(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[$__rate_interval])) by (th2_pin)",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{th2_pin}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "< Event batch size",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:643",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:644",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "This panel shows the ratio of outgoing events to outgoing event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 10,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 11,
+            "y": 26
+          },
+          "hiddenSeries": false,
+          "id": 95,
+          "legend": {
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 0,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": true,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(rate(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[$__rate_interval])) by (th2_pin)",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{th2_pin}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "< Event batch rate",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:643",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:644",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
           "fieldConfig": {
             "defaults": {},
             "overrides": []
@@ -2332,7 +2692,7 @@
             "h": 7,
             "w": 7,
             "x": 13,
-            "y": 5
+            "y": 33
           },
           "hiddenSeries": false,
           "id": 91,
@@ -2420,161 +2780,6 @@
           }
         },
         {
-          "datasource": null,
-          "description": "Shows total event quantity for selected pins about the selected range ",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 7,
-            "w": 4,
-            "x": 0,
-            "y": 12
-          },
-          "id": 77,
-          "options": {
-            "reduceOptions": {
-              "calcs": [
-                "diff"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showThresholdLabels": false,
-            "showThresholdMarkers": true,
-            "text": {}
-          },
-          "pluginVersion": "7.5.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "sum(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"})",
-              "interval": "",
-              "legendFormat": "",
-              "refId": "A"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "< Total events quantity",
-          "type": "gauge"
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "description": "This panel shows the ratio of outgoing events to outgoing event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
-          "fieldConfig": {
-            "defaults": {
-              "links": []
-            },
-            "overrides": []
-          },
-          "fill": 10,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 7,
-            "w": 9,
-            "x": 4,
-            "y": 12
-          },
-          "hiddenSeries": false,
-          "id": 78,
-          "legend": {
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 0,
-          "nullPointMode": "null",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "7.5.3",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": true,
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "sum(increase(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)\n/\nsum(increase(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[$__rate_interval])) by (th2_pin)",
-              "hide": false,
-              "interval": "",
-              "legendFormat": "{{th2_pin}}",
-              "refId": "A"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "< Event batch size",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:643",
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:644",
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
           "aliasColors": {},
           "bars": false,
           "dashLength": 10,
@@ -2590,7 +2795,7 @@
             "h": 7,
             "w": 7,
             "x": 13,
-            "y": 12
+            "y": 40
           },
           "hiddenSeries": false,
           "id": 93,
@@ -2621,7 +2826,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum(increase(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"$namespace\", job=\"$component\", th2_type=\"EVENT\", th2_pin=~\"${th2_pin}\"}[1m])/60) by (th2_pin)",
+              "expr": "sum(rate(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"$namespace\", job=\"$component\", th2_type=\"EVENT\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)",
               "interval": "",
               "legendFormat": "{{th2_pin}}",
               "refId": "A"
@@ -2673,13 +2878,616 @@
       "type": "row"
     },
     {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "id": 97,
+      "panels": [],
+      "title": "Event statistic (bytes)",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Size of batch in messages sent through th2_pin",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 0,
+        "y": 29
+      },
+      "hiddenSeries": false,
+      "id": 98,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(increase(th2_event_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)\n/\nsum(increase(th2_rabbitmq_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_type=\"EVENT\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)",
+          "interval": "",
+          "legendFormat": "{{th2_pin}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "> Batch size (events)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Size of batch in bytes sent through th2_pin",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 6,
+        "y": 29
+      },
+      "hiddenSeries": false,
+      "id": 100,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(increase(th2_rabbitmq_message_size_publish_bytes{namespace=\"${namespace}\", job=\"${component}\", th2_type=\"EVENT\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)\n/\nsum(increase(th2_rabbitmq_message_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_type=\"EVENT\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)",
+          "interval": "",
+          "legendFormat": "{{th2_pin}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "> Batch size (bytes)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:123",
+          "format": "bytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:124",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Size of message in bytes sent through th2_pin",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 12,
+        "y": 29
+      },
+      "hiddenSeries": false,
+      "id": 102,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(increase(th2_rabbitmq_message_size_publish_bytes{namespace=\"${namespace}\", job=\"${component}\", th2_type=\"EVENT\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)\n/\nsum(increase(th2_event_publish_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{th2_pin}}",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "> Event size (bytes)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Size of batch in events received through th2_pin",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 0,
+        "y": 36
+      },
+      "hiddenSeries": false,
+      "id": 99,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(increase(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)\n/\nsum(increase(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", th2_type=\"EVENT\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)",
+          "interval": "",
+          "legendFormat": "{{th2_pin}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "< Batch size (events)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Size of batch in bytes received through th2_pin",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 6,
+        "y": 36
+      },
+      "hiddenSeries": false,
+      "id": 101,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(increase(th2_rabbitmq_message_size_subscribe_bytes{namespace=\"${namespace}\", job=\"${component}\", th2_type=\"EVENT\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)\n/\nsum(increase(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", th2_type=\"EVENT\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)",
+          "interval": "",
+          "legendFormat": "{{th2_pin}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "< Batch size (bytes)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:199",
+          "format": "bytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:200",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Size of event in bytes received through th2_pin",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 12,
+        "y": 36
+      },
+      "hiddenSeries": false,
+      "id": 103,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(increase(th2_rabbitmq_message_size_subscribe_bytes{namespace=\"${namespace}\", job=\"${component}\", th2_type=\"EVENT\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)\n/\nsum(increase(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__rate_interval])) by (th2_pin)",
+          "interval": "",
+          "legendFormat": "{{th2_pin}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "< Event size (bytes)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "collapsed": true,
       "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 42
+        "y": 43
       },
       "id": 26,
       "panels": [
@@ -2913,7 +3721,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 44
       },
       "id": 16,
       "panels": [
@@ -3353,7 +4161,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 44
+        "y": 45
       },
       "id": 12,
       "panels": [
@@ -3610,353 +4418,354 @@
       "type": "row"
     },
     {
-      "collapsed": false,
+      "collapsed": true,
       "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 46
       },
       "id": 10,
-      "panels": [],
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "This panel shows the ratio of duration seconds to incoming events to incoming event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 10,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 10
+          },
+          "hiddenSeries": false,
+          "id": 6,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 0,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": true,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(rate(th2_rabbitmq_message_process_duration_seconds_sum{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m])) by (th2_pin)\r\n/\r\nsum(rate(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\"}[1m])) by (th2_pin)\r\n/\r\nsum(rate(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m]))\r by (th2_pin)",
+              "interval": "",
+              "legendFormat": "{{th2_pin}}",
+              "refId": "A"
+            },
+            {
+              "exemplar": true,
+              "expr": "rate(th2_mq_event_processing_time_sum{namespace=\"${namespace}\", job=\"${component}\"}[1m])\n/\nrate(th2_mq_incoming_event_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])\n/\nrate(th2_mq_event_processing_time_count{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{pod}} (old version)",
+              "refId": "B"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Event processing time (incoming)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "This panel shows the ratio of incoming events to incoming event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 10,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 10
+          },
+          "hiddenSeries": false,
+          "id": 2,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 0,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": true,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(rate(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[1m])) by (th2_pin)\n/\nsum(rate(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m])) by (th2_pin)",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "avg (1m)",
+              "refId": "A"
+            },
+            {
+              "exemplar": true,
+              "expr": "avg_over_time(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__range])\n/\navg_over_time(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[$__range])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "avg for the all-time",
+              "refId": "B"
+            },
+            {
+              "exemplar": true,
+              "expr": "rate(th2_mq_incoming_event_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])\n/\nrate(th2_mq_event_processing_time_count{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "avg (1m) (old version)",
+              "refId": "C"
+            },
+            {
+              "exemplar": true,
+              "expr": "avg_over_time(th2_mq_incoming_event_quantity{namespace=\"${namespace}\", job=\"${component}\"}[$__range])\n/\navg_over_time(th2_mq_event_processing_time_count{namespace=\"${namespace}\", job=\"${component}\"}[$__range])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "avg for the all-time (old version)",
+              "refId": "D"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Event batch size (incoming)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "This panel shows the ratio of duration seconds to incoming event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 10,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 18
+          },
+          "hiddenSeries": false,
+          "id": 4,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 0,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": true,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(rate(th2_rabbitmq_message_process_duration_seconds_sum{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m])) by (th2_pin)\n/\nsum(rate(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m])) by (th2_pin)",
+              "interval": "",
+              "legendFormat": "{{th2_pin}}",
+              "refId": "A"
+            },
+            {
+              "exemplar": true,
+              "expr": "rate(th2_mq_event_processing_time_sum{namespace=\"${namespace}\", job=\"${component}\"}[1m])\n/\nrate(th2_mq_event_processing_time_count{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{pod}} (old version)",
+              "refId": "B"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Event batch processing time (incoming)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
       "title": "Event (incoming) ???",
       "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "This panel shows the ratio of duration seconds to incoming events to incoming event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
-      "fieldConfig": {
-        "defaults": {
-          "links": []
-        },
-        "overrides": []
-      },
-      "fill": 10,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 46
-      },
-      "hiddenSeries": false,
-      "id": 6,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": true,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(rate(th2_rabbitmq_message_process_duration_seconds_sum{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m])) by (th2_pin)\r\n/\r\nsum(rate(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\"}[1m])) by (th2_pin)\r\n/\r\nsum(rate(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m]))\r by (th2_pin)",
-          "interval": "",
-          "legendFormat": "{{th2_pin}}",
-          "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(th2_mq_event_processing_time_sum{namespace=\"${namespace}\", job=\"${component}\"}[1m])\n/\nrate(th2_mq_incoming_event_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])\n/\nrate(th2_mq_event_processing_time_count{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{pod}} (old version)",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Event processing time (incoming)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "This panel shows the ratio of incoming events to incoming event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
-      "fieldConfig": {
-        "defaults": {
-          "links": []
-        },
-        "overrides": []
-      },
-      "fill": 10,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 46
-      },
-      "hiddenSeries": false,
-      "id": 2,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": true,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(rate(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[1m])) by (th2_pin)\n/\nsum(rate(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m])) by (th2_pin)",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "avg (1m)",
-          "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "avg_over_time(th2_event_subscribe_total{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\"}[$__range])\n/\navg_over_time(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[$__range])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "avg for the all-time",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(th2_mq_incoming_event_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])\n/\nrate(th2_mq_event_processing_time_count{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "avg (1m) (old version)",
-          "refId": "C"
-        },
-        {
-          "exemplar": true,
-          "expr": "avg_over_time(th2_mq_incoming_event_quantity{namespace=\"${namespace}\", job=\"${component}\"}[$__range])\n/\navg_over_time(th2_mq_event_processing_time_count{namespace=\"${namespace}\", job=\"${component}\"}[$__range])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "avg for the all-time (old version)",
-          "refId": "D"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Event batch size (incoming)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "This panel shows the ratio of duration seconds to incoming event batches by th2_pin (actual version). For the old version panel shows it without grouping by th2_pin.",
-      "fieldConfig": {
-        "defaults": {
-          "links": []
-        },
-        "overrides": []
-      },
-      "fill": 10,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 54
-      },
-      "hiddenSeries": false,
-      "id": 4,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": true,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(rate(th2_rabbitmq_message_process_duration_seconds_sum{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m])) by (th2_pin)\n/\nsum(rate(th2_rabbitmq_message_process_duration_seconds_count{namespace=\"${namespace}\", job=\"${component}\", th2_pin=~\"${th2_pin}\", th2_type=\"EVENT\"}[1m])) by (th2_pin)",
-          "interval": "",
-          "legendFormat": "{{th2_pin}}",
-          "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(th2_mq_event_processing_time_sum{namespace=\"${namespace}\", job=\"${component}\"}[1m])\n/\nrate(th2_mq_event_processing_time_count{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{pod}} (old version)",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Event batch processing time (incoming)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
     }
   ],
-  "refresh": "10s",
+  "refresh": "30s",
   "schemaVersion": 27,
   "style": "dark",
   "tags": [],
@@ -3966,8 +4775,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "",
-          "value": ""
+          "text": "service",
+          "value": "service"
         },
         "datasource": "Prometheus",
         "definition": "label_values(namespace)",
@@ -3996,10 +4805,9 @@
       {
         "allValue": null,
         "current": {
-          "isNone": true,
           "selected": false,
-          "text": "None",
-          "value": ""
+          "text": "helmoperator",
+          "value": "helmoperator"
         },
         "datasource": null,
         "definition": "label_values(kube_pod_labels{namespace=\"$namespace\"},label_app)",
@@ -4028,9 +4836,13 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": null,
         "definition": "label_values({__name__=~\"th2_rabbitmq_.*\", namespace=\"$namespace\", job=\"$component\"}, th2_pin)",
@@ -4059,7 +4871,7 @@
     ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -4078,5 +4890,5 @@
   "timezone": "utc",
   "title": "Monitoring",
   "uid": "RRpPljNnk",
-  "version": 41
+  "version": 48
 }
