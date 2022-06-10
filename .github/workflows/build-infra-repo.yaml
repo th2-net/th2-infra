@@ -1,6 +1,9 @@
 name: Build infra-repo
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - release-v*
   push:
     tags:
       - "*-infra-repo"
@@ -33,19 +36,31 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
 
-      - name: Read infra-repo version
-        id: yaml-data
+      - name: Read infra version
+        id: chart
         uses: KJ002/read-yaml@main
         with:
-          file: "./chart/values.yaml"
-          key-path: '["infraRepo", "image", "tag"]'
+          file: "./chart/Chart.yaml"
+          key-path: '["version"]'
 
       - name: build image & push to registry
+        id: build
         uses: docker/build-push-action@v2
         with:
           file: ./infra-repo/Dockerfile
           context: ./infra-repo/
           push: true
-          tags: ghcr.io/th2-net/infra-repo:${{ steps.yaml-data.outputs.data }}
+          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache
           cache-to: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache,mode=max
+
+      - name: Update Image Version in the related HelmChart values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'chart/values.yaml'
+          propertyPath: 'infraRepo.image.tag'
+          value: "${{ steps.chart.outputs.data }}:${{ steps.build.outputs.digest }}"
+          branch: infra-repo-${{ github.event.pull_request.head.ref }}
+          targetBranch: ${{ github.event.pull_request.head.ref }}
+          createPR: true
+          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
