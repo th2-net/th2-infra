@@ -1,16 +1,41 @@
-suite: test deployment
+suite: test deploy and service
 templates:
-  - _deployment.yaml
+  - templates/_deployment.yaml
+  - templates/_service.yaml
+release:
+  name: my-release
+  namespace: my-namespace
+  revision: 1
+  isUpgrade: true
+capabilities:
+  majorVersion: 1
+  minorVersion: 10
+  apiVersions:
+    - br.dev.local/v2
+chart:
+  version: 1.0.0
+  appVersion: 1.0.0
 tests:
   - it: should work
+    values:
+      - ./values.yaml
     set:
       image.tag: latest
+      image.pullPolicy: Always
+      resources:
+        limits:
+          memory: 128Mi
+    release:
+      name: my-release
+      namespace:
+      revision: 9
+      isUpgrade: true
+    capabilities:
+      majorVersion: 1
+      minorVersion: 12
+      apiVersions:
+        - custom.api/v1
     asserts:
-      - isKind:
-          of: Deployment
-      - matchRegex:
-          path: metadata.name
-          pattern: -my-chart$
       - equal:
-          path: spec.template.spec.containers[0].image
+          path: spec.template.spec.hostAliases
           value: nginx:latest
