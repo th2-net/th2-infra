@@ -23,4 +23,4 @@ jobs:
       - name: run unit test
         run: |
           helm plugin install https://github.com/quintush/helm-unittest
-          helm unittest ./box-chart
+          helm unittest box-chart
