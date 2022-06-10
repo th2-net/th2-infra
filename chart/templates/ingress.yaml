@@ -7,7 +7,9 @@ metadata:
     {{- include "common-annotations" . | nindent 4  }}
   name: ingress-service
 spec:
+  {{ if .Values.ingressClass }}
   ingressClassName: "{{ .Values.ingress.ingressClass }}"
+  {{- end }}
   rules:
   {{- if .Values.ingress.host }}
   - host: "{{ .Values.ingress.host -}}"
@@ -16,14 +18,14 @@ spec:
   - http:
   {{- end }}
       paths:
-      - path: /editor($|/.*)
+      - path: /editor{{ ternary "/" "($|/.*)" $.Values.openshift.enabled }}
         pathType: Prefix
         backend:
           service:
             name: infra-editor
             port:
               number: 8080
-      - path: /editor/backend/(.*)
+      - path: /editor/backend/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
         pathType: Prefix
         backend:
           service:
@@ -31,14 +33,14 @@ spec:
             port:
               number: 8080
       {{- if .Values.infraEditorV2.enabled }}
-      - path: /editor-2($|/.*)
+      - path: /editor-2{{ ternary "/" "($|/.*)" $.Values.openshift.enabled }}
         pathType: Prefix
         backend:
           service:
             name: infra-editor-v2
             port:
               number: 8080
-      - path: /editor-2/backend/(.*)
+      - path: /editor-2/backend/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
         pathType: Prefix
         backend:
           service:

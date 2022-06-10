@@ -2,7 +2,7 @@
 commonAnnotations: {}
 component:
   openshift:
-    enable: false
+    enabled: false
   ingress:
     host:
     annotations:
