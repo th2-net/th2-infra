@@ -63,5 +63,5 @@ jobs:
           value: "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"
           branch: infra-repo-${{ github.event.pull_request.head.ref }}
           targetBranch: ${{ github.event.pull_request.head.ref }}
-          createPR: true
+          createPR: false
           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
