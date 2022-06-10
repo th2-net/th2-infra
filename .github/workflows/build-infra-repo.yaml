@@ -59,6 +59,7 @@ jobs:
         with:
           valueFile: 'chart/values.yaml'
           propertyPath: 'infraRepo.image.tag'
+          updateFile: true
           value: "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"
           branch: infra-repo-${{ github.event.pull_request.head.ref }}
           targetBranch: ${{ github.event.pull_request.head.ref }}
