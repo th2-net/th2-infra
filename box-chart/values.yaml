@@ -1,6 +1,8 @@
 ---
 commonAnnotations: {}
 component:
+  openshift:
+    enable: false
   ingress:
     host:
     annotations:
