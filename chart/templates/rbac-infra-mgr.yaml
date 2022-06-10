@@ -8,22 +8,25 @@ metadata:
 rules:
   - apiGroups:
       - ""
-      - th2.exactpro.com
-      - networking.k8s.io
-      - apps
-    resources: 
+    resources:
       - configmaps
       - secrets
-      - th2boxes
-      - th2coreboxes
-      - th2dictionaries
-      - th2estores
-      - th2links
-      - th2mstores
       - namespaces
-      - ingresses
       - services
       - pods
+    verbs: ["*"]
+  - apiGroups:
+      - th2.exactpro.com
+    resources: ["*"]
+    verbs: ["*"]
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs: ["*"]
+  - apiGroups:
+      - apps
+    resources:
       - deployments
     verbs: ["*"]
 ---
