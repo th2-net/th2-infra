@@ -24,7 +24,7 @@ spec:
   {{- end }}
       paths:
       {{- range $path := .Values.component.extendedSettings.service.ingress.urlPaths }}
-      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path }}/{{ ternary "" "(.*)" $.Values.component.openshift.enabled }}
+      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
         pathType: Prefix
         backend:
           service:
@@ -53,9 +53,9 @@ spec:
   {{- end }}
       paths:
       {{ if eq .Values.component.name "rpt-data-viewer" }}
-      - path: /{{ .Release.Namespace }}/{{ ternary "" "(.*)" .Values.component.openshift.enabled }}
+      - path: /{{ .Release.Namespace }}/{{ ternary "" "(.*)" .Values.openshift.enabled }}
       {{ else if eq .Values.component.name "rpt-data-provider" }}
-      - path: /{{ .Release.Namespace }}/backend/{{ ternary "" "(.*)" .Values.component.openshift.enabled }}
+      - path: /{{ .Release.Namespace }}/backend/{{ ternary "" "(.*)" .Values.openshift.enabled }}
       {{ end }}
         pathType: Prefix
         backend:
