@@ -44,10 +44,6 @@ spec:
                 description: this is custom configuration
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              secret-custom-config:
-                description: this is custom configuration for secrets
-                type: object
-                x-kubernetes-preserve-unknown-fields: true
               loggingConfig:
                 type: string
               mqRouter:
