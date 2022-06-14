@@ -11,11 +11,11 @@ spec:
   ingressClassName: "{{ .Values.ingress.ingressClass }}"
   {{- end }}
   rules:
-  {{- if .Values.ingress.host }}
-  - host: "{{ .Values.ingress.host }}"
-    http:
-  {{- else if .Values.ingress.infraHost }}
+  {{- if .Values.ingress.infraHost }}
   - host: "{{ .Values.ingress.infraHost }}"
+    http:
+  {{- else if .Values.ingress.host }}
+  - host: "{{ .Values.ingress.host }}"
     http:
   {{- else }}
   - http:
