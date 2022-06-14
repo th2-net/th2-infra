@@ -15,7 +15,7 @@ chart:
 tests:
   - it: test hostAliases
     values:
-      - ../values.yaml
+      - values.yaml
     set:
       image.tag: latest
       image.pullPolicy: Always
@@ -33,6 +33,8 @@ tests:
       apiVersions:
         - custom.api/v1
     asserts:
+      - isKind:
+          of: Deployment
       - equal:
-          path: spec.template.spec.hostAliases
-          value: Pod
+          path: spec.template.spec.hostAliases[0].hostnames[0]
+          value: "foo.local"
