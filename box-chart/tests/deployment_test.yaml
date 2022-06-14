@@ -1,6 +1,4 @@
 suite: test deploy and service
-templates:
-  - templates/component.yaml
 release:
   name: my-release
   namespace: my-namespace
@@ -38,4 +36,3 @@ tests:
       - equal:
           path: spec.template.spec.hostAliases
           value: nginx:latest
-        template: component.yaml
