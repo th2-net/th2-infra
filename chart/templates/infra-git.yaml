@@ -89,9 +89,7 @@ spec:
   resources:
     requests:
       storage: {{ .Values.infraGit.pvc.storage }}
-{{- if .Values.infraGit.pvc.storageClassName}}
   storageClassName: {{ .Values.infraGit.pvc.storageClassName }}
-{{end}}
 {{end}}
 {{end}}  
 ---
