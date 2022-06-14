@@ -1,4 +1,6 @@
 suite: test deploy and service
+templates:
+  - deployment.yaml
 release:
   name: my-release
   namespace: my-namespace
@@ -36,5 +38,5 @@ tests:
       - isKind:
           of: Deployment
       - equal:
-          path: spec.template.spec.hostAliases[0].hostnames[0]
-          value: "foo.local"
+          path: spec.template.spec.hostAliases[0].ip
+          value: 127.0.0.1

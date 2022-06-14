@@ -1,0 +1,4 @@
+---
+{{- include "deployment" .Values }}
+{{- include "service" . }}
+{{- include "ingress" . }}
