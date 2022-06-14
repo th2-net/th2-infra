@@ -1,6 +1,6 @@
 suite: test deploy and service
 templates:
-  - templates/__deployment.yaml
+  - templates/_deployment.yaml
 release:
   name: my-release
   namespace: my-namespace
