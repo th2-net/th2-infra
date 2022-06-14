@@ -38,4 +38,4 @@ tests:
       - equal:
           path: spec.template.spec.hostAliases
           value: nginx:latest
-        template: _deployment.yaml
+        template: component.yaml
