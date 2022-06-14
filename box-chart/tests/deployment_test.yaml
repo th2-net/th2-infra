@@ -13,7 +13,7 @@ chart:
   version: 1.0.0
   appVersion: 1.0.0
 tests:
-  - it: should work
+  - it: test hostAliases
     values:
       - ../values.yaml
     set:
@@ -35,4 +35,4 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.hostAliases
-          value: nginx:latest
+          value: Pod
