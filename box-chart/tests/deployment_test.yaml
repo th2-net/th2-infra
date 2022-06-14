@@ -1,7 +1,6 @@
 suite: test deploy and service
 templates:
-  - templates/_deployment.yaml
-  - templates/_service.yaml
+  - templates/component.yaml
 release:
   name: my-release
   namespace: my-namespace
@@ -25,6 +24,7 @@ tests:
       resources:
         limits:
           memory: 128Mi
+    template: component.yaml
     release:
       name: my-release
       namespace:
@@ -39,3 +39,4 @@ tests:
       - equal:
           path: spec.template.spec.hostAliases
           value: nginx:latest
+        template: component.yaml
