@@ -10,7 +10,10 @@ registries: {}
 ingress:
   # -- Hostname to access ingress
   ingressClass: "nginx"
+  # -- Hostname for th2 namespace services
   host: &host ""
+  # -- Hostname for infra services. If not set, than host will be used
+  infraHost: ""
   annotations:
     default:
       nginx.ingress.kubernetes.io/enable-cors: "true"
