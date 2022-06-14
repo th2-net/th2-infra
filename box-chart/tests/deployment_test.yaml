@@ -24,7 +24,6 @@ tests:
       resources:
         limits:
           memory: 128Mi
-    template: component.yaml
     release:
       name: my-release
       namespace:
@@ -39,4 +38,4 @@ tests:
       - equal:
           path: spec.template.spec.hostAliases
           value: nginx:latest
-        template: component.yaml
+        template: _deployment.yaml
