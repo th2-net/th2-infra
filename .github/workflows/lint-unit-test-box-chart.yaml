@@ -3,7 +3,7 @@ on:
   pull_request:
     paths:
       - "box-chart/**"
-      - ".github/workflows/lint-box-chart.yaml"
+      - ".github/workflows/lint-unit-test-box-chart.yaml"
   workflow_dispatch:
 
 jobs:
