@@ -12,10 +12,10 @@ component:
   image:
   name: comp1
   extendedSettings:
-    hostAliases:
-      - ip: "127.0.0.1"
-        hostnames:
-        - "foo.local"
+    hostAliases: 
+    - ip: "127.0.0.1"
+      hostnames:
+      - "foo.local"
     service:
       enabled: false
       ingress:
