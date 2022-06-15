@@ -39,7 +39,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: "test-results/unit-test/results.xml"
+          files: "./box-chart/tests/test.xml"
 
       - name: Run box chart linting
         run: |
