@@ -1,4 +1,4 @@
-name: Lint box chart
+name: Lint and unit test box chart
 on:
   pull_request:
     paths:
@@ -29,6 +29,11 @@ jobs:
 
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.2.1
+      
+      - name: run unit test
+        run: |
+          helm plugin install https://github.com/quintush/helm-unittest
+          helm unittest -3 box-chart --color
 
       - name: Run box chart linting
         run: |
