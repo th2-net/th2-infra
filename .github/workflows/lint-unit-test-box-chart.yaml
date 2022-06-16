@@ -33,13 +33,13 @@ jobs:
       - name: run unit test
         run: |
           helm plugin install https://github.com/quintush/helm-unittest
-          helm unittest -3 box-chart --color
+          helm unittest -3 box-chart --color -o ./box-chart/tests/test-results/results.xml
       
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: "test-results/**/*.xml"
+          files: "./box-chart/tests/test-results/results.xml"
 
       - name: Run box chart linting
         run: |
