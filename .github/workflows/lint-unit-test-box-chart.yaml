@@ -1,4 +1,7 @@
 name: Lint and unit test box chart
+permissions:
+  checks: write
+  pull-requests: write
 on:
   pull_request:
     paths:
