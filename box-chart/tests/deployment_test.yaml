@@ -27,23 +27,6 @@ tests:
       - isEmpty:
           path: spec.template.spec.hostAliases
         documentIndex: 1
-  - it: hostnames and ip empty
-    set:
-      component:
-        extendedSettings:
-          hostAliases: 
-          - ip: 
-            hostnames: []
-    asserts:
-      - isKind:
-          of: Deployment
-        documentIndex: 1
-      - isEmpty:
-          path: spec.template.spec.hostAliases[0].hostnames
-        documentIndex: 1
-      - isNull:
-          path: spec.template.spec.hostAliases[0].ip
-        documentIndex: 1
   - it: valid hostAliases
     set:
       component:
