@@ -37,7 +37,7 @@ jobs:
       - name: run unit test
         run: |
           helm plugin install https://github.com/quintush/helm-unittest
-          helm unittest -3 chart --color -o ./test-results/chart-test-results.xml -t JUnit
+          helm unittest -3 chart --color -o ./test-results/results.xml -t JUnit
       
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
