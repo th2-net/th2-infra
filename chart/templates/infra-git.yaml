@@ -74,23 +74,16 @@ kind: PersistentVolumeClaim
 metadata:
   name: repos-volume
 spec:
-{{- if .Values.infraGit.pvc.existingVolume}}
+{{- if .Values.infraGit.pvc.existingVolume }}
+  volumeName: {{ .Values.infraGit.pvc.existingVolume }}
+  {{- end }}
   accessModes:
     - {{ .Values.infraGit.pvc.accessModes }}
   volumeMode: Filesystem
-  volumeName: {{ .Values.infraGit.pvc.existingVolume}}
   resources:
     requests:
       storage: {{ .Values.infraGit.pvc.storage }}
   storageClassName: {{ .Values.infraGit.pvc.storageClassName }}
-{{else}}
-  accessModes:
-    - {{ .Values.infraGit.pvc.accessModes }}
-  resources:
-    requests:
-      storage: {{ .Values.infraGit.pvc.storage }}
-  storageClassName: {{ .Values.infraGit.pvc.storageClassName }}
-{{end}}
-{{end}}  
+{{ end }}  
 ---
 {{- end }}
