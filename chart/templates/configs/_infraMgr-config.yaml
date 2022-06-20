@@ -45,8 +45,6 @@ data:
       useCustomConfig: false
       namespacePrefix: {{ .Values.infraMgr.kubernetes.namespacePrefix }}
 
-      ingress: dummy
-
       secretNames:
       {{- include "imagePullSecretList" .Values.registries | trim | nindent 6 }}
       {{- with .Values.infraMgr.kubernetes.secrets }}
