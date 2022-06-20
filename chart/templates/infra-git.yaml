@@ -76,7 +76,7 @@ metadata:
 spec:
 {{- if .Values.infraGit.pvc.existingVolume }}
   volumeName: {{ .Values.infraGit.pvc.existingVolume }}
-  {{- end }}
+{{- end }}
   accessModes:
     - {{ .Values.infraGit.pvc.accessModes }}
   volumeMode: Filesystem
