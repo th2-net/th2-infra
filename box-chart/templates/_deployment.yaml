@@ -15,10 +15,6 @@ spec:
   selector:
     matchLabels:
       app: {{ .component.name }}
-  {{- if .component.extendedSettings.hostAliases }}
-  hostAliases:
-    {{ .component.extendedSettings.hostAliases | toYaml | nindent 2 }}
-  {{- end }}
   template:
     metadata:
       annotations:
@@ -55,6 +51,10 @@ spec:
       {{- if .component.extendedSettings.hostNetwork }}
       hostNetwork: true
       dnsPolicy: ClusterFirst
+      {{- end }}
+      {{- if .component.extendedSettings.hostAliases }}
+      hostAliases:
+        {{ .component.extendedSettings.hostAliases | toYaml | nindent 8 }}
       {{- end }}
   revisionHistoryLimit: 2
 {{- end }}

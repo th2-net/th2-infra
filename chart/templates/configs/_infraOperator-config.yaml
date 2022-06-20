@@ -14,6 +14,8 @@ data:
     {{- include "common-annotations" . | nindent 6 }}
     ingress:
     {{- .Values.ingress | toYaml | nindent 6 }}
+    openshift:
+      enabled: {{ .Values.openshift.enabled }}
     prometheusConfiguration:
       host: "0.0.0.0"
       port: {{ .Values.infraOperator.prometheusConfiguration.port | quote }}
@@ -36,7 +38,7 @@ data:
       {{- if .Values.rabbitmq.host }}
       host: {{ .Values.rabbitmq.host | quote }}
       {{- else }}
-      host: "{{ .Values.rabbitmq.fullnameOverride }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
+      host: "{{ .Values.rabbitmq.fullnameOverride }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
       {{- end }}
       managementPort: {{ .Values.rabbitmq.service.managerPort | quote }}
       applicationPort: {{ .Values.rabbitmq.service.port | quote }}
