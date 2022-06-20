@@ -1,6 +1,15 @@
 # Migrations
 
 ## Migration to RELEASE v1.8.0
+* Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
+* NGINX Ingress Controller chart must be upgraded 3.31.0 > 4.1.2
+```
+$ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
+```
+* HelmOperator dependency upgraded 1.2.0 > 1.4.2. HelmRelease CRD must be removed before infra installation
+```
+$ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
+```
 * Dashboards, Dashboard Provider and grafana plugins should be added in grafana during deployment.
   <details>
     <summary>Adding Dashboard Provider, Dashboards and plugins in Prometheus-stack</summary>
@@ -40,10 +49,8 @@
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
             Monitoring-1:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1632997642909.json
-            Monitoring-2:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1636451927534.json
             Monitoring-3:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1648485494141.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1654769795816.json
     ``` 
     ### Adding Plugin Urls in Prometheus-stack
     * Plugins should be added in grafana from infra-repo by plugins.

@@ -1,0 +1,54 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: infra-operator
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - secrets
+      - namespaces
+    verbs: ["*"]
+  - apiGroups:
+      - th2.exactpro.com
+    resources: ["*"]
+    verbs: ["*"]
+  - apiGroups:
+      - helm.fluxcd.io
+    resources:
+      - helmreleases
+      - helmreleases/status
+      - helmreleases/finalizers
+    verbs: ["*"]
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs: ["*"]
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: infra-operator-service
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: infra-operator-binding
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+roleRef:
+  kind: ClusterRole
+  name: infra-operator
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: infra-operator-service
+    namespace: {{ .Release.Namespace }}
