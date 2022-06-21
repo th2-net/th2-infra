@@ -73,19 +73,19 @@ spec:
       {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
   revisionHistoryLimit: 2
 ---
-{{ if .Values.infraGit.percistence.enabled}}
+{{ if .Values.infraGit.persistence.enabled}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: repos-volume
 spec:
   accessModes:
-    - {{ .Values.infraGit.percistence.accessModes }}
+    - {{ .Values.infraGit.persistence.accessModes }}
   volumeMode: Filesystem
   resources:
     requests:
-      storage: {{ .Values.infraGit.percistence.storage }}
-  storageClassName: {{ .Values.infraGit.percistence.storageClassName }}
+      storage: {{ .Values.infraGit.persistence.storage }}
+  storageClassName: {{ .Values.infraGit.persistence.storageClassName }}
 {{ end }}  
 ---
 {{- end }}
