@@ -1,9 +1,12 @@
-name: Lint box chart
+name: Lint and unit test box chart
+permissions:
+  checks: write
+  pull-requests: write
 on:
   pull_request:
     paths:
       - "box-chart/**"
-      - ".github/workflows/lint-box-chart.yaml"
+      - ".github/workflows/lint-unit-test-box-chart.yaml"
   workflow_dispatch:
 
 jobs:
@@ -25,10 +28,23 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.7
+          python-version: 3.8
 
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.2.1
+      
+      - name: run unit test
+        run: |
+          helm plugin install https://github.com/quintush/helm-unittest
+          helm unittest -3 box-chart --color -o ./test-results/results.xml -t JUnit
+      
+      - name: Publish Box Chart Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          check_name: Box Chart Unit Test Results
+          comment_title: Box Chart Test Results
+          files: "./test-results/results.xml"
 
       - name: Run box chart linting
         run: |
