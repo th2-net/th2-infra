@@ -43,6 +43,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
+          comment_title: Publish Th2 Chart Test Results
           files: "./test-results/results.xml"
 
       - name: Run infra chart linting
