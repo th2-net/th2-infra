@@ -171,9 +171,9 @@ infraGit:
   image:
     repository: ghcr.io/th2-net/git-ssh
     tag: v0.1.0
-  pvc:
-    enable: true
-    existingVolume: repos-volume
+  percistence:
+    enabled: true
+    existingClaim: repos-volume
     accessModes: ReadWriteMany
     storage: 5Gi
     storageClassName: local-storage

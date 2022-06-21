@@ -58,9 +58,14 @@ spec:
         resources:
 {{ toYaml .Values.infraGit.resources | indent 10 }}
       volumes:
+{{ if not .Values.infraGit.persistence.enabled }}
         - name: repos-volume
+          emptyDir: {}
+{{ else if .Values.infraGit.persistence.existingClaim }}  
+        - name: repos-volume            
           persistentVolumeClaim:
             claimName: repos-volume
+{{ end }}
         - name: keys
           configMap:
             name: keys-repo
@@ -68,22 +73,19 @@ spec:
       {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
   revisionHistoryLimit: 2
 ---
-{{ if .Values.infraGit.pvc.enable}}
+{{ if .Values.infraGit.percistence.enabled}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: repos-volume
 spec:
-{{- if .Values.infraGit.pvc.existingVolume }}
-  volumeName: {{ .Values.infraGit.pvc.existingVolume }}
-{{- end }}
   accessModes:
-    - {{ .Values.infraGit.pvc.accessModes }}
+    - {{ .Values.infraGit.percistence.accessModes }}
   volumeMode: Filesystem
   resources:
     requests:
-      storage: {{ .Values.infraGit.pvc.storage }}
-  storageClassName: {{ .Values.infraGit.pvc.storageClassName }}
+      storage: {{ .Values.infraGit.percistence.storage }}
+  storageClassName: {{ .Values.infraGit.percistence.storageClassName }}
 {{ end }}  
 ---
 {{- end }}
