@@ -54,14 +54,18 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache
           cache-to: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache,mode=max
 
-      - name: Update Image Version in the related HelmChart values.yaml
-        uses: fjogeleit/yaml-update-action@main
-        with:
-          valueFile: 'chart/values.yaml'
-          propertyPath: 'infraRepo.image.tag'
-          updateFile: true
-          value: "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"
-          branch: infra-repo-${{ github.event.pull_request.head.ref }}
-          targetBranch: ${{ github.event.pull_request.head.ref }}
-          createPR: false
-          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
+      - name: Update values
+        run: |
+          yq -i '.infraRepo.image.tag = ${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}-test' chart/values.yaml
+
+#       - name: Update Image Version in the related HelmChart values.yaml
+#         uses: fjogeleit/yaml-update-action@main
+#         with:
+#           valueFile: 'chart/values.yaml'
+#           propertyPath: 'infraRepo.image.tag'
+#           updateFile: true
+#           value: "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"
+#           branch: infra-repo-${{ github.event.pull_request.head.ref }}
+#           targetBranch: ${{ github.event.pull_request.head.ref }}
+#           createPR: false
+#           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
