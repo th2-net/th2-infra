@@ -39,7 +39,7 @@ jobs:
           helm plugin install https://github.com/quintush/helm-unittest
           helm unittest -3 chart --color -o ./test-results/results.xml -t JUnit
       
-      - name: Publish Test Results
+      - name: Publish Th2 Chart Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
