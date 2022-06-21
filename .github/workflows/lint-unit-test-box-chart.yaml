@@ -43,7 +43,7 @@ jobs:
         if: always()
         with:
           check_name: Box Chart Unit Test Results
-          comment_title: Publish Box Chart Test Results
+          comment_title: Box Chart Test Results
           files: "./test-results/results.xml"
 
       - name: Run box chart linting
