@@ -58,14 +58,14 @@ jobs:
         run: |
           yq -i '.infraRepo.image.tag = "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}-test"' chart/values.yaml
 
-#       - name: Update Image Version in the related HelmChart values.yaml
-#         uses: fjogeleit/yaml-update-action@main
-#         with:
-#           valueFile: 'chart/values.yaml'
-#           propertyPath: 'infraRepo.image.tag'
-#           updateFile: true
-#           value: "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"
-#           branch: infra-repo-${{ github.event.pull_request.head.ref }}
-#           targetBranch: ${{ github.event.pull_request.head.ref }}
-#           createPR: false
-#           message: 'Update Image Version to ${{ steps.image.outputs.version }}'
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.PAT }}
+          commit-message: Build and update infra-repo
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: infra-repo-${{ github.event.pull_request.head.ref }}
+          title: 'Build and update infra-repo'
+          body: |
+            Update Image Version to ${{ steps.image.outputs.version }}
