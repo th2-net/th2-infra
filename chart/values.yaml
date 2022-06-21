@@ -171,7 +171,7 @@ infraGit:
   image:
     repository: ghcr.io/th2-net/git-ssh
     tag: v0.1.0
-  percistence:
+  persistence:
     enabled: true
     existingClaim: repos-volume
     accessModes: ReadWriteMany
