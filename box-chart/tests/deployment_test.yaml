@@ -125,25 +125,25 @@ tests:
           of: Deployment
         documentIndex: 1
       - contains:
-          path: spec.template.spec.volumes
+          path: spec.template.spec.volumes[0].projected.sources
           content: 
             configMap:
               name: "rabbit-mq-app-config"
         documentIndex: 1
       - notContains:
-          path: spec.template.spec.volumes
+          path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap: 
               name: "rabbit-mq-external-app-config"
         documentIndex: 1
       - contains:
-          path: spec.template.spec.volumes
+          path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap: 
               name: "cradle"
         documentIndex: 1
       - notContains:
-          path: spec.template.spec.volumes
+          path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap: 
               name: "cradle-external"
