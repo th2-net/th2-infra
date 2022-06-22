@@ -61,10 +61,10 @@ spec:
 {{ if not .Values.infraGit.persistence.enabled }}
         - name: repos-volume
           emptyDir: {}
-{{ else if .Values.infraGit.persistence.existingClaim }}  
+{{ else }}
         - name: repos-volume            
           persistentVolumeClaim:
-            claimName: repos-volume
+          claimName: {{ ternary .Values.infraGit.persistence.existingClaim "repos-volume" (ne .Values.infraGit.persistence.existingClaim "") }}
 {{ end }}
         - name: keys
           configMap:
