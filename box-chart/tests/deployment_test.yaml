@@ -94,3 +94,29 @@ tests:
           path: spec.template.spec.hostAliases[1].hostnames[0]
           value: "foo.remote"
         documentIndex: 1
+  - it: hostNetwork true
+    set:
+      component:
+        extendedSettings:
+          hostNetwork: true
+    asserts:
+      - isKind:
+          of: Deployment
+        documentIndex: 1
+      - equal:
+          path: spec.template.spec.dnsPolicy
+          value: "ClusterFirstWithHostNet"
+        documentIndex: 1
+  - it: hostNetwork false
+    set:
+      component:
+        extendedSettings:
+          hostNetwork: false
+    asserts:
+      - isKind:
+          of: Deployment
+        documentIndex: 1
+      - isNull:
+          path: spec.template.spec.dnsPolicy
+        documentIndex: 1
+
