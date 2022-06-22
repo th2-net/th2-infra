@@ -56,7 +56,10 @@ jobs:
 
       - name: Update values
         run: |
-          yq -i '.infraRepo.image.tag = "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}-test"' chart/values.yaml
+          yq '.infraRepo.image.tag = "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}-test"' chart/values.yaml /tmp/values.yaml
+          yq '.' chart/values.yaml > /tmp/values.yaml.noblanks
+          diff -B /tmp/values.yaml.noblanks /tmp/values.yaml > /tmp/patch.file
+          patch chart/values.yaml /tmp/patch.file
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
