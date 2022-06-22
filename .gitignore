@@ -1,3 +1,4 @@
 secrets.yaml
 .idea/*
 !**/templates/secrets.yaml
+infra-repo/box-chart
