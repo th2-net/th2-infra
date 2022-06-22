@@ -24,6 +24,9 @@ ingress:
     extra: {}
 
 hostAliases: []
+  # - ip: <ip_address>
+  #   hostnames:
+  #   - <hostname>
 
 # -- Enable th2 for Openshift, impacts on Ingress.
 openshift:
