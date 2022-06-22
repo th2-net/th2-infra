@@ -105,6 +105,7 @@ tests:
         documentIndex: 1
       - isNotNull: 
           path: spec.template.spec.hostNetwork
+        documentIndex: 1
       - equal:
           path: spec.template.spec.dnsPolicy
           value: "ClusterFirstWithHostNet"
@@ -144,6 +145,7 @@ tests:
         documentIndex: 1
       - isNotNull: 
           path: spec.template.spec.hostNetwork
+        documentIndex: 1
       - isNull:
           path: spec.template.spec.dnsPolicy
         documentIndex: 1
