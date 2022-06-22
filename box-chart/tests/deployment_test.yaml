@@ -119,4 +119,32 @@ tests:
       - isNull:
           path: spec.template.spec.dnsPolicy
         documentIndex: 1
-
+  - it: valid configMap
+    asserts:
+      - isKind:
+          of: Deployment
+        documentIndex: 1
+      - contains:
+          path: spec.template.spec.volumes
+          content: 
+            configMap:
+              name: "rabbit-mq-app-config"
+        documentIndex: 1
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            configMap: 
+              name: "rabbit-mq-external-app-config"
+        documentIndex: 1
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            configMap: 
+              name: "cradle"
+        documentIndex: 1
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            configMap: 
+              name: "cradle-external"
+        documentIndex: 1
