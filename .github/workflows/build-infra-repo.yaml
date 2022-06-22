@@ -61,12 +61,11 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          token: ${{ secrets.PAT }}
           commit-message: Build and update infra-repo
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: infra-repo-${{ github.event.pull_request.head.ref }}
-          base: ${{ github.event.pull_request.head.ref }}
+#           branch: infra-repo-${{ github.event.pull_request.head.ref }}
+#           base: ${{ github.event.pull_request.head.ref }}
           title: 'Build and update infra-repo'
           body: |
-            Update Image Version to ${{ steps.image.outputs.version }}
+            Update Image Version to ${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}-test
