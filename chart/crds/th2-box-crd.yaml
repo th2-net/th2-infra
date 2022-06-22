@@ -47,10 +47,6 @@ spec:
                 description: this is custom configuration
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              secret-custom-config:
-                description: this is custom configuration for secrets
-                type: object
-                x-kubernetes-preserve-unknown-fields: true
               loggingConfig:
                 type: string
               mqRouter:
@@ -215,6 +211,7 @@ spec:
                             type: array
                             items:
                               type: string
+                              pattern: "^[-a-zA-Z0-9_/]+$"
                     type: object
                 type: object
               disabled:
