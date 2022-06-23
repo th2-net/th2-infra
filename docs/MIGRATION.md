@@ -114,6 +114,25 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
           hosts: []
     ```
   </details>
+* infraGit values should be be updated.
+  <details>
+    <summary>new persistence configuration</summary>
+
+    ### Changing persistence structure
+    * persistence have to updated to new format.
+    ```
+      infraGit:
+        internal: true
+        nodePort: 32600
+        image:
+          repository: ghcr.io/th2-net/git-ssh
+          tag: v0.1.0
+        persistence:
+          enabled: true
+          existingClaim: ""
+
+    ```
+  </details>
 * secrets.yaml has to be updated.
   <details>
     <summary>Registries have new structure</summary>
