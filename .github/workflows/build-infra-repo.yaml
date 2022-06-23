@@ -50,14 +50,14 @@ jobs:
         with:
           file: ./infra-repo/Dockerfile
           context: ./infra-repo/
-          push: false
+          push: true
           tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache
           cache-to: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache,mode=max
 
       - name: Update values
         run: |
-          updated=$(yq '.infraRepo.image.tag = "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}-test"' chart/values.yaml)
+          updated=$(yq '.infraRepo.image.tag = "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"' chart/values.yaml)
           noBlanks=$(yq '.' chart/values.yaml)
           patch --no-backup-if-mismatch chart/values.yaml <(diff -B <(echo "$noBlanks") <(echo "$updated"))
 
