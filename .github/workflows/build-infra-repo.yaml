@@ -58,7 +58,7 @@ jobs:
         run: |
           updated=$(yq '.infraRepo.image.tag = "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}-test"' chart/values.yaml)
           noBlanks=$(yq '.' chart/values.yaml)
-          patch chart/values.yaml <(diff -B <(echo "$noBlanks") <(echo "$updated"))
+          patch --no-backup-if-mismatch chart/values.yaml <(diff -B <(echo "$noBlanks") <(echo "$updated"))
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
