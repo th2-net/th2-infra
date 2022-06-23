@@ -114,7 +114,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
           hosts: []
     ```
   </details>
-* infraGit values should be be updated.
+* InfraGit values should be be updated.
   <details>
     <summary>new persistence configuration</summary>
 
