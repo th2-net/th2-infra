@@ -5,12 +5,12 @@ on:
     branches:
       - release-v*
       - master
-  push:
-    tags:
-      - "*-infra-repo"
     paths:
       - "infra-repo/**"
       - "box-chart/**"
+  push:
+    tags:
+      - "*-infra-repo"
 
 jobs:
   release:
