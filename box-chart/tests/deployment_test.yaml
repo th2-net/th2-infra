@@ -100,9 +100,6 @@ tests:
         extendedSettings:
           hostNetwork: true
     asserts:
-      - isKind:
-          of: Deployment
-        documentIndex: 1
       - isNotNull: 
           path: spec.template.spec.hostNetwork
         documentIndex: 1
@@ -140,10 +137,7 @@ tests:
         extendedSettings:
           hostNetwork: false
     asserts:
-      - isKind:
-          of: Deployment
-        documentIndex: 1
-      - isNotNull: 
+      - isNull: 
           path: spec.template.spec.hostNetwork
         documentIndex: 1
       - isNull:
