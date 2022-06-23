@@ -70,7 +70,7 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           base: ${{ github.event.pull_request.head.ref }}
           branch: infra-repo-${{ github.event.pull_request.head.ref }}
-          milestone: ${{ github.event.pull_request.milestone }}
+          milestone: ${{ github.event.pull_request.milestone.title }}
           delete-branch: true
           title: "[${{ github.event.pull_request.milestone }}][Auto] Build and bump infra-repo"
           body: |
