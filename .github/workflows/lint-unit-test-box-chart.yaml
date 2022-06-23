@@ -38,10 +38,12 @@ jobs:
           helm plugin install https://github.com/quintush/helm-unittest
           helm unittest -3 box-chart --color -o ./test-results/results.xml -t JUnit
       
-      - name: Publish Test Results
+      - name: Publish Box Chart Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
+          check_name: Box Chart Unit Test Results
+          comment_title: Box Chart Test Results
           files: "./test-results/results.xml"
 
       - name: Run box chart linting
