@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - release-v*
+      - master
   push:
     tags:
       - "*-infra-repo"
@@ -64,14 +65,14 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Build and update infra-repo
+          commit-message: Bump infra-repo
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           base: ${{ github.event.pull_request.head.ref }}
           branch: infra-repo-${{ github.event.pull_request.head.ref }}
           milestone: ${{ github.event.pull_request.milestone }}
           delete-branch: true
-          title: 'Build and update infra-repo'
+          title: "[${{ github.event.pull_request.milestone }}][Auto] Build and bump infra-repo"
           body: |
             Update Image Version to ${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}-test
           labels: |
