@@ -74,6 +74,6 @@ jobs:
           delete-branch: true
           title: "[${{ github.event.pull_request.milestone }}][Auto] Build and bump infra-repo"
           body: |
-            Update Image Version to ${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}-test
+            Bumpt infra-repo to ${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}
           labels: |
             automated
