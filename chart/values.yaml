@@ -173,7 +173,7 @@ infraGit:
     tag: v0.1.0
   persistence:
     enabled: true
-    existingClaim: repos-volume
+    existingClaim: ""
     accessModes: ReadWriteMany
     storage: 5Gi
     storageClassName: local-storage
