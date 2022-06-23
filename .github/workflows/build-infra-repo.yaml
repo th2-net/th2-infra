@@ -64,16 +64,14 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: "${{ secrets.GITHUB_TOKEN }}"
           commit-message: Bump infra-repo
           committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          base: ${{ github.event.pull_request.head.ref }}
+          author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          base: "${{ github.event.pull_request.head.ref }}"
           branch: infra-repo-${{ github.event.pull_request.head.ref }}
-          milestone: ${{ github.event.pull_request.milestone.title }}
+          milestone: "${{ github.event.pull_request.milestone.title }}"
           delete-branch: true
-          title: "[${{ github.event.pull_request.milestone }}][Auto] Build and bump infra-repo"
-          body: |
-            Bumpt infra-repo to ${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}
-          labels: |
-            automated
+          title: "[${{ github.event.pull_request.milestone.title }}][Auto] Build and bump infra-repo"
+          body: "Bump infra-repo to ${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"
+          labels: automated
