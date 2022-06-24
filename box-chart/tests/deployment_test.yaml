@@ -94,3 +94,68 @@ tests:
           path: spec.template.spec.hostAliases[1].hostnames[0]
           value: "foo.remote"
         documentIndex: 1
+  - it: hostNetwork true
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          hostNetwork: true
+    asserts:
+      - equal: 
+          path: spec.template.spec.hostNetwork
+          value: true
+      - equal:
+          path: spec.template.spec.dnsPolicy
+          value: "ClusterFirstWithHostNet"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content: 
+            configMap:
+              name: "rabbit-mq-app-config"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "rabbit-mq-external-app-config"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle-external"
+  - it: hostNetwork false
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          hostNetwork: false
+    asserts:
+      - isNull: 
+          path: spec.template.spec.hostNetwork
+      - isNull:
+          path: spec.template.spec.dnsPolicy
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content: 
+            configMap:
+              name: "rabbit-mq-app-config"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "rabbit-mq-external-app-config"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle-external"
+      
