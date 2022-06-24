@@ -1,0 +1,40 @@
+suite: test deploy and service
+values:
+  - ../values.yaml
+templates:
+  - component.yaml
+chart:
+  version: 1.0.0
+  appVersion: 1.0.0
+tests:
+  - it: kind service
+    documentIndex: 2
+    set:
+      component:
+        extendedSettings:
+          service:
+            enabled: true
+    asserts:
+      - isKind:
+          of: Service
+      - hasDocuments:
+          count: 3
+      - isNotNull: 
+          path: metadata.name
+      - isNotNull:
+          path: spec.selector.app   
+  - it: annotations valid
+    documentIndex: 2
+    set:
+      component:
+        extendedSettings:
+          service:
+            enabled: true
+      commonAnnotations: 
+        common_valid: nginx
+        common_empty:
+    asserts:
+      - isNotNull:
+          path: metadata.annotations.[common_valid]
+      - isNull:
+          path: metadata.annotations.[common_empty]

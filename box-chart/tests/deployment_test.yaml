@@ -7,27 +7,27 @@ chart:
   version: 1.0.0
   appVersion: 1.0.0
 tests:
-  - it: hostAliases missing
+  - it: kind Deployment
+    documentIndex: 1
     asserts:
       - isKind:
           of: Deployment
-        documentIndex: 1
+  - it: hostAliases missing
+    documentIndex: 1
+    asserts:
       - isNull:
           path: spec.template.spec.hostAliases
-        documentIndex: 1
   - it: hostAliases empty
+    documentIndex: 1
     set:
       component:
         extendedSettings:
           hostAliases: []
     asserts:
-      - isKind:
-          of: Deployment
-        documentIndex: 1
       - isEmpty:
           path: spec.template.spec.hostAliases
-        documentIndex: 1
   - it: valid hostAliases
+    documentIndex: 1
     set:
       component:
         extendedSettings:
@@ -36,27 +36,20 @@ tests:
             hostnames:
             - "foo.local"
     asserts:
-      - isKind:
-          of: Deployment
-        documentIndex: 1
       - isNotEmpty:
           path: spec.template.spec.hostAliases
-        documentIndex: 1
       - isNotEmpty:
           path: spec.template.spec.hostAliases[0].hostnames
-        documentIndex: 1
       - isNotNull:
           path: spec.template.spec.hostAliases[0].ip
-        documentIndex: 1
       - equal:
           path: spec.template.spec.hostAliases[0].ip
           value: 127.0.0.1
-        documentIndex: 1
       - equal:
           path: spec.template.spec.hostAliases[0].hostnames[0]
           value: "foo.local"
-        documentIndex: 1
   - it: more than one hostAliases
+    documentIndex: 1
     set:
       component:
         extendedSettings:
@@ -68,29 +61,106 @@ tests:
             hostnames:
             - "foo.remote"
     asserts:
-      - isKind:
-          of: Deployment
-        documentIndex: 1
       - isNotEmpty:
           path: spec.template.spec.hostAliases
-        documentIndex: 1
       - isNotEmpty:
           path: spec.template.spec.hostAliases[0].hostnames
-        documentIndex: 1
       - isNotNull:
           path: spec.template.spec.hostAliases[0].ip
-        documentIndex: 1
       - isNotEmpty:
           path: spec.template.spec.hostAliases[1].hostnames
-        documentIndex: 1
       - isNotNull:
           path: spec.template.spec.hostAliases[1].ip
-        documentIndex: 1
       - equal:
           path: spec.template.spec.hostAliases[1].ip
           value: 10.1.2.3
-        documentIndex: 1
       - equal:
           path: spec.template.spec.hostAliases[1].hostnames[0]
           value: "foo.remote"
+  - it: hostNetwork true
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          hostNetwork: true
+    asserts:
+      - isNotNull: 
+          path: spec.template.spec.hostNetwork
+      - equal:
+          path: spec.template.spec.dnsPolicy
+          value: "ClusterFirstWithHostNet"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content: 
+            configMap:
+              name: "rabbit-mq-app-config"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "rabbit-mq-external-app-config"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle-external"
+  - it: hostNetwork false
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          hostNetwork: false
+    asserts:
+      - isNull: 
+          path: spec.template.spec.hostNetwork
+      - isNull:
+          path: spec.template.spec.dnsPolicy
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content: 
+            configMap:
+              name: "rabbit-mq-app-config"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "rabbit-mq-external-app-config"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle-external" 
+  - it: nodeSelector missing
+    set:
+      content:
+        component:
+          extendedSettings:
+            externalBox:
+              enabled: true
+    asserts:
+      - isNull:
+          path: spec.template.spec.nodeSelector
         documentIndex: 1
+  - it: imagePullSecrets valid
+    documentIndex: 1
+    set:
+      component:
+        imagePullSecrets: 
+          - 'test:secret.1'
+    asserts:
+      - isNotNull: 
+          path: spec.template.spec.imagePullSecrets
+      - notMatchRegex:
+          path: spec.template.spec.imagePullSecrets[0].name
+          pattern: '^.*[:,\.]'
+         

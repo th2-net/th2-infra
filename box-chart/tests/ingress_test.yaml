@@ -1,0 +1,126 @@
+suite: test deploy and service
+values:
+  - ../values.yaml
+templates:
+  - component.yaml
+chart:
+  version: 1.0.0
+  appVersion: 1.0.0
+tests:
+  - it: rpt-data-provider
+    documentIndex: 2
+    set:
+      component:
+        name: rpt-data-provider
+    asserts:
+      - isKind:
+          of: Ingress
+      - hasDocuments:
+          count: 3
+      - matchRegex:
+          path: spec.rules[0].http.paths[0].path
+          pattern: ^.*/backend/.*$
+  - it: rpt-data-viewer
+    documentIndex: 2
+    set:
+      component:
+        name: rpt-data-viewer
+    asserts:
+      - isKind:
+          of: Ingress
+      - hasDocuments:
+          count: 3
+      - matchRegex:
+          path: spec.rules[0].http.paths[0].path
+          pattern: ^.*/.*$
+      - notMatchRegex:
+          path: spec.rules[0].http.paths[0].path
+          pattern: ^.*/backend/.*$
+  - it: urlPaths valid
+    documentIndex: 2
+    set:
+      component:
+        extendedSettings:
+          service:
+            ingress:
+              urlPaths: 
+                - '/test'
+    asserts:
+      - isKind:
+          of: Ingress
+      - hasDocuments:
+          count: 3
+      - isNotEmpty:
+          path: spec.rules[0].http.paths
+      - matchRegex:
+          path: spec.rules[0].http.paths[0].path
+          pattern: ^.*/.*/.*$
+  - it: urlPaths empty
+    set:
+      component:
+        extendedSettings:
+          service:
+            ingress:
+              urlPaths: []
+    asserts:
+      - hasDocuments: 
+          count: 2
+  - it: ingressClass valid
+    documentIndex: 2
+    set:
+      component:
+        name: rpt-data-provider
+        ingress:
+          ingressClass: nginx-example
+    asserts:
+      - equal:
+          path: spec.ingressClassName
+          value: nginx-example
+  - it: host valid
+    documentIndex: 2
+    set:
+      component:
+        name: rpt-data-provider
+        ingress:
+          host: test-host
+    asserts:
+      - equal:
+          path: spec.rules[0].host
+          value: "test-host"
+      - isNotNull:
+          path: spec.rules[0].http
+  - it: host Empty
+    documentIndex: 2
+    set:
+      component:
+        name: rpt-data-provider
+        ingress:
+          host:
+    asserts:
+      - isNull: 
+          path: spec.rules[0].host
+      - isNotNull: 
+          path: spec.rules[0].http
+  - it: annotations valid
+    documentIndex: 2
+    set:
+      commonAnnotations: 
+        common_valid: nginx
+        common_empty:
+      component:
+        ingress:
+          annotations:
+            default:
+              ingress_valid: "true"
+            extra:
+              ingress_empty:
+        name: rpt-data-provider
+    asserts:
+      - isNotNull:
+          path: metadata.annotations.[common_valid]
+      - isNull:
+          path: metadata.annotations.[common_empty]
+      - isNotNull:
+          path: metadata.annotations.[ingress_valid]
+      - isNull:
+          path: metadata.annotations.[ingress_empty]
