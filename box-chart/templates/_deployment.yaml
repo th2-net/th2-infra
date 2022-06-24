@@ -50,7 +50,7 @@ spec:
       {{- end }}
       {{- if .component.extendedSettings.hostNetwork }}
       hostNetwork: true
-      dnsPolicy: ClusterFirst
+      dnsPolicy: ClusterFirstWithHostNet
       {{- end }}
       {{- if .component.extendedSettings.hostAliases }}
       hostAliases:
