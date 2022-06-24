@@ -101,8 +101,9 @@ tests:
         extendedSettings:
           hostNetwork: true
     asserts:
-      - isNotNull: 
+      - equal: 
           path: spec.template.spec.hostNetwork
+          value: true
       - equal:
           path: spec.template.spec.dnsPolicy
           value: "ClusterFirstWithHostNet"
