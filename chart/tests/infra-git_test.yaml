@@ -1,0 +1,61 @@
+suite: test infra-git
+templates:
+  - infra-git.yaml
+tests:
+  - it: infraGit persistence disabled
+    set: 
+      infraGit:
+        internal: true
+        persistence:
+          enabled: false
+          existingClaim: ""
+    asserts:
+      - isKind:
+          of: Deployment
+        documentIndex: 1
+      - equal:
+          path: spec.template.spec.volumes[0].emptyDir
+          value: {}
+        documentIndex: 1
+  - it: infraGit persistence enabled
+    set: 
+      infraGit:
+        internal: true
+        persistence:
+          enabled: true
+          existingClaim: ""
+    asserts:
+      - isKind:
+          of: Deployment
+        documentIndex: 1
+      - equal:
+          path: spec.template.spec.volumes[0].name
+          value: "repos-volume"
+        documentIndex: 1
+
+  - it: infraGit persistence enabled with existingClaim
+    set: 
+      infraGit:
+        internal: true
+        persistence:
+          enabled: true
+          existingClaim: "test-volume"
+    asserts:
+      - isKind:
+          of: Deployment
+        documentIndex: 1
+      - equal:
+          path: spec.template.spec.volumes[0].persistentVolumeClaim.claimName
+          value: test-volume
+        documentIndex: 1
+  - it: infraGit persistence enabled but infraGit is turned off
+    set: 
+      infraGit:
+        internal: false
+        persistence:
+          enabled: true
+          existingClaim: "test-volume"
+    asserts:
+      - hasDocuments:
+          count: 0
+
