@@ -95,6 +95,7 @@ tests:
           value: "foo.remote"
         documentIndex: 1
   - it: hostNetwork true
+    documentIndex: 1
     set:
       component:
         extendedSettings:
@@ -102,36 +103,31 @@ tests:
     asserts:
       - isNotNull: 
           path: spec.template.spec.hostNetwork
-        documentIndex: 1
       - equal:
           path: spec.template.spec.dnsPolicy
           value: "ClusterFirstWithHostNet"
-        documentIndex: 1
       - contains:
           path: spec.template.spec.volumes[0].projected.sources
           content: 
             configMap:
               name: "rabbit-mq-app-config"
-        documentIndex: 1
       - notContains:
           path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap: 
               name: "rabbit-mq-external-app-config"
-        documentIndex: 1
       - contains:
           path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap: 
               name: "cradle"
-        documentIndex: 1
       - notContains:
           path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap: 
               name: "cradle-external"
-        documentIndex: 1
   - it: hostNetwork false
+    documentIndex: 1
     set:
       component:
         extendedSettings:
@@ -139,32 +135,26 @@ tests:
     asserts:
       - isNull: 
           path: spec.template.spec.hostNetwork
-        documentIndex: 1
       - isNull:
           path: spec.template.spec.dnsPolicy
-        documentIndex: 1
       - contains:
           path: spec.template.spec.volumes[0].projected.sources
           content: 
             configMap:
               name: "rabbit-mq-app-config"
-        documentIndex: 1
       - notContains:
           path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap: 
               name: "rabbit-mq-external-app-config"
-        documentIndex: 1
       - contains:
           path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap: 
               name: "cradle"
-        documentIndex: 1
       - notContains:
           path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap: 
               name: "cradle-external"
-        documentIndex: 1
       
