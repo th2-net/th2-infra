@@ -5,20 +5,17 @@ templates:
   - infra-mgr.yaml
 tests:
   - it: hostAliases missing
+    documentIndex: 3
     asserts:
       - isKind:
           of: Deployment
-        documentIndex: 3
       - isNull:
           path: spec.template.spec.hostAliases
-        documentIndex: 3
-  - it: hostAliases empty
-    set:
-      hostAliases: []
+  - it: default hostAliases
+    documentIndex: 3
     asserts:
       - isEmpty:
           path: spec.template.spec.hostAliases
-        documentIndex: 3
   - it: more than one hostAliases
     set:
       hostAliases: 
@@ -28,27 +25,17 @@ tests:
       - ip: "10.1.2.3"
         hostnames:
         - "foo.remote"
+    documentIndex: 3
     asserts:
-      - isNotEmpty:
-          path: spec.template.spec.hostAliases
-        documentIndex: 3
-      - isNotEmpty:
-          path: spec.template.spec.hostAliases[0].hostnames
-        documentIndex: 3
-      - isNotNull:
+      - equal:
           path: spec.template.spec.hostAliases[0].ip
-        documentIndex: 3
-      - isNotEmpty:
-          path: spec.template.spec.hostAliases[1].hostnames
-        documentIndex: 3
-      - isNotNull:
-          path: spec.template.spec.hostAliases[1].ip
-        documentIndex: 3
+          value: 127.0.0.1
+      - equal:
+          path: spec.template.spec.hostAliases[0].hostnames[0]
+          value: "foo.local"
       - equal:
           path: spec.template.spec.hostAliases[1].ip
           value: 10.1.2.3
-        documentIndex: 3
       - equal:
           path: spec.template.spec.hostAliases[1].hostnames[0]
           value: "foo.remote"
-        documentIndex: 3
