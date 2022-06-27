@@ -358,7 +358,7 @@ $ kubectl -n <th2-namespace> apply -f ./pvc.yaml
 _Note_: replace <th2-namespace> with th2 namespace you use
   
 ## th2 in Openshift
-Step with Ingress controller deployment must be skipped.
+Steps with Ingress controller and Monitoring deployment should be skipped
 
 To support Openshift environment and Ingress controller, set the following value:
 ```
