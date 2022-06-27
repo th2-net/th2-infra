@@ -48,9 +48,9 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
             Components-logs:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
             Monitoring-1:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1632997642909.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-old.json
             Monitoring-3:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1654769795816.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-new.json
     ``` 
     ### Adding Plugin Urls in Prometheus-stack
     * Plugins should be added in grafana from infra-repo by plugins.
