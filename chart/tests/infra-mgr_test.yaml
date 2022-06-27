@@ -5,6 +5,8 @@ templates:
   - infra-mgr.yaml
 tests:
   - it: hostAliases missing
+    set:
+      hostAliases: null
     documentIndex: 3
     asserts:
       - isKind:
