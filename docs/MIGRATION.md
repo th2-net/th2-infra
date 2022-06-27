@@ -75,7 +75,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
     ```
       rabbitmq:
         persistence:
-          storageClassName: local-storage
+          storageClass: local-storage
         ingress:
           extraHosts:
             - name: <hostname>
