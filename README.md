@@ -255,19 +255,19 @@ rabbitmq:
 
 If you have any restrictions to get access to any external repositories from the k8s cluster git service can be deployed according to the following instruction:
 
-*  Create PersistentVolume "repos-volume", example is presented in the ./example-values/persistence/pv.yaml;
+*  Create PersistentVolume "repos-volume", example is presented in the ./example-values/persistence/pv.yaml or your own PVC
 *  Create configmap "keys-repo" from public part of key from point "Access for infra-mgr th2 schema git repository":
 ```
 $ kubectl -n service create configmap keys-repo --from-file=authorized_keys=./infra-mgr-rsa.pub
 ```
-*  Define configs for infra-git in services.values.yaml. 
+*  Define configs for infra-git in services.values.yaml
 *  set `infraMgr.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
 ```
 infraMgr:
   git:
     repository: ssh://git@infra-git/home/git/repo/schema.git
 ```
-* after installation you should create folder with the same path and the name ```schema.git``` that you define in previous step inside infra-git pod and initialise it as a git repo. 
+* after installation you should create folder with the same path and the name ```schema.git``` that you define in previous step inside infra-git pod and initialise it as a git repo.
 ```
 $ su git
 $ mkdir /home/git/repo/schema.git
