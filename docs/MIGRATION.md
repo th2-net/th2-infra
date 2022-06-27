@@ -129,7 +129,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
           tag: v0.1.0
         persistence:
           enabled: true
-          ## "repos-volume" claim will be created and mounted if empty
+          # -- "repos-volume" claim will be created and mounted if empty
           existingClaim: ""
     ```
   </details>
