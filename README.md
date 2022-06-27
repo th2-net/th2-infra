@@ -360,7 +360,7 @@ _Note_: replace <th2-namespace> with th2 namespace you use
 ## th2 in Openshift
 Step with Ingress controller deployment must be skipped.
 
-To support Openshift environment and Ingress controller, the following values should be overrided:
+To support Openshift environment and Ingress controller, set the following value:
 ```
 # -- Enable th2 for Openshift, impacts on Ingress.
 openshift:
@@ -370,19 +370,20 @@ openshift:
 Ingress related, e.g:
 ```
 ingress:
-  # -- Hostname to access ingress
+  # -- Ingress class
   ingressClass: ""
   # -- Hostname for th2 namespace services
-  host: "th2<domain>"
+  host: "th2.<domain>"
   # -- Hostname for infra services. If not set, than host will be used
-  infraHost: "th2-infra<domain>"
+  infraHost: "th2-infra.<domain>"
   annotations:
     default:
       route.openshift.io/termination: "edge"
       haproxy.router.openshift.io/rewrite-target: /
 ```
-
 and similar Ingress options for dependency charts.
+
+Expose services as LoadBalancer if available.
 
 ## th2 infra links:
 - Kubernetes dashboard http://your-host:30000/dashboard/
