@@ -114,12 +114,12 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
           hosts: []
     ```
   </details>
-* InfraGit values should be be updated.
+* InfraGit values have to be be updated.
   <details>
     <summary>new persistence configuration</summary>
 
     ### Changing persistence structure
-    * persistence have to updated to new format.
+    * persistence has to be updated to new format.
     ```
       infraGit:
         internal: true
@@ -130,7 +130,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
         persistence:
           enabled: true
           existingClaim: ""
-
+          # "repos-volume" claim will be created and mounted if empty
     ```
   </details>
 * secrets.yaml has to be updated.
