@@ -104,18 +104,14 @@ Details for th2-read-log [README.md](https://github.com/th2-net/th2-read-log#con
 ## Monitoring deployment
 
 _Note: It's an optional step, but it gets slightly simpler checking the result of installation. In all installation commands we explicitly define namespaces to avoid possible mistakes._
-* Switch namespace to monitoring
+
+* Define Grafana host names (the name must be resolved from QA boxes) in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
 ```
-$ kubectl config set-context --current --namespace=monitoring
+grafana:
+  ingress:
+    hosts:
+      - <th2_host_name>
 ```
-* Define Grafana host names (the name must be resolved from QA boxes):
-  * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
-    ```
-    grafana:
-      ingress:
-        hosts:
-          - <th2_host_name>
-    ```
 
 * Deploy components
 ```
@@ -144,11 +140,6 @@ prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1    
   
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.
-
-* Switch namespace to service:
-```
-$ kubectl config set-context --current --namespace=service
-```
 
 ### Access for infra-mgr th2 schema git repository:
 
