@@ -29,11 +29,11 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           base: ${{ github.event.pull_request.head.ref }}
           branch: helm-docs-${{ github.event.pull_request.head.ref }}
+          milestone: "${{ github.event.pull_request.milestone.title }}"
           delete-branch: true
-          title: "${{ github.event.pull_request.title }} helm chart readme"
+          title: "[${{ github.event.pull_request.milestone.title }}][Auto] helm chart readme"
           body: "Generating helm chart README"
-          labels: |
-            automated
+          labels: automated
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
