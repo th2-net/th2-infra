@@ -11,18 +11,21 @@ All th2 components are deployed via Helm charts by [Helm](https://helm.sh/) and 
 ## Steps
 The following steps should be performed on the operator-box for th2-infra deployment:
 <!--ts-->
-   * [Download th2 git repositories](#th2-git-repositories)
+   * [Download th2 git repositories](#th2-git-repository)
    * [Monitoring deployment](#monitoring-deployment)
    * [Cluster configuration](#cluster-configuration)
    * [th2 deployment](#th2-deployment)
 <!--te-->
 
-## th2 Git repository
+## th2 git repository
 Installation of th2 infra requires a Git repository for maintaining th2 schema configuration. The information regarding this repository and its usage can be found in the guide further.
-* https://github.com/th2-net/th2-infra-schema-demo - can be used as a starter kit for schema repository
-* [https://github.com/th2-net/th2-infra/example-values](https://github.com/th2-net/th2-infra/tree/master/example-values) - can be used as a starter kit for th2 infra, we also recommend to store these values in a separate git repository
 
-The first step that should be done in the th2 deployment process is copying th2-infra repository into your operator-box:
+https://github.com/th2-net/th2-infra-schema-demo - can be used as a starter kit for schema repository.
+[Template](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) or [fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo#fork-an-example-repository) it.
+
+[https://github.com/th2-net/th2-infra/example-values](https://github.com/th2-net/th2-infra/tree/master/example-values) - contains example values for th2 infra charts, we also recommend to store these values in a separate git repository
+
+Clone th2-infra values repository into your operator-box:
 ```
 $ git clone https://github.com/th2-net/th2-infra.git
 ```
@@ -30,10 +33,6 @@ change the current directory
 ```
 $ cd ./th2-infra/example-values
 ```
-Then https://github.com/th2-net/th2-infra-schema-demo should be created in your git as a fork or template:
-* [how to create template](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template)
-* [how to fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo#fork-an-example-repository)
-
 
 ## Infrastructure namespaces
 Infrastructure components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
