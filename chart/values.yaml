@@ -176,7 +176,10 @@ infraGit:
   image:
     repository: ghcr.io/th2-net/git-ssh
     tag: v0.1.0
-  pvc:
+  persistence:
+    enabled: true
+    # -- "repos-volume" claim will be created and mounted if empty
+    existingClaim: ""
     accessModes: ReadWriteMany
     storage: 5Gi
     storageClassName: local-storage
