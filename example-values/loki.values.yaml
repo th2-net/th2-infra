@@ -29,6 +29,7 @@ promtail:
     snippets:
       pipelineStages:
       - cri: {}
+      - docker: {}
       - multiline:
           firstline: '^[\w :]+,\d+ \w+\s.*'
       - regex:
