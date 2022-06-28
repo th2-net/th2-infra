@@ -115,6 +115,17 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
           hosts: []
     ```
   </details>
+* Kube-state-metrics values should be updated
+  <details>
+    <summary>Update kube-state-metrics</summary>
+
+    ### Addd values to kube-state-metrics
+    * metricLabelsAllowlist should be added in kube-state-metrics
+    ```
+      kube-state-metrics:
+        metricLabelsAllowlist: ['pods=[*]']
+    ```
+  </details>
 * secrets.yaml has to be updated.
   <details>
     <summary>Registries have new structure</summary>
