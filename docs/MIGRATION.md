@@ -3,8 +3,8 @@
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
 * Prometheus stack must be upgraded 15.0.0 > 21.0.5
-* Loki-stack must be upgraded 2.4.1 > 2.6.5
-* NGINX Ingress Controller chart must be upgraded 3.31.0 > 4.1.2
+* Loki-stack must be upgraded 2.4.1 > 2.6.5. Remove old stack before install new one. Please, replace values for `loki` with ones from `../example-values/loki.values.yaml`. These values are written for containerd runtime. If you use docker runtime, please replace `- cri: {}` with `- docker: {}` in `pipelineStages`.
+* NGINX Ingress Controller chart must be upgraded 3.31.0 > 4.1.2.
 ```
 $ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
 ```
