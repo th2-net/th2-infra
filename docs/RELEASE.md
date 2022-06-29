@@ -4,7 +4,9 @@ Cycle of a particular release branch
 ```mermaid
 flowchart TB
     init(Branch from the master or release-v*.*.x, release-v1.2.x) --> branch
-    branch(release-v*.*.* branch, release-v1.2.3) --> pr(Feature / fix pull request / commit to PR)
+    init --> milestone(Create milestone, v1.2.3)
+    branch(Branch release-v*.*.*, release-v1.2.3) --> pr(Feature / fix pull request / commit to PR)
+    milestone --> pr
     pr --> tests
     tests{Automated tests} --> |Passed| review
     tests{Automated tests} --> |Not passed| pr
@@ -21,13 +23,13 @@ flowchart TB
     tag --> publish(Publish)
     publish --> mergeToMaster(Merge to release-v*.*.x or master branch)
     
-    linkStyle 3 stroke:green
     linkStyle 5 stroke:green
-    linkStyle 11 stroke:green
+    linkStyle 7 stroke:green
+    linkStyle 13 stroke:green
     
-    linkStyle 4 stroke:red
     linkStyle 6 stroke:red
-    linkStyle 12 stroke:red
+    linkStyle 8 stroke:red
+    linkStyle 14 stroke:red
 
 ```
 
