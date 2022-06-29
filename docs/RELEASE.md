@@ -1,6 +1,6 @@
 # Process Diagram
 
-Adding features to release branch
+Cycle of a particular release branch
 ```mermaid
 flowchart TB
     branch(release-v*.*.* / master branch) --> pr(Feature / fix pull request / commit to PR)
@@ -28,3 +28,4 @@ flowchart TB
     linkStyle 13 stroke:red
 
 ```
+
