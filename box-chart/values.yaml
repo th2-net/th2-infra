@@ -1,5 +1,7 @@
 ---
 commonAnnotations: {}
+openshift:
+  enabled: false
 component:
   ingress:
     host:
