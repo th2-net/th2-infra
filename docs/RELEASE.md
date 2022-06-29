@@ -21,13 +21,13 @@ flowchart TB
     tag --> publish(Publish)
     publish --> mergeToMaster(Merge to release-v*.*.x or master branch)
     
-    linkStyle 2 stroke:green
-    linkStyle 4 stroke:green
-    linkStyle 10 stroke:green
+    linkStyle 3 stroke:green
+    linkStyle 5 stroke:green
+    linkStyle 11 stroke:green
     
-    linkStyle 3 stroke:red
-    linkStyle 5 stroke:red
-    linkStyle 11 stroke:red
+    linkStyle 4 stroke:red
+    linkStyle 6 stroke:red
+    linkStyle 12 stroke:red
 
 ```
 
