@@ -116,6 +116,17 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
           hosts: []
     ```
   </details>
+* Kube-state-metrics values should be updated
+  <details>
+    <summary>Update kube-state-metrics</summary>
+
+    ### Addd values to kube-state-metrics
+    * metricLabelsAllowlist should be added in kube-state-metrics
+    ```
+      kube-state-metrics:
+        metricLabelsAllowlist: ['pods=[*]']
+    ```
+  </details>
 * InfraGit values have to be be updated.
   <details>
     <summary>new persistence configuration</summary>
