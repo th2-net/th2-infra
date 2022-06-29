@@ -3,7 +3,8 @@
 Cycle of a particular release branch
 ```mermaid
 flowchart TB
-    branch(Pull request for release-v*.*.* branch) --> pr(Feature / fix pull request / commit to PR)
+    init(Branch from the master or release-v*.*.x, release-v1.2.x) --> branch
+    branch(release-v*.*.* branch, release-v1.2.3) --> pr(Feature / fix pull request / commit to PR)
     pr --> tests
     tests{Automated tests} --> |Passed| review
     tests{Automated tests} --> |Not passed| pr
@@ -16,8 +17,9 @@ flowchart TB
     internal --> |Passed| buildDocs
     internal --> |Not passed| pr
     buildDocs --> mergeDocs(Merge)
-    mergeDocs --> release(Release)
-    release --> publish(Publish)
+    mergeDocs --> tag(Git tag as v*.*.*, v1.2.3)
+    tag --> publish(Publish)
+    publish --> mergeToMaster(Merge to release-v*.*.x or master branch)
     
     linkStyle 2 stroke:green
     linkStyle 4 stroke:green
