@@ -3,6 +3,7 @@ loki:
   #   pullPolicy: IfNotPresent
   #   repository: grafana/loki
   #   pullSecrets:
+  isDefault: false
   persistence:
     enabled: true
     existingClaim: loki
