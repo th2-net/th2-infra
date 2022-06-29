@@ -25,3 +25,14 @@ promtail:
     requests:
       cpu: 200m
       memory: 200Mi
+  config:
+    snippets:
+      pipelineStages:
+      - cri: {}
+      - docker: {}
+      - multiline:
+          firstline: '^[\w :]+,\d+ \w+\s.*'
+      - regex:
+          expression: '^[\w :]+,\d+ (?P<level>[IEWDT]\w+)\s.*'
+      - labels:
+          level:
