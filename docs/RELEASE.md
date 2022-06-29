@@ -3,7 +3,7 @@
 From top to bottom
 ```mermaid
 flowchart TB
-    branch(release-v*.*.*<br/>branch) --> pr(Feature/fix pull request, or commit to PR)
+    branch(release-v*.*.* / master branch) --> pr(Feature / fix pull request / commit to PR)
     pr --> tests
     tests{Automated tests} --> |Passed| review
     tests{Automated tests} --> |Not passed| pr
