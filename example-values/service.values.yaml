@@ -5,7 +5,7 @@ infraMgr:
 rabbitmq:
   persistence:
     enabled: true
-    storageClassName: local-storage
+    storageClass: local-storage
     size: 10Gi
   ingress:
     enabled: true
