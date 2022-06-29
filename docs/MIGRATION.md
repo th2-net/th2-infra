@@ -3,7 +3,8 @@
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
 * Prometheus stack must be upgraded 15.0.0 > 21.0.5
-* NGINX Ingress Controller chart must be upgraded 3.31.0 > 4.1.2
+* Loki-stack must be upgraded 2.4.1 > 2.6.5. Remove a release before upgrade. Set new values for `loki` with ones from `../example-values/loki.values.yaml`.
+* NGINX Ingress Controller chart must be upgraded 3.31.0 > 4.1.2.
 ```
 $ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
 ```
@@ -75,7 +76,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
     ```
       rabbitmq:
         persistence:
-          storageClassName: local-storage
+          storageClass: local-storage
         ingress:
           extraHosts:
             - name: <hostname>
@@ -113,6 +114,17 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
           externalUrl: http://localhost:9090/prometheus
         ingress:
           hosts: []
+    ```
+  </details>
+* Kube-state-metrics values should be updated
+  <details>
+    <summary>Update kube-state-metrics</summary>
+
+    ### Addd values to kube-state-metrics
+    * metricLabelsAllowlist should be added in kube-state-metrics
+    ```
+      kube-state-metrics:
+        metricLabelsAllowlist: ['pods=[*]']
     ```
   </details>
 * InfraGit values have to be be updated.

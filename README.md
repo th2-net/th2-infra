@@ -11,18 +11,21 @@ All th2 components are deployed via Helm charts by [Helm](https://helm.sh/) and 
 ## Steps
 The following steps should be performed on the operator-box for th2-infra deployment:
 <!--ts-->
-   * [Download th2 git repositories](#th2-git-repositories)
+   * [Download th2 git repositories](#th2-git-repository)
    * [Monitoring deployment](#monitoring-deployment)
    * [Cluster configuration](#cluster-configuration)
    * [th2 deployment](#th2-deployment)
 <!--te-->
 
-## th2 Git repository
+## th2 git repository
 Installation of th2 infra requires a Git repository for maintaining th2 schema configuration. The information regarding this repository and its usage can be found in the guide further.
-* https://github.com/th2-net/th2-infra-schema-demo - can be used as a starter kit for schema repository
-* [https://github.com/th2-net/th2-infra/example-values](https://github.com/th2-net/th2-infra/tree/master/example-values) - can be used as a starter kit for th2 infra, we also recommend to store these values in a separate git repository
 
-The first step that should be done in the th2 deployment process is copying th2-infra repository into your operator-box:
+https://github.com/th2-net/th2-infra-schema-demo - can be used as a starter kit for schema repository.
+[Template](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) or [fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo#fork-an-example-repository) it.
+
+[https://github.com/th2-net/th2-infra/example-values](https://github.com/th2-net/th2-infra/tree/master/example-values) - contains example values for th2 infra charts, we also recommend to store these values in a separate git repository
+
+Clone th2-infra values repository into your operator-box:
 ```
 $ git clone https://github.com/th2-net/th2-infra.git
 ```
@@ -30,10 +33,6 @@ change the current directory
 ```
 $ cd ./th2-infra/example-values
 ```
-Then https://github.com/th2-net/th2-infra-schema-demo should be created in your git as a fork or template:
-* [how to create template](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template)
-* [how to fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo#fork-an-example-repository)
-
 
 ## Infrastructure namespaces
 Infrastructure components are split into two namespaces: _`monitoring`_ and _`service`_. These namespaces will be created below.
@@ -105,32 +104,20 @@ Details for th2-read-log [README.md](https://github.com/th2-net/th2-read-log#con
 ## Monitoring deployment
 
 _Note: It's an optional step, but it gets slightly simpler checking the result of installation. In all installation commands we explicitly define namespaces to avoid possible mistakes._
-* Switch namespace to monitoring
+
+* Define Grafana host names (the name must be resolved from QA boxes) in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
 ```
-$ kubectl config set-context --current --namespace=monitoring
+grafana:
+  ingress:
+    hosts:
+      - <th2_host_name>
 ```
-* Define Grafana and Dashboard host names (the name must be resolved from QA boxes):
-  * in the [values.yaml](./th2-service/values.yaml) file
-    ```
-      ingress:
-        host: &host <th2_host_name>
-      kubernetes-dashboard:
-        ingress:
-          hosts: [*host]
-    ```
-  * in the [prometheus-operator.values.yaml](./example-values/prometheus-operator.values.yaml) file
-    ```
-    grafana:
-      ingress:
-        hosts:
-          - <th2_host_name>
-    ```
 
 * Deploy components
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm install --version=2.4.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=2.6.5 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
 $ helm install --version=21.0.5 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
@@ -153,11 +140,6 @@ prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1    
   
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.
-
-* Switch namespace to service:
-```
-$ kubectl config set-context --current --namespace=service
-```
 
 ### Access for infra-mgr th2 schema git repository:
 
@@ -203,14 +185,21 @@ cassandra:
   host: <cassandra-host>
 ```
 
-### Define rabbitMQ ingress parameters
-Add `rabbitmq.ingress.extraHosts.name` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise rabbitMQ http service will be available on node IP address
-
 ### Define th2 ingress parameters
 * Add `ingress.hostname` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise th2 http services will be available on node IP address
 ```
 ingress:
   host: example.com
+...
+kubernetes-dashboard:
+  ingress:
+    hosts:
+    - example.com
+...
+rabbitmq:
+  ingress:
+    extraHosts:
+    - name: example.com
 ```
 
 ### Create secret with th2 credentials
@@ -256,20 +245,37 @@ rabbitmq:
 
 If you have any restrictions to get access to any external repositories from the k8s cluster git service can be deployed according to the following instruction:
 
-*  Create PersistentVolume "repos-volume", example is presented in the ./example-values/persistence/pv.yaml;
+*  Create PersistentVolume "repos-volume", example is presented in the ./example-values/persistence/pv.yaml or your own PVC
 *  Create configmap "keys-repo" from public part of key from point "Access for infra-mgr th2 schema git repository":
 ```
 $ kubectl -n service create configmap keys-repo --from-file=authorized_keys=./infra-mgr-rsa.pub
 ```
-*  Define configs for infra-git in services.values.yaml. 
+*  Define configs for infra-git in services.values.yaml
 *  set `infraMgr.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
 ```
 infraMgr:
   git:
-    repository: ssh://git@infra-git/home/git/repo/<your_repo_name>.git
+    repository: ssh://git@infra-git/home/git/repo/schema.git
 ```
-* after installation you should init new repo with the name that you define in previous step.
+* after installation you should create folder with the same path and the name ```schema.git``` that you define in previous step inside infra-git pod and initialise it as a git repo.
+```
+$ su git
+$ mkdir /home/git/repo/schema.git
+$ cd /home/git/repo/schema.git
+$ git init --bare
+```
 
+* to connect to your created repository add this host to your ~/.ssh/config
+```
+Host <node-address>
+    User git
+    Port 32600
+    IdentityFile ~/path_to_private_key/infra-mgr-rsa.key
+```
+* clone your infra-git repo using 
+```
+$ git clone git@<node-address>:/home/git/repo/schema.git
+``` 
 ## th2 deployment
 ### Install NGINX Ingress Controller
 ```
@@ -341,6 +347,34 @@ $ kubectl -n <th2-namespace> apply -f ./pvc.yaml
 ```
 _Note_: replace <th2-namespace> with th2 namespace you use
   
+## th2 in Openshift
+Steps with Ingress controller and Monitoring deployment should be skipped
+
+To support Openshift environment and Ingress controller, set the following value:
+```
+# -- Enable th2 for Openshift, impacts on Ingress.
+openshift:
+  enabled: true
+```
+
+Ingress related, e.g:
+```
+ingress:
+  # -- Ingress class
+  ingressClass: ""
+  # -- Hostname for th2 namespace services
+  host: "th2.<domain>"
+  # -- Hostname for infra services. If not set, than host will be used
+  infraHost: "th2-infra.<domain>"
+  annotations:
+    default:
+      route.openshift.io/termination: "edge"
+      haproxy.router.openshift.io/rewrite-target: /
+```
+and similar Ingress options for dependency charts.
+
+Expose services as LoadBalancer if available.
+
 ## th2 infra links:
 - Kubernetes dashboard http://your-host:30000/dashboard/
 - Grafana http://your-host:30000/grafana/
