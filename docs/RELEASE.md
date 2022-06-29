@@ -3,7 +3,7 @@
 Cycle of a particular release branch
 ```mermaid
 flowchart TB
-    branch(release-v*.*.* / master branch) --> pr(Feature / fix pull request / commit to PR)
+    branch(release-v*.*.* branch) --> pr(Feature / fix pull request / commit to PR)
     pr --> tests
     tests{Automated tests} --> |Passed| review
     tests{Automated tests} --> |Not passed| pr
