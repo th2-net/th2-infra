@@ -49,9 +49,9 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
             Components-logs:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
             Monitoring-1:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1632997642909.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-old.json
             Monitoring-3:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1654769795816.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-new.json
     ``` 
     ### Adding Plugin Urls in Prometheus-stack
     * Plugins should be added in grafana from infra-repo by plugins.
@@ -124,6 +124,25 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
     ```
       kube-state-metrics:
         metricLabelsAllowlist: ['pods=[*]']
+    ```
+  </details>
+* InfraGit values have to be be updated.
+  <details>
+    <summary>new persistence configuration</summary>
+
+    ### Changing persistence structure
+    * persistence has to be updated to new format.
+    ```
+      infraGit:
+        internal: true
+        nodePort: 32600
+        image:
+          repository: ghcr.io/th2-net/git-ssh
+          tag: v0.1.0
+        persistence:
+          enabled: true
+          # -- "repos-volume" claim will be created and mounted if empty
+          existingClaim: ""
     ```
   </details>
 * secrets.yaml has to be updated.

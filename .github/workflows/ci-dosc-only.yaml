@@ -1,0 +1,18 @@
+# Pass required checks for docs changes
+on:
+  pull_request:
+    branches:
+      - release-v*[0-9].*[0-9].x
+      - master
+    paths:
+      - "**/*.md"
+
+jobs:
+  deploy-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required"'
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required"'
