@@ -117,7 +117,7 @@ grafana:
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm install --version=2.4.1 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=2.6.5 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
 $ helm install --version=21.0.5 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
