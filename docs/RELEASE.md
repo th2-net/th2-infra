@@ -1,6 +1,6 @@
 # Process Diagram
 
-From top to bottom
+Adding features to release branch
 ```mermaid
 flowchart TB
     branch(release-v*.*.* / master branch) --> pr(Feature / fix pull request / commit to PR)
