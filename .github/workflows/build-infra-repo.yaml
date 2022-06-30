@@ -1,12 +1,16 @@
 name: Build infra-repo
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "*-infra-repo"
+  pull_request:
+    branches:
+      - release-v*[0-9].*[0-9].x
+      - master
     paths:
       - "infra-repo/**"
       - "box-chart/**"
+  push:
+    tags:
+      - "*-infra-repo"
 
 jobs:
   release:
@@ -33,19 +37,41 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
 
-      - name: Read infra-repo version
-        id: yaml-data
+      - name: Read infra version
+        id: chart
         uses: KJ002/read-yaml@main
         with:
-          file: "./chart/values.yaml"
-          key-path: '["infraRepo", "image", "tag"]'
+          file: "./chart/Chart.yaml"
+          key-path: '["version"]'
 
       - name: build image & push to registry
+        id: build
         uses: docker/build-push-action@v2
         with:
           file: ./infra-repo/Dockerfile
           context: ./infra-repo/
           push: true
-          tags: ghcr.io/th2-net/infra-repo:${{ steps.yaml-data.outputs.data }}
+          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache
           cache-to: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache,mode=max
+
+      - name: Update values
+        run: |
+          updated=$(yq '.infraRepo.image.tag = "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"' chart/values.yaml)
+          noBlanks=$(yq '.' chart/values.yaml)
+          patch --no-backup-if-mismatch chart/values.yaml <(diff -B <(echo "$noBlanks") <(echo "$updated"))
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          commit-message: Bump infra-repo
+          committer: GitHub <noreply@github.com>
+          author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          base: "${{ github.event.pull_request.head.ref }}"
+          branch: infra-repo-${{ github.event.pull_request.head.ref }}
+          milestone: "${{ github.event.pull_request.milestone.title }}"
+          delete-branch: true
+          title: "[${{ github.event.pull_request.milestone.title }}][Auto] Build and bump infra-repo"
+          body: "Bump infra-repo to ${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"
+          labels: automated

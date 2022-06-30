@@ -90,13 +90,6 @@ Generating configMap for k8
           {{- if not .component.cradleManager.config }}
           - configMap:
               name: cradle-manager
-          {{- end }}
-          {{- if .component.extendedSettings.hostNetwork }}
-          - configMap:
-              name: rabbit-mq-external-app-config
-          - configMap:
-              name: cradle-external
-          {{ else }}
           - configMap:
               name: rabbit-mq-app-config
           - configMap:

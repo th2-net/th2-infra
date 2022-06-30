@@ -79,6 +79,9 @@ spec:
           initialDelaySeconds: {{ .Values.infraMgr.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
           periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
+      {{- if .Values.hostAliases }}
+      hostAliases: {{ toYaml .Values.hostAliases | nindent 8 }}
+      {{- end }}
       volumes:
       {{- if not (hasPrefix "https" .Values.infraMgr.git.repository)}}
       - name : secrets
