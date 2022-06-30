@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 349,
-  "iteration": 1632997635411,
+  "id": 99,
+  "iteration": 1655988145607,
   "links": [],
   "panels": [
     {
@@ -128,7 +128,7 @@
       }
     },
     {
-      "collapsed": false,
+      "collapsed": true,
       "datasource": null,
       "gridPos": {
         "h": 1,
@@ -137,245 +137,246 @@
         "y": 7
       },
       "id": 26,
-      "panels": [],
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 8
+          },
+          "hiddenSeries": false,
+          "id": 33,
+          "interval": "10",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": true,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "rate(th2_mq_outgoing_msg_group_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+              "interval": "",
+              "legendFormat": "group",
+              "refId": "A"
+            },
+            {
+              "exemplar": true,
+              "expr": "rate(th2_mq_outgoing_parsed_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "parsed",
+              "refId": "B"
+            },
+            {
+              "exemplar": true,
+              "expr": "rate(th2_mq_outgoing_raw_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "raw",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Message rate (outgoing)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 8
+          },
+          "hiddenSeries": false,
+          "id": 28,
+          "interval": "10",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.5.3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": true,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "rate(th2_mq_outgoing_msg_group_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m]) / rate(th2_mq_outgoing_msg_group_batch_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "group",
+              "refId": "A"
+            },
+            {
+              "exemplar": true,
+              "expr": "th2_mq_outgoing_msg_group_quantity{namespace=\"${namespace}\", job=\"${component}\"} / th2_mq_outgoing_msg_group_batch_quantity{namespace=\"${namespace}\", job=\"${component}\"}",
+              "hide": true,
+              "interval": "",
+              "legendFormat": "avg for the all-time",
+              "refId": "B"
+            },
+            {
+              "exemplar": true,
+              "expr": "rate(th2_mq_outgoing_parsed_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m]) / rate(th2_mq_outgoing_parsed_msg_batch_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "parsed",
+              "refId": "C"
+            },
+            {
+              "exemplar": true,
+              "expr": "rate(th2_mq_outgoing_raw_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m]) / rate(th2_mq_outgoing_raw_msg_batch_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "raw",
+              "refId": "D"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Message batch size (outgoing)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
       "title": "Message (outgoing)",
       "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "links": []
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 8
-      },
-      "hiddenSeries": false,
-      "id": 33,
-      "interval": "10",
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": true,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "rate(th2_mq_outgoing_msg_group_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
-          "interval": "",
-          "legendFormat": "group",
-          "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(th2_mq_outgoing_parsed_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "parsed",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(th2_mq_outgoing_raw_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "raw",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Message rate (outgoing)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "links": []
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 8
-      },
-      "hiddenSeries": false,
-      "id": 28,
-      "interval": "10",
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": true,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "rate(th2_mq_outgoing_msg_group_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m]) / rate(th2_mq_outgoing_msg_group_batch_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "group",
-          "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "th2_mq_outgoing_msg_group_quantity{namespace=\"${namespace}\", job=\"${component}\"} / th2_mq_outgoing_msg_group_batch_quantity{namespace=\"${namespace}\", job=\"${component}\"}",
-          "hide": true,
-          "interval": "",
-          "legendFormat": "avg for the all-time",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(th2_mq_outgoing_parsed_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m]) / rate(th2_mq_outgoing_parsed_msg_batch_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "parsed",
-          "refId": "C"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(th2_mq_outgoing_raw_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m]) / rate(th2_mq_outgoing_raw_msg_batch_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "raw",
-          "refId": "D"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Message batch size (outgoing)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
     },
     {
       "collapsed": false,
@@ -384,7 +385,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 16
+        "y": 8
       },
       "id": 16,
       "panels": [],
@@ -411,7 +412,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 17
+        "y": 9
       },
       "hiddenSeries": false,
       "id": 30,
@@ -443,14 +444,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(th2_mq_incoming_msg_group_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+          "expr": "sum(rate(th2_mq_incoming_msg_group_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m]))",
           "interval": "",
           "legendFormat": "group",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "rate(th2_mq_incoming_parsed_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+          "expr": "sum(rate(th2_mq_incoming_parsed_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m]))",
           "hide": false,
           "interval": "",
           "legendFormat": "parsed",
@@ -458,7 +459,7 @@
         },
         {
           "exemplar": true,
-          "expr": "rate(th2_mq_incoming_raw_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m])",
+          "expr": "sum(rate(th2_mq_incoming_raw_msg_quantity{namespace=\"${namespace}\", job=\"${component}\"}[1m]))",
           "hide": false,
           "interval": "",
           "legendFormat": "raw",
@@ -525,7 +526,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 17
+        "y": 9
       },
       "hiddenSeries": false,
       "id": 32,
@@ -638,7 +639,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 25
+        "y": 17
       },
       "hiddenSeries": false,
       "id": 24,
@@ -736,7 +737,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 17
       },
       "hiddenSeries": false,
       "id": 22,
@@ -859,7 +860,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 30
+        "y": 22
       },
       "hiddenSeries": false,
       "id": 18,
@@ -973,7 +974,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 30
+        "y": 22
       },
       "hiddenSeries": false,
       "id": 20,
@@ -1075,7 +1076,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 38
+        "y": 30
       },
       "id": 12,
       "panels": [],
@@ -1100,7 +1101,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 39
+        "y": 31
       },
       "hiddenSeries": false,
       "id": 39,
@@ -1205,7 +1206,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 39
+        "y": 31
       },
       "hiddenSeries": false,
       "id": 14,
@@ -1299,7 +1300,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 37
       },
       "id": 10,
       "panels": [],
@@ -1325,7 +1326,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 46
+        "y": 38
       },
       "hiddenSeries": false,
       "id": 8,
@@ -1422,7 +1423,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 46
+        "y": 38
       },
       "hiddenSeries": false,
       "id": 2,
@@ -1528,7 +1529,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 51
+        "y": 43
       },
       "hiddenSeries": false,
       "id": 6,
@@ -1625,7 +1626,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 51
+        "y": 43
       },
       "hiddenSeries": false,
       "id": 4,
@@ -1745,10 +1746,10 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "cassandra",
-          "value": "cassandra"
+          "text": "helmoperator",
+          "value": "helmoperator"
         },
-        "datasource": null,
+        "datasource": "Prometheus",
         "definition": "label_values(kube_pod_labels{namespace=\"$namespace\"},label_app)",
         "description": null,
         "error": null,
@@ -1780,7 +1781,7 @@
           "text": "None",
           "value": ""
         },
-        "datasource": null,
+        "datasource": "Prometheus",
         "definition": "label_values({__name__=~\".*_processing_time_bucket\", namespace=\"$namespace\", job=\"$component\"}, le)",
         "description": null,
         "error": null,
@@ -1824,7 +1825,7 @@
     ]
   },
   "timezone": "utc",
-  "title": "Monitoring",
+  "title": "Monitoring - old",
   "uid": "mU5BapXGk",
-  "version": 26
+  "version": 3
 }
