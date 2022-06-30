@@ -36,3 +36,8 @@ promtail:
           expression: '^[\w :]+,\d+ (?P<level>[IEWDT]\w+)\s.*'
       - labels:
           level:
+
+grafana:
+  sidecar:
+    datasources:
+      enabled: false
