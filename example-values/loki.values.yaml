@@ -3,7 +3,7 @@ loki:
   #   pullPolicy: IfNotPresent
   #   repository: grafana/loki
   #   pullSecrets:
-  enabled: false
+  enabled: true
   persistence:
     enabled: true
     existingClaim: loki
@@ -37,3 +37,8 @@ promtail:
           expression: '^[\w :]+,\d+ (?P<level>[IEWDT]\w+)\s.*'
       - labels:
           level:
+
+grafana:
+  sidecar:
+    datasources:
+      enabled: false
