@@ -70,7 +70,7 @@ infraEditor:
     tag: 1.1.0
 
 infraEditorV2:
-  enabled: true
+  enabled: false
   image:
     repository: ghcr.io/th2-net/th2-infra-editor-v2
     tag: 2.1.1
