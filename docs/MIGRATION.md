@@ -120,12 +120,13 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
   <details>
     <summary>Update kube-state-metrics</summary>
 
-    ### Addd values to kube-state-metrics
+    ### Add values to kube-state-metrics
     * metricLabelsAllowlist should be added in kube-state-metrics
     ```
       kube-state-metrics:
         metricLabelsAllowlist: ['pods=[*]']
     ```
+    _Note: kube-state-metrics.image.repository should be removed
   </details>
 * InfraGit values have to be be updated.
   <details>
