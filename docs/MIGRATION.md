@@ -120,7 +120,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
   <details>
     <summary>Update kube-state-metrics</summary>
 
-    ### Addd values to kube-state-metrics
+    ### Add values to kube-state-metrics
     * metricLabelsAllowlist should be added in kube-state-metrics
     ```
       kube-state-metrics:
