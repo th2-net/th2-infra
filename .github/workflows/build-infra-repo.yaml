@@ -52,8 +52,8 @@ jobs:
           context: ./infra-repo/
           push: true
           tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
-          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache
-          cache-to: type=registry,ref=ghcr.io/th2-net/infra-repo:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          cache-to: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }},mode=max
 
       - name: Update values
         run: |
