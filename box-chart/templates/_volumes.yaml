@@ -90,9 +90,9 @@ Generating configMap for k8
           {{- if not .component.cradleManager.config }}
           - configMap:
               name: cradle-manager
-          {{- end }}
           - configMap:
               name: rabbit-mq-app-config
           - configMap:
               name: cradle
+          {{- end }}
 {{- end }}
