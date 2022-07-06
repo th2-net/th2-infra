@@ -12,6 +12,23 @@ $ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f
 ```
 $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
 ```
+* infra-mgr secret is now created automatically.
+  <details>
+    <summary>Infra-mgr secret should be removed from service namespace</summary>
+
+    ### Delete secret infra-mgr
+    * since infra-mgr secret is automatically created old secret should be deleted (if present)
+    ```
+    $ kubectl -n service delete secret infra-mgr
+    ```
+
+    ### secrets.yaml file should be updated
+    * secrets.yaml should contain value from infra-mgr-rsa.key
+    ```
+      infraMgr:
+        privateKey: <privateKey>
+    ```
+  </details>
 * Dashboards, Dashboard Provider and grafana plugins should be added in grafana during deployment.
   <details>
     <summary>Adding Dashboard Provider, Dashboards and plugins in Prometheus-stack</summary>
