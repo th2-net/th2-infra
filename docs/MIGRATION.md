@@ -26,7 +26,8 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
     * secrets.yaml should contain value from infra-mgr-rsa.key
     ```
       infraMgr:
-        privateKey: <privateKey>
+        git:
+          privateKey: <privateKey>
     ```
   </details>
 * Dashboards, Dashboard Provider and grafana plugins should be added in grafana during deployment.
