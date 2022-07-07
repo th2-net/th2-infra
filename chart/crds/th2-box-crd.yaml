@@ -43,6 +43,7 @@ spec:
             properties:
               annotations:
                 type: object
+                x-kubernetes-preserve-unknown-fields: true
           spec:
             description: Specification of desired box
             properties:
