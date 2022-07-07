@@ -40,6 +40,9 @@ spec:
             type: string
           metadata:
             type: object
+            properties:
+              annotations:
+                type: string
           spec:
             description: Specification of desired box
             properties:
