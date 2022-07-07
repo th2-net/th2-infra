@@ -42,7 +42,7 @@ spec:
             type: object
             properties:
               annotations:
-                type: string
+                type: object
           spec:
             description: Specification of desired box
             properties:
