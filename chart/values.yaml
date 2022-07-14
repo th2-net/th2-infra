@@ -196,6 +196,8 @@ infraGit:
 rabbitmq:
   # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
   # otherwise service will be deployed as a chart dependency
+  extraConfiguration: |-
+    prometheus.return_per_object_metrics=true
   internal: true
   resources:
     limits:
