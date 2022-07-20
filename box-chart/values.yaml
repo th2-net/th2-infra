@@ -13,7 +13,7 @@ component:
     rabbitMQ: rabbitMQ
     cassandra: cassandra
   image:
-  name: comp
+  name: comp1
   extendedSettings:
     service:
       enabled: false
