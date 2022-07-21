@@ -142,7 +142,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
     * metricLabelsAllowlist should be added in kube-state-metrics
     ```
       kube-state-metrics:
-        metricLabelsAllowlist: ['pods=[*]']
+        metricLabelsAllowlist: ['pods=[*]','deployments=[*]']
     ```
   </details>
 * InfraGit values have to be be updated.
@@ -257,3 +257,4 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
 More information about seamless migration between schemas:
 https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
 https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
+
