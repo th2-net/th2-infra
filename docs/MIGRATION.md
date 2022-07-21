@@ -64,7 +64,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
             Node-monitoring:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/nodes-monitoring-v1.0.0.json
             Namespace-health:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.1.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.2.json
             Components-logs:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
             Monitoring-1:
