@@ -227,7 +227,10 @@ rabbitmq:
 
 # required if http(s) access to gitlab/github repositories is used
 #infraMgr:
-#  git:
+# git:
+#   privateKey:
+#     <private key value from infra-mgr-rsa.key>   
+# required if http(s) access to gitlab/github repositories is used
 #    httpAuthUsername: username
 #    # authentication username
 #    # when using token auth for GitLab it should be equal to "oauth2"
@@ -236,8 +239,6 @@ rabbitmq:
 #    # authentication password
 #    # when using token auth for GitLab it should be equal to token itself
 #    # when using token auth for GitHub it should be equal to empty string
-#    privateKey:
-#    # private key value from infra-mgr-rsa.key
 ```
 ### infra-git deployment
 
