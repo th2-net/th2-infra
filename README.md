@@ -229,7 +229,7 @@ rabbitmq:
 #infraMgr:
 # git:
 #   privateKey:
-#     <private key value from infra-mgr-rsa.key>   
+#     <private key value from infra-mgr-rsa.key (without begin and end rsa private key lines)>   
 # required if http(s) access to gitlab/github repositories is used
 #    httpAuthUsername: username
 #    # authentication username
