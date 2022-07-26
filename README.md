@@ -150,7 +150,12 @@ Once all of the required software is installed on your test-box and operator-box
 * Generate keys without passphrase  
 ```
 $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
-``` 
+```
+
+* Get key in base64 format and put in infraMgr.git.privateKey
+```
+$ base64 -w 0 ./infra-mgr-rsa.key
+```
 * [Add a new deploy key to your schema repository on GitHub ](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 
 #### Set up __https__ access
