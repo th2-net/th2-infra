@@ -64,7 +64,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
             Node-monitoring:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/nodes-monitoring-v1.0.0.json
             Namespace-health:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.1.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.2.json
             Components-logs:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
             Monitoring-1:
@@ -142,7 +142,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
     * metricLabelsAllowlist should be added in kube-state-metrics
     ```
       kube-state-metrics:
-        metricLabelsAllowlist: ['pods=[*]']
+        metricLabelsAllowlist: ['pods=[*]','deployments=[*]']
     ```
   </details>
 * InfraGit values have to be be updated.
@@ -257,3 +257,4 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
 More information about seamless migration between schemas:
 https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
 https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
+
