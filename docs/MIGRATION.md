@@ -2,7 +2,9 @@
 
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
-* NGINX Ingress Controller chart must be upgraded 3.31.0 > 4.1.2
+* Prometheus stack must be upgraded 15.0.0 > 21.0.5
+* Loki-stack must be upgraded 2.4.1 > 2.6.5. Remove a release before upgrade. Set new values for `loki` with ones from `../example-values/loki.values.yaml`.
+* NGINX Ingress Controller chart must be upgraded 3.31.0 > 4.1.2.
 ```
 $ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
 ```
@@ -10,6 +12,24 @@ $ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f
 ```
 $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
 ```
+* infra-mgr secret is now created automatically.
+  <details>
+    <summary>Infra-mgr secret should be removed from service namespace</summary>
+
+    ### Delete secret infra-mgr
+    * since infra-mgr secret is automatically created old secret should be deleted (if present)
+    ```
+    $ kubectl -n service delete secret infra-mgr
+    ```
+
+    ### secrets.yaml file should be updated
+    * secrets.yaml should contain value from infra-mgr-rsa.key
+    ```
+      infraMgr:
+        git:
+          privateKey: <privateKey>
+    ```
+  </details>
 * Dashboards, Dashboard Provider and grafana plugins should be added in grafana during deployment.
   <details>
     <summary>Adding Dashboard Provider, Dashboards and plugins in Prometheus-stack</summary>
@@ -44,13 +64,13 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
             Node-monitoring:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/nodes-monitoring-v1.0.0.json
             Namespace-health:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.0.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.2.json
             Components-logs:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
             Monitoring-1:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1632997642909.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-old.json
             Monitoring-3:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1654769795816.json
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-new.json
     ``` 
     ### Adding Plugin Urls in Prometheus-stack
     * Plugins should be added in grafana from infra-repo by plugins.
@@ -74,7 +94,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
     ```
       rabbitmq:
         persistence:
-          storageClassName: local-storage
+          storageClass: local-storage
         ingress:
           extraHosts:
             - name: <hostname>
@@ -112,6 +132,36 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
           externalUrl: http://localhost:9090/prometheus
         ingress:
           hosts: []
+    ```
+  </details>
+* Kube-state-metrics values should be updated
+  <details>
+    <summary>Update kube-state-metrics</summary>
+
+    ### Add values to kube-state-metrics
+    * metricLabelsAllowlist should be added in kube-state-metrics
+    ```
+      kube-state-metrics:
+        metricLabelsAllowlist: ['pods=[*]','deployments=[*]']
+    ```
+  </details>
+* InfraGit values have to be be updated.
+  <details>
+    <summary>new persistence configuration</summary>
+
+    ### Changing persistence structure
+    * persistence has to be updated to new format.
+    ```
+      infraGit:
+        internal: true
+        nodePort: 32600
+        image:
+          repository: ghcr.io/th2-net/git-ssh
+          tag: v0.1.0
+        persistence:
+          enabled: true
+          # -- "repos-volume" claim will be created and mounted if empty
+          existingClaim: ""
     ```
   </details>
 * secrets.yaml has to be updated.
@@ -207,3 +257,4 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
 More information about seamless migration between schemas:
 https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
 https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
+

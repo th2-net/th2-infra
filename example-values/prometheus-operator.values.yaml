@@ -79,13 +79,13 @@ grafana:
       Node-monitoring:
         url: http://infra-repo.service.svc.cluster.local:8080/dashboards/nodes-monitoring-v1.0.0.json
       Namespace-health:
-        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.0.json
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.2.json
       Components-logs:
         url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
       Monitoring-1:
-        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1632997642909.json
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-old.json
       Monitoring-3:
-        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-1654769795816.json
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-new.json
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -128,6 +128,5 @@ grafana:
 #     imagePullSecrets:
 #   image:
 #     repository: quay.io/prometheus/node-exporter
-# kube-state-metrics:
-#   image:
-#     repository: quay.io/coreos/kube-state-metrics
+kube-state-metrics:
+  metricLabelsAllowlist:  ['pods=[*]','deployments=[*]']

@@ -1,4 +1,30 @@
 {
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.2.5"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -8,16 +34,23 @@
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "description": "",
   "editable": false,
+  "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 655,
-  "iteration": 1638286463852,
+  "id": null,
+  "iteration": 1657810532384,
   "links": [
     {
       "asDropdown": false,
@@ -40,12 +73,13 @@
       "keepTime": false,
       "tags": [],
       "targetBlank": false,
-      "title": "v1.0.0",
+      "title": "v1.0.1",
       "tooltip": "Dashboard version",
       "type": "link",
       "url": "#"
     }
   ],
+  "liveNow": false,
   "panels": [
     {
       "datasource": null,
@@ -118,11 +152,11 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(kube_deployment_labels{namespace=\"service\", deployment=\"infra-editor\"}) by (label_helm_sh_chart)",
+          "expr": "sum(kube_deployment_labels{deployment=\"infra-editor\"}) by (label_helm_sh_chart)",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -208,7 +242,7 @@
         "text": {},
         "textMode": "value"
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "exemplar": true,
@@ -298,7 +332,7 @@
         "text": {},
         "textMode": "value"
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "exemplar": true,
@@ -365,7 +399,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "exemplar": true,
@@ -428,7 +462,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "exemplar": true,
@@ -500,7 +534,7 @@
         },
         "textMode": "name"
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "$$hashKey": "object:563",
@@ -589,7 +623,7 @@
         },
         "textMode": "name"
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "$$hashKey": "object:563",
@@ -632,6 +666,7 @@
           },
           "custom": {
             "align": null,
+            "displayMode": "auto",
             "filterable": true
           },
           "mappings": [],
@@ -668,20 +703,15 @@
                 "id": "mappings",
                 "value": [
                   {
-                    "from": "",
-                    "id": 1,
-                    "text": "not ready",
-                    "to": "",
-                    "type": 1,
-                    "value": "0"
-                  },
-                  {
-                    "from": "",
-                    "id": 2,
-                    "text": "ready",
-                    "to": "",
-                    "type": 1,
-                    "value": "1"
+                    "options": {
+                      "0": {
+                        "text": "not ready"
+                      },
+                      "1": {
+                        "text": "ready"
+                      }
+                    },
+                    "type": "value"
                   }
                 ]
               },
@@ -837,20 +867,15 @@
                 "id": "mappings",
                 "value": [
                   {
-                    "from": "",
-                    "id": 1,
-                    "text": "not ready",
-                    "to": "",
-                    "type": 1,
-                    "value": "0"
-                  },
-                  {
-                    "from": "",
-                    "id": 2,
-                    "text": "ready",
-                    "to": "",
-                    "type": 1,
-                    "value": "1"
+                    "options": {
+                      "0": {
+                        "text": "not ready"
+                      },
+                      "1": {
+                        "text": "ready"
+                      }
+                    },
+                    "type": "value"
                   }
                 ]
               },
@@ -1074,12 +1099,14 @@
                 "id": "mappings",
                 "value": [
                   {
-                    "from": "0",
-                    "id": 1,
-                    "text": " ",
-                    "to": "1",
-                    "type": 2,
-                    "value": ".*"
+                    "options": {
+                      "from": 0,
+                      "result": {
+                        "text": " "
+                      },
+                      "to": 1
+                    },
+                    "type": "range"
                   }
                 ]
               }
@@ -1105,7 +1132,7 @@
           }
         ]
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "exemplar": true,
@@ -1450,7 +1477,7 @@
           }
         ]
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "exemplar": true,
@@ -1539,15 +1566,7 @@
             "displayMode": "auto",
             "filterable": false
           },
-          "mappings": [
-            {
-              "from": "",
-              "id": 1,
-              "text": "",
-              "to": "",
-              "type": 1
-            }
-          ],
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1577,20 +1596,15 @@
                 "id": "mappings",
                 "value": [
                   {
-                    "from": "",
-                    "id": 1,
-                    "text": "ready",
-                    "to": "",
-                    "type": 1,
-                    "value": "1"
-                  },
-                  {
-                    "from": "",
-                    "id": 2,
-                    "text": "not ready",
-                    "to": "",
-                    "type": 1,
-                    "value": "0"
+                    "options": {
+                      "0": {
+                        "text": "not ready"
+                      },
+                      "1": {
+                        "text": "ready"
+                      }
+                    },
+                    "type": "value"
                   }
                 ]
               },
@@ -1645,7 +1659,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.5.3",
+      "pluginVersion": "8.2.5",
       "targets": [
         {
           "exemplar": true,
@@ -1692,7 +1706,7 @@
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 27,
+  "schemaVersion": 32,
   "style": "dark",
   "tags": [
     "namespace_health"
@@ -1701,12 +1715,8 @@
     "list": [
       {
         "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "th2-commonv3",
-          "value": "th2-commonv3"
-        },
-        "datasource": null,
+        "current": {},
+        "datasource": "Prometheus",
         "definition": "label_values(kube_pod_info{namespace !~ \"kube-.*\"}, namespace)",
         "description": "",
         "error": null,
@@ -1725,7 +1735,6 @@
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -1738,7 +1747,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "namespace health",
-  "uid": "3OlZG1d7z",
-  "version": 81
+  "title": "namespace health v1.0.1",
+  "uid": "nshv101",
+  "version": 3
 }
