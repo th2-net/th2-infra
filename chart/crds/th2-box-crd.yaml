@@ -223,9 +223,7 @@ spec:
                             type: array
                             items:
                               type: string
-                              pattern: "^[-a-zA-Z0-9_/]+$"
-                    type: object
-                type: object
+                            pattern: "^[-a-zA-Z0-9_/]+$"
               disabled:
                 description: if set to true resource will act as if it is removed from schema without actually deleting the file. The default value is false.
                 type: boolean
