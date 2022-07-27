@@ -59,12 +59,12 @@ spec:
           - name: HTTPS_AUTH_USERNAME           
             valueFrom:
               secretKeyRef:
-                name: th2-git-access-schemas
+                name: {{ .Values.infraMgr.git.secretName }}
                 key: httpAuthUsername
           - name: HTTPS_AUTH_PASSWORD 
             valueFrom:
               secretKeyRef:
-                name: th2-git-access-schemas
+                name: {{ .Values.infraMgr.git.secretName }}
                 key: httpAuthPassword
           {{- end}}
           - name: CASSANDRA_PASS
