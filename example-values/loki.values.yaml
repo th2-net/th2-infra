@@ -36,6 +36,9 @@ promtail:
           expression: '^[\w :]+,\d+ (?P<level>[IEWDT]\w+)\s.*'
       - labels:
           level:
+  initContainer:
+    enabled: true
+    fsInotifyMaxUserInstances: 512
 
 grafana:
   sidecar:
