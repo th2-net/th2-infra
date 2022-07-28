@@ -64,11 +64,11 @@
         path: "{{ playbook_dir }}/id_ssh_rsa.pub"
         privatekey_path: "{{ playbook_dir }}/id_ssh_rsa"
 
-    - name: Create infra-mgr secret (private key)
-      kubernetes.core.k8s:
-        state: present
-        template: "{{ playbook_dir }}/deploy/infra-mgr-secret.yaml"
-        namespace: "{{ infra_namespace }}"
+    # - name: Create infra-mgr secret (private key)
+    #   kubernetes.core.k8s:
+    #     state: present
+    #     template: "{{ playbook_dir }}/deploy/infra-mgr-secret.yaml"
+    #     namespace: "{{ infra_namespace }}"
 
     - name: Create public key to infra-git
       kubernetes.core.k8s:
@@ -108,5 +108,8 @@
                 git: "{{ repository_url }}"
                 ref: "{{ repository_ref }}"
                 path: ./box-chart
+          infraMgr:
+            git:
+              privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
         create_namespace: true
         wait: true
