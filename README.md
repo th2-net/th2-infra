@@ -163,19 +163,21 @@ $ base64 -w 0 ./infra-mgr-rsa.key
 * [Generate access token for schema repository with read and write permissions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 * Set up values in secrets.yaml file (described below)
 
-### Set the repository with schema configuration
-set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to link of your schema repository, `ssh` or `https`:
+### Set the repository and the secretName with schema configuration
+set `infraMgr.git.repository` and `infraMgr.git.secretName` value in the [service.values.yaml](./example-values/service.values.yaml) file to link of your schema repository, `ssh` or `https`:
 * **ssh**
 ```
 infraMgr:
   git:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
+    secretName: infra-mgr
 ```
 * **https**
 ```
 infraMgr:
   git:
     repository: https://github.com/th2-net/th2-infra-schema-demo.git
+    secretName: infra-mgr
 ```
 
 ### Define cassandra host name
