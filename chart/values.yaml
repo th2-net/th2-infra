@@ -128,9 +128,7 @@ infraMgr:
     repository: ghcr.io/th2-net/th2-infra-mgr
     tag: 1.7.20
   git:
-    # -- secret holding git credentials
-    # -- secret doesn't get created if secretName isn't set
-    secretName: ""
+    secretName: infra-mgr
     sshDir: /home/service/keys
     repository: git@github.com:th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository

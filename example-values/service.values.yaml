@@ -1,7 +1,6 @@
 infraMgr:
   git:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
-    secretName: infra-mgr
 
 rabbitmq:
   persistence:

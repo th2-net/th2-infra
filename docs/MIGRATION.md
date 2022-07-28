@@ -12,17 +12,9 @@ $ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f
 ```
 $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
 ```
-* infra-mgr secrets are now created automatically if secretName is set.
+* infra-mgr secrets are now created automatically.
   <details>
     <summary>Infra-mgr secrets should be removed from service namespace</summary>
-    
-    ### Set SecretName
-    * secretName should be set in service.values.yaml file to create secret
-    ```
-      infraMgr:
-        git:
-          secretName: <infra-mgr-secret>
-    ```
 
     ### Delete secret infra-mgr
     * since infra-mgr secret is automatically created old secret should be deleted (if present)
