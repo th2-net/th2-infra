@@ -1,14 +1,14 @@
-| Cluster-admin       |                   |                      |          |
-|---------------------|-------------------|----------------------|----------|
+### Cluster Admin
+
 | Resources           | Non-Resource URLs | Resource Names       | Verbs    |
 | ------------------- | ----------------- | -------------------- | -------- |
 | [*]                 | []                | []                   | [*]      |
 | [*]                 | [*]               | []                   | [*]      |
 
-| Infra-Mgr                   |                       |                       |                       |
-|-----------------------------|-----------------------|-----------------------|---------------------|
+### Infra-Mgr
+
 | Resources                   | Non-Resource URLs     | Resource Names        |  Verbs                |
-| ---------------------       | --------------------- | --------------------- | --------------------|
+| ---------------------       | --------------------- | --------------------- | --------------------  |
 | configmaps                  | []                    | []                    | [*]                   |
 | namespaces                  | []                    | []                    | [*]                   |
 | pods                        | []                    | []                    | [*]                   |
@@ -18,8 +18,8 @@
 | ingresses.networking.k8s.io | []                    | []                    | [*]                   |
 | *.th2.exactpro.com          | []                    | []                    | [*]                   |
 
-| Infra-Operator                                 |                   |                 |       |
-|------------------------------------------------|-------------------|-----------------|-------|
+### Infra-Operator
+
 | Resources                                      | Non-Resource URLs | Resource Names  | Verbs |
 | ---------------------------------------------- | ----------------- | --------------  | ----- |
 | configmaps                                     | []                | []              | [*]   |
@@ -31,8 +31,8 @@
 | helmreleases.helm.fluxcd.io                    | []                | []              | [*]   |
 | *.th2.exactpro.com                             | []                | []              | [*]   |
 
-| Th2-kubernetes-dashboard                       |                   |                |                      |
-|------------------------------------------------|-------------------|----------------|----------------------|
+### Th2-kubernetes-dashboard
+
 | Resources                                      | Non-Resource URLs | Resource Names | Verbs                |
 | --------------------------------------         | ----------------- | -------------- | -------------------- |
 | bindings                                       | []                | []             | [get list watch]     |
@@ -84,23 +84,23 @@
 | *.helm.fluxcd.io                               | []                | []             | [get watch list]     |
 | *.th2.exactpro.com                             | []                | []             | [get watch list]     |
 
-| Th2-dashboard-metrics          |                   |                 |                  |
-|--------------------------------|-------------------|-----------------|------------------|
+### Th2-dashboard-metrics
+
 | Resources                      | Non-Resource URLs | Resource Names  | Verbs            |
 | ------------------------------ | ----------------- | --------------  | -----            |
 | nodes.metrics.k8s.io           | []                | []              | [get list watch] |
 | pods.metrics.k8s.io            | []                | []              | [get list watch] |
 
 
-| Helm-operator |                   |                 |       |
-|---------------|-------------------|-----------------|-------|
+### Helm-operator
+
 | Resources     | Non-Resource URLs | Resource Names  | Verbs |
 | --------------|-------------------|-----------------|------ |
 | [*]           | []                | []              | [*]   |
 | [*]           | [*]               | []              | [*]   |
 
-| ingress Nginx                      |                   |                |                         |
-|------------------------------------|-------------------|----------------|-------------------------|
+### ingress Nginx
+
 | Resources                          | Non-Resource URLs | Resource Names |Verbs                    |
 | -----------------------------------| ----------------- | -------------- |-------------------------|
 | events                             | []                | []             | [create patch]          |
@@ -116,8 +116,8 @@
 | ingresses.extensions/status        | []                | []             | [update]                |
 | ingresses.networking.k8s.io/status | []                | []             | [update]                |
 
-| Loki-promtail |                   |                 |                  |
-|---------------|-------------------|-----------------|------------------|
+### Loki-promtail
+
 | Resources     | Non-Resource URLs | Resource Names  | Verbs            |
 | ---------     | ----------------- | --------------  | -----            |
 | endpoints     | []                | []              | [get watch list] |
@@ -126,8 +126,8 @@
 | pods          | []                | []              | [get watch list] |
 | services      | []                | []              | [get watch list] |
 
-| Prometheus-operator                                  |                      |                 |                             |
-|------------------------------------------------------|----------------------|-----------------|-----------------------------|
+### Prometheus-operator
+
 | Resources                                            | Non-Resource URls    | Resource Names  | Verbs                       |
 | ---------------------------------------------------- | -------------------- | --------------  | --------------------------- |
 | configmaps                                           | []                   | []              | [*]                         |
