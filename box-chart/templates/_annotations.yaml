@@ -15,9 +15,3 @@ Adding annotations
 {{ .commonAnnotations | toYaml }}
 {{- end -}}
 {{- end -}}
-
-{{- define "annotations" -}}
-{{- if .component.annotations -}}
-{{ .component.annotations }}
-{{- end -}}
-{{- end -}}
