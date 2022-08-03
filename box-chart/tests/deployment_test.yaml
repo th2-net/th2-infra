@@ -285,22 +285,6 @@ tests:
             name: native-old
             configMap:
               name: native-old-dictionary
-  - it: set component annotations
-    documentIndex: 1
-    set:
-      component:
-        annotations:
-          comp/ant: test
-    asserts:
-      - equal:
-          path: spec.template.metadata.annotations
-          value:
-            checksum/configmap: 1ae9c09f167c359907d528b6c9125332d7dd9dd573bfd0c6dc09b8f4a931a776
-            checksum/logging: loggingchecksum
-            checksum/mqrouter: mqchecksum
-            checksum/grpcrouter: grpcchecksum
-            checksum/cradlemanager: cradleMangerchecksum
-            comp/ant: test
   - it: not prometheus
     documentIndex: 1
     set:

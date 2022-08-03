@@ -18,6 +18,6 @@ Adding annotations
 
 {{- define "annotations" -}}
 {{- if .component.annotations -}}
-{{ .component.annotations | toYaml }}
+{{ .component.annotations }}
 {{- end -}}
 {{- end -}}
