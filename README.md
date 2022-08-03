@@ -232,7 +232,7 @@ rabbitmq:
 
 # required if http(s) access to gitlab/github repositories is used
 #infraMgr:
-# git:
+#  git:
 #    privateKey: <private key in base64>
 #    httpAuthUsername: username
 #    # authentication username
