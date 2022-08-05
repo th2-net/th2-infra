@@ -1,0 +1,14 @@
+template_path: templates/crd.template
+source_repositories:
+- url: https://github.com/
+  commit_reference: release-v2.0.0
+  organization: th2-net
+  short_name: th2-infra
+  crd_paths:
+  - chart/crds/th2-box-crd.yaml
+  metadata:
+    th2boxes.th2.exactpro.com:
+      owner:
+        - https://github.com/orgs/giantswarm/teams/team-atlas
+      topics:
+        - managementcluster

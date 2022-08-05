@@ -4,6 +4,10 @@ all: docs
 docs:
 	docker run --rm -v "$$(pwd):/helm-docs" -u $$(id -u) jnorwood/helm-docs:v1.8.1 -i /helm-docs/ci/.helmdocsignore
 
+.PHONY: crd-gen
+crd-gen:
+	go run main.go --config ./ci/crd-gen.yaml
+
 .PHONY: box-chart
 box-chart:
 	helm package ./box-chart/ --destination ./infra-repo/
