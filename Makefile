@@ -6,7 +6,11 @@ docs:
 
 .PHONY: crd-gen
 crd-gen:
-	go run main.go --config ./ci/crd-gen.yaml
+	docker run --rm \
+    -v $PWD/path/to/output-folder:/opt/crd-docs-generator/output \
+    -v $PWD:/opt/crd-docs-generator/config \
+    quay.io/giantswarm/crd-docs-generator \
+    --config ./ci/crd-gen.yaml
 
 .PHONY: box-chart
 box-chart:
