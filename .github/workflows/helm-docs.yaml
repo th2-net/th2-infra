@@ -18,8 +18,9 @@ jobs:
       - name: Generate helm docs
         run: |
           make docs
+      - name: Generate crd docs
+        run: |
           make crd-gen
-          
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4
