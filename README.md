@@ -152,10 +152,6 @@ Once all of the required software is installed on your test-box and operator-box
 $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ``` 
 * [Add a new deploy key to your schema repository on GitHub ](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
-* Create infra-mgr secret from the private key:
-```
-$ kubectl -n service create secret generic infra-mgr --from-file=id_rsa=./infra-mgr-rsa.key
-```
 
 #### Set up __https__ access
 
@@ -240,6 +236,8 @@ rabbitmq:
 #    # authentication password
 #    # when using token auth for GitLab it should be equal to token itself
 #    # when using token auth for GitHub it should be equal to empty string
+#    privateKey:
+#    # private key value from infra-mgr-rsa.key
 ```
 ### infra-git deployment
 
