@@ -67,10 +67,10 @@ helmoperator:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.1.0
+    tag: 1.1.10
 
 infraEditorV2:
-  enabled: true
+  enabled: false
   image:
     repository: ghcr.io/th2-net/th2-infra-editor-v2
     tag: 2.1.1
@@ -132,6 +132,7 @@ infraMgr:
     repositoryLocalCache: /home/service/repository
     httpAuthUsername: "" #should be stored in secret th2-git-access-schemas
     httpAuthPassword: "" #should be stored in secret th2-git-access-schemas
+    privateKey: "" #should be stored in secret th2-git-access-schemas
     # -- Infra manager git fetch interval in milliseconds
     gitFetchInterval: "14000"
   rabbitmq:
@@ -210,6 +211,7 @@ rabbitmq:
   extraConfiguration: |-
     default_vhost = th2
     disk_free_limit.absolute = 10GB
+    prometheus.return_per_object_metrics=true
   auth:
     username: th2
     password: ""
