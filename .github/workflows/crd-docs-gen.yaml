@@ -14,9 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Generate helm docs
+      - name: Generate crd docs
         run: |
-          make docs
+          make crd-gen
       
       - name: Create Pull Request
         id: cpr
