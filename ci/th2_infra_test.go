@@ -10,6 +10,9 @@ import (
 	http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
 	"github.com/gruntwork-io/terratest/modules/k8s"
 	"github.com/gruntwork-io/terratest/modules/logger"
+	"github.com/stretchr/testify/assert"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/labels"
 )
 
 const (
@@ -165,4 +168,15 @@ func TestRabbitMQQueues(t *testing.T) {
 	expectedString := fmt.Sprintf("\"name\":\"link[%s:rpt-data-provider:from_codec]\"", schemaNamespace)
 	validator := validFunc(t, 200, expectedString)
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestPods(t *testing.T) {
+	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+	selector := metav1.LabelSelector{MatchLabels: map[string]string{}}
+	selector.MatchLabels["app"] = "rpt-data-viewer"
+	filters := metav1.ListOptions{
+		LabelSelector: labels.Set(selector.MatchLabels).String(),
+	}
+	pods := k8s.ListPods(t, options, filters)
+	assert.Equal(t, "test-annotation", pods[0].ObjectMeta.Annotations["e2e"])
 }
