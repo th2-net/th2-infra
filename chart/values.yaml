@@ -43,8 +43,6 @@ prometheus:
     enabled: true
     serviceMonitor:
       name: pods-monitoring
-      # -- Namespace to install ServiceMonitor
-      namespace: monitoring
       selector:
         release: prometheus
         app: kube-prometheus-stack
@@ -63,7 +61,6 @@ helmoperator:
     enabled: enabled
     serviceMonitor:
       create: true
-      namespace: monitoring
 
 infraEditor:
   image:
