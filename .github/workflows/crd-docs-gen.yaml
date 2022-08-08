@@ -1,4 +1,4 @@
-name: Auto generate helm-docs
+name: Auto generate crd-docs
 
 on:
   workflow_dispatch:
@@ -7,31 +7,31 @@ on:
       - release-v*[0-9].*[0-9].x
     paths:
       - "chart/**"
-      - ".github/workflows/helm-docs.yaml"
-
+      - ".github/workflows/crd-docs-gen.yaml"
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
+      
       - name: Generate helm docs
         run: |
           make docs
+      
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Update helm docs
+          commit-message: Update crd docs
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           base: ${{ github.event.pull_request.head.ref }}
-          branch: helm-docs-${{ github.event.pull_request.head.ref }}
+          branch: crd-docs-${{ github.event.pull_request.head.ref }}
           milestone: "${{ github.event.pull_request.milestone.title }}"
           delete-branch: true
-          title: "[${{ github.event.pull_request.milestone.title }}][Auto] helm chart readme"
-          body: "Generating helm chart README"
+          title: "[${{ github.event.pull_request.milestone.title }}][Auto] crd docs readme"
+          body: "Generating crd docs README"
           labels: automated
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}

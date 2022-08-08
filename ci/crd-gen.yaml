@@ -1,14 +1,39 @@
 template_path: templates/crd.template
 source_repositories:
-- url: https://github.com/
+- url: https://github.com/th2-net/th2-infra
   commit_reference: release-v2.0.0
   organization: th2-net
   short_name: th2-infra
   crd_paths:
-  - chart/crds/th2-box-crd.yaml
+  - chart/crds/
   metadata:
     th2boxes.th2.exactpro.com:
       owner:
-        - https://github.com/orgs/giantswarm/teams/team-atlas
+        - https://github.com/th2-net/th2-infra
+      topics:
+        - managementcluster
+    th2coreboxes.th2.exactpro.com:
+      owner:
+        - https://github.com/th2-net/th2-infra
+      topics:
+        - managementcluster
+    th2estores.th2.exactpro.com:
+      owner:
+        - https://github.com/th2-net/th2-infra
+      topics:
+        - managementcluster
+    th2mstores.th2.exactpro.com:
+      owner:
+        - https://github.com/th2-net/th2-infra
+      topics:
+        - managementcluster
+    th2dictionaries.th2.exactpro.com:
+      owner:
+        - https://github.com/th2-net/th2-infra
+      topics:
+        - managementcluster
+    th2links.th2.exactpro.com:
+      owner:
+        - https://github.com/th2-net/th2-infra
       topics:
         - managementcluster

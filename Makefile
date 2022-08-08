@@ -6,11 +6,14 @@ docs:
 
 .PHONY: crd-gen
 crd-gen:
-	docker run --rm \
-    -v $PWD/path/to/output-folder:/opt/crd-docs-generator/output \
-    -v $PWD:/opt/crd-docs-generator/config \
-    quay.io/giantswarm/crd-docs-generator \
-    --config ./ci/crd-gen.yaml
+		mkdir $$(pwd)/chart/crds/tmp/
+		docker run -it --user $$(id -u):$$(id -u) \
+		-v $$(pwd)/chart/crds/tmp:/opt/crd-docs-generator/output \
+		-v $$(pwd)/ci/:/opt/crd-docs-generator/config \
+		quay.io/giantswarm/crd-docs-generator:0.10.0 \
+		--config /opt/crd-docs-generator/config/crd-gen.yaml
+		cat $$(pwd)/chart/crds/tmp/* > ./chart/crds/README.md
+		rm -rf $$(pwd)/chart/crds/tmp/
 
 .PHONY: box-chart
 box-chart:
@@ -25,3 +28,5 @@ infra-repo:
 .PHONY: lint-infra-chart
 lint-infra-chart:
 	helm lint ./chart
+
+
