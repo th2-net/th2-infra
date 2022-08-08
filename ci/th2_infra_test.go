@@ -170,13 +170,22 @@ func TestRabbitMQQueues(t *testing.T) {
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
-func TestPods(t *testing.T) {
+func TestPodAnnotations(t *testing.T) {
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
-	selector := metav1.LabelSelector{MatchLabels: map[string]string{}}
-	selector.MatchLabels["app"] = "rpt-data-viewer"
 	filters := metav1.ListOptions{
-		LabelSelector: labels.Set(selector.MatchLabels).String(),
+		LabelSelector: "app=rpt-data-viewer",
 	}
 	pods := k8s.ListPods(t, options, filters)
 	assert.Equal(t, "test-annotation", pods[0].ObjectMeta.Annotations["e2e"])
+	assert.Equal(t, "test-common-annotation", pods[0].ObjectMeta.Annotations["e2ecommon"])
+}
+
+func TestPodCommonAnnotationsOnly(t *testing.T) {
+	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+	filters := metav1.ListOptions{
+		LabelSelector: "app=rpt-data-provider",
+	}
+	pods := k8s.ListPods(t, options, filters)
+	assert.Empty(t, pods[0].ObjectMeta.Annotations["e2e"])
+	assert.Equal(t, "test-common-annotation", pods[0].ObjectMeta.Annotations["e2ecommon"])
 }
