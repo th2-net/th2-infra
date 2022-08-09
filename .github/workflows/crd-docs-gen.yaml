@@ -6,7 +6,7 @@ on:
     branches:
       - release-v*[0-9].*[0-9].x
     paths:
-      - "chart/**"
+      - "chart/crd/**"
       - ".github/workflows/crd-docs-gen.yaml"
 jobs:
   generate-docs:
@@ -16,8 +16,10 @@ jobs:
       
       - name: Generate crd docs
         run: |
+          sed -i 's/branch_current/${{ github.event.pull_request.head.ref }}/' ./ci/crd-gen.yaml
           make crd-gen
-      
+          git restore ./ci/crd-gen.yaml
+
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4
