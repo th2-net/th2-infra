@@ -2,6 +2,8 @@ apiVersion: th2.exactpro.com/v1
 kind: Th2CoreBox
 metadata:
   name: rpt-data-viewer
+  annotations:
+    e2e: "test-annotation"
 spec:
   image-name: ghcr.io/th2-net/th2-rpt-viewer
   image-version: 3.1.127

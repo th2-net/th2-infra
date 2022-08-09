@@ -1,3 +1,5 @@
+commonAnnotations:
+  e2ecommon: "test-common-annotation"
 infraGit:
   internal: true
 externalRabbitMQHost:
