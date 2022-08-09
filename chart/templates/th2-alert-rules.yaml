@@ -5,7 +5,6 @@ metadata:
   name: th2-alert-rules
   annotations:
   {{- include "common-annotations" . | nindent 4  }}
-  namespace: {{ .Values.prometheus.operator.serviceMonitor.namespace }}
   labels:
 {{ toYaml .Values.prometheus.operator.serviceMonitor.selector | indent 4 }}
 spec:
