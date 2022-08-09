@@ -205,9 +205,17 @@ spec:
                         - ExternalName
                         type: string
                       ingress:
+                        description: Creates Ingress for the Box
                         type: object
                         properties:
                           urlPaths:
+                            description: |
+                              Path is a suffix, it is appended to namespace url, e.g for th2-test namespace:
+
+                              urlPaths:
+                              - /my-box/
+
+                              service will be available at /th2-test/my-box/
                             type: array
                             items:
                               type: string
