@@ -128,7 +128,7 @@ infraMgr:
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
-    repository: git@github.com:th2-net/th2-demo-configuration.git
+    repository: https://github.com/th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
     # -- git-schemas access credentials (should be stored in secrets.yaml)
     # -- authentication username
