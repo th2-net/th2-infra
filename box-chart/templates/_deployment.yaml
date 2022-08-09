@@ -20,7 +20,6 @@ spec:
       annotations:
         {{- include "checksum" . }}
         {{- include "common-annotations" . | nindent 8  }}
-        {{- include "annotations" . | nindent 8 }}
       labels:
         app: {{ .component.name }}
         {{- if not .component.prometheus }}
