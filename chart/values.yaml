@@ -42,8 +42,7 @@ prometheus:
     # -- Set true if kube-prometheus-stack is used
     enabled: true
     serviceMonitor:
-      # -- Namespace to install ServiceMonitor
-      namespace: monitoring
+      name: pods-monitoring
       selector:
         release: prometheus
         app: kube-prometheus-stack
@@ -62,7 +61,6 @@ helmoperator:
     enabled: enabled
     serviceMonitor:
       create: true
-      namespace: monitoring
 
 infraEditor:
   image:
@@ -86,7 +84,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.6.6
+    tag: 3.6.7
   config:
     chart:
       repository: http://infra-repo:8080
@@ -126,7 +124,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.7.20
+    tag: 1.7.21
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys

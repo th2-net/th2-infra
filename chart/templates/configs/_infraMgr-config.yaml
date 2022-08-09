@@ -78,4 +78,6 @@ data:
       {{- with .Values.infraMgr.kubernetes.configMaps }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
+      serviceMonitor: {{ .Values.prometheus.operator.serviceMonitor.name }}
 {{- end }}
