@@ -6,6 +6,7 @@ docs:
 
 .PHONY: crd-gen
 crd-gen:
+		rm -rf $$(pwd)/docs/reference
 		mkdir $$(pwd)/docs/reference
 		docker run -it --user $$(id -u):$$(id -u) \
 		-v $$(pwd)/docs/reference:/opt/crd-docs-generator/output \
