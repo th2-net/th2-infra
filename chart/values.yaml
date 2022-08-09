@@ -130,12 +130,11 @@ infraMgr:
     sshDir: /home/service/keys
     repository: https://github.com/th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
-    # -- git-schemas access credentials (should be stored in secrets.yaml)
-    # -- authentication username
+    # -- Required for Git repository via HTTPS
     httpAuthUsername: ""
-    # -- authentication password
+    # -- Required for Git repository via HTTPS
     httpAuthPassword: ""
-    # -- rsa private key in base64
+    # -- Required for Git repository via SSH. Rsa private key in base64 encoding
     privateKey: ""
     # -- Infra manager git fetch interval in milliseconds
     gitFetchInterval: "14000"
