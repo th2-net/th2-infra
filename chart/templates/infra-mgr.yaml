@@ -45,7 +45,7 @@ spec:
           - name: secrets
             readOnly: true
             mountPath: {{ .Values.infraMgr.git.sshDir }}
-          {{- end}}
+          {{- end }}
         env:
           - name: HOME 
             value: /home/service/
@@ -59,14 +59,14 @@ spec:
           - name: HTTPS_AUTH_USERNAME           
             valueFrom:
               secretKeyRef:
-                name: th2-git-access-schemas
+                name: {{ .Values.infraMgr.git.secretName }}
                 key: httpAuthUsername
           - name: HTTPS_AUTH_PASSWORD 
             valueFrom:
               secretKeyRef:
-                name: th2-git-access-schemas
+                name: {{ .Values.infraMgr.git.secretName }}
                 key: httpAuthPassword
-          {{- end}}
+          {{- end }}
           - name: CASSANDRA_PASS
             valueFrom:
               secretKeyRef:
@@ -91,7 +91,7 @@ spec:
               name: {{ .Values.infraMgr.git.secretName }}
           - configMap:
               name: ssh-config
-      {{- end}}
+      {{- end }}
       - name: configs
         projected:
           sources:

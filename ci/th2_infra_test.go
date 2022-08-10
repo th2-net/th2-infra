@@ -10,6 +10,8 @@ import (
 	http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
 	"github.com/gruntwork-io/terratest/modules/k8s"
 	"github.com/gruntwork-io/terratest/modules/logger"
+	"github.com/stretchr/testify/assert"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 const (
@@ -165,4 +167,24 @@ func TestRabbitMQQueues(t *testing.T) {
 	expectedString := fmt.Sprintf("\"name\":\"link[%s:rpt-data-provider:from_codec]\"", schemaNamespace)
 	validator := validFunc(t, 200, expectedString)
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestPodAnnotations(t *testing.T) {
+	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+	filters := metav1.ListOptions{
+		LabelSelector: "app=rpt-data-viewer",
+	}
+	pods := k8s.ListPods(t, options, filters)
+	assert.Equal(t, "test-annotation", pods[0].ObjectMeta.Annotations["e2e"])
+	assert.Equal(t, "test-common-annotation", pods[0].ObjectMeta.Annotations["e2ecommon"])
+}
+
+func TestPodCommonAnnotationsOnly(t *testing.T) {
+	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+	filters := metav1.ListOptions{
+		LabelSelector: "app=rpt-data-provider",
+	}
+	pods := k8s.ListPods(t, options, filters)
+	assert.Empty(t, pods[0].ObjectMeta.Annotations["e2e"])
+	assert.Equal(t, "test-common-annotation", pods[0].ObjectMeta.Annotations["e2ecommon"])
 }
