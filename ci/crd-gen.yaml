@@ -6,6 +6,8 @@ source_repositories:
   short_name: th2-infra
   crd_paths:
   - chart/crds/
+  cr_paths:
+  - ci/e2e-test-schema/
   metadata:
     th2boxes.th2.exactpro.com:
       owner:
