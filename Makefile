@@ -14,6 +14,7 @@ infra-repo:
 	cp -r ./box-chart/ ./infra-repo
 	docker build -t infra-repo:latest --progress=plain -f ./infra-repo/Dockerfile ./infra-repo
 
-.PHONY: lint-infra-chart
-lint-infra-chart:
+.PHONY: test-infra-chart
+test-infra-chart:
 	helm lint ./chart
+	helm unittest -3 ./chart --color -o ./test-results/results.xml -t JUnit
