@@ -18,5 +18,18 @@ jobs:
           cd ./demo
           docker stack deploy -c th2-demo.yaml th2-demo
           sleep 60s
-          docker service ls
-          docker ps
+          echo -e "\n\033[0;31m[Services]\033[0m" && docker service ls || true
+
+      - name: Getting logs
+        run: |
+          for S in $(docker service ls --format '{{ .Name }}')
+          do
+            docker service logs $S > $S.log || true
+          done
+      
+      - name: Uploading logs
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: infra-logs
+          path: "*.log"
