@@ -188,3 +188,14 @@ func TestPodCommonAnnotationsOnly(t *testing.T) {
 	assert.Empty(t, pods[0].ObjectMeta.Annotations["e2e"])
 	assert.Equal(t, "test-common-annotation", pods[0].ObjectMeta.Annotations["e2ecommon"])
 }
+
+func TestTH2Main(t *testing.T) {
+	// t.Parallel()
+	endpoint := fmt.Sprintf("http://localhost:30000/",
+		rabbitmqUser, rabbitmqPassword, schemaNamespace,
+	)
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
+	validator := validFunc(t, 200, "<title>Welcome to th2</title>")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
