@@ -17,5 +17,6 @@ jobs:
         run: |
           cd ./demo
           docker stack deploy -c th2-demo.yaml th2-demo
+          sleep 60s
           docker service ls
           docker ps
