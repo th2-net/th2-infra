@@ -38,8 +38,9 @@ flowchart TB
     buildInfraRepo(Auto PR: infra-repo build) -->|merge first| e2e{Full testing\n of release-1.2.3\n branch}
     buildDocs(Auto PR: generated docs) -->|merge second| e2e
     e2e -->|Not passed| features
-    e2e -->|Passed| tag(Tag branch v1.2.3)
+    e2e -->|Passed| mergeRelease(Merge to main)
+    mergeRelease --> tag(Tag v1.2.3)
     
-    linkStyle 7 stroke:green
-    linkStyle 8 stroke:red
+    linkStyle 7 stroke:red
+    linkStyle 8 stroke:green
 ```
