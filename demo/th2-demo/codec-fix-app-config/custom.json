@@ -1,0 +1,6 @@
+{
+    "codecClassName": "com.exactpro.sf.externalapi.codec.impl.ExternalFixCodecFactory",
+    "maxOutgoingEventBatchSize": "99",
+    "numOfEventBatchCollectorWorkers": "1",
+    "outgoingEventBatchBuildTime": "1"
+}

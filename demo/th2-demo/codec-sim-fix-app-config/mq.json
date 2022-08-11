@@ -1,0 +1,144 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-sim-fix:estore-pin]",
+            "queue": ""
+        },
+        "in_codec_decode": {
+            "attributes": [
+                "decoder_in",
+                "subscribe",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-sim-fix:in_codec_decode]"
+        },
+        "in_codec_encode": {
+            "attributes": [
+                "subscribe",
+                "encoder_in",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-sim-fix:in_codec_encode]"
+        },
+        "in_codec_general_decode": {
+            "attributes": [
+                "subscribe",
+                "general_decoder_in",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-sim-fix:in_codec_general_decode]"
+        },
+        "in_codec_general_encode": {
+            "attributes": [
+                "subscribe",
+                "parsed",
+                "general_encoder_in"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-sim-fix:in_codec_general_encode]"
+        },
+        "out_codec_decode": {
+            "attributes": [
+                "decoder_out",
+                "publish",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-sim-fix:out_codec_decode]",
+            "queue": ""
+        },
+        "out_codec_encode": {
+            "attributes": [
+                "encoder_out",
+                "publish",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-sim-fix:out_codec_encode]",
+            "queue": ""
+        },
+        "out_codec_general_decode": {
+            "attributes": [
+                "general_decoder_out",
+                "publish",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-sim-fix:out_codec_general_decode]",
+            "queue": ""
+        },
+        "out_codec_general_encode": {
+            "attributes": [
+                "general_encoder_out",
+                "publish",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-sim-fix:out_codec_general_encode]",
+            "queue": ""
+        },
+        "out_fix-demo-server1": {
+            "attributes": [
+                "decoder_out",
+                "publish",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [
+                {
+                    "message": {},
+                    "metadata": {
+                        "session_alias": {
+                            "operation": "EQUAL",
+                            "value": "fix-demo-server1"
+                        }
+                    }
+                }
+            ],
+            "name": "key[th2-demo:codec-sim-fix:out_fix-demo-server1]",
+            "queue": ""
+        },
+        "out_fix-demo-server2": {
+            "attributes": [
+                "decoder_out",
+                "publish",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [
+                {
+                    "message": {},
+                    "metadata": {
+                        "session_alias": {
+                            "operation": "EQUAL",
+                            "value": "fix-demo-server2"
+                        }
+                    }
+                }
+            ],
+            "name": "key[th2-demo:codec-sim-fix:out_fix-demo-server2]",
+            "queue": ""
+        }
+    }
+}

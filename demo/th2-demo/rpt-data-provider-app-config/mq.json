@@ -1,0 +1,56 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:rpt-data-provider:estore-pin]",
+            "queue": ""
+        },
+        "from_codec": {
+            "attributes": [
+                "subscribe",
+                "from_codec",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:rpt-data-provider:from_codec]"
+        },
+        "to_codec_csv": {
+            "attributes": [
+                "demo-csv",
+                "publish",
+                "raw",
+                "to_codec"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:rpt-data-provider:to_codec_csv]",
+            "queue": ""
+        },
+        "to_codec_fix": {
+            "attributes": [
+                "demo-dc2",
+                "demo-dc1",
+                "publish",
+                "demo-log",
+                "fix-demo-server1",
+                "raw",
+                "fix-demo-server2",
+                "dc-demo-server1",
+                "demo-conn2",
+                "to_codec",
+                "demo-conn1"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:rpt-data-provider:to_codec_fix]",
+            "queue": ""
+        }
+    }
+}

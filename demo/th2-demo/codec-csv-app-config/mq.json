@@ -1,0 +1,58 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-csv:estore-pin]",
+            "queue": ""
+        },
+        "in_codec_decode": {
+            "attributes": [
+                "decode_in",
+                "subscribe",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-csv:in_codec_decode]"
+        },
+        "in_codec_general_decode": {
+            "attributes": [
+                "subscribe",
+                "general_decoder_in",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-csv:in_codec_general_decode]"
+        },
+        "out_codec_decode": {
+            "attributes": [
+                "decode_out",
+                "publish",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-csv:out_codec_decode]",
+            "queue": ""
+        },
+        "out_codec_general_decode": {
+            "attributes": [
+                "general_decoder_out",
+                "publish",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-csv:out_codec_general_decode]",
+            "queue": ""
+        }
+    }
+}

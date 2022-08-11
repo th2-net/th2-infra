@@ -1,0 +1,59 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:demo-conn2:estore-pin]",
+            "queue": ""
+        },
+        "fix_to_send": {
+            "attributes": [
+                "subscribe",
+                "raw",
+                "send"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [
+                {
+                    "message": {},
+                    "metadata": {
+                        "session_alias": {
+                            "operation": "EQUAL",
+                            "value": "demo-conn2"
+                        }
+                    }
+                }
+            ],
+            "name": "",
+            "queue": "link[th2-demo:demo-conn2:fix_to_send]"
+        },
+        "in_raw": {
+            "attributes": [
+                "publish",
+                "raw",
+                "store",
+                "first"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:demo-conn2:in_raw]",
+            "queue": ""
+        },
+        "out_raw": {
+            "attributes": [
+                "publish",
+                "raw",
+                "store",
+                "second"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:demo-conn2:out_raw]",
+            "queue": ""
+        }
+    }
+}

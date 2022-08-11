@@ -1,0 +1,14 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:util:estore-pin]",
+            "queue": ""
+        }
+    }
+}

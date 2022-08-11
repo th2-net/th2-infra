@@ -1,0 +1,5 @@
+{
+    "connectionTimeout": "-1",
+    "connectionCloseTimeout": "10000",
+    "pageSize": "5000"
+}

@@ -1,0 +1,26 @@
+{
+    "default-header": [
+        "CsvRecordType",
+        "OrderQty",
+        "OrdType",
+        "SecurityIDSource",
+        "ClOrdID",
+        "OrderCapacity",
+        "AccountType",
+        "Side",
+        "Price",
+        "SecurityID",
+        "TransactTime",
+        "SecondaryClOrdID",
+        "OrderID",
+        "ExecID",
+        "LeavesQty",
+        "Text",
+        "ExecType",
+        "OrdStatus",
+        "CumQty"
+    ],
+    "delimiter": ",",
+    "display-name": "CodecCsv1",
+    "encoding": "UTF-8"
+}

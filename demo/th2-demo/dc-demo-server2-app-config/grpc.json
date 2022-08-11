@@ -1,0 +1,9 @@
+{
+    "server": {
+        "attributes": null,
+        "host": null,
+        "port": 8080,
+        "workers": 5
+    },
+    "services": {}
+}

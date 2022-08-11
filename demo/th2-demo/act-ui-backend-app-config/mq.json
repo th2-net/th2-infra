@@ -1,0 +1,27 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:act-ui-backend:estore-pin]",
+            "queue": ""
+        },
+        "to-fix-codec": {
+            "attributes": [
+                "to_conn",
+                "publish",
+                "demo-conn2",
+                "parsed",
+                "demo-conn1"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:act-ui-backend:to-fix-codec]",
+            "queue": ""
+        }
+    }
+}

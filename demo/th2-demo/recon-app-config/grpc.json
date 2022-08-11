@@ -1,0 +1,26 @@
+{
+    "server": {
+        "attributes": null,
+        "host": null,
+        "port": 8080,
+        "workers": 5
+    },
+    "services": {
+        "to_util": {
+            "endpoints": {
+                "util-endpoint": {
+                    "attributes": [],
+                    "host": "util",
+                    "port": 8080
+                }
+            },
+            "service-class": "com.exactpro.th2.util.grpc.MessageComparatorService",
+            "strategy": {
+                "endpoints": [
+                    "util-endpoint"
+                ],
+                "name": "robin"
+            }
+        }
+    }
+}

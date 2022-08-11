@@ -1,0 +1,36 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:act-fix:estore-pin]",
+            "queue": ""
+        },
+        "from_codec": {
+            "attributes": [
+                "subscribe",
+                "oe",
+                "parsed",
+                "first"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:act-fix:from_codec]"
+        },
+        "to_send": {
+            "attributes": [
+                "publish",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:act-fix:to_send]",
+            "queue": ""
+        }
+    }
+}

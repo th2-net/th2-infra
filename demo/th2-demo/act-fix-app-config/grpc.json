@@ -1,0 +1,26 @@
+{
+    "server": {
+        "attributes": null,
+        "host": null,
+        "port": 8080,
+        "workers": 5
+    },
+    "services": {
+        "to_check1": {
+            "endpoints": {
+                "check1-endpoint": {
+                    "attributes": [],
+                    "host": "check1",
+                    "port": 8080
+                }
+            },
+            "service-class": "com.exactpro.th2.check1.grpc.Check1Service",
+            "strategy": {
+                "endpoints": [
+                    "check1-endpoint"
+                ],
+                "name": "robin"
+            }
+        }
+    }
+}

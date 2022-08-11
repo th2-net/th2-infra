@@ -1,0 +1,64 @@
+{
+    "cache_size": "500",
+    "event_batch_max_size": "10",
+    "event_batch_send_interval": "1",
+    "recon_name": "Demo_Recon",
+    "rules": [
+        {
+            "configuration": {
+                "demo-conn1": "NOS_CONN",
+                "demo-conn2": "NOS_CONN",
+                "demo-csv": "NOS_CSV"
+            },
+            "enabled": "true",
+            "match_timeout": "300000",
+            "match_timeout_offset_ns": "0",
+            "name": "Match_Orders_between_fix_and_csv_file"
+        },
+        {
+            "configuration": {
+                "demo-conn1": "ER_CONN",
+                "demo-conn2": "ER_CONN",
+                "demo-csv": "ER_CSV"
+            },
+            "enabled": "true",
+            "match_timeout": "300000",
+            "match_timeout_offset_ns": "0",
+            "name": "Match_ExecutionReports_between_fix_and_csv_file"
+        },
+        {
+            "configuration": {
+                "demo-conn1": "ER_FIX01",
+                "demo-conn2": "ER_FIX02"
+            },
+            "enabled": "true",
+            "match_timeout": "3000",
+            "match_timeout_offset_ns": "0",
+            "name": "Match_trades_by_TrdMatchID"
+        },
+        {
+            "configuration": {
+                "demo-conn1": "NOS_CONN",
+                "demo-conn2": "NOS_CONN",
+                "demo-log": "NOS_LOG"
+            },
+            "enabled": "true",
+            "match_timeout": "300000",
+            "match_timeout_offset_ns": "0",
+            "name": "Match_Orders_between_the_system_logs_and_FIX"
+        },
+        {
+            "configuration": {
+                "demo-conn1": "ER_FIX",
+                "demo-conn2": "ER_FIX",
+                "demo-dc1": "ER_DC",
+                "demo-dc2": "ER_DC"
+            },
+            "enabled": "true",
+            "match_timeout": "3000",
+            "match_timeout_offset_ns": "0",
+            "name": "Match_ExecutionReports_with_dropcopy"
+        }
+    ],
+    "rules_package_path": "rules"
+}

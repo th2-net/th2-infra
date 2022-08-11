@@ -1,0 +1,8 @@
+{
+    "host": "rabbitmq-discovery.service.svc.cluster.local",
+    "vHost": "th2-demo",
+    "port": "5672",
+    "username": "th2-user-demo",
+    "password": "${RABBITMQ_PASS}",
+    "exchangeName": "th2-exchange"
+}

@@ -1,0 +1,19 @@
+name: Docker stack
+on:
+  push
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Init swarm
+        run: docker swarm init
+      
+      - name: Create Infra network 
+        run: docker network create --driver overlay --with-registry-auth infra
+
+      - name: Deploy stack 
+        run: |
+          cd ./demo
+          docker stack deploy -c th2-demo.yaml th2-demo

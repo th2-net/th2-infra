@@ -1,0 +1,34 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:mstore:estore-pin]",
+            "queue": ""
+        },
+        "mstore-pin-parsed": {
+            "attributes": [
+                "subscribe",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:mstore:mstore-pin-parsed]"
+        },
+        "mstore-pin-raw": {
+            "attributes": [
+                "subscribe",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:mstore:mstore-pin-raw]"
+        }
+    }
+}

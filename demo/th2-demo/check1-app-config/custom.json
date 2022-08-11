@@ -1,0 +1,9 @@
+{
+    "check-null-value-as-empty": "false",
+    "cleanup-older-than": "60",
+    "cleanup-time-unit": "SECONDS",
+    "decimal-precision": "0.001",
+    "message-cache-size": "1000",
+    "rule-execution-timeout": "7000",
+    "time-precision": "PT0.000000001S"
+}

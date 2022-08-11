@@ -1,0 +1,12 @@
+{
+    "actTypes": [
+        "th2-act"
+    ],
+    "hostname": "localhost",
+    "ioDispatcherThreadPoolSize": "1",
+    "namespace": "th2-demo",
+    "port": "8080",
+    "responseTimeout": "60000",
+    "schemaDefinitionLink": "http://infra-mgr.service:8080/schema/demo",
+    "schemaDescriptorsLink": "http://infra-mgr.service:8080/descriptor/demo"
+}

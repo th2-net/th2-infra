@@ -1,0 +1,24 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:recon:estore-pin]",
+            "queue": ""
+        },
+        "incoming": {
+            "attributes": [
+                "subscribe",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:recon:incoming]"
+        }
+    }
+}

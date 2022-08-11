@@ -1,0 +1,1452 @@
+version: "3.8"
+networks:
+  infra:
+    external: true
+    ipam: {}
+services:
+  act-fix:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError
+    image: ghcr.io/th2-net/th2-act-template-j:3.5.0
+    logging:
+      driver: json-file
+      options:
+        tag: act-fix
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/act-fix-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/act-fix-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/act-fix-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/act-fix-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/act-fix-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  act-ui:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError
+    image: ghcr.io/th2-net/th2-act-ui:1.1.42
+    logging:
+      driver: json-file
+      options:
+        tag: act-ui
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/act-ui-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/act-ui-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/act-ui-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/act-ui-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/act-ui-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  act-ui-backend:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport -XX:MaxRAMPercentage=90
+    image: ghcr.io/th2-net/th2-act-ui-backend:1.0.7
+    logging:
+      driver: json-file
+      options:
+        tag: act-ui-backend
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/act-ui-backend-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/act-ui-backend-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/act-ui-backend-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/act-ui-backend-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/act-ui-backend-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  check1:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-check1:3.9.0
+    logging:
+      driver: json-file
+      options:
+        tag: check1
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/check1-app-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/check1-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/check1-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/check1-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/check1-app-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/check1-app-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/check1-app-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/check1-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/check1-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  codec-csv:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError
+    image: ghcr.io/th2-net/th2-codec-csv:3.1.0
+    logging:
+      driver: json-file
+      options:
+        tag: codec-csv
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/codec-csv-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/codec-csv-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/codec-csv-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/codec-csv-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/codec-csv-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  codec-fix:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-codec-fix:3.10.4
+    logging:
+      driver: json-file
+      options:
+        tag: codec-fix
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+    - source: ./th2-demo/codec-fix-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/codec-fix-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/codec-fix-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/codec-fix-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/codec-fix-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  codec-sim-fix:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-codec-fix:3.9.0
+    logging:
+      driver: json-file
+      options:
+        tag: codec-sim-fix
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+    - source: ./th2-demo/codec-sim-fix-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/codec-sim-fix-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/codec-sim-fix-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/codec-sim-fix-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/codec-sim-fix-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  dc-demo-server1:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099
+        -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false
+        -Djava.rmi.server.hostname=127.0.0.1 -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-conn-fix:3.7.2-th2-3799-2469558886
+    logging:
+      driver: json-file
+      options:
+        tag: dc-demo-server1
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+    - source: ./th2-demo/dc-demo-server1-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/dc-demo-server1-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/dc-demo-server1-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/dc-demo-server1-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/dc-demo-server1-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  dc-demo-server2:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099
+        -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false
+        -Djava.rmi.server.hostname=127.0.0.1 -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-conn-fix:3.7.2-th2-3799-2469558886
+    logging:
+      driver: json-file
+      options:
+        tag: dc-demo-server2
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+    - source: ./th2-demo/dc-demo-server2-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/dc-demo-server2-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/dc-demo-server2-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/dc-demo-server2-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/dc-demo-server2-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  demo-conn1:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099
+        -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false
+        -Djava.rmi.server.hostname=127.0.0.1 -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-conn-fix:3.7.2-th2-3799-2469558886
+    logging:
+      driver: json-file
+      options:
+        tag: demo-conn1
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/demo-conn1-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/demo-conn1-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/demo-conn1-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/demo-conn1-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/demo-conn1-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+    - source: ./th2-demo/fix50-trm2-dictionary/fix50-trm2.encoded
+      target: /var/th2/config/dictionary/level1/fix50-trm2.encoded
+      type: bind
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+  demo-conn2:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099
+        -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false
+        -Djava.rmi.server.hostname=127.0.0.1 -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-conn-fix:3.7.2-th2-3799-2469558886
+    logging:
+      driver: json-file
+      options:
+        tag: demo-conn2
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+    - source: ./th2-demo/demo-conn2-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/demo-conn2-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/demo-conn2-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/demo-conn2-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/demo-conn2-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  demo-dc1:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099
+        -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false
+        -Djava.rmi.server.hostname=127.0.0.1 -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-conn-fix:3.7.2-th2-3799-2469558886
+    logging:
+      driver: json-file
+      options:
+        tag: demo-dc1
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/demo-dc1-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/demo-dc1-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/demo-dc1-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/demo-dc1-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/demo-dc1-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+  demo-dc2:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099
+        -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false
+        -Djava.rmi.server.hostname=127.0.0.1 -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-conn-fix:3.7.2-th2-3799-2469558886
+    logging:
+      driver: json-file
+      options:
+        tag: demo-dc2
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+    - source: ./th2-demo/demo-dc2-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/demo-dc2-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/demo-dc2-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/demo-dc2-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/demo-dc2-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  estore:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-estore:3.6.0
+    logging:
+      driver: json-file
+      options:
+        tag: estore
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/estore-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/estore-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/estore-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/estore-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/estore-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  fix-demo-server1:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099
+        -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false
+        -Djava.rmi.server.hostname=127.0.0.1 -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-conn-fix:3.7.2-th2-3799-2469558886
+    logging:
+      driver: json-file
+      options:
+        tag: fix-demo-server1
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/fix-demo-server1-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/fix-demo-server1-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/fix-demo-server1-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/fix-demo-server1-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/fix-demo-server1-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+  fix-demo-server2:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099
+        -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false
+        -Djava.rmi.server.hostname=127.0.0.1 -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-conn-fix:3.7.2-th2-3799-2469558886
+    logging:
+      driver: json-file
+      options:
+        tag: fix-demo-server2
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/fix50-generic-dictionary/fix50-generic.encoded
+      target: /var/th2/config/dictionary/main/fix50-generic.encoded
+      type: bind
+    - source: ./th2-demo/fix-demo-server2-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/fix-demo-server2-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/fix-demo-server2-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/fix-demo-server2-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/fix-demo-server2-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  mstore:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-mstore:3.5.0
+    logging:
+      driver: json-file
+      options:
+        tag: mstore
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/mstore-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/mstore-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/mstore-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/mstore-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/mstore-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  recon:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-check2-recon-template:3.3.1.dev2760045480
+    logging:
+      driver: json-file
+      options:
+        tag: recon
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/recon-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/recon-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/recon-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/recon-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/recon-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  rpt-data-provider:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="5000
+        milliseconds" -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-rpt-data-provider:5.0.15
+    logging:
+      driver: json-file
+      options:
+        tag: rpt-data-provider
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/rpt-data-provider-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/rpt-data-provider-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/rpt-data-provider-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/rpt-data-provider-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/rpt-data-provider-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  rpt-data-viewer:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+    image: ghcr.io/th2-net/th2-rpt-viewer:3.1.56
+    logging:
+      driver: json-file
+      options:
+        tag: rpt-data-viewer
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/rpt-data-viewer-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/rpt-data-viewer-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/rpt-data-viewer-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/rpt-data-viewer-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/rpt-data-viewer-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind
+  util:
+    deploy:
+      placement: {}
+      resources: {}
+      restart_policy:
+        condition: any
+    env_file:
+    - th2-demo/.env
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError
+    image: ghcr.io/th2-net/th2-util:3.1.0
+    logging:
+      driver: json-file
+      options:
+        tag: util
+    networks:
+      infra: null
+    volumes:
+    - source: ./th2-demo/util-app-config/box.json
+      target: /var/th2/config/box.json
+      type: bind
+    - source: ./th2-demo/util-app-config/custom.json
+      target: /var/th2/config/custom.json
+      type: bind
+    - source: ./th2-demo/util-app-config/grpc.json
+      target: /var/th2/config/grpc.json
+      type: bind
+    - source: ./th2-demo/util-app-config/mq.json
+      target: /var/th2/config/mq.json
+      type: bind
+    - source: ./th2-demo/util-app-config/prometheus.json
+      target: /var/th2/config/prometheus.json
+      type: bind
+    - source: ./th2-demo/logging-config/log4j.properties
+      target: /var/th2/config/log4j.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4j2.properties
+      target: /var/th2/config/log4j2.properties
+      type: bind
+    - source: ./th2-demo/logging-config/log4py.conf
+      target: /var/th2/config/log4py.conf
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelRoot
+      target: /var/th2/config/logLevelRoot
+      type: bind
+    - source: ./th2-demo/logging-config/logLevelTh2
+      target: /var/th2/config/logLevelTh2
+      type: bind
+    - source: ./th2-demo/logging-config/log4cxx.properties
+      target: /var/th2/config/log4cxx.properties
+      type: bind
+    - source: ./th2-demo/mq-router/mq_router.json
+      target: /var/th2/config/mq_router.json
+      type: bind
+    - source: ./th2-demo/grpc-router/grpc_router.json
+      target: /var/th2/config/grpc_router.json
+      type: bind
+    - source: ./th2-demo/cradle-manager/cradle_manager.json
+      target: /var/th2/config/cradle_manager.json
+      type: bind
+    - source: ./th2-demo/rabbit-mq-app-config/rabbitMQ.json
+      target: /var/th2/config/rabbitMQ.json
+      type: bind
+    - source: ./th2-demo/cradle/cradle.json
+      target: /var/th2/config/cradle.json
+      type: bind

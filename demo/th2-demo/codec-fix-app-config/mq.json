@@ -1,0 +1,102 @@
+{
+    "queues": {
+        "estore-pin": {
+            "attributes": [
+                "publish",
+                "event"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-fix:estore-pin]",
+            "queue": ""
+        },
+        "in_codec_decode": {
+            "attributes": [
+                "decoder_in",
+                "subscribe",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-fix:in_codec_decode]"
+        },
+        "in_codec_encode": {
+            "attributes": [
+                "subscribe",
+                "encoder_in",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-fix:in_codec_encode]"
+        },
+        "in_codec_general_decode": {
+            "attributes": [
+                "subscribe",
+                "general_decoder_in",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-fix:in_codec_general_decode]"
+        },
+        "in_codec_general_encode": {
+            "attributes": [
+                "subscribe",
+                "parsed",
+                "general_encoder_in"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "",
+            "queue": "link[th2-demo:codec-fix:in_codec_general_encode]"
+        },
+        "out_codec_decode": {
+            "attributes": [
+                "decoder_out",
+                "publish",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-fix:out_codec_decode]",
+            "queue": ""
+        },
+        "out_codec_encode": {
+            "attributes": [
+                "encoder_out",
+                "publish",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-fix:out_codec_encode]",
+            "queue": ""
+        },
+        "out_codec_general_decode": {
+            "attributes": [
+                "general_decoder_out",
+                "publish",
+                "parsed"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-fix:out_codec_general_decode]",
+            "queue": ""
+        },
+        "out_codec_general_encode": {
+            "attributes": [
+                "general_encoder_out",
+                "publish",
+                "raw"
+            ],
+            "exchange": "th2-exchange",
+            "filters": [],
+            "name": "key[th2-demo:codec-fix:out_codec_general_encode]",
+            "queue": ""
+        }
+    }
+}
