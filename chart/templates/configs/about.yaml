@@ -15,7 +15,8 @@ data:
   {{- include "collect-info" . | fromYaml | toPrettyJson | trim | nindent 4 }}
   services.json: |
     [
-      {"link": "editor", "description": "Infra editor"},
+      {"link": "dashboard", "description": "Dashboard"},
       {"link": "grafana", "description": "Grafana"},
-      {"link": "rabbitmq", "description": "RabbitMQ"}
+      {"link": "rabbitmq", "description": "RabbitMQ"},
+      {"link": "editor", "description": "Infra editor"}
     ]
