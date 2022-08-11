@@ -215,17 +215,11 @@ spec:
                           - name
                           - exposedPort
                       ingress:
-                        description: Creates Ingress for the Box
+                        description: section for ingress
                         type: object
                         properties:
                           urlPaths:
-                            description: |
-                              Path is a suffix, it is appended to namespace url, e.g for th2-test namespace:
-
-                              urlPaths:
-                              - /my-box/
-
-                              service will be available at /th2-test/my-box/
+                            description: url paths
                             type: array
                             items:
                               type: string
