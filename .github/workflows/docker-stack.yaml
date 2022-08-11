@@ -2,7 +2,7 @@ name: Docker stack
 on:
   push
 jobs:
-  release:
+  docker-stack:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,3 +17,5 @@ jobs:
         run: |
           cd ./demo
           docker stack deploy -c th2-demo.yaml th2-demo
+          docker service ls
+          docker ps
