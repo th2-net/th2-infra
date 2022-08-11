@@ -1,7 +1,7 @@
 template_path: templates/crd.template
 source_repositories:
 - url: https://github.com/th2-net/th2-infra
-  commit_reference: release-v1.8.0
+  commit_reference: branch_current
   organization: th2-net
   short_name: th2-infra
   crd_paths:
