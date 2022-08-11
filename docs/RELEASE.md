@@ -5,7 +5,7 @@
 flowchart TB
     init(Release branch, e.g. release-v1.2.3) --> |create| branch
     branch(Feature/fix branch, e.g 1.2.3-cool-feature) -->|commit| pr(Create/Update Pull request with ticket number)
-    pr --> milestone(Add milestone, v1.2.3)
+    pr --> milestone(Set milestone, v1.2.3)
     pr --> tests
     tests{Automated tests} --> |not passed| pr
     tests{Automated tests} --> |passed| review
