@@ -14,7 +14,7 @@ spec:
     singular: th2dictionary
   scope: Namespaced
   versions:
-  - name: v2
+  - name: v1
     schema:
       openAPIV3Schema:
         properties:
