@@ -1,0 +1,48 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2CoreBox
+metadata:
+  name: rpt-data-provider
+spec:
+  imageName: ghcr.io/th2-net/th2-rpt-data-provider
+  imageVersion: 5.3.9-master_migration_to_cradle_4.0.0-TH2-2150-1779274740
+  type: th2-rpt-data-provider
+  customConfig:
+    hostname: localhost
+    port: 8080
+    responseTimeout: 60000
+    serverCacheTimeout: 60000
+    clientCacheTimeout: 60
+    eventCacheSize: 100000
+    messageCacheSize: 100000
+    ioDispatcherThreadPoolSize: 10
+    maxMessagesLimit: 1000
+    messageSearchPipelineBuffer: 500
+  extendedSettings:
+    envVariables:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="10000
+        milliseconds" -Ddatastax-java-driver.basic.request.timeout="10 seconds"
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 1000Mi
+      requests:
+        cpu: 20m
+        memory: 300Mi
+    service:
+      enabled: true
+      endpoints:
+      - name: grpc
+        targetPort: 8080
+      type: ClusterIP
+  pins:
+    mq:
+    - name: to_codec
+      attributes:
+      - to_codec
+      - raw
+      - publish
+    - name: from_codec
+      attributes:
+      - from_codec
+      - parsed
+      - subscribe

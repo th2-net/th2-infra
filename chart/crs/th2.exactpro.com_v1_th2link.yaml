@@ -1,0 +1,71 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Link
+metadata:
+  name: dictionary-links
+spec:
+  dictionaries-relation:
+  - name: codec-fix-dictionary
+    box: codec-fix
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: codec-fix-neg-dictionary
+    box: codec-fix-neg
+    dictionary:
+      name: fix50-aix-neg
+      type: MAIN
+  - name: demo-conn1-dictionary
+    box: demo-conn1
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: demo-conn2-dictionary
+    box: demo-conn2
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt001-dictionary
+    box: fix-t99rt001
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt002-dictionary
+    box: fix-t99rt002
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt003-dictionary
+    box: fix-t99rt003
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt004-dictionary
+    box: fix-t99rt004
+    dictionary:
+      name: fix50-aix-neg
+      type: MAIN    
+  - name: fix-t99rt005-dictionary
+    box: fix-t99rt005
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt006-dictionary
+    box: fix-t99rt006
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt009-dictionary
+    box: fix-t99rt009
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt010-dictionary
+    box: fix-t99rt010
+    dictionary:
+      name: fix50-aix
+      type: MAIN   
+  - name: fix-t99rt011-dictionary
+    box: fix-t99rt011
+    dictionary:
+      name: fix50-aix
+      type: MAIN
