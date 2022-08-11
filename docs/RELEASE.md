@@ -1,6 +1,6 @@
 # Process Diagram
 
-## Cycle of a particular feature or fix development
+## Feature or fix cycle
 ```mermaid
 flowchart TB
     init(Release branch, e.g. release-v1.2.3) --> |create| branch
@@ -26,7 +26,7 @@ flowchart TB
     merge --> buildInfraRepo(Auto PR: infra-repo build)
 ```
 
-## Cycle of a particular release development
+## Release cycle
 ```mermaid
 flowchart TB
     init(Main branch, e.g. release-1.2.x) -->|create| branch
