@@ -11,7 +11,7 @@ jobs:
         run: docker swarm init
       
       - name: Create Infra network 
-        run: docker network create --driver overlay --with-registry-auth infra
+        run: docker network create --driver overlay infra
 
       - name: Deploy stack 
         run: |
