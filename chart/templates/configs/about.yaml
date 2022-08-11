@@ -11,3 +11,11 @@ metadata:
 data:
   about.yaml: |
   {{- include "collect-info" . | trim | nindent 4 }}
+  meta.json: |
+  {{- include "collect-info" . | fromYaml | toPrettyJson | trim | nindent 4 }}
+  services.json: |
+    [
+      {"link": "editor", "description": "Infra editor"},
+      {"link": "grafana", "description": "Grafana"},
+      {"link": "rabbitmq", "description": "RabbitMQ"}
+    ]
