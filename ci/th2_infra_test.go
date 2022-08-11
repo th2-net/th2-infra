@@ -191,9 +191,7 @@ func TestPodCommonAnnotationsOnly(t *testing.T) {
 
 func TestTH2Main(t *testing.T) {
 	// t.Parallel()
-	endpoint := fmt.Sprintf("http://localhost:30000/",
-		rabbitmqUser, rabbitmqPassword, schemaNamespace,
-	)
+	endpoint := "http://localhost:30000/"
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
 	validator := validFunc(t, 200, "<title>Welcome to th2</title>")
