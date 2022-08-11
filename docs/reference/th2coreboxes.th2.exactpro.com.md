@@ -14,7 +14,7 @@ crd:
   source_repository: https://github.com/th2-net/th2-infra
   source_repository_ref: crd-gerenrator-flow
   versions:
-    - v2
+    - v1
   topics:
     - managementcluster
 layout: crd
@@ -41,22 +41,75 @@ source_repository_ref: crd-gerenrator-flow
 <dt class="scope">Scope:</dt>
 <dd class="scope">Namespaced</dd>
 <dt class="versions">Versions:</dt>
-<dd class="versions"><a class="version" href="#v2" title="Show schema for version v2">v2</a></dd>
+<dd class="versions"><a class="version" href="#v1" title="Show schema for version v1">v1</a></dd>
 </dl>
 
 
 
 <div class="crd-schema-version">
-<h2 id="v2">Version v2</h2>
+<h2 id="v1">Version v1</h2>
 
 
+<h3 id="crd-example-v1">Example CR</h3>
 
-<h3 id="property-details-v2">Properties</h3>
+```yaml
+apiVersion: th2.exactpro.com/v1
+kind: Th2CoreBox
+metadata:
+  name: rpt-data-provider
+spec:
+  imageName: ghcr.io/th2-net/th2-rpt-data-provider
+  imageVersion: 5.3.9-master_migration_to_cradle_4.0.0-TH2-2150-1779274740
+  type: th2-rpt-data-provider
+  customConfig:
+    hostname: localhost
+    port: 8080
+    responseTimeout: 60000
+    serverCacheTimeout: 60000
+    clientCacheTimeout: 60
+    eventCacheSize: 100000
+    messageCacheSize: 100000
+    ioDispatcherThreadPoolSize: 10
+    maxMessagesLimit: 1000
+    messageSearchPipelineBuffer: 500
+  extendedSettings:
+    envVariables:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="10000
+        milliseconds" -Ddatastax-java-driver.basic.request.timeout="10 seconds"
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 1000Mi
+      requests:
+        cpu: 20m
+        memory: 300Mi
+    service:
+      enabled: true
+      endpoints:
+      - name: grpc
+        targetPort: 8080
+      type: ClusterIP
+  pins:
+    mq:
+    - name: to_codec
+      attributes:
+      - to_codec
+      - raw
+      - publish
+    - name: from_codec
+      attributes:
+      - from_codec
+      - parsed
+      - subscribe
+```
+
+
+<h3 id="property-details-v1">Properties</h3>
 
 
 <div class="property depth-0">
 <div class="property-header">
-<h3 class="property-path" id="v2-.apiVersion">.apiVersion</h3>
+<h3 class="property-path" id="v1-.apiVersion">.apiVersion</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -69,7 +122,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-0">
 <div class="property-header">
-<h3 class="property-path" id="v2-.kind">.kind</h3>
+<h3 class="property-path" id="v1-.kind">.kind</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -82,7 +135,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-0">
 <div class="property-header">
-<h3 class="property-path" id="v2-.metadata">.metadata</h3>
+<h3 class="property-path" id="v1-.metadata">.metadata</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -95,7 +148,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-0">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec">.spec</h3>
+<h3 class="property-path" id="v1-.spec">.spec</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -113,7 +166,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.bookName">.spec.bookName</h3>
+<h3 class="property-path" id="v1-.spec.bookName">.spec.bookName</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -131,7 +184,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.cradleManager">.spec.cradleManager</h3>
+<h3 class="property-path" id="v1-.spec.cradleManager">.spec.cradleManager</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -149,7 +202,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.customConfig">.spec.customConfig</h3>
+<h3 class="property-path" id="v1-.spec.customConfig">.spec.customConfig</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -167,7 +220,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.disabled">.spec.disabled</h3>
+<h3 class="property-path" id="v1-.spec.disabled">.spec.disabled</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -185,7 +238,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings">.spec.extendedSettings</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings">.spec.extendedSettings</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -203,7 +256,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.chartCfg">.spec.extendedSettings.chartCfg</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.chartCfg">.spec.extendedSettings.chartCfg</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -221,7 +274,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.chartCfg.path">.spec.extendedSettings.chartCfg.path</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.chartCfg.path">.spec.extendedSettings.chartCfg.path</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -239,7 +292,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.chartCfg.ref">.spec.extendedSettings.chartCfg.ref</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.chartCfg.ref">.spec.extendedSettings.chartCfg.ref</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -257,7 +310,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.envVariables">.spec.extendedSettings.envVariables</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.envVariables">.spec.extendedSettings.envVariables</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -275,7 +328,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.externalBox">.spec.extendedSettings.externalBox</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.externalBox">.spec.extendedSettings.externalBox</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -293,7 +346,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.externalBox.address">.spec.extendedSettings.externalBox.address</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.externalBox.address">.spec.extendedSettings.externalBox.address</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -311,7 +364,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.externalBox.enabled">.spec.extendedSettings.externalBox.enabled</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.externalBox.enabled">.spec.extendedSettings.externalBox.enabled</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -329,7 +382,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.externalBox.endpoints">.spec.extendedSettings.externalBox.endpoints</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.externalBox.endpoints">.spec.extendedSettings.externalBox.endpoints</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -347,7 +400,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.externalBox.endpoints[*]">.spec.extendedSettings.externalBox.endpoints[*]</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.externalBox.endpoints[*]">.spec.extendedSettings.externalBox.endpoints[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -360,7 +413,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.externalBox.endpoints[*].name">.spec.extendedSettings.externalBox.endpoints[*].name</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.externalBox.endpoints[*].name">.spec.extendedSettings.externalBox.endpoints[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -378,7 +431,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.externalBox.endpoints[*].targetPort">.spec.extendedSettings.externalBox.endpoints[*].targetPort</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.externalBox.endpoints[*].targetPort">.spec.extendedSettings.externalBox.endpoints[*].targetPort</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -396,7 +449,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.hostAliases">.spec.extendedSettings.hostAliases</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.hostAliases">.spec.extendedSettings.hostAliases</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -414,7 +467,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.hostAliases[*]">.spec.extendedSettings.hostAliases[*]</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.hostAliases[*]">.spec.extendedSettings.hostAliases[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -427,7 +480,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.hostAliases[*].hostnames">.spec.extendedSettings.hostAliases[*].hostnames</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.hostAliases[*].hostnames">.spec.extendedSettings.hostAliases[*].hostnames</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -445,7 +498,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.hostAliases[*].hostnames[*]">.spec.extendedSettings.hostAliases[*].hostnames[*]</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.hostAliases[*].hostnames[*]">.spec.extendedSettings.hostAliases[*].hostnames[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -458,7 +511,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.hostAliases[*].ip">.spec.extendedSettings.hostAliases[*].ip</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.hostAliases[*].ip">.spec.extendedSettings.hostAliases[*].ip</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -476,7 +529,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.hostNetwork">.spec.extendedSettings.hostNetwork</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.hostNetwork">.spec.extendedSettings.hostNetwork</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -494,7 +547,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.k8sProbes">.spec.extendedSettings.k8sProbes</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.k8sProbes">.spec.extendedSettings.k8sProbes</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -512,7 +565,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.mounting">.spec.extendedSettings.mounting</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.mounting">.spec.extendedSettings.mounting</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -530,7 +583,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.mounting[*]">.spec.extendedSettings.mounting[*]</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.mounting[*]">.spec.extendedSettings.mounting[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -543,7 +596,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.mounting[*].path">.spec.extendedSettings.mounting[*].path</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.mounting[*].path">.spec.extendedSettings.mounting[*].path</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -561,7 +614,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.mounting[*].pvcName">.spec.extendedSettings.mounting[*].pvcName</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.mounting[*].pvcName">.spec.extendedSettings.mounting[*].pvcName</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -579,7 +632,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.nodeSelector">.spec.extendedSettings.nodeSelector</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.nodeSelector">.spec.extendedSettings.nodeSelector</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -597,7 +650,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.replicas">.spec.extendedSettings.replicas</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.replicas">.spec.extendedSettings.replicas</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -615,7 +668,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.resources">.spec.extendedSettings.resources</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.resources">.spec.extendedSettings.resources</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -633,7 +686,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.resources.limits">.spec.extendedSettings.resources.limits</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.resources.limits">.spec.extendedSettings.resources.limits</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -646,7 +699,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.resources.limits.cpu">.spec.extendedSettings.resources.limits.cpu</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.resources.limits.cpu">.spec.extendedSettings.resources.limits.cpu</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -659,7 +712,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.resources.limits.memory">.spec.extendedSettings.resources.limits.memory</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.resources.limits.memory">.spec.extendedSettings.resources.limits.memory</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -672,7 +725,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.resources.requests">.spec.extendedSettings.resources.requests</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.resources.requests">.spec.extendedSettings.resources.requests</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -685,7 +738,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.resources.requests.cpu">.spec.extendedSettings.resources.requests.cpu</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.resources.requests.cpu">.spec.extendedSettings.resources.requests.cpu</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -698,7 +751,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.resources.requests.memory">.spec.extendedSettings.resources.requests.memory</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.resources.requests.memory">.spec.extendedSettings.resources.requests.memory</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -711,7 +764,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service">.spec.extendedSettings.service</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service">.spec.extendedSettings.service</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -724,7 +777,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.clusterIP">.spec.extendedSettings.service.clusterIP</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.clusterIP">.spec.extendedSettings.service.clusterIP</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -742,7 +795,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.clusterIP[*]">.spec.extendedSettings.service.clusterIP[*]</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.clusterIP[*]">.spec.extendedSettings.service.clusterIP[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -755,7 +808,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.clusterIP[*].containerPort">.spec.extendedSettings.service.clusterIP[*].containerPort</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.clusterIP[*].containerPort">.spec.extendedSettings.service.clusterIP[*].containerPort</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -773,7 +826,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.clusterIP[*].name">.spec.extendedSettings.service.clusterIP[*].name</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.clusterIP[*].name">.spec.extendedSettings.service.clusterIP[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -791,7 +844,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.enabled">.spec.extendedSettings.service.enabled</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.enabled">.spec.extendedSettings.service.enabled</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -809,7 +862,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.ingress">.spec.extendedSettings.service.ingress</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.ingress">.spec.extendedSettings.service.ingress</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -827,7 +880,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.ingress.urlPaths">.spec.extendedSettings.service.ingress.urlPaths</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.ingress.urlPaths">.spec.extendedSettings.service.ingress.urlPaths</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -845,7 +898,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.ingress.urlPaths[*]">.spec.extendedSettings.service.ingress.urlPaths[*]</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.ingress.urlPaths[*]">.spec.extendedSettings.service.ingress.urlPaths[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -858,7 +911,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.nodePort">.spec.extendedSettings.service.nodePort</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.nodePort">.spec.extendedSettings.service.nodePort</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -876,7 +929,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.nodePort[*]">.spec.extendedSettings.service.nodePort[*]</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.nodePort[*]">.spec.extendedSettings.service.nodePort[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -889,7 +942,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.nodePort[*].containerPort">.spec.extendedSettings.service.nodePort[*].containerPort</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.nodePort[*].containerPort">.spec.extendedSettings.service.nodePort[*].containerPort</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -907,7 +960,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.nodePort[*].exposedPort">.spec.extendedSettings.service.nodePort[*].exposedPort</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.nodePort[*].exposedPort">.spec.extendedSettings.service.nodePort[*].exposedPort</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -925,7 +978,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.service.nodePort[*].name">.spec.extendedSettings.service.nodePort[*].name</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.service.nodePort[*].name">.spec.extendedSettings.service.nodePort[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -943,7 +996,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.sharedMemory">.spec.extendedSettings.sharedMemory</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.sharedMemory">.spec.extendedSettings.sharedMemory</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -961,7 +1014,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.extendedSettings.sharedMemory.enabled">.spec.extendedSettings.sharedMemory.enabled</h3>
+<h3 class="property-path" id="v1-.spec.extendedSettings.sharedMemory.enabled">.spec.extendedSettings.sharedMemory.enabled</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -979,7 +1032,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.grpcRouter">.spec.grpcRouter</h3>
+<h3 class="property-path" id="v1-.spec.grpcRouter">.spec.grpcRouter</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -997,7 +1050,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.imageName">.spec.imageName</h3>
+<h3 class="property-path" id="v1-.spec.imageName">.spec.imageName</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1015,7 +1068,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.imageVersion">.spec.imageVersion</h3>
+<h3 class="property-path" id="v1-.spec.imageVersion">.spec.imageVersion</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1033,7 +1086,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.loggingConfig">.spec.loggingConfig</h3>
+<h3 class="property-path" id="v1-.spec.loggingConfig">.spec.loggingConfig</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1051,7 +1104,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.mqRouter">.spec.mqRouter</h3>
+<h3 class="property-path" id="v1-.spec.mqRouter">.spec.mqRouter</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1069,7 +1122,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.params">.spec.params</h3>
+<h3 class="property-path" id="v1-.spec.params">.spec.params</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1087,7 +1140,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.params[*]">.spec.params[*]</h3>
+<h3 class="property-path" id="v1-.spec.params[*]">.spec.params[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1100,7 +1153,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.params[*].name">.spec.params[*].name</h3>
+<h3 class="property-path" id="v1-.spec.params[*].name">.spec.params[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1118,7 +1171,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.params[*].value">.spec.params[*].value</h3>
+<h3 class="property-path" id="v1-.spec.params[*].value">.spec.params[*].value</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1136,7 +1189,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins">.spec.pins</h3>
+<h3 class="property-path" id="v1-.spec.pins">.spec.pins</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1154,7 +1207,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc">.spec.pins.grpc</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc">.spec.pins.grpc</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1172,7 +1225,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client">.spec.pins.grpc.client</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client">.spec.pins.grpc.client</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1190,7 +1243,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*]">.spec.pins.grpc.client[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*]">.spec.pins.grpc.client[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1203,7 +1256,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].attributes">.spec.pins.grpc.client[*].attributes</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].attributes">.spec.pins.grpc.client[*].attributes</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1221,7 +1274,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-6">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].attributes[*]">.spec.pins.grpc.client[*].attributes[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].attributes[*]">.spec.pins.grpc.client[*].attributes[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1234,7 +1287,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters">.spec.pins.grpc.client[*].filters</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].filters">.spec.pins.grpc.client[*].filters</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1252,7 +1305,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-6">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*]">.spec.pins.grpc.client[*].filters[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].filters[*]">.spec.pins.grpc.client[*].filters[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1265,7 +1318,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-7">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties">.spec.pins.grpc.client[*].filters[*].properties</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].filters[*].properties">.spec.pins.grpc.client[*].filters[*].properties</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1283,7 +1336,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties[*]">.spec.pins.grpc.client[*].filters[*].properties[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].filters[*].properties[*]">.spec.pins.grpc.client[*].filters[*].properties[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1296,7 +1349,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-9">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties[*].expectedValue">.spec.pins.grpc.client[*].filters[*].properties[*].expectedValue</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].filters[*].properties[*].expectedValue">.spec.pins.grpc.client[*].filters[*].properties[*].expectedValue</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1314,7 +1367,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-9">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties[*].fieldName">.spec.pins.grpc.client[*].filters[*].properties[*].fieldName</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].filters[*].properties[*].fieldName">.spec.pins.grpc.client[*].filters[*].properties[*].fieldName</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1332,7 +1385,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-9">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties[*].operation">.spec.pins.grpc.client[*].filters[*].properties[*].operation</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].filters[*].properties[*].operation">.spec.pins.grpc.client[*].filters[*].properties[*].operation</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1350,7 +1403,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].name">.spec.pins.grpc.client[*].name</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].name">.spec.pins.grpc.client[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1368,7 +1421,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].serviceClass">.spec.pins.grpc.client[*].serviceClass</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].serviceClass">.spec.pins.grpc.client[*].serviceClass</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1386,7 +1439,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].strategy">.spec.pins.grpc.client[*].strategy</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.client[*].strategy">.spec.pins.grpc.client[*].strategy</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1404,7 +1457,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.server">.spec.pins.grpc.server</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.server">.spec.pins.grpc.server</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1422,7 +1475,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.server[*]">.spec.pins.grpc.server[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.server[*]">.spec.pins.grpc.server[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1435,7 +1488,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.server[*].name">.spec.pins.grpc.server[*].name</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.server[*].name">.spec.pins.grpc.server[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1453,7 +1506,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.server[*].serviceClasses">.spec.pins.grpc.server[*].serviceClasses</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.server[*].serviceClasses">.spec.pins.grpc.server[*].serviceClasses</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1471,7 +1524,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-6">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.grpc.server[*].serviceClasses[*]">.spec.pins.grpc.server[*].serviceClasses[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.grpc.server[*].serviceClasses[*]">.spec.pins.grpc.server[*].serviceClasses[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1484,7 +1537,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq">.spec.pins.mq</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq">.spec.pins.mq</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1502,7 +1555,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*]">.spec.pins.mq[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*]">.spec.pins.mq[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1515,7 +1568,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].attributes">.spec.pins.mq[*].attributes</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].attributes">.spec.pins.mq[*].attributes</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1533,7 +1586,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].attributes[*]">.spec.pins.mq[*].attributes[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].attributes[*]">.spec.pins.mq[*].attributes[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1546,7 +1599,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters">.spec.pins.mq[*].filters</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters">.spec.pins.mq[*].filters</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1564,7 +1617,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*]">.spec.pins.mq[*].filters[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*]">.spec.pins.mq[*].filters[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1577,7 +1630,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-6">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].message">.spec.pins.mq[*].filters[*].message</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].message">.spec.pins.mq[*].filters[*].message</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1595,7 +1648,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-7">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].message[*]">.spec.pins.mq[*].filters[*].message[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].message[*]">.spec.pins.mq[*].filters[*].message[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1608,7 +1661,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].message[*].expectedValue">.spec.pins.mq[*].filters[*].message[*].expectedValue</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].message[*].expectedValue">.spec.pins.mq[*].filters[*].message[*].expectedValue</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1626,7 +1679,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].message[*].fieldName">.spec.pins.mq[*].filters[*].message[*].fieldName</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].message[*].fieldName">.spec.pins.mq[*].filters[*].message[*].fieldName</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1644,7 +1697,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].message[*].operation">.spec.pins.mq[*].filters[*].message[*].operation</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].message[*].operation">.spec.pins.mq[*].filters[*].message[*].operation</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1662,7 +1715,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-6">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].metadata">.spec.pins.mq[*].filters[*].metadata</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].metadata">.spec.pins.mq[*].filters[*].metadata</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1680,7 +1733,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-7">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].metadata[*]">.spec.pins.mq[*].filters[*].metadata[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].metadata[*]">.spec.pins.mq[*].filters[*].metadata[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1693,7 +1746,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].metadata[*].expectedValue">.spec.pins.mq[*].filters[*].metadata[*].expectedValue</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].metadata[*].expectedValue">.spec.pins.mq[*].filters[*].metadata[*].expectedValue</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1711,7 +1764,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].metadata[*].fieldName">.spec.pins.mq[*].filters[*].metadata[*].fieldName</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].metadata[*].fieldName">.spec.pins.mq[*].filters[*].metadata[*].fieldName</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1729,7 +1782,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].metadata[*].operation">.spec.pins.mq[*].filters[*].metadata[*].operation</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].metadata[*].operation">.spec.pins.mq[*].filters[*].metadata[*].operation</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1747,7 +1800,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-6">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].properties">.spec.pins.mq[*].filters[*].properties</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].properties">.spec.pins.mq[*].filters[*].properties</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1765,7 +1818,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-7">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].properties[*]">.spec.pins.mq[*].filters[*].properties[*]</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].properties[*]">.spec.pins.mq[*].filters[*].properties[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1778,7 +1831,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].properties[*].expectedValue">.spec.pins.mq[*].filters[*].properties[*].expectedValue</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].properties[*].expectedValue">.spec.pins.mq[*].filters[*].properties[*].expectedValue</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1796,7 +1849,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].properties[*].fieldName">.spec.pins.mq[*].filters[*].properties[*].fieldName</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].properties[*].fieldName">.spec.pins.mq[*].filters[*].properties[*].fieldName</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1814,7 +1867,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-8">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].filters[*].properties[*].operation">.spec.pins.mq[*].filters[*].properties[*].operation</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].filters[*].properties[*].operation">.spec.pins.mq[*].filters[*].properties[*].operation</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1832,7 +1885,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].name">.spec.pins.mq[*].name</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].name">.spec.pins.mq[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1850,7 +1903,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].settings">.spec.pins.mq[*].settings</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].settings">.spec.pins.mq[*].settings</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1868,7 +1921,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].settings.overloadStrategy">.spec.pins.mq[*].settings.overloadStrategy</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].settings.overloadStrategy">.spec.pins.mq[*].settings.overloadStrategy</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1886,7 +1939,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].settings.queueLength">.spec.pins.mq[*].settings.queueLength</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].settings.queueLength">.spec.pins.mq[*].settings.queueLength</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1904,7 +1957,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.pins.mq[*].settings.storageOnDemand">.spec.pins.mq[*].settings.storageOnDemand</h3>
+<h3 class="property-path" id="v1-.spec.pins.mq[*].settings.storageOnDemand">.spec.pins.mq[*].settings.storageOnDemand</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1922,7 +1975,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.prometheus">.spec.prometheus</h3>
+<h3 class="property-path" id="v1-.spec.prometheus">.spec.prometheus</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1940,7 +1993,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.prometheus.enabled">.spec.prometheus.enabled</h3>
+<h3 class="property-path" id="v1-.spec.prometheus.enabled">.spec.prometheus.enabled</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1958,7 +2011,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.prometheus.host">.spec.prometheus.host</h3>
+<h3 class="property-path" id="v1-.spec.prometheus.host">.spec.prometheus.host</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1976,7 +2029,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.prometheus.port">.spec.prometheus.port</h3>
+<h3 class="property-path" id="v1-.spec.prometheus.port">.spec.prometheus.port</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -1994,7 +2047,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.type">.spec.type</h3>
+<h3 class="property-path" id="v1-.spec.type">.spec.type</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2007,7 +2060,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.versionRange">.spec.versionRange</h3>
+<h3 class="property-path" id="v1-.spec.versionRange">.spec.versionRange</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2025,7 +2078,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-0">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status">.status</h3>
+<h3 class="property-path" id="v1-.status">.status</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2043,7 +2096,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.conditions">.status.conditions</h3>
+<h3 class="property-path" id="v1-.status.conditions">.status.conditions</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2061,7 +2114,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.conditions[*]">.status.conditions[*]</h3>
+<h3 class="property-path" id="v1-.status.conditions[*]">.status.conditions[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2074,7 +2127,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.conditions[*].lastTransitionTime">.status.conditions[*].lastTransitionTime</h3>
+<h3 class="property-path" id="v1-.status.conditions[*].lastTransitionTime">.status.conditions[*].lastTransitionTime</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2092,7 +2145,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.conditions[*].lastUpdateTime">.status.conditions[*].lastUpdateTime</h3>
+<h3 class="property-path" id="v1-.status.conditions[*].lastUpdateTime">.status.conditions[*].lastUpdateTime</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2110,7 +2163,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.conditions[*].message">.status.conditions[*].message</h3>
+<h3 class="property-path" id="v1-.status.conditions[*].message">.status.conditions[*].message</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2128,7 +2181,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.conditions[*].reason">.status.conditions[*].reason</h3>
+<h3 class="property-path" id="v1-.status.conditions[*].reason">.status.conditions[*].reason</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2146,7 +2199,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.conditions[*].status">.status.conditions[*].status</h3>
+<h3 class="property-path" id="v1-.status.conditions[*].status">.status.conditions[*].status</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2164,7 +2217,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.conditions[*].type">.status.conditions[*].type</h3>
+<h3 class="property-path" id="v1-.status.conditions[*].type">.status.conditions[*].type</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2182,7 +2235,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.message">.status.message</h3>
+<h3 class="property-path" id="v1-.status.message">.status.message</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2200,7 +2253,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.phase">.status.phase</h3>
+<h3 class="property-path" id="v1-.status.phase">.status.phase</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -2218,7 +2271,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.status.subResourceName">.status.subResourceName</h3>
+<h3 class="property-path" id="v1-.status.subResourceName">.status.subResourceName</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">

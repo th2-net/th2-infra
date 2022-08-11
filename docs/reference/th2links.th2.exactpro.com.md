@@ -14,7 +14,7 @@ crd:
   source_repository: https://github.com/th2-net/th2-infra
   source_repository_ref: crd-gerenrator-flow
   versions:
-    - v2
+    - v1
   topics:
     - managementcluster
 layout: crd
@@ -41,22 +41,98 @@ source_repository_ref: crd-gerenrator-flow
 <dt class="scope">Scope:</dt>
 <dd class="scope">Namespaced</dd>
 <dt class="versions">Versions:</dt>
-<dd class="versions"><a class="version" href="#v2" title="Show schema for version v2">v2</a></dd>
+<dd class="versions"><a class="version" href="#v1" title="Show schema for version v1">v1</a></dd>
 </dl>
 
 
 
 <div class="crd-schema-version">
-<h2 id="v2">Version v2</h2>
+<h2 id="v1">Version v1</h2>
 
 
+<h3 id="crd-example-v1">Example CR</h3>
 
-<h3 id="property-details-v2">Properties</h3>
+```yaml
+apiVersion: th2.exactpro.com/v1
+kind: Th2Link
+metadata:
+  name: dictionary-links
+spec:
+  dictionaries-relation:
+  - name: codec-fix-dictionary
+    box: codec-fix
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: codec-fix-neg-dictionary
+    box: codec-fix-neg
+    dictionary:
+      name: fix50-aix-neg
+      type: MAIN
+  - name: demo-conn1-dictionary
+    box: demo-conn1
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: demo-conn2-dictionary
+    box: demo-conn2
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt001-dictionary
+    box: fix-t99rt001
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt002-dictionary
+    box: fix-t99rt002
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt003-dictionary
+    box: fix-t99rt003
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt004-dictionary
+    box: fix-t99rt004
+    dictionary:
+      name: fix50-aix-neg
+      type: MAIN    
+  - name: fix-t99rt005-dictionary
+    box: fix-t99rt005
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt006-dictionary
+    box: fix-t99rt006
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt009-dictionary
+    box: fix-t99rt009
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+  - name: fix-t99rt010-dictionary
+    box: fix-t99rt010
+    dictionary:
+      name: fix50-aix
+      type: MAIN   
+  - name: fix-t99rt011-dictionary
+    box: fix-t99rt011
+    dictionary:
+      name: fix50-aix
+      type: MAIN
+```
+
+
+<h3 id="property-details-v1">Properties</h3>
 
 
 <div class="property depth-0">
 <div class="property-header">
-<h3 class="property-path" id="v2-.apiVersion">.apiVersion</h3>
+<h3 class="property-path" id="v1-.apiVersion">.apiVersion</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -69,7 +145,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-0">
 <div class="property-header">
-<h3 class="property-path" id="v2-.kind">.kind</h3>
+<h3 class="property-path" id="v1-.kind">.kind</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -82,7 +158,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-0">
 <div class="property-header">
-<h3 class="property-path" id="v2-.metadata">.metadata</h3>
+<h3 class="property-path" id="v1-.metadata">.metadata</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -95,7 +171,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-0">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec">.spec</h3>
+<h3 class="property-path" id="v1-.spec">.spec</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -113,7 +189,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation">.spec.boxesRelation</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation">.spec.boxesRelation</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -131,7 +207,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerGrpc">.spec.boxesRelation.routerGrpc</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerGrpc">.spec.boxesRelation.routerGrpc</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -149,7 +225,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerGrpc[*]">.spec.boxesRelation.routerGrpc[*]</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerGrpc[*]">.spec.boxesRelation.routerGrpc[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -162,7 +238,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerGrpc[*].from">.spec.boxesRelation.routerGrpc[*].from</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerGrpc[*].from">.spec.boxesRelation.routerGrpc[*].from</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -175,7 +251,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerGrpc[*].from.box">.spec.boxesRelation.routerGrpc[*].from.box</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerGrpc[*].from.box">.spec.boxesRelation.routerGrpc[*].from.box</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -193,7 +269,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerGrpc[*].from.pin">.spec.boxesRelation.routerGrpc[*].from.pin</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerGrpc[*].from.pin">.spec.boxesRelation.routerGrpc[*].from.pin</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -211,7 +287,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerGrpc[*].name">.spec.boxesRelation.routerGrpc[*].name</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerGrpc[*].name">.spec.boxesRelation.routerGrpc[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -229,7 +305,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerGrpc[*].to">.spec.boxesRelation.routerGrpc[*].to</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerGrpc[*].to">.spec.boxesRelation.routerGrpc[*].to</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -242,7 +318,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerGrpc[*].to.box">.spec.boxesRelation.routerGrpc[*].to.box</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerGrpc[*].to.box">.spec.boxesRelation.routerGrpc[*].to.box</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -260,7 +336,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerGrpc[*].to.pin">.spec.boxesRelation.routerGrpc[*].to.pin</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerGrpc[*].to.pin">.spec.boxesRelation.routerGrpc[*].to.pin</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -278,7 +354,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerMq">.spec.boxesRelation.routerMq</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerMq">.spec.boxesRelation.routerMq</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -296,7 +372,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerMq[*]">.spec.boxesRelation.routerMq[*]</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerMq[*]">.spec.boxesRelation.routerMq[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -309,7 +385,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerMq[*].from">.spec.boxesRelation.routerMq[*].from</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerMq[*].from">.spec.boxesRelation.routerMq[*].from</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -322,7 +398,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerMq[*].from.box">.spec.boxesRelation.routerMq[*].from.box</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerMq[*].from.box">.spec.boxesRelation.routerMq[*].from.box</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -340,7 +416,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerMq[*].from.pin">.spec.boxesRelation.routerMq[*].from.pin</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerMq[*].from.pin">.spec.boxesRelation.routerMq[*].from.pin</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -358,7 +434,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerMq[*].name">.spec.boxesRelation.routerMq[*].name</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerMq[*].name">.spec.boxesRelation.routerMq[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -376,7 +452,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerMq[*].to">.spec.boxesRelation.routerMq[*].to</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerMq[*].to">.spec.boxesRelation.routerMq[*].to</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -389,7 +465,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerMq[*].to.box">.spec.boxesRelation.routerMq[*].to.box</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerMq[*].to.box">.spec.boxesRelation.routerMq[*].to.box</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -407,7 +483,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.boxesRelation.routerMq[*].to.pin">.spec.boxesRelation.routerMq[*].to.pin</h3>
+<h3 class="property-path" id="v1-.spec.boxesRelation.routerMq[*].to.pin">.spec.boxesRelation.routerMq[*].to.pin</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -425,7 +501,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.dictionariesRelation">.spec.dictionariesRelation</h3>
+<h3 class="property-path" id="v1-.spec.dictionariesRelation">.spec.dictionariesRelation</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -443,7 +519,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.dictionariesRelation[*]">.spec.dictionariesRelation[*]</h3>
+<h3 class="property-path" id="v1-.spec.dictionariesRelation[*]">.spec.dictionariesRelation[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -456,7 +532,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.dictionariesRelation[*].box">.spec.dictionariesRelation[*].box</h3>
+<h3 class="property-path" id="v1-.spec.dictionariesRelation[*].box">.spec.dictionariesRelation[*].box</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -474,7 +550,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.dictionariesRelation[*].dictionary">.spec.dictionariesRelation[*].dictionary</h3>
+<h3 class="property-path" id="v1-.spec.dictionariesRelation[*].dictionary">.spec.dictionariesRelation[*].dictionary</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -492,7 +568,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.dictionariesRelation[*].dictionary.name">.spec.dictionariesRelation[*].dictionary.name</h3>
+<h3 class="property-path" id="v1-.spec.dictionariesRelation[*].dictionary.name">.spec.dictionariesRelation[*].dictionary.name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -510,7 +586,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.dictionariesRelation[*].dictionary.type">.spec.dictionariesRelation[*].dictionary.type</h3>
+<h3 class="property-path" id="v1-.spec.dictionariesRelation[*].dictionary.type">.spec.dictionariesRelation[*].dictionary.type</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -528,7 +604,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.dictionariesRelation[*].name">.spec.dictionariesRelation[*].name</h3>
+<h3 class="property-path" id="v1-.spec.dictionariesRelation[*].name">.spec.dictionariesRelation[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -546,7 +622,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-1">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.multiDictionariesRelation">.spec.multiDictionariesRelation</h3>
+<h3 class="property-path" id="v1-.spec.multiDictionariesRelation">.spec.multiDictionariesRelation</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -564,7 +640,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-2">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.multiDictionariesRelation[*]">.spec.multiDictionariesRelation[*]</h3>
+<h3 class="property-path" id="v1-.spec.multiDictionariesRelation[*]">.spec.multiDictionariesRelation[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -577,7 +653,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.multiDictionariesRelation[*].box">.spec.multiDictionariesRelation[*].box</h3>
+<h3 class="property-path" id="v1-.spec.multiDictionariesRelation[*].box">.spec.multiDictionariesRelation[*].box</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -595,7 +671,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.multiDictionariesRelation[*].dictionaries">.spec.multiDictionariesRelation[*].dictionaries</h3>
+<h3 class="property-path" id="v1-.spec.multiDictionariesRelation[*].dictionaries">.spec.multiDictionariesRelation[*].dictionaries</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -608,7 +684,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-4">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.multiDictionariesRelation[*].dictionaries[*]">.spec.multiDictionariesRelation[*].dictionaries[*]</h3>
+<h3 class="property-path" id="v1-.spec.multiDictionariesRelation[*].dictionaries[*]">.spec.multiDictionariesRelation[*].dictionaries[*]</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -621,7 +697,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.multiDictionariesRelation[*].dictionaries[*].alias">.spec.multiDictionariesRelation[*].dictionaries[*].alias</h3>
+<h3 class="property-path" id="v1-.spec.multiDictionariesRelation[*].dictionaries[*].alias">.spec.multiDictionariesRelation[*].dictionaries[*].alias</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -639,7 +715,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-5">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.multiDictionariesRelation[*].dictionaries[*].name">.spec.multiDictionariesRelation[*].dictionaries[*].name</h3>
+<h3 class="property-path" id="v1-.spec.multiDictionariesRelation[*].dictionaries[*].name">.spec.multiDictionariesRelation[*].dictionaries[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
@@ -657,7 +733,7 @@ source_repository_ref: crd-gerenrator-flow
 
 <div class="property depth-3">
 <div class="property-header">
-<h3 class="property-path" id="v2-.spec.multiDictionariesRelation[*].name">.spec.multiDictionariesRelation[*].name</h3>
+<h3 class="property-path" id="v1-.spec.multiDictionariesRelation[*].name">.spec.multiDictionariesRelation[*].name</h3>
 </div>
 <div class="property-body">
 <div class="property-meta">
