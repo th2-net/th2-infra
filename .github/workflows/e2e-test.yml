@@ -56,6 +56,10 @@ jobs:
           node_image: kindest/node:v1.19.16@sha256:d9c819e8668de8d5030708e484a9fdff44d95ec4675d136ef0a0a584e587f65c
           # node_image: kindest/node:v1.23.6@sha256:1af0f1bee4c3c0fe9b07de5e5d3fafeb2eec7b4e1b268ae89fcab96ec67e8355
 
+      - name: Copy box-chart into build context
+        run: |
+          cp -r ./box-chart ./infra-repo/
+
       - name: set up docker buildx plugin
         uses: docker/setup-buildx-action@v1
 
@@ -66,7 +70,7 @@ jobs:
           file: "./chart/values.yaml"
           key-path: '["infraRepo", "image", "tag"]'
 
-      - name: build image & push to registry
+      - name: Build infra-repo image
         id: build
         uses: docker/build-push-action@v2
         with:
