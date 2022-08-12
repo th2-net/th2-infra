@@ -92,7 +92,7 @@ jobs:
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
           docker exec chart-testing-control-plane mkdir -p /opt/git/
           docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/
-          kind load docker-image ghcr.io/th2-net/infra-repo:e2e
+          kind load docker-image --name kind-chart-testing ghcr.io/th2-net/infra-repo:e2e
 
       - name: Install python and ansible dependencies
         run: |
