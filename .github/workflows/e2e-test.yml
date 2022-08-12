@@ -31,29 +31,6 @@ env:
   commit_hash: "${{ github.event.pull_request.head.sha }}"
 
 jobs:
-  build-infra-repo:
-    runs-on: ubuntu-latest
-    steps:
-      - name: set up docker buildx plugin
-        uses: docker/setup-buildx-action@v1
-
-      - name: Read infra version
-        id: chart
-        uses: KJ002/read-yaml@main
-        with:
-          file: "./chart/values.yaml"
-          key-path: '["infraRepo", "image", "tag"]'
-
-      - name: build image & push to registry
-        id: build
-        uses: docker/build-push-action@v2
-        with:
-          file: ./infra-repo/Dockerfile
-          context: ./infra-repo/
-          push: false
-          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
-          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
-
   deploy-and-test:
     if: |
       !contains(github.event.pull_request.labels, 'automated')
@@ -78,6 +55,26 @@ jobs:
           version: v0.11.0
           node_image: kindest/node:v1.19.16@sha256:d9c819e8668de8d5030708e484a9fdff44d95ec4675d136ef0a0a584e587f65c
           # node_image: kindest/node:v1.23.6@sha256:1af0f1bee4c3c0fe9b07de5e5d3fafeb2eec7b4e1b268ae89fcab96ec67e8355
+
+      - name: set up docker buildx plugin
+        uses: docker/setup-buildx-action@v1
+
+      - name: Read infra-repo version
+        id: chart
+        uses: KJ002/read-yaml@main
+        with:
+          file: "./chart/values.yaml"
+          key-path: '["infraRepo", "image", "tag"]'
+
+      - name: build image & push to registry
+        id: build
+        uses: docker/build-push-action@v2
+        with:
+          file: ./infra-repo/Dockerfile
+          context: ./infra-repo/
+          push: false
+          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
 
       - name: Init test schema
         run: |
