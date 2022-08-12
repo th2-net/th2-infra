@@ -77,6 +77,7 @@ jobs:
           file: ./infra-repo/Dockerfile
           context: ./infra-repo/
           push: false
+          load: true
           tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
 
