@@ -78,7 +78,7 @@ jobs:
           context: ./infra-repo/
           push: false
           load: true
-          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          tags: ghcr.io/th2-net/infra-repo:e2e
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
 
       - name: Init test schema
@@ -92,7 +92,7 @@ jobs:
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
           docker exec chart-testing-control-plane mkdir -p /opt/git/
           docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/
-          kind load docker-image ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          kind load docker-image ghcr.io/th2-net/infra-repo:e2e
 
       - name: Install python and ansible dependencies
         run: |
