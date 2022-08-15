@@ -21,6 +21,8 @@ services:
         tag: act-fix
     networks:
       infra: null
+    ports:
+      - 31178:8080
     volumes:
     - source: ./th2-demo/act-fix-app-config/box.json
       target: /var/th2/config/box.json
@@ -87,6 +89,8 @@ services:
         tag: act-ui
     networks:
       infra: null
+    ports:
+      - 31357:8080
     volumes:
     - source: ./th2-demo/act-ui-app-config/custom.json
       target: /var/th2/config/custom.json
@@ -153,6 +157,8 @@ services:
         tag: act-ui-backend
     networks:
       infra: null
+    ports:
+      - 31357:8080
     volumes:
     - source: ./th2-demo/act-ui-backend-app-config/box.json
       target: /var/th2/config/box.json
@@ -219,6 +225,8 @@ services:
         tag: check1
     networks:
       infra: null
+    ports:
+      - 31179:8080
     volumes:
     - source: ./th2-demo/check1-app-config/log4cxx.properties
       target: /var/th2/config/log4cxx.properties
@@ -1267,6 +1275,8 @@ services:
       driver: json-file
       options:
         tag: rpt-data-provider
+    ports:
+      - 30789:8080
     networks:
       infra: null
     volumes:
