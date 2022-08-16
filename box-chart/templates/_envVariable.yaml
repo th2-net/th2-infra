@@ -28,6 +28,10 @@ Generating envVariables for k8
         - name: {{ $envName }}
           value: /var/th2/config/secrets/{{ $secKey }}/{{ $secKey }}
         {{- end }}
+        {{- range $dict := .component.dictionaries }}
+        - name: {{ $dict.envVariable }}
+          value: /var/th2/config/dictionaries/{{ $dict.name }}
+        {{- end }}        
         {{- range $envName, $envValue := .component.secretValuesConfig }}
         - name: {{ $envName }}
           valueFrom:
