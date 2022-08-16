@@ -15,7 +15,6 @@ crd:
   source_repository_ref: release-v1.8.0
   versions:
     - v1
-  topics:
 layout: crd
 owner:
   - https://github.com/th2-net/th2-infra
