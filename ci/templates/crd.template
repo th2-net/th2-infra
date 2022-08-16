@@ -21,12 +21,6 @@ crd:
 {{- range .Versions }}
     - {{ . -}}
 {{- end }}
-  topics:
-{{- with .Metadata.Topics }}
-{{- range . }}
-    - {{ . -}}
-{{- end }}
-{{- end }}
 {{- with .Metadata.Providers }}
   providers:
 {{- range . }}
