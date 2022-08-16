@@ -6,8 +6,6 @@
   vars:
     infra_namespace: "{{ lookup('env', 'INFRA_NAMESPACE') | default ('service', True) }}"
     monitoring_namespace: "{{ lookup('env', 'MONITORING_NAMESPACE') | default ('monitoring', True) }}"
-    repository_url: "{{ lookup('env', 'REPOSITORY_URL') }}"
-    repository_ref: "{{ lookup('env', 'REPOSITORY_REF_NAME') }}"
 
   tasks:
     - name: Add helm repositories
@@ -96,12 +94,6 @@
         values_files:
           - "{{ playbook_dir }}/deploy/ci.values.yaml"
         values:
-          infraOperator:
-            config:
-              chart:
-                git: "{{ repository_url }}"
-                ref: "{{ repository_ref }}"
-                path: ./box-chart
           infraMgr:
             git:
               privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
