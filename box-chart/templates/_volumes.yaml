@@ -26,9 +26,9 @@ Generating configMap for k8
         {{- end }}
         {{- if .component.dictionaries }}
         - name: dictionaries
-          mountPath: /var/th2/config/dictionaries/      
+          mountPath: /var/th2/config/dictionaries/
         {{- end }}
-      
+
 {{/* temporary compability for old format */}}
         {{- if .component.dictionaries }}
           {{- range $dict := .component.dictionaries }}
