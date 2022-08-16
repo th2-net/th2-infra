@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <script src="assets/js/axios.min.js"></script>
+  <script src="assets/js/vue.min.js"></script>
+  <title>Welcome to th2</title>
+</head>
+
+<body class="d-flex h-100 text-center">
+
+  <div id="app" class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <template v-if="meta">
+      <header class="mb-auto">
+        <div>
+          <h4 class="float-md-start mb-0">Welcome to {{ meta.infraVersion }} infra</h4>
+          <nav class="nav nav-masthead justify-content-center float-md-end">
+            <template v-for="svc in services">
+              <a class="nav-link" :href="svc.link">{{ svc.description }}</a>
+            </template>
+          </nav>
+        </div>
+      </header>
+
+      <main class="px-3">
+        <h2>Schema repository:</h2>
+        <p class="lead">{{ meta.infraMgr.git.repository }}</p>
+        <h2>Docker registries:</h2>
+        <template v-for="registry in meta.registries">
+          <p class="lead">{{ registry }}</p>
+        </template>
+      </main>
+
+      <footer class="mt-auto">
+        <img src="assets/img/th2.svg">
+      </footer>
+    </template>
+  </div>
+
+</body>
+
+<script>
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        services: null,
+        meta: null
+      }
+    },
+    mounted() {
+      axios
+        .get('meta.json')
+        .then(response => {
+          this.meta = response.data
+        })
+      axios
+        .get('services.json')
+        .then(response => {
+          this.services = response.data
+        })
+    }
+  })
+</script>
+
+</html>
