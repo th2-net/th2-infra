@@ -16,7 +16,6 @@ crd:
   versions:
     - v1
   topics:
-    - managementcluster
 layout: crd
 owner:
   - https://github.com/th2-net/th2-infra
