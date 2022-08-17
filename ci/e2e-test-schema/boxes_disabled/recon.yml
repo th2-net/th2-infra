@@ -1,46 +1,48 @@
-apiVersion: th2.exactpro.com/v1
+apiVersion: th2.exactpro.com/v2
 kind: Th2Box
 metadata:
   name: recon
 spec:
-  image-name: ghcr.io/th2-net/th2-check2-recon-template
-  image-version: 2.1.4
+  imageName: ghcr.io/th2-net/th2-check2-recon-template
+  imageVersion: 2.1.4
   type: th2-check2-recon
-  custom-config:
+  customConfig:
     recon_name: Demo_Recon
     cache_size: 500
     event_batch_max_size: 10
     event_batch_send_interval: 1
     rules_package_path: rules
     rules:
-      - name: "demo_conn1_vs_demo_conn2"
+      - name: demo_conn1_vs_demo_conn2
         enabled: true
         match_timeout: 300
         match_timeout_offset_ns: 0
-        configuration: ""
-      - name: "demo_conn_vs_demo_dc"
+        configuration: ''
+      - name: demo_conn_vs_demo_dc
         enabled: true
         match_timeout: 300
         match_timeout_offset_ns: 0
-        configuration: ""
-      - name: "log_vs_demo_conn"
+        configuration: ''
+      - name: log_vs_demo_conn
         enabled: true
         match_timeout: 300
         match_timeout_offset_ns: 0
-        configuration: ""
-  pins:
-    - name: incoming
-      connection-type: mq
-      attributes:
-        - parsed
-        - subscribe
-    - name: to_util
-      connection-type: grpc-client
-  extended-settings:
-    # externalBox: true
-    service:
-      enabled: "false"
+        configuration: ''
+  extendedSettings:
     resources:
       limits:
-        memory: 200Mi
         cpu: 200m
+        memory: 200Mi
+    service:
+      enabled: false
+  pins:
+    mq:
+      subscribers:
+        - name: incoming
+          attributes:
+            - parsed
+            - subscribe
+    grpc:
+      client:
+        - name: to_util
+          serviceClass: PLEASE SPECIFY SERVICE CLASS
