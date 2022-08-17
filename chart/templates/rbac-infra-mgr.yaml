@@ -29,6 +29,11 @@ rules:
     resources:
       - deployments
     verbs: ["*"]
+  - apiGroups:
+      - monitoring.coreos.com
+    resources:
+      - servicemonitors
+    verbs: ["*"]
 ---
 
 apiVersion: v1
