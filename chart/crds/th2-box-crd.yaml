@@ -318,6 +318,21 @@ spec:
                                         - fieldName
                                         - expectedValue
                                         - operation
+                            linkTo:
+                              description: DESCRIPTION NEEDED
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  box:
+                                    description: name of the box
+                                    type: string
+                                  pin:
+                                    description: represents the pin of the box that we want to connect
+                                    type: string
+                                required:
+                                  - box
+                                  - pin
                             name:
                               description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
                               type: string
@@ -327,124 +342,240 @@ spec:
                           - name
                           - serviceClass
                   mq:
-                    description: pin section for mq
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        attributes:
-                          description: attributes for mq
-                          items:
-                            type: string
-                          type: array
-                        filters:
-                          description: filters for mq
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              properties:
-                                description: DESCRIPTION NEEDED
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    expectedValue:
-                                      description: DESCRIPTION NEEDED
-                                      type: string
-                                    fieldName:
-                                      description: DESCRIPTION NEEDED
-                                      type: string
-                                    operation:
-                                      description: DESCRIPTION NEEDED
-                                      enum:
-                                        - EQUAL
-                                        - NOT_EQUAL
-                                        - EMPTY
-                                        - NOT_EMPTY
-                                        - WILDCARD
-                                      type: string
-                                  required:
-                                    - fieldName
-                                    - expectedValue
-                                    - operation
-                              message:
-                                description: DESCRIPTION NEEDED
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    expectedValue:
-                                      description: DESCRIPTION NEEDED
-                                      type: string
-                                    fieldName:
-                                      description: DESCRIPTION NEEDED
-                                      type: string
-                                    operation:
-                                      description: DESCRIPTION NEEDED
-                                      enum:
-                                        - EQUAL
-                                        - NOT_EQUAL
-                                        - EMPTY
-                                        - NOT_EMPTY
-                                        - WILDCARD
-                                      type: string
-                                  required:
-                                    - fieldName
-                                    - expectedValue
-                                    - operation
-                              metadata:
-                                description: metadata for mq pin
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    expectedValue:
-                                      description: DESCRIPTION NEEDED
-                                      type: string
-                                    fieldName:
-                                      description: DESCRIPTION NEEDED
-                                      type: string
-                                    operation:
-                                      description: DESCRIPTION NEEDED
-                                      enum:
-                                        - EQUAL
-                                        - NOT_EQUAL
-                                        - EMPTY
-                                        - NOT_EMPTY
-                                        - WILDCARD
-                                      type: string
-                                  required:
-                                    - fieldName
-                                    - expectedValue
-                                    - operation
-
-                        name:
-                          description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
-                          type: string
-                          pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                          maxLength: 71
-                        settings:
-                          description: settings for rabbitMq queue configuration
-                          properties:
-                            overloadStrategy:
-                              description: configuration for rabbit mq queue. default is set to “drop-head”.
-                              type: string
-                              enum:
-                                - "drop-head"
-                                - "reject-publish"
-                              default: "drop-head"
-                            queueLength:
-                              description: configuration for rabbit mq queue. default is set to 1000 msg. queueLength isn't used if storageOnDemand is set to true.
-                              type: integer
-                              default: 1000
-                            storageOnDemand:
-                              description: configuration for rabbit mq queue. default value is set to false
-                              type: boolean
-                              default: false
+                    type: object
+                    properties:
+                      subscribers:
+                        description: section for subscriber mq pins
+                        type: array
+                        items:
                           type: object
-                    required:
-                      - name
+                          required:
+                            - name
+                          properties:
+                            name:
+                              description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
+                              type: string
+                              pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                              maxLength: 71
+                            attributes:
+                              description: attributes for mq
+                              items:
+                                type: string
+                              type: array
+                            filters:
+                              description: filters for mq
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  properties:
+                                    description: DESCRIPTION NEEDED
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                                  message:
+                                    description: DESCRIPTION NEEDED
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                                  metadata:
+                                    description: metadata for mq pin
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                            linkTo:
+                              description: DESCRIPTION NEEDED
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  box:
+                                    description: name of the box
+                                    type: string
+                                  pin:
+                                    description: represents the pin of the box that we want to connect
+                                    type: string
+                                required:
+                                  - box
+                                  - pin
+                            settings:
+                              description: settings for rabbitMq queue configuration
+                              type: object
+                              properties:
+                                overloadStrategy:
+                                  description: configuration for rabbit mq queue. default is set to “drop-head”.
+                                  type: string
+                                  enum:
+                                    - "drop-head"
+                                    - "reject-publish"
+                                  default: "drop-head"
+                                queueLength:
+                                  description: configuration for rabbit mq queue. default is set to 1000 msg. queueLength isn't used if storageOnDemand is set to true.
+                                  type: integer
+                                  default: 1000
+                                storageOnDemand:
+                                  description: configuration for rabbit mq queue. default value is set to false
+                                  type: boolean
+                                  default: false
+                      publishers:
+                        description: section for subscriber mq pins
+                        type: array
+                        items:
+                          required:
+                            - name
+                          type: object
+                          properties:
+                            name:
+                              description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
+                              type: string
+                              pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                              maxLength: 71
+                            attributes:
+                              description: attributes for mq
+                              items:
+                                type: string
+                              type: array
+                            filters:
+                              description: filters for mq
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  properties:
+                                    description: DESCRIPTION NEEDED
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                                  message:
+                                    description: DESCRIPTION NEEDED
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                                  metadata:
+                                    description: metadata for mq pin
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
               prometheus:
                 description: custom configuration of prometheus for microservices
                 properties:
