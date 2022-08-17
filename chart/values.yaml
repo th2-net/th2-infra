@@ -42,8 +42,7 @@ prometheus:
     # -- Set true if kube-prometheus-stack is used
     enabled: true
     serviceMonitor:
-      # -- Namespace to install ServiceMonitor
-      namespace: monitoring
+      name: pods-monitoring
       selector:
         release: prometheus
         app: kube-prometheus-stack
@@ -62,12 +61,11 @@ helmoperator:
     enabled: enabled
     serviceMonitor:
       create: true
-      namespace: monitoring
 
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.1.10
+    tag: 1.1.20
 
 infraEditorV2:
   enabled: false
@@ -128,11 +126,14 @@ infraMgr:
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
-    repository: git@github.com:th2-net/th2-demo-configuration.git
+    repository: https://github.com/th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
-    httpAuthUsername: "" #should be stored in secret th2-git-access-schemas
-    httpAuthPassword: "" #should be stored in secret th2-git-access-schemas
-    privateKey: "" #should be stored in secret th2-git-access-schemas
+    # -- Required for Git repository via HTTPS
+    httpAuthUsername: ""
+    # -- Required for Git repository via HTTPS
+    httpAuthPassword: ""
+    # -- Required for Git repository via SSH. Rsa private key in base64 encoding
+    privateKey: ""
     # -- Infra manager git fetch interval in milliseconds
     gitFetchInterval: "14000"
   rabbitmq:

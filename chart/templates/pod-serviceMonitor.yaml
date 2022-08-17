@@ -5,7 +5,6 @@ metadata:
   name: pods-monitoring
   annotations:
   {{- include "common-annotations" . | nindent 4  }}
-  namespace: {{ .Values.prometheus.operator.serviceMonitor.namespace }}
   labels:
     release: prometheus
 spec:
@@ -16,5 +15,5 @@ spec:
   - port: metrics
     interval: 10s
   namespaceSelector:
-    any: true
+    any: false
 {{ end }}

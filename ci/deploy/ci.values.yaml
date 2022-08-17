@@ -1,5 +1,10 @@
+commonAnnotations:
+  e2ecommon: "test-common-annotation"
 infraGit:
   internal: true
+infraRepo:
+  image:
+    tag: e2e
 externalRabbitMQHost:
   host: localhost
 rabbitmq:
