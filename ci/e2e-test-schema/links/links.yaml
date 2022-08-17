@@ -1,0 +1,14 @@
+apiVersion: th2.exactpro.com/v1
+kind: Th2Link
+metadata:
+  name: links
+spec:
+##############################################################################
+###                           DICTIONARIES                                 ###
+##############################################################################
+  dictionaries-relation:
+    - name: codec-fix-dictionary
+      box: codec-fix
+      dictionary:
+        name: fix50-generic
+        type: MAIN

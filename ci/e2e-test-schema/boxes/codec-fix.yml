@@ -1,0 +1,126 @@
+apiVersion: th2.exactpro.com/v2
+kind: Th2Box
+metadata:
+  name: codec-fix
+spec:
+  imageName: ghcr.io/th2-net/th2-codec-fix
+  imageVersion: 3.4.1
+  type: th2-codec
+  customConfig:
+    codecClassName: com.exactpro.sf.externalapi.codec.impl.ExternalFixCodecFactory
+  extendedSettings:
+    envVariables:
+      JAVA_TOOL_OPTIONS: '-XX:+ExitOnOutOfMemoryError'
+    resources:
+      limits:
+        cpu: 200m
+        memory: 200Mi
+      requests:
+        cpu: 20m
+        memory: 100Mi
+    service:
+      enabled: false
+  pins:
+    mq:
+      subscribers:
+        - name: in_codec_encode
+          attributes:
+            - encoder_in
+            - parsed
+            - subscribe
+        - name: in_codec_decode
+          attributes:
+            - decoder_in
+            - raw
+            - subscribe
+        - name: in_codec_general_encode
+          attributes:
+            - general_encoder_in
+            - parsed
+            - subscribe
+        - name: in_codec_general_decode
+          attributes:
+            - general_decoder_in
+            - raw
+            - subscribe
+      publishers:
+        - name: out_codec_encode
+          attributes:
+            - encoder_out
+            - raw
+            - publish
+        - name: out_codec_decode
+          attributes:
+            - decoder_out
+            - parsed
+            - publish
+        - name: out_codec_general_encode
+          attributes:
+            - general_encoder_out
+            - raw
+            - publish
+        - name: out_codec_general_decode
+          attributes:
+            - general_decoder_out
+            - parsed
+            - publish
+        - name: out_codec_decode_demo-conn1
+          attributes:
+            - decoder_out
+            - parsed
+            - publish
+          filters:
+            - metadata:
+                - expectedValue: demo-conn1
+                  fieldName: session_alias
+                  operation: EQUAL
+        - name: out_codec_decode_demo-conn2
+          attributes:
+            - decoder_out
+            - parsed
+            - publish
+          filters:
+            - metadata:
+                - expectedValue: demo-conn2
+                  fieldName: session_alias
+                  operation: EQUAL
+        - name: out_codec_decode_demo-dc1
+          attributes:
+            - decoder_out
+            - parsed
+            - publish
+          filters:
+            - metadata:
+                - expectedValue: demo-dc1
+                  fieldName: session_alias
+                  operation: EQUAL
+        - name: out_codec_decode_demo-dc2
+          attributes:
+            - decoder_out
+            - parsed
+            - publish
+          filters:
+            - metadata:
+                - expectedValue: demo-dc2
+                  fieldName: session_alias
+                  operation: EQUAL
+        - name: out_fix-demo-server1
+          attributes:
+            - decoder_out
+            - parsed
+            - publish
+          filters:
+            - metadata:
+                - expectedValue: fix-demo-server1
+                  fieldName: session_alias
+                  operation: EQUAL
+        - name: out_fix-demo-server2
+          attributes:
+            - decoder_out
+            - parsed
+            - publish
+          filters:
+            - metadata:
+                - expectedValue: fix-demo-server2
+                  fieldName: session_alias
+                  operation: EQUAL
