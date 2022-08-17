@@ -36,13 +36,15 @@ spec:
       type: ClusterIP
   pins:
     mq:
-    - name: to_codec
-      attributes:
-      - to_codec
-      - raw
-      - publish
-    - name: from_codec
-      attributes:
-      - from_codec
-      - parsed
-      - subscribe
+      publishers:
+        - name: to_codec
+          attributes:
+          - to_codec
+          - raw
+          - publish
+      subscribers:
+        - name: from_codec
+          attributes:
+          - from_codec
+          - parsed
+          - subscribe

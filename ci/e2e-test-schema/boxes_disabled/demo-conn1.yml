@@ -1,15 +1,15 @@
-apiVersion: th2.exactpro.com/v1
+apiVersion: th2.exactpro.com/v2
 kind: Th2Box
 metadata:
   name: demo-conn1
 spec:
-  image-name: ghcr.io/th2-net/th2-conn-fix
-  image-version: 2.1.0
+  imageName: ghcr.io/th2-net/th2-conn-fix
+  imageVersion: 2.1.0
   type: th2-conn
-  custom-config:
+  customConfig:
     session-alias: demo-conn1
     workspace: /home/sailfish/workspace
-    type: th2_service:FIX_Client
+    type: 'th2_service:FIX_Client'
     name: demo-conn1
     settings:
       autoStartable: true
@@ -23,7 +23,7 @@ spec:
       checkLatency: false
       defaultApplVerID: 9
       duplicateTagsAllowed: false
-      endTime: 00:00:00
+      endTime: '00:00:00'
       fileStorePath: store/fix/sessions
       logHeartbeats: false
       maxLatency: 120
@@ -35,7 +35,7 @@ spec:
       resetOnDisconnect: false
       resetOnLogout: false
       senderCompID: DEMO-CONN1
-      startTime: 00:00:00
+      startTime: '00:00:00'
       targetCompID: FGW
       useLocalTime: false
       useSSL: false
@@ -63,55 +63,50 @@ spec:
       socketConnectHost: fix-demo-server1
       socketConnectPort: 8080
       useDefaultApplVerID: true
-  pins:
-    - name: in
-      connection-type: mq
-      attributes:
-        - first
-        - parsed
-        - publish
-        - store
-    - name: in_raw
-      connection-type: mq
-      attributes:
-        - first
-        - raw
-        - publish
-        - store
-    - name: out
-      connection-type: mq
-      attributes:
-        - second
-        - parsed
-        - publish
-        - store
-    - name: out_raw
-      connection-type: mq
-      attributes:
-        - second
-        - raw
-        - publish
-        - store
-    - name: fix_to_send
-      connection-type: mq
-      attributes:
-        - send
-        - parsed
-        - subscribe
-      filters:
-        - metadata:
-            - field-name: session_alias
-              expected-value: demo-conn1
-              operation: EQUAL
-  extended-settings:
-    service:
-      enabled: true
-      targetPort: "9901"
+  extendedSettings:
     envVariables:
-      JAVA_TOOL_OPTIONS: "-XX:+ExitOnOutOfMemoryError"
+      JAVA_TOOL_OPTIONS: '-XX:+ExitOnOutOfMemoryError'
     resources:
       limits:
-        memory: 200Mi
         cpu: 200m
-#      mounitng:
-#        TBD
+        memory: 200Mi
+    service:
+      enabled: false
+  pins:
+    mq:
+      subscribers:
+        - name: fix_to_send
+          attributes:
+            - send
+            - parsed
+            - subscribe
+          filters:
+            - metadata:
+                - expectedValue: demo-conn1
+                  fieldName: session_alias
+                  operation: EQUAL
+      publishers:
+        - name: in
+          attributes:
+            - first
+            - parsed
+            - publish
+            - store
+        - name: in_raw
+          attributes:
+            - first
+            - raw
+            - publish
+            - store
+        - name: out
+          attributes:
+            - second
+            - parsed
+            - publish
+            - store
+        - name: out_raw
+          attributes:
+            - second
+            - raw
+            - publish
+            - store
