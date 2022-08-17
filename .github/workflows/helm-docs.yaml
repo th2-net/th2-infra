@@ -21,7 +21,7 @@ jobs:
 
       - name: Generate crd docs
         run: |
-          sed -i 's/branch_current/${{ github.event.pull_request.base.ref }}/' ./ci/crd-gen.yaml
+          sed -i 's/branch_current/${{ github.event.pull_request.head.ref }}/' ./ci/crd-gen.yaml
           make crd-gen
           git restore ./ci/crd-gen.yaml
 
