@@ -7,6 +7,11 @@ metadata:
     {{- include "common-annotations" . | nindent 4  }}
   name: ingress-service
 spec:
+  defaultBackend:
+    service:
+      name: infra-repo
+      port:
+        number: 8080
   {{ if .Values.ingress.ingressClass }}
   ingressClassName: "{{ .Values.ingress.ingressClass }}"
   {{- end }}
