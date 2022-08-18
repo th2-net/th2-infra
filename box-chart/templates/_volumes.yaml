@@ -20,23 +20,10 @@ Generating configMap for k8
         - name: {{ $volume.pvcName | lower }}
           mountPath: {{ $volume.path | quote }}
         {{- end }}
-        {{- range $dict := .component.oldDictionaries }}
-        - name: {{ $dict.name | lower }}
-          mountPath: /var/th2/config/dictionary/{{ $dict.type | lower }}/
-        {{- end }}
         {{- if .component.dictionaries }}
         - name: dictionaries
           mountPath: /var/th2/config/dictionaries/
         {{- end }}
-
-{{/* temporary compability for old format */}}
-        {{- if .component.dictionaries }}
-          {{- range $dict := .component.dictionaries }}
-        - name: {{ $dict.name | lower }}  
-          mountPath: /var/th2/config/dictionary/{{ $dict.name | lower }}/
-          {{- end }}
-        {{- end }}
-{{/* end temporary compability for old format */}}
 
       volumes:
       {{- if .component.secretPathsConfig }}

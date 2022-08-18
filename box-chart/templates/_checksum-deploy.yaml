@@ -18,7 +18,4 @@ Generating liveness & readness probes
         {{- range $dict := .component.dictionaries }}
         checksum/{{ $dict.name | lower }}: {{ $dict.checksum }}
         {{- end }}
-        {{- range $dict := .component.oldDictionaries }}
-        checksum/{{ $dict.name | lower }}: {{ $dict.checksum }}
-        {{- end }}
 {{- end }}

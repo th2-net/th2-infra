@@ -55,7 +55,7 @@ component:
   grpc:
     # sprod:
     #   value: 3333
-  dictionaries:
+  dictionaries: {}
     # - name: FIX5-0
     #   type: SINGLE
     #   data: ABC
