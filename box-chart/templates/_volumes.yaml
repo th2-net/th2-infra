@@ -50,11 +50,6 @@ Generating configMap for k8
         persistentVolumeClaim:
           claimName: {{ $volume.pvcName }}
       {{- end }}
-      {{- range $dict := .component.oldDictionaries }}
-      - name: {{ $dict.name | lower }}
-        configMap:
-          name: {{ $dict.name | lower }}-dictionary
-      {{- end }}
       {{- if .component.dictionaries }}
       - name: dictionaries
         projected:
@@ -67,14 +62,6 @@ Generating configMap for k8
                   path: {{ $dict.name | lower }}
           {{- end }}
       {{- end -}}
-
-{{/*- temporary compability for old format */}}
-      {{- range $dict := .component.dictionaries }}
-      - name: {{ $dict.name | lower }}
-        configMap:
-          name: {{ $dict.name | lower }}-dictionary
-      {{- end -}}      
-{{/*- end temporary compability for old format */}}
 
       - name: configs
         projected:
