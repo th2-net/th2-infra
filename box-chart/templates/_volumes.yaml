@@ -61,8 +61,7 @@ Generating configMap for k8
                 - key: {{ $dict.name | lower }}.encoded
                   path: {{ $dict.name | lower }}
           {{- end }}
-      {{- end -}}
-
+      {{- end }}
       - name: configs
         projected:
           sources:
