@@ -197,3 +197,12 @@ func TestTH2Main(t *testing.T) {
 	validator := validFunc(t, 200, "<title>Welcome to th2</title>")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
+
+func TestTH2MainAsset(t *testing.T) {
+	// t.Parallel()
+	endpoint := "http://localhost:30000/assets/js/axios.min.js"
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
+	validator := validFunc(t, 200, "/* axios v0.27.2 | (c) 2022 by Matt Zabriskie */")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
