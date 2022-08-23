@@ -54,6 +54,16 @@ jobs:
           tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
 
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
       - name: Update values
         run: |
           updated=$(yq '.infraRepo.image.tag = "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"' chart/values.yaml)
