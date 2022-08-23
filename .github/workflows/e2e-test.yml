@@ -81,6 +81,16 @@ jobs:
           tags: ghcr.io/th2-net/infra-repo:e2e
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
 
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/th2-net/infra-repo:e2e
+          format: table
+          exit-code: 1
+          ignore-unfixed: true
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+
       - name: Init test schema
         run: |
           mkdir ./e2e-test-schema.git/
