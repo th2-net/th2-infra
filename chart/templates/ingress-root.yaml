@@ -3,6 +3,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
+    {{- if .Values.ingress.annotations.root }}
+    {{- toYaml .Values.ingress.annotations.root | nindent 4  }}
+    {{- end -}}
     {{- include "common-annotations" . | nindent 4  }}
   name: th2-root
 spec:
