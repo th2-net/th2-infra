@@ -6,8 +6,6 @@
   vars:
     infra_namespace: "{{ lookup('env', 'INFRA_NAMESPACE') | default ('service', True) }}"
     monitoring_namespace: "{{ lookup('env', 'MONITORING_NAMESPACE') | default ('monitoring', True) }}"
-    repository_url: "{{ lookup('env', 'REPOSITORY_URL') }}"
-    repository_ref: "{{ lookup('env', 'REPOSITORY_REF_NAME') }}"
 
   tasks:
     - name: Add helm repositories
@@ -64,12 +62,6 @@
         path: "{{ playbook_dir }}/id_ssh_rsa.pub"
         privatekey_path: "{{ playbook_dir }}/id_ssh_rsa"
 
-    - name: Create infra-mgr secret (private key)
-      kubernetes.core.k8s:
-        state: present
-        template: "{{ playbook_dir }}/deploy/infra-mgr-secret.yaml"
-        namespace: "{{ infra_namespace }}"
-
     - name: Create public key to infra-git
       kubernetes.core.k8s:
         state: present
@@ -102,11 +94,8 @@
         values_files:
           - "{{ playbook_dir }}/deploy/ci.values.yaml"
         values:
-          infraOperator:
-            config:
-              chart:
-                git: "{{ repository_url }}"
-                ref: "{{ repository_ref }}"
-                path: ./box-chart
+          infraMgr:
+            git:
+              privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
         create_namespace: true
         wait: true
