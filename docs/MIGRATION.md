@@ -102,8 +102,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
         persistence:
           storageClass: local-storage
         ingress:
-          extraHosts:
-            - name: <hostname>
+          hostname: <hostname>
     ```
     ### Authentication format should be updated
     * rabbitmqUsername and rabbitmqPassword should be replaced in secrets.yaml

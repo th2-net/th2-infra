@@ -255,11 +255,10 @@ rabbitmq:
           proxy_pass http://upstream_balancer$1;
           break;
         }
-    extraHosts:
-      - name: *host
-        # -- RabbitmMQ management UI ingess path
-        # @default -- `"/rabbitmq($\|/.*)"`
-        path: /rabbitmq($|/.*)
+    hostname: " "
+    # -- RabbitmMQ management UI ingess path
+    # @default -- `"/rabbitmq($\|/.*)"`
+    path: /rabbitmq($|/.*)
 
 cassandra:
   cradle:
