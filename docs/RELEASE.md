@@ -39,7 +39,7 @@ flowchart TB
     buildDocs(Auto PR: generated docs) -->|merge second| e2e
     e2e -->|not passed| features
     e2e -->|passed| mergeRelease(Merge to main)
-    mergeRelease --> tag(Tag v1.2.3)
+    mergeRelease --> tag(Release/Tag v1.2.3)
     
     linkStyle 8 stroke:red
     linkStyle 9 stroke:green
