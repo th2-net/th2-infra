@@ -9,8 +9,7 @@ rabbitmq:
     size: 10Gi
   ingress:
     enabled: true
-    extraHosts:
-      - name: <hostname>
+    hostname: <hostname>
 
 cassandra:
   internal: false
