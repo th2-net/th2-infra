@@ -186,6 +186,19 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
     ```
   </details>
 
+* ingress.annotations structure changed
+  <details>
+    <summary>Update custom annotations if required</summary>
+
+    ```
+      ingress:
+        annotations:
+          th2Namespace: {...}
+          infraNamespace: {...}
+          root: {...}
+    ```
+  </details>
+
 ## Migration to RELEASE v1.7.2
 * Loki must be added in grafana during deployment. 
   <details>
