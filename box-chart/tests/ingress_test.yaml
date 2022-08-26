@@ -101,11 +101,18 @@ tests:
         comm/ant: common-annotation
       component:
         name: rpt-data-viewer
+        ingress:
+          annotations:
+            th2Namespace:
+              one/ant: test
+              two: annotation
     asserts:
       - equal:
           path: metadata.annotations
           value:
             comm/ant: common-annotation
+            one/ant: test
+            two: annotation
   - it: openshift enabled
     documentIndex: 2
     set:
