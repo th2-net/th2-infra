@@ -204,7 +204,6 @@ tests:
       component:
         dictionaries:
           - name: fix50-generic
-            envVariable: FIX50
             checksum: fix50-checksum
     asserts:
       - contains:
@@ -215,11 +214,6 @@ tests:
               items:
                 - key: fix50-generic.encoded
                   path: fix50-generic
-      - contains:
-          path: spec.template.spec.containers[0].env
-          content:
-            name: FIX50
-            value: /var/th2/config/dictionaries/fix50-generic
       - equal:
           path: spec.template.metadata.annotations.checksum/fix50-generic
           value: fix50-checksum
