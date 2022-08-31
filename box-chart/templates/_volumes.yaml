@@ -56,7 +56,7 @@ Generating configMap for k8
           sources: 
           {{- range $dict := .component.dictionaries }}
           - configMap:
-              name: {{ $dict.name | lower }}-dictionary
+              name: {{ $dict.name | lower }}
               items:
                 - key: {{ $dict.name | lower }}.encoded
                   path: {{ $dict.name | lower }}
