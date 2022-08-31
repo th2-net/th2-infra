@@ -58,7 +58,7 @@ Generating configMap for k8
           - configMap:
               name: {{ $dict.name | lower }}
               items:
-                - key: {{ $dict.name | lower }}.encoded
+                - key: {{ $dict.name | lower }}
                   path: {{ $dict.name | lower }}
           {{- end }}
       {{- end }}
