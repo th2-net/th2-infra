@@ -199,8 +199,7 @@ kubernetes-dashboard:
 ...
 rabbitmq:
   ingress:
-    extraHosts:
-    - name: example.com
+    hostname: example.com
 ```
 
 ### Create secret with th2 credentials

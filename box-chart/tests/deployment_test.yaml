@@ -210,7 +210,7 @@ tests:
           path: spec.template.spec.volumes[0].projected.sources
           content:
             configMap:
-              name: "fix50-generic-dictionary"
+              name: "fix50-generic"
               items:
                 - key: fix50-generic.encoded
                   path: fix50-generic
