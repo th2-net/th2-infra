@@ -154,8 +154,8 @@ th2 service Helm chart
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;\nif ($request_uri ~ \"^/rabbitmq(/.*)\") {\n  proxy_pass http://upstream_balancer$1;\n  break;\n}\n"` |  |
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | rabbitmq.ingress.enabled | bool | `true` |  |
-| rabbitmq.ingress.extraHosts[0].name | string | `""` |  |
-| rabbitmq.ingress.extraHosts[0].path | string | `"/rabbitmq($\|/.*)"` | RabbitmMQ management UI ingess path |
+| rabbitmq.ingress.hostname | string | `" "` |  |
+| rabbitmq.ingress.path | string | `"/rabbitmq($\|/.*)"` | RabbitmMQ management UI ingess path |
 | rabbitmq.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | rabbitmq.memoryHighWatermark.enabled | bool | `true` |  |
 | rabbitmq.memoryHighWatermark.type | string | `"absolute"` |  |

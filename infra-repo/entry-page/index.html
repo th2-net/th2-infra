@@ -2,9 +2,9 @@
 <html lang="en" class="h-100">
 
 <head>
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-  <script src="assets/js/axios.min.js"></script>
-  <script src="assets/js/vue.min.js"></script>
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <script src="/assets/js/axios.min.js"></script>
+  <script src="/assets/js/vue.min.js"></script>
   <title>Welcome to th2</title>
 </head>
 
@@ -33,7 +33,7 @@
       </main>
 
       <footer class="mt-auto">
-        <img src="assets/img/th2.svg">
+        <img src="/assets/img/th2.svg">
       </footer>
     </template>
   </div>
@@ -51,12 +51,12 @@
     },
     mounted() {
       axios
-        .get('meta.json')
+        .get('/meta.json')
         .then(response => {
           this.meta = response.data
         })
       axios
-        .get('services.json')
+        .get('/services.json')
         .then(response => {
           this.services = response.data
         })

@@ -1,0 +1,42 @@
+suite: Test nodeSelector
+values:
+  - ../values.yaml
+templates:
+  - component.yaml
+tests:
+  - it: nodeSelector missing
+    asserts:
+      - isKind:
+          of: Deployment
+        documentIndex: 1
+      - isNull:
+          path: spec.template.spec.nodeSelector
+        documentIndex: 1
+  - it: nodeSelector empty
+    set:
+      component:
+        extendedSettings:
+          nodeSelector: {}
+    asserts:
+      - isKind:
+          of: Deployment
+        documentIndex: 1
+      - isEmpty:
+          path: spec.template.spec.nodeSelector
+        documentIndex: 1
+  - it: valid nodeSelector
+    set:
+      component:
+        extendedSettings:
+          nodeSelector:
+            "hostname": th2-test
+            "arch": amd64
+    asserts:
+      - equal:
+          path: spec.template.spec.nodeSelector.hostname
+          value: th2-test
+        documentIndex: 1
+      - equal:
+          path: spec.template.spec.nodeSelector.arch
+          value: amd64
+        documentIndex: 1
