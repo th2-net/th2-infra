@@ -198,6 +198,7 @@ func TestCodecFixPod(t *testing.T) {
 	pods := k8s.ListPods(t, options, filters)
 	codecFixPodName := pods[0].ObjectMeta.Name
 	k8s.WaitUntilPodAvailable(t, options, codecFixPodName, retries, timeout)
+	time.Sleep(1 * time.Minutes)
 }
 
 func TestTH2Main(t *testing.T) {
