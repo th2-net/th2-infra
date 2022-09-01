@@ -8,7 +8,8 @@ spec:
   type: th2-codec
   customConfig:
     codecClassName: com.exactpro.sf.externalapi.codec.impl.ExternalFixCodecFactory
-    genericFixDictionary: "${dictionary_link:fix50-generic}"
+    dictionaries: 
+      MAIN: "${dictionary_link:fix50-generic}"
   extendedSettings:
     envVariables:
       JAVA_TOOL_OPTIONS: '-XX:+ExitOnOutOfMemoryError'
