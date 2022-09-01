@@ -212,7 +212,7 @@ tests:
             configMap:
               name: "fix50-generic"
               items:
-                - key: fix50-generic.encoded
+                - key: fix50-generic
                   path: fix50-generic
       - equal:
           path: spec.template.metadata.annotations.checksum/fix50-generic
