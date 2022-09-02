@@ -10,7 +10,7 @@ spec:
   bookConfig:
     # bookNames:
     #   - "dvbook1"
-    defaultBook: "singlemessage"
+    defaultBook: "book"
 #
 #  values for k8s-propagation property:
 #
