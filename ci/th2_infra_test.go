@@ -190,6 +190,16 @@ func TestPodCommonAnnotationsOnly(t *testing.T) {
 	assert.Equal(t, "test-common-annotation", pods[0].ObjectMeta.Annotations["e2ecommon"])
 }
 
+func TestCodecFixPod(t *testing.T) {
+	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+	filters := metav1.ListOptions{
+		LabelSelector: "app=codec-fix",
+	}
+	pods := k8s.ListPods(t, options, filters)
+	codecFixPodName := pods[0].ObjectMeta.Name
+	k8s.WaitUntilPodAvailable(t, options, codecFixPodName, retries, timeout)
+}
+
 func TestTH2Main(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/"

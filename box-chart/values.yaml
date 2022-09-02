@@ -55,10 +55,4 @@ component:
   grpc:
     # sprod:
     #   value: 3333
-  dictionaries:
-    # - name: FIX5-0
-    #   type: SINGLE
-    #   data: ABC
-    # - name: FIX
-    #   type: LEVEL1
-    #   data: XYZ
+  dictionaries: {}
