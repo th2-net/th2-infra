@@ -16,9 +16,6 @@ Generating liveness & readness probes
         checksum/cradlemanager: {{ .component.cradleManager.checksum }}
         {{- end }}
         {{- range $dict := .component.dictionaries }}
-        checksum/{{ $dict.alias | lower }}: {{ $dict.checksum }}
-        {{- end }}
-        {{- range $dict := .component.oldDictionaries }}
         checksum/{{ $dict.name | lower }}: {{ $dict.checksum }}
         {{- end }}
 {{- end }}

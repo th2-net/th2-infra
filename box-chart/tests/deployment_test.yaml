@@ -198,3 +198,22 @@ tests:
           content:
             configMap: 
               name: "cradle-manager"
+  - it: set dictionary
+    documentIndex: 1
+    set:
+      component:
+        dictionaries:
+          - name: fix50-generic
+            checksum: fix50-checksum
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "fix50-generic"
+              items:
+                - key: fix50-generic
+                  path: fix50-generic
+      - equal:
+          path: spec.template.metadata.annotations.checksum/fix50-generic
+          value: fix50-checksum

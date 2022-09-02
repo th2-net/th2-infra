@@ -16,6 +16,7 @@ RUN helm package ./box-chart/ --destination . && \
 
 FROM alpine:3.13
 COPY --from=builder /app/infra-repo /app/infra-repo
+COPY ./entry-page/ /app/repo/
 COPY ./dashboards /app/repo/dashboards
 COPY --from=plugin-builder /app/repo/plugins/ /app/repo/plugins/
 COPY --from=helm-builder /app/repo /app/repo

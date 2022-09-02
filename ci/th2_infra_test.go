@@ -10,6 +10,8 @@ import (
 	http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
 	"github.com/gruntwork-io/terratest/modules/k8s"
 	"github.com/gruntwork-io/terratest/modules/logger"
+	"github.com/stretchr/testify/assert"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 const (
@@ -165,5 +167,49 @@ func TestRabbitMQQueues(t *testing.T) {
 	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
 	expectedString := fmt.Sprintf("\"name\":\"link[%s:rpt-data-provider:from_codec]\"", schemaNamespace)
 	validator := validFunc(t, 200, expectedString)
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestPodAnnotations(t *testing.T) {
+	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+	filters := metav1.ListOptions{
+		LabelSelector: "app=rpt-data-viewer",
+	}
+	pods := k8s.ListPods(t, options, filters)
+	assert.Equal(t, "test-annotation", pods[0].ObjectMeta.Annotations["e2e"])
+	assert.Equal(t, "test-common-annotation", pods[0].ObjectMeta.Annotations["e2ecommon"])
+}
+
+func TestPodCommonAnnotationsOnly(t *testing.T) {
+	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+	filters := metav1.ListOptions{
+		LabelSelector: "app=rpt-data-provider",
+	}
+	pods := k8s.ListPods(t, options, filters)
+	assert.Empty(t, pods[0].ObjectMeta.Annotations["e2e"])
+	assert.Equal(t, "test-common-annotation", pods[0].ObjectMeta.Annotations["e2ecommon"])
+}
+
+func TestCodecFixPod(t *testing.T) {
+	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+	filters := metav1.ListOptions{
+		LabelSelector: "app=codec-fix",
+	}
+	pods := k8s.ListPods(t, options, filters)
+	codecFixPodName := pods[0].ObjectMeta.Name
+	k8s.WaitUntilPodAvailable(t, options, codecFixPodName, retries, timeout)
+}
+
+func TestTH2Main(t *testing.T) {
+	// t.Parallel()
+	endpoint := "http://localhost:30000/"
+	validator := validFunc(t, 200, "<title>Welcome to th2</title>")
+	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestTH2MainAsset(t *testing.T) {
+	// t.Parallel()
+	endpoint := "http://localhost:30000/assets/js/axios.min.js"
+	validator := validFunc(t, 200, "/* axios v0.27.2 | (c) 2022 by Matt Zabriskie */")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }

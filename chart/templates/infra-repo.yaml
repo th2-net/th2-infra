@@ -40,6 +40,17 @@ spec:
               port: 8080
             initialDelaySeconds: 40
             periodSeconds: 20
+          volumeMounts:
+            - name: metadata
+              mountPath: /app/repo/meta.json
+              subPath: meta.json
+            - name: metadata
+              mountPath: /app/repo/services.json
+              subPath: services.json
       imagePullSecrets:
       {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+      volumes:
+        - name: metadata
+          configMap:
+            name: about
   revisionHistoryLimit: 2
