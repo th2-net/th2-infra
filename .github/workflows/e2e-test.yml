@@ -32,6 +32,11 @@ env:
 
 jobs:
   deploy-and-test:
+    strategy:
+      matrix:
+        k8s-version:
+        - kindest/node:v1.20.7@sha256:e645428988191fc824529fd0bb5c94244c12401cf5f5ea3bd875eb0a787f0fe9
+        - kindest/node:v1.23.6@sha256:1af0f1bee4c3c0fe9b07de5e5d3fafeb2eec7b4e1b268ae89fcab96ec67e8355
     if: |
       !contains(github.event.pull_request.labels, 'automated')
     runs-on: ubuntu-latest
@@ -53,8 +58,7 @@ jobs:
         with:
           config: ./ci/kind-cluster.yaml
           version: v0.11.0
-          node_image: kindest/node:v1.19.16@sha256:d9c819e8668de8d5030708e484a9fdff44d95ec4675d136ef0a0a584e587f65c
-          # node_image: kindest/node:v1.23.6@sha256:1af0f1bee4c3c0fe9b07de5e5d3fafeb2eec7b4e1b268ae89fcab96ec67e8355
+          node_image: ${{ matrix.k8s-version }}
 
       - name: Copy box-chart into build context
         run: |
