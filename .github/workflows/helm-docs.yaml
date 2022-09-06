@@ -19,20 +19,26 @@ jobs:
         run: |
           make docs
 
+      - name: Generate crd docs
+        run: |
+          sed -i 's/branch_current/${{ github.event.pull_request.head.ref }}/' ./ci/crd-gen.yaml
+          make crd-gen
+          git restore ./ci/crd-gen.yaml
+
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Update helm docs
+          commit-message: Update helm and crd docs
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           base: ${{ github.event.pull_request.head.ref }}
-          branch: helm-docs-${{ github.event.pull_request.head.ref }}
+          branch: helm-and-crd-docs-${{ github.event.pull_request.head.ref }}
           milestone: "${{ github.event.pull_request.milestone.title }}"
           delete-branch: true
-          title: "[${{ github.event.pull_request.milestone.title }}][Auto] helm chart readme"
-          body: "Generating helm chart README"
+          title: "[${{ github.event.pull_request.milestone.title }}][Auto] helm chart and crds readme"
+          body: "Generating helm chart and crd README"
           labels: automated
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
