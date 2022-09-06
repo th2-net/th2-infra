@@ -148,5 +148,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: infra-logs-${{ matrix.k8s-version }}
+          name: infra-logs-${{ github.run_id }}
           path: "*.log"
