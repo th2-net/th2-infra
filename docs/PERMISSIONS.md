@@ -15,8 +15,11 @@
 | secrets                     | []                    | []                    | [*]                   |
 | services                    | []                    | []                    | [*]                   |
 | deployments.apps            | []                    | []                    | [*]                   |
+| servicemonitors.monitoring.coreos.com | []                    | []                    | [*]                   |
 | ingresses.networking.k8s.io | []                    | []                    | [*]                   |
 | *.th2.exactpro.com          | []                    | []                    | [*]                   |
+
+
 
 | Infra-Operator                                 |                   |                 |       |
 |------------------------------------------------|-------------------|-----------------|-------|
