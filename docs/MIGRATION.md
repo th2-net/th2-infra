@@ -12,14 +12,20 @@ $ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f
 ```
 $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
 ```
-* infra-mgr secret is now created automatically.
+* infra-mgr secrets are now created automatically.
   <details>
-    <summary>Infra-mgr secret should be removed from service namespace</summary>
+    <summary>Infra-mgr secrets should be removed from service namespace</summary>
 
     ### Delete secret infra-mgr
     * since infra-mgr secret is automatically created old secret should be deleted (if present)
     ```
     $ kubectl -n service delete secret infra-mgr
+    ```
+
+    ### Delete secret th2-git-access-schemas
+    * since th2-git-access-schemas secret is automatically created old secret should be deleted (if present)
+    ```
+    $ kubectl -n service delete secret th2-git-access-schemas
     ```
 
     ### secrets.yaml file should be updated
@@ -96,8 +102,7 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
         persistence:
           storageClass: local-storage
         ingress:
-          extraHosts:
-            - name: <hostname>
+          hostname: <hostname>
     ```
     ### Authentication format should be updated
     * rabbitmqUsername and rabbitmqPassword should be replaced in secrets.yaml
@@ -178,6 +183,19 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
         registry2.name.com:8080:
           username: <username>
           password: <password>
+    ```
+  </details>
+
+* ingress.annotations structure changed
+  <details>
+    <summary>Update custom annotations if required</summary>
+
+    ```
+      ingress:
+        annotations:
+          th2Namespace: {...}
+          infraNamespace: {...}
+          root: {...}
     ```
   </details>
 
