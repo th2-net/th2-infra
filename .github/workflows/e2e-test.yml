@@ -148,5 +148,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: infra-logs-${{ github.run_id }}
+          name: infra-logs-${{ github.run_number }}
           path: "*.log"
