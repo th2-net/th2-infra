@@ -1,12 +1,5 @@
-| Cluster-admin       |                   |                      |          |
-|---------------------|-------------------|----------------------|----------|
-| Resources           | Non-Resource URLs | Resource Names       | Verbs    |
-| ------------------- | ----------------- | -------------------- | -------- |
-| [*]                 | []                | []                   | [*]      |
-| [*]                 | [*]               | []                   | [*]      |
 
-| Infra-Mgr                   |                       |                       |                       |
-|-----------------------------|-----------------------|-----------------------|---------------------|
+ ### infra-mgr     
 | Resources                   | Non-Resource URLs     | Resource Names        |  Verbs                |
 | ---------------------       | --------------------- | --------------------- | --------------------|
 | configmaps                  | []                    | []                    | [*]                   |
@@ -21,8 +14,7 @@
 
 
 
-| Infra-Operator                                 |                   |                 |       |
-|------------------------------------------------|-------------------|-----------------|-------|
+### infra-operator
 | Resources                                      | Non-Resource URLs | Resource Names  | Verbs |
 | ---------------------------------------------- | ----------------- | --------------  | ----- |
 | configmaps                                     | []                | []              | [*]   |
@@ -34,8 +26,7 @@
 | helmreleases.helm.fluxcd.io                    | []                | []              | [*]   |
 | *.th2.exactpro.com                             | []                | []              | [*]   |
 
-| Th2-kubernetes-dashboard                       |                   |                |                      |
-|------------------------------------------------|-------------------|----------------|----------------------|
+### th2-kubernetes-dashboard 
 | Resources                                      | Non-Resource URLs | Resource Names | Verbs                |
 | --------------------------------------         | ----------------- | -------------- | -------------------- |
 | bindings                                       | []                | []             | [get list watch]     |
@@ -87,23 +78,20 @@
 | *.helm.fluxcd.io                               | []                | []             | [get watch list]     |
 | *.th2.exactpro.com                             | []                | []             | [get watch list]     |
 
-| Th2-dashboard-metrics          |                   |                 |                  |
-|--------------------------------|-------------------|-----------------|------------------|
+### th2-dashboard-metrics
 | Resources                      | Non-Resource URLs | Resource Names  | Verbs            |
 | ------------------------------ | ----------------- | --------------  | -----            |
 | nodes.metrics.k8s.io           | []                | []              | [get list watch] |
 | pods.metrics.k8s.io            | []                | []              | [get list watch] |
 
 
-| Helm-operator |                   |                 |       |
-|---------------|-------------------|-----------------|-------|
+### helm-operator
 | Resources     | Non-Resource URLs | Resource Names  | Verbs |
 | --------------|-------------------|-----------------|------ |
 | [*]           | []                | []              | [*]   |
 | [*]           | [*]               | []              | [*]   |
 
-| ingress Nginx                      |                   |                |                         |
-|------------------------------------|-------------------|----------------|-------------------------|
+### ingress nginx
 | Resources                          | Non-Resource URLs | Resource Names |Verbs                    |
 | -----------------------------------| ----------------- | -------------- |-------------------------|
 | events                             | []                | []             | [create patch]          |
@@ -119,8 +107,7 @@
 | ingresses.extensions/status        | []                | []             | [update]                |
 | ingresses.networking.k8s.io/status | []                | []             | [update]                |
 
-| Loki-promtail |                   |                 |                  |
-|---------------|-------------------|-----------------|------------------|
+### loki-promtail
 | Resources     | Non-Resource URLs | Resource Names  | Verbs            |
 | ---------     | ----------------- | --------------  | -----            |
 | endpoints     | []                | []              | [get watch list] |
@@ -129,8 +116,7 @@
 | pods          | []                | []              | [get watch list] |
 | services      | []                | []              | [get watch list] |
 
-| Prometheus-operator                                  |                      |                 |                             |
-|------------------------------------------------------|----------------------|-----------------|-----------------------------|
+### prometheus-operator
 | Resources                                            | Non-Resource URls    | Resource Names  | Verbs                       |
 | ---------------------------------------------------- | -------------------- | --------------  | --------------------------- |
 | configmaps                                           | []                   | []              | [*]                         |
