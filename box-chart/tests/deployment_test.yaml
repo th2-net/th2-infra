@@ -542,18 +542,6 @@ tests:
           value:
             - name: secret1
             - name: secret2
-  - it: set nodeSelector
-    documentIndex: 1
-    set:
-      component:
-        extendedSettings:
-          nodeSelector:
-            diskType: ssd
-    asserts:
-      - equal:
-          path: spec.template.spec.nodeSelector
-          value:
-            diskType: ssd
   - it: hostAliases empty
     documentIndex: 1
     set:
