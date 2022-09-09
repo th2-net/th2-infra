@@ -32,6 +32,7 @@ env:
 
 jobs:
   deploy-and-test:
+    name: e2e
     strategy:
       matrix:
         k8s-version:
