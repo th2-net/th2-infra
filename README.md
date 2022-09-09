@@ -2,7 +2,7 @@
 
 ## Prerequisites
 Before you begin, please check the following prerequisites:
-* Fully functioning Kubernetes cluster suitable for your bussiness needs, please refer to [technical requirements](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements) and [compatibility information](https://github.com/th2-net/th2-infra/blob/compatibility-docs/docs/COMPATIBILITY.md)
+* Fully functioning Kubernetes cluster suitable for your bussiness needs, please refer to [technical requirements](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements) and [version compatibility](https://github.com/th2-net/th2-infra/blob/compatibility-docs/docs/COMPATIBILITY.md)
 * Operator-box that meets [hardware](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements) and [software](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements#software-requirements) requirements
 * Installed [Apache Cassandra](https://cassandra.apache.org/) - [technical requirements](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements#apache-cassandra-cluster-hardware-requirements)
   
