@@ -12,8 +12,6 @@
 | ingresses.networking.k8s.io | []                    | []                    | [*]                   |
 | *.th2.exactpro.com          | []                    | []                    | [*]                   |
 
-
-
 ### infra-operator
 | Resources                                      | Non-Resource URLs | Resource Names  | Verbs |
 | ---------------------------------------------- | ----------------- | --------------  | ----- |
@@ -140,4 +138,74 @@
 | ingresses.networking.k8s.io                          | []                   | []              | [get list watch]            |
 | pods                                                 | []                   | []              | [list delete]               |
 | nodes                                                | []                   | []              | [list watch]                |
+
+### prometheus-operator-psp
+| Resources                  | Non-Resource URLs  | Resource Names                        |  Verbs |
+|----------------------------|--------------------|---------------------------------------|--------|
+| podsecuritypolicies.policy | []                 | [prometheus-kube-prometheus-operator] | [use]  |
+
+### prometheus-prometheus
+| Resources                   | Non-Resource URLs |  Resource Names|       Verbs          |
+|-----------------------------|-------------------|----------------|----------------------|
+| endpoints                   | []                | []             | [get list watch]     |
+| nodes/metrics               | []                | []             | [get list watch]     |
+| nodes                       | []                | []             | [get list watch]     |
+| pods                        | []                | []             | [get list watch]     |
+| services                    | []                | []             | [get list watch]     |
+| ingresses.networking.k8s.io | []                | []             | [get list watch]     |
+|                             | [/metrics/cadvisor]| []            | [get]                |
+|                             | [/metrics]        | []             | [get]                |
+### prometheus-prometheus-psp
+| Resources                  | Non-Resource URLs  | Resource Names                        |  Verbs |
+|----------------------------|--------------------|---------------------------------------|--------|
+| podsecuritypolicies.policy | []                 |[prometheus-kube-prometheus-prometheus]| [use]  |
+
+### prometheus-kube-state-metrics
+| Resources                                                    | Non-Resource URLs  | Resource Names | Verbs        |
+|--------------------------------------------------------------|--------------------|----------------|--------------|
+| configmaps                                                   | []                 | []             | [list watch] |
+| endpoints                                                    | []                 | []             | [list watch] |
+| limitranges                                                  | []                 | []             | [list watch] |
+| namespaces                                                   | []                 | []             | [list watch] |
+| nodes                                                        | []                 | []             | [list watch] |
+| persistentvolumeclaims                                       | []                 | []             | [list watch] |
+| persistentvolumes                                            | []                 | []             | [list watch] |
+| pods                                                         | []                 | []             | [list watch] |
+| replicationcontrollers                                       | []                 | []             | [list watch] |
+| resourcequotas                                               | []                 | []             | [list watch] |
+| secrets                                                      | []                 | []             | [list watch] |
+| services                                                     | []                 | []             | [list watch] |
+| mutatingwebhookconfigurations.admissionregistration.k8s.io   | []                 | []             | [list watch] |
+| validatingwebhookconfigurations.admissionregistration.k8s.io | []                 | []             | [list watch] |
+| daemonsets.apps                                              | []                 | []             | [list watch] |
+| deployments.apps                                             | []                 | []             | [list watch] |
+| replicasets.apps                                             | []                 | []             | [list watch] |
+| statefulsets.apps                                            | []                 | []             | [list watch] |
+| horizontalpodautoscalers.autoscaling                         | []                 | []             | [list watch] |
+| cronjobs.batch                                               | []                 | []             | [list watch] |
+| jobs.batch                                                   | []                 | []             | [list watch] |
+| certificatesigningrequests.certificates.k8s.io               | []                 | []             | [list watch] |
+| daemonsets.extensions                                        | []                 | []             | [list watch] |
+| deployments.extensions                                       | []                 | []             | [list watch] |
+| ingresses.extensions                                         | []                 | []             | [list watch] |
+| replicasets.extensions                                       | []                 | []             | [list watch] |
+| ingresses.networking.k8s.io                                  | []                 | []             | [list watch] |
+| networkpolicies.networking.k8s.io                            | []                 | []             | [list watch] |
+| poddisruptionbudgets.policy                                  | []                 | []             | [list watch] |
+| storageclasses.storage.k8s.io                                | []                 | []             | [list watch] |
+| volumeattachments.storage.k8s.io                             | []                 | []             | [list watch] |
+
+### prometheus-grafana
+| Resources  | Non-Resource URLs | Resource Names |         Verbs        |
+|------------|-------------------|----------------|----------------------|
+| configmaps | []                | []             | [get watch list]     |
+| secrets    | []                | []             | [get watch list]     |
+
+### flannel
+| Resources                      | Non-Resource URLs | Resource Names             | Verbs        |
+|--------------------------------|-------------------|----------------------------|--------------|
+| pods                           | []                | []                         | [get]        |
+| nodes                          | []                | []                         | [list watch] |
+| nodes/status                   | []                | []                         | [patch]      |
+| podsecuritypolicies.extensions | []                | [psp.flannel.unprivileged] | [use]        |
 
