@@ -498,7 +498,8 @@ source_repository_ref: release-v1.8.0
 </div>
 
 <div class="property-description">
-<p>map for selecting nodes</p>
+<p>NodeSelector is a selector which must be true for the pod to fit on a node.
+Selector which must match a node&rsquo;s labels for the pod to be scheduled on that node. More info: <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector">https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector</a></p>
 
 </div>
 
