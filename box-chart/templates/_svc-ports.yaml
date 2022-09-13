@@ -2,28 +2,44 @@
 Generating _svc-ports for k8
 */}}
 {{- define "svc-ports" }}
-    {{- range $key, $val := .Values.component.extendedSettings.service.endpoints }}
-    - protocol: TCP
-      name: {{ $val.name }}
-      {{- if $val.nodePort }}
-      nodePort: {{ $val.nodePort }}
-      {{- end }}
+{{- if not .Values.component.extendedSettings.service }}
+{{- else }}
+{{- if .Values.component.extendedSettings.service.enabled }}
 
-      {{- if not $val.targetPort }}
-      {{- if not $val.port }}
+{{- if .Values.component.extendedSettings.service.nodePort }}
+        {{- range $list := .Values.component.extendedSettings.service.nodePort }}
+    - name: {{ $list.name }}
+      protocol: TCP
+          {{- if not $list.containerPort }}
       port: 8080
-      {{- else }}
-      port: {{ $val.port }}
-      {{- end }}
+      targetPort: 8080
+          {{- else }}
+      port: {{ $list.containerPort }}
+      targetPort: {{ $list.containerPort }}
+          {{- end }}
+      nodePort: {{ $list.exposedPort }}
+        {{- end }}
+    {{- else }}
 
-      {{- else }}
-      targetPort: {{ $val.targetPort }}
-      {{- if not $val.port }}
-      port: {{ $val.targetPort }}
-      {{- else }}
-      port: {{ $val.port }}
+    {{- if not .Values.component.extendedSettings.service.clusterIP }}
+    - name: default
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+    {{ else }}
+        {{- range $list := .Values.component.extendedSettings.service.clusterIP }}
+    - name: {{ $list.name }}
+      protocol: TCP
+          {{- if not $list.containerPort }}
+      port: 8080
+      targetPort: 8080
+          {{- else }}
+      port: {{ $list.containerPort }}
+      targetPort: {{ $list.containerPort }}
+          {{- end }}
+        {{- end }}
       {{- end }}
-
-      {{- end }}
-    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
 {{- end }}

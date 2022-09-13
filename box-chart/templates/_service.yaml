@@ -3,6 +3,10 @@ Generating service for pod
 */}}
 {{- define "service" }}
 ---
+{{- if not .Values.component.extendedSettings.service }}
+{{- include "prometheus-service" .Values }}
+{{- else }}
+
 {{- if .Values.component.extendedSettings.service.enabled }}
 apiVersion: v1
 kind: Service
@@ -17,20 +21,21 @@ metadata:
 spec:
   selector:
     app: {{ .Values.component.name }}
-  {{- if not .Values.component.extendedSettings.service.type }}
-  ports:
-    - protocol: TCP
-      name: app-default
-      port: 8080
-      targetPort: 8080
-  {{- else }}
-  type: {{ .Values.component.extendedSettings.service.type }}
+    {{- if .Values.component.extendedSettings.service.nodePort }}
+  type: nodePort
   ports:
     {{- include "svc-ports" . }}
-  {{- end }}
+    {{- end }}
+
+    {{- if .Values.component.extendedSettings.service.clusterIP }}
+  type: ClusterIP
+  ports:
+    {{- include "svc-ports" . }}
+    {{- end }}
     {{- include "svc-prometheus-port" .Values }}
 
 {{- else }}
 {{- include "prometheus-service" .Values }}
+{{- end }}
 {{- end }}
 {{- end }}
