@@ -1,5 +1,204 @@
 # Migrations
 
+## Migration to RELEASE v1.8.0
+* Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
+* Prometheus stack must be upgraded 15.0.0 > 21.0.5
+* Loki-stack must be upgraded 2.4.1 > 2.6.5. Remove a release before upgrade. Set new values for `loki` with ones from `../example-values/loki.values.yaml`.
+* NGINX Ingress Controller chart must be upgraded 3.31.0 > 4.1.2.
+```
+$ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
+```
+* HelmOperator dependency upgraded 1.2.0 > 1.4.2. HelmRelease CRD must be removed before infra installation
+```
+$ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
+```
+* infra-mgr secrets are now created automatically.
+  <details>
+    <summary>Infra-mgr secrets should be removed from service namespace</summary>
+
+    ### Delete secret infra-mgr
+    * since infra-mgr secret is automatically created old secret should be deleted (if present)
+    ```
+    $ kubectl -n service delete secret infra-mgr
+    ```
+
+    ### Delete secret th2-git-access-schemas
+    * since th2-git-access-schemas secret is automatically created old secret should be deleted (if present)
+    ```
+    $ kubectl -n service delete secret th2-git-access-schemas
+    ```
+
+    ### secrets.yaml file should be updated
+    * secrets.yaml should contain value from infra-mgr-rsa.key
+    ```
+      infraMgr:
+        git:
+          privateKey: <privateKey>
+    ```
+  </details>
+* Dashboards, Dashboard Provider and grafana plugins should be added in grafana during deployment.
+  <details>
+    <summary>Adding Dashboard Provider, Dashboards and plugins in Prometheus-stack</summary>
+
+    ### Adding Dashboard Provider in Prometheus-stack
+    * Dashboard Provider should be added in grafana by dashboardProviders.dashboardproviders.yaml.
+    ```
+      grafana:
+        dashboardProviders:
+          dashboardproviders.yaml:
+            apiVersion: 1
+            providers:
+              - name: 'default'
+                orgId: 1
+                folder: ''
+                type: file
+                disableDeletion: false
+                editable: true
+                options:
+                  path: /var/lib/grafana/dashboards/default
+    ```
+    ### Adding Dashboard Urls in Prometheus-stack
+    * Dashboards should be added in grafana from infra-repo by Url.
+    ```
+      grafana:
+        dashboards:
+          default:
+            Cassandra-dashboard:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/cassandra-dashboard_rev2.json
+            Rabbitmq-dashboard:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/rabbitmq-overview_rev11.json
+            Node-monitoring:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/nodes-monitoring-v1.0.0.json
+            Namespace-health:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.2.json
+            Components-logs:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
+            Monitoring-1:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-old.json
+            Monitoring-3:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-new.json
+    ``` 
+    ### Adding Plugin Urls in Prometheus-stack
+    * Plugins should be added in grafana from infra-repo by plugins.
+    ```
+      grafana:
+        plugins:
+          - http://infra-repo.service.svc.cluster.local:8080/plugins/flant-statusmap-panel-0.4.2.zip;flant-statusmap-panel
+          - http://infra-repo.service.svc.cluster.local:8080/plugins/vonage-status-panel-1.0.11.zip;vonage-status-panel
+          - http://infra-repo.service.svc.cluster.local:8080/plugins/blackmirror1-statusbygroup-panel-1.1.2.zip;blackmirror1-statusbygroup-panel
+          - http://infra-repo.service.svc.cluster.local:8080/plugins/grafana-polystat-panel-1.2.8.any.zip;grafana-polystat-panel
+          - http://infra-repo.service.svc.cluster.local:8080/plugins/briangann-gauge-panel-0.0.9.zip;briangann-gauge-panel
+          - http://infra-repo.service.svc.cluster.local:8080/plugins/yesoreyeram-boomtable-panel-1.4.1.zip;yesoreyeram-boomtable-panel
+    ```
+  </details>
+* Rabbitmq values should be updated.
+  <details>
+    <summary>Updating rabbitmq values</summary>
+
+    ### Rabbitmq should be adjusted to bitnami chart
+    * Rabbitmq values should be changed in service.values.
+    ```
+      rabbitmq:
+        persistence:
+          storageClass: local-storage
+        ingress:
+          hostname: <hostname>
+    ```
+    ### Authentication format should be updated
+    * rabbitmqUsername and rabbitmqPassword should be replaced in secrets.yaml
+    ```
+      rabbitmq:
+        auth:
+          username: th2
+          password: rab-pass
+          # must be random string
+          erlangCookie: cookie
+    ```
+    _Note: Persistence data from previous rabbitmq should be deleted before instalation_
+  </details>
+* Prometheus and Alert Manager should be added in Prometheus-stack.
+  <details>
+    <summary>Update Alert Manager and Prometheus Operator</summary>
+
+    ### Add ingress rules to Alert Manager
+    * ingress rules should be added in alertmanager.
+    ```
+      alertmanager:
+        alertmanagerSpec:
+          externalUrl: http://localhost:9093/alertmanager
+        ingress:
+          hosts: []
+    ```
+    ### Add ingress rules to Prometheus Operator
+    * ingress rules should be added in prometheusOperator.
+    ```
+      prometheus:
+        prometheusSpec:
+          externalUrl: http://localhost:9090/prometheus
+        ingress:
+          hosts: []
+    ```
+  </details>
+* Kube-state-metrics values should be updated
+  <details>
+    <summary>Update kube-state-metrics</summary>
+
+    ### Add values to kube-state-metrics
+    * metricLabelsAllowlist should be added in kube-state-metrics
+    ```
+      kube-state-metrics:
+        metricLabelsAllowlist: ['pods=[*]','deployments=[*]']
+    ```
+  </details>
+* InfraGit values have to be be updated.
+  <details>
+    <summary>new persistence configuration</summary>
+
+    ### Changing persistence structure
+    * persistence has to be updated to new format.
+    ```
+      infraGit:
+        internal: true
+        nodePort: 32600
+        image:
+          repository: ghcr.io/th2-net/git-ssh
+          tag: v0.1.0
+        persistence:
+          enabled: true
+          # -- "repos-volume" claim will be created and mounted if empty
+          existingClaim: ""
+    ```
+  </details>
+* secrets.yaml has to be updated.
+  <details>
+    <summary>Registries have new structure</summary>
+
+    ### Changing Registries structure
+    * registries have to updated to new format.
+    ```
+      registries:
+        registry1.name.com:8080:
+          username: <username>
+          password: <password>
+        registry2.name.com:8080:
+          username: <username>
+          password: <password>
+    ```
+  </details>
+
+* ingress.annotations structure changed
+  <details>
+    <summary>Update custom annotations if required</summary>
+
+    ```
+      ingress:
+        annotations:
+          th2Namespace: {...}
+          infraNamespace: {...}
+          root: {...}
+    ```
+  </details>
+
 ## Migration to RELEASE v1.7.2
 * Loki must be added in grafana during deployment. 
   <details>
@@ -76,3 +275,4 @@
 More information about seamless migration between schemas:
 https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
 https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
+

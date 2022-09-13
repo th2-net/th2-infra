@@ -1,0 +1,19 @@
+{{- if .Values.prometheus.operator.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: pods-monitoring
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      monitoring-pod: "true"
+  endpoints:
+  - port: metrics
+    interval: 10s
+  namespaceSelector:
+    any: false
+{{ end }}

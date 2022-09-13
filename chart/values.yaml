@@ -1,0 +1,312 @@
+---
+# Default values for th2-infra.
+
+# -- Registries are attached as pull secrets to pods
+registries: {}
+#   myregistry.com:
+#     username: user
+#     password: password
+
+ingress:
+  # -- Hostname to access ingress
+  ingressClass: "nginx"
+  # -- Hostname for th2 namespace services
+  host: &host ""
+  # -- Hostname for infra services. If not set, than host will be used
+  infraHost: ""
+  annotations:
+    # -- Annotations for infra services
+    infraNamespace:
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/configuration-snippet: rewrite ^/([a-z\-0-9]+)$ $scheme://$http_host/$1/ redirect;
+    # -- Annotations for th2 schema services
+    th2Namespace:
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    # -- Annotations for th2 root URL
+    root: {}
+# -- Adds host aliases to infra-mgr
+hostAliases:
+  []
+  # - ip: <ip_address>
+  #   hostnames:
+  #   - <hostname>
+
+# -- Enable th2 for Openshift, impacts on Ingress.
+openshift:
+  enabled: false
+
+# -- Annotations will be added to all deployments, configMaps and ingresses that are created by th2-infra.
+commonAnnotations: {}
+
+prometheus:
+  ## -- Create prometheus-operator resources like ServiceMonitors and Alerts
+  operator:
+    # -- Set true if kube-prometheus-stack is used
+    enabled: true
+    serviceMonitor:
+      name: pods-monitoring
+      selector:
+        release: prometheus
+        app: kube-prometheus-stack
+
+# -- Kubernetes cluster domain
+clusterDomain: cluster.local
+
+helmoperator:
+  internal: true
+  helm:
+    versions: v3
+  fullnameOverride: helm-operator
+  nameOverrde: helm-operator
+  chartsSyncInterval: 300m
+  prometheus:
+    enabled: enabled
+    serviceMonitor:
+      create: true
+
+infraEditor:
+  image:
+    repository: ghcr.io/th2-net/th2-infra-editor
+    tag: 1.1.20
+
+infraEditorV2:
+  enabled: false
+  image:
+    repository: ghcr.io/th2-net/th2-infra-editor-v2
+    tag: 2.1.1
+
+infraRepo:
+  image:
+    repository: ghcr.io/th2-net/infra-repo
+    tag: 1.8.0@sha256:aa8987dcd6498c59a87287df23e6d4c902ecb09c5255a0357ecd4309bb0ada92
+
+infraOperator:
+  prometheusConfiguration:
+    enabled: true
+    port: 9752
+  image:
+    repository: ghcr.io/th2-net/th2-infra-operator
+    tag: 3.6.9
+  config:
+    chart:
+      repository: http://infra-repo:8080
+      # -- Do not change the version
+      version: 1.0.0
+      name: box-chart
+    namespacePrefixes:
+      - "th2-"
+    k8sUrl: "<kubernetes-external-entrypoint>"
+    rabbitMQManagement:
+      #      host: "" -  host is taken from rabbitmq config
+      port: "15672"
+      username: "th2"
+      password: "${RABBITMQ_PASS}"
+      persistence: true
+      schemaPermissions:
+        configure: ""
+        read: ".*"
+        write: ".*"
+  livenessProbe:
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    periodSeconds: 30
+  resources:
+    limits:
+      cpu: 800m
+      memory: 1200Mi
+    requests:
+      cpu: 200m
+      memory: 500Mi
+  jvm:
+    javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
+
+infraMgr:
+  prometheusConfiguration:
+    enabled: true
+    port: 9752
+  image:
+    repository: ghcr.io/th2-net/th2-infra-mgr
+    tag: 1.7.22
+  git:
+    secretName: infra-mgr
+    sshDir: /home/service/keys
+    repository: https://github.com/th2-net/th2-demo-configuration.git
+    repositoryLocalCache: /home/service/repository
+    # -- Required for Git repository via HTTPS
+    httpAuthUsername: ""
+    # -- Required for Git repository via HTTPS
+    httpAuthPassword: ""
+    # -- Required for Git repository via SSH. Rsa private key in base64 encoding
+    privateKey: ""
+    # -- Infra manager git fetch interval in milliseconds
+    gitFetchInterval: "14000"
+  rabbitmq:
+    vHostPrefix: th2-
+    usernamePrefix: th2-user-
+    secret: rabbitmq
+    passwordLength: 24
+  cassandra:
+    keyspacePrefix: schema_
+    secret: cassandra
+  kubernetes:
+    # -- must be not more than 5 symbols
+    namespacePrefix: "th2-"
+    configMaps:
+      logging: logging-config-template
+      rabbitmq: rabbit-mq-app-config
+      rabbitmq-ext: rabbit-mq-external-app-config
+      cassandra: cradle
+      cassandra-ext: cradle-external
+      prometheus: prometheus-app-config
+    secrets: []
+  livenessProbe:
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    periodSeconds: 30
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2500Mi
+    requests:
+      cpu: 200m
+      memory: 500Mi
+  jvm:
+    javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
+
+infraGit:
+  # -- If there is no ability to get access for cluster to repo with schemas namespaces configs git repo can be deployed internal in the cluster.
+  # Change to "internal = true" in case you need internal git repo.
+  internal: false
+  nodePort: 32600
+  image:
+    repository: ghcr.io/th2-net/git-ssh
+    tag: v0.1.0
+  persistence:
+    enabled: true
+    # -- "repos-volume" claim will be created and mounted if empty
+    existingClaim: ""
+    accessModes: ReadWriteMany
+    storage: 5Gi
+    storageClassName: local-storage
+  resources:
+    limits:
+      cpu: 100m
+      memory: 200Mi
+    requests:
+      cpu: 50m
+      memory: 100Mi
+
+rabbitmq:
+  # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
+  # otherwise service will be deployed as a chart dependency
+  internal: true
+  resources:
+    limits:
+      memory: 3000Mi
+  memoryHighWatermark:
+    enabled: true
+    type: absolute
+    value: 2500MB
+  #it is not required if the service internal
+  #  host: ""
+  fullnameOverride: rabbitmq
+  extraConfiguration: |-
+    default_vhost = th2
+    disk_free_limit.absolute = 10GB
+    prometheus.return_per_object_metrics=true
+  auth:
+    username: th2
+    password: ""
+    erlangCookie: ""
+  rabbitmqExchange: th2-exchange
+  replicaCount: 1
+  podAntiAffinityPreset: hard
+  persistence:
+    enabled: true
+    storageClass: local-storage
+    size: 10Gi
+  service:
+    type: "NodePort"
+    nodePort: 32000
+    managerNodePort: 32025
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus
+        app: kube-prometheus-stack
+      path: /metrics
+  prometheus:
+    operator:
+      enabled: true
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/rewrite-target: $1
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        rewrite ^/([a-z\-0-9]+)$ $scheme://$http_host/$1/ redirect;
+        if ($request_uri ~ "^/rabbitmq(/.*)") {
+          proxy_pass http://upstream_balancer$1;
+          break;
+        }
+    hostname: " "
+    # -- RabbitmMQ management UI ingess path
+    # @default -- `"/rabbitmq($\|/.*)"`
+    path: /rabbitmq($|/.*)
+
+cassandra:
+  cradle:
+    #    networkTopologyStrategy:
+    #      dc1: 1
+    instanceName: th2-infra
+    timeout: 5000
+    pageSize: 5000
+    cradleMaxEventBatchSize: "1048576"
+    cradleMaxMessageBatchSize: "1048576"
+  # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
+  # otherwise service will be deployed as a chart dependency
+  internal: true
+  #it is not required if the service internal
+  #  host: ""
+  fullnameOverride: cassandra
+  cluster:
+    datacenter: dc1
+  dbUser:
+    user: th2
+    # -- will be generated if empty
+    password: ""
+  keyspace: cradle
+  persistence:
+    enabled: false
+    storageClass: local-storage
+    size: 50Gi
+
+dashboard:
+  # -- Kubernetes dashboard values. If true - will be deployed as dependency
+  internal: true
+  image:
+    repository: kubernetesui/dashboard
+  protocolHttp: true
+  rbac:
+    create: true
+    clusterRoleMetrics: true
+  serviceAccount:
+    create: false
+    name: th2infra-kubernetes-dashboard
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/rewrite-target: $1
+      nginx.ingress.kubernetes.io/configuration-snippet: rewrite ^/([a-z\-0-9]+)$ $scheme://$http_host/$1/ redirect;
+    paths:
+      # -- dashboard UI ingess path
+      # @default -- `"/dashboard($\|/.*)"`
+      - /dashboard($|/.*)
+    hosts: [*host]

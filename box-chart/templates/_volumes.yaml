@@ -1,0 +1,117 @@
+{{/*
+Generating configMap for k8
+*/}}
+{{- define "volumes" }}
+        volumeMounts:
+        {{- if .component.secretPathsConfig }}
+        - name: secrets 
+          mountPath: /var/th2/config/secrets
+          readOnly: true
+        {{- end }}
+        {{- if .component.extendedSettings.sharedMemory }}
+        {{- if .component.extendedSettings.sharedMemory.enabled }}
+        - name: shm
+          mountPath: /dev/shm
+        {{- end }}
+        {{- end }}
+        - name: configs
+          mountPath: /var/th2/config
+        {{- range $volume := .component.extendedSettings.mounting }}
+        - name: {{ $volume.pvcName | lower }}
+          mountPath: {{ $volume.path | quote }}
+        {{- end }}
+        {{- range $dict := .component.oldDictionaries }}
+        - name: {{ $dict.name | lower }}
+          mountPath: /var/th2/config/dictionary/{{ $dict.type | lower }}/
+        {{- end }}
+        {{- if .component.dictionaries }}
+        - name: dictionaries
+          mountPath: /var/th2/config/dictionaries/          
+        {{- end }}
+
+{{/* temporary compability for old format */}}
+        {{- if .component.dictionaries }}
+          {{- range $dict := .component.dictionaries }}
+        - name: {{ $dict.name | lower }}  
+          mountPath: /var/th2/config/dictionary/{{ $dict.alias | lower }}/
+          {{- end }}
+        {{- end }}
+{{/* end temporary compability for old format */}}
+
+      volumes:
+      {{- if .component.secretPathsConfig }}
+      - name: secrets
+        projected:
+          sources:
+          - secret:
+              name: secret-custom-config
+              items:
+          {{- range $envName, $secKey := .component.secretPathsConfig }}
+                - key: {{ $secKey }}
+                  path: {{ $secKey }}
+          {{- end }}
+      {{- end }}
+      {{- if .component.extendedSettings.sharedMemory }}
+      {{- if .component.extendedSettings.sharedMemory.enabled }}
+      - name: shm
+        emptyDir:
+          medium: Memory
+      {{- end }}
+      {{- end }}
+      {{- range $volume := .component.extendedSettings.mounting }}
+      - name: {{ $volume.pvcName | lower }}
+        persistentVolumeClaim:
+          claimName: {{ $volume.pvcName }}
+      {{- end }}
+      {{- range $dict := .component.oldDictionaries }}
+      - name: {{ $dict.name | lower }}
+        configMap:
+          name: {{ $dict.name | lower }}-dictionary
+      {{- end }}
+      {{- if .component.dictionaries }}
+      - name: dictionaries
+        projected:
+          sources: 
+          {{- range $dict := .component.dictionaries }}
+          - configMap:
+              name: {{ $dict.name | lower }}-dictionary
+              items:
+                - key: {{ $dict.name | lower }}.encoded
+                  path: {{ $dict.alias | lower }}
+          {{- end }}
+      {{- end -}}
+
+{{/*- temporary compability for old format */}}
+      {{- range $dict := .component.dictionaries }}
+      - name: {{ $dict.name | lower }}
+        configMap:
+          name: {{ $dict.name | lower }}-dictionary
+      {{- end -}}      
+{{/*- end temporary compability for old format */}}
+
+      - name: configs
+        projected:
+          sources:
+          - configMap:
+              name: {{ .component.name }}-app-config
+          {{- if not .component.logging.config }}
+          - configMap:
+              name: logging-config
+          {{- end }}
+          {{- if not .component.mqRouter.config }}
+          - configMap:
+              name: mq-router
+          {{- end }}
+          {{- if not .component.grpcRouter.config }}
+          - configMap:
+              name: grpc-router
+          {{- end }}
+          {{- if not .component.cradleManager.config }}
+          - configMap:
+              name: cradle-manager
+          {{- end }}
+          - configMap:
+              name: rabbit-mq-app-config
+          - configMap:
+              name: cradle
+{{- end }}

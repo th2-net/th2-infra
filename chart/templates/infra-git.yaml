@@ -1,0 +1,91 @@
+{{- if .Values.infraGit.internal }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: infra-git
+spec:
+  selector:
+    app: infra-git
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 22
+      targetPort: 22
+      nodePort: {{ .Values.infraGit.nodePort }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: infra-git
+    {{ include "th2-labels" . }}
+  name: infra-git
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infra-git
+  template:
+    metadata:
+      labels:
+        app: infra-git
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - image: "{{ .Values.infraGit.image.repository }}:{{ .Values.infraGit.image.tag }}"
+        name: infra-git
+        volumeMounts:
+          - name: repos-volume
+            mountPath: /home/git/repo/
+          - name: keys
+            mountPath: /opt/keys/
+        command:
+        - "/bin/bash"
+        - "-c"
+        - |
+          set -ex
+          mkdir /home/git/.ssh
+          cp /opt/keys/authorized_keys /home/git/.ssh/authorized_keys
+          ls -lah /home/git/repo
+          /usr/sbin/sshd -D -e
+        livenessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 40
+          periodSeconds: 20
+        resources:
+{{ toYaml .Values.infraGit.resources | indent 10 }}
+      volumes:
+{{ if not .Values.infraGit.persistence.enabled }}
+        - name: repos-volume
+          emptyDir: {}
+{{ else }}
+        - name: repos-volume            
+          persistentVolumeClaim:
+            claimName: {{ ternary .Values.infraGit.persistence.existingClaim "repos-volume" (ne .Values.infraGit.persistence.existingClaim "") }}
+{{ end }}
+        - name: keys
+          configMap:
+            name: keys-repo
+      imagePullSecrets:
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+  revisionHistoryLimit: 2
+---
+{{ if and .Values.infraGit.persistence.enabled (eq .Values.infraGit.persistence.existingClaim "") }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: repos-volume
+spec:
+  accessModes:
+    - {{ .Values.infraGit.persistence.accessModes }}
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: {{ .Values.infraGit.persistence.storage }}
+  storageClassName: {{ .Values.infraGit.persistence.storageClassName }}
+{{ end }}  
+---
+{{- end }}

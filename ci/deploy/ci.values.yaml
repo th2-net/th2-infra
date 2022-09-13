@@ -1,15 +1,23 @@
+commonAnnotations:
+  e2ecommon: "test-common-annotation"
 infraGit:
   internal: true
+infraRepo:
+  image:
+    tag: e2e
 externalRabbitMQHost:
   host: localhost
 rabbitmq:
-  rabbitmqUser: th2
-  rabbitmqPassword: test
-  persistentVolume:
+  auth:
+    username: th2
+    password: test
+  persistence:
     enabled: false
   prometheus:
     operator:
-      enabled: false
+      enabled: true
+  metrics:
+    enabled: false
 cassandra:
   # existingConfiguration: cassandra-configuration
   # initDBConfigMap: cassandra-init
@@ -17,17 +25,13 @@ cassandra:
     user: cassandra
     password: cassandra
   cluster:
+    numTokens: 16
     datacenter: datacenter1
   jvm:
     maxHeapSize: 1G
     newHeapSize: 800M
+    extraOpts: "-Dcassandra.skip_wait_for_gossip_to_settle=0"
   internal: true
 infraMgr:
   git:
     repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git
-infraOperator:
-  config:
-    chart:
-      git: https://github.com/th2-net/infra-operator-tpl.git
-      ref: release-v0.7.2
-      path: ./
