@@ -1,0 +1,71 @@
+{{/*
+Generating ingress rules for pod
+*/}}
+{{- define "ingress" }}
+---
+{{- if or (gt (len .Values.component.extendedSettings.service.ingress.urlPaths) 0) }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{- if .Values.component.ingress.annotations.th2Namespace }}
+    {{- toYaml .Values.component.ingress.annotations.th2Namespace | nindent 4  }}
+    {{- end -}}
+    {{- include "common-annotations" .Values | nindent 4  }}
+  name: {{ .Values.component.name }}
+spec:
+  {{- if .Values.component.ingress.ingressClass }}
+  ingressClassName: {{ .Values.component.ingress.ingressClass }}
+  {{- end }}
+  rules:
+  {{- if .Values.component.ingress.host }}
+  - host: {{ .Values.component.ingress.host | quote }}
+    http:
+  {{- else }}
+  - http:
+  {{- end }}
+      paths:
+      {{- range $path := .Values.component.extendedSettings.service.ingress.urlPaths }}
+      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ $.Values.component.name }}
+            port:
+              number: 8080
+      {{ end }}
+{{ else if has .Values.component.name (list "rpt-data-viewer" "rpt-data-provider") }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{- if .Values.component.ingress.annotations.th2Namespace }}
+    {{- toYaml .Values.component.ingress.annotations.th2Namespace | nindent 4  }}
+    {{- end -}}
+    {{- include "common-annotations" .Values | nindent 4  }}
+  name: {{ .Values.component.name }}
+spec:
+  {{- if .Values.component.ingress.ingressClass }}
+  ingressClassName: {{ .Values.component.ingress.ingressClass }}
+  {{- end }}
+  rules:
+  {{- if .Values.component.ingress.host }}
+  - host: {{ .Values.component.ingress.host | quote }}
+    http:
+  {{- else }}
+  - http:
+  {{- end }}
+      paths:
+      {{ if eq .Values.component.name "rpt-data-viewer" }}
+      - path: /{{ .Release.Namespace }}/{{ ternary "" "(.*)" .Values.openshift.enabled }}
+      {{ else if eq .Values.component.name "rpt-data-provider" }}
+      - path: /{{ .Release.Namespace }}/backend/{{ ternary "" "(.*)" .Values.openshift.enabled }}
+      {{ end }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ $.Values.component.name }}
+            port:
+              number: 8080
+{{- end }}
+{{- end }}

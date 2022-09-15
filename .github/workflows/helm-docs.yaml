@@ -1,21 +1,47 @@
 name: Auto generate helm-docs
 
 on:
-  pull_request:
-    paths:
-      - "th2-service/**"
-      - ".github/workflows/helm-docs.yaml"
   workflow_dispatch:
+  pull_request:
+    branches:
+      - release-v*[0-9].*[0-9].x
+    paths:
+      - "chart/**"
+      - ".github/workflows/helm-docs.yaml"
 
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT_CI_ACTION }}
+      - uses: actions/checkout@v3
+
       - name: Generate helm docs
-        run: make docs
-      - uses: stefanzweifel/git-auto-commit-action@v4
+        run: |
+          make docs
+
+      - name: Generate crd docs
+        run: |
+          sed -i 's/branch_current/${{ github.event.pull_request.head.ref }}/' ./ci/crd-gen.yaml
+          make crd-gen
+          git restore ./ci/crd-gen.yaml
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
         with:
-          commit_message: "Auto-generated helm chart docs"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update helm and crd docs
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          base: ${{ github.event.pull_request.head.ref }}
+          branch: helm-and-crd-docs-${{ github.event.pull_request.head.ref }}
+          milestone: "${{ github.event.pull_request.milestone.title }}"
+          delete-branch: true
+          title: "[${{ github.event.pull_request.milestone.title }}][Auto] helm chart and crds readme"
+          body: "Generating helm chart and crd README"
+          labels: automated
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"

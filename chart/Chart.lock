@@ -1,0 +1,15 @@
+dependencies:
+- name: rabbitmq
+  repository: https://charts.bitnami.com/bitnami
+  version: 8.24.13
+- name: cassandra
+  repository: ""
+  version: 5.6.7
+- name: helm-operator
+  repository: https://charts.fluxcd.io
+  version: 1.4.2
+- name: kubernetes-dashboard
+  repository: https://kubernetes.github.io/dashboard/
+  version: 5.0.4
+digest: sha256:8b04ad9937d4f09e5cee86b4a79d061fc76de3716cf56cdd96b14c1bdb2396c2
+generated: "2022-06-07T11:07:03.85353435+04:00"

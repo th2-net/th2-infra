@@ -1,0 +1,637 @@
+suite: test deployments
+values:
+  - ../values.yaml
+templates:
+  - component.yaml
+chart:
+  version: 1.0.0
+  appVersion: 1.0.0
+tests:
+  - it: default set  
+    documentIndex: 1
+    asserts:
+      - isAPIVersion:
+          of: apps/v1
+      - isKind:
+          of: Deployment
+      - equal:
+          path: metadata.labels
+          value:
+            app: comp1
+      - equal:
+          path: metadata.name
+          value: comp1
+      - isNull:
+          path: metadata.annotations
+      - equal:
+          path: spec.replicas
+          value: 1
+      - equal:
+          path: spec.selector.matchLabels
+          value:
+            app: comp1
+      - equal:
+          path: spec.template.metadata.annotations
+          value:
+            checksum/configmap: 1ae9c09f167c359907d528b6c9125332d7dd9dd573bfd0c6dc09b8f4a931a776
+            checksum/logging: loggingchecksum
+            checksum/mqrouter: mqchecksum
+            checksum/grpcrouter: grpcchecksum
+            checksum/cradlemanager: cradleMangerchecksum
+      - equal:
+          path: spec.template.metadata.labels
+          value:
+            app: comp1
+      - isNull:
+          path: spec.template.spec.containers[0].image
+      - isNull:
+          path: spec.template.spec.containers[0].livenessProbe
+      - isNull:
+          path: spec.template.spec.containers[0].readinessProbe
+      - equal:
+          path: spec.template.spec.containers[0].name
+          value: comp1
+      - isNull:
+          path: spec.template.spec.containers[0].ports
+      - equal:
+          path: spec.template.spec.containers[0].resources
+          value:
+            limits:
+              memory: 200Mi
+              cpu: 200m
+              ephemeral-storage: "1Gi"
+            requests:
+              memory: 100Mi
+              cpu: 50m
+              ephemeral-storage: "1Gi"
+      - equal:
+          path: spec.template.spec.containers[0].env
+          value: 
+            - name: JAVA_TOOL_OPTIONS
+              value: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+            - name: RABBITMQ_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitMQ
+                  key: rabbitmq-password
+            - name: CASSANDRA_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: cassandra
+                  key: cassandra-password
+      - equal:
+          path: spec.template.spec.containers[0].volumeMounts
+          value:
+            - name: configs
+              mountPath: /var/th2/config
+      - equal:
+          path: spec.template.spec.volumes
+          value: 
+            - name: configs
+              projected:
+                sources:
+                - configMap:
+                    name: comp1-app-config
+                - configMap:
+                    name: logging-config
+                - configMap:
+                    name: mq-router
+                - configMap:
+                    name: grpc-router
+                - configMap:
+                    name: cradle-manager
+                - configMap:
+                    name: rabbit-mq-app-config
+                - configMap:
+                    name: cradle
+      - isNull: 
+          path: spec.template.spec.imagePullSecrets
+      - isNull:
+          path: spec.template.spec.nodeSelector
+      - isNull:
+          path: spec.template.spec.hostNetwork
+      - isNull:
+          path: spec.template.spec.dnsPolicy
+      - isNull:
+          path: spec.template.spec.hostAliases
+      - equal:
+          path: spec.revisionHistoryLimit
+          value: 2
+  - it: set common annotations
+    documentIndex: 1
+    set:
+      commonAnnotations:
+        comm/ant: test
+    asserts:
+      - equal:
+          path: metadata.annotations
+          value: 
+            comm/ant: test
+      - equal:
+          path: spec.template.metadata.annotations
+          value:
+            comm/ant: test
+            checksum/configmap: 43a80647d7d595098bd3a763c6695f9ddf5014eba199cca7a3b444c6c233a0f3
+            checksum/logging: loggingchecksum
+            checksum/mqrouter: mqchecksum
+            checksum/grpcrouter: grpcchecksum
+            checksum/cradlemanager: cradleMangerchecksum
+  - it: set checksum configs
+    documentIndex: 1
+    set:
+      component:
+        logging:
+          config: loggingconfig
+        mqRouter:
+          config:  mqconfig
+        grpcRouter:
+          config: grpcconfig
+        cradleManager:
+          config: cradleconfig
+    asserts:
+      - equal:
+          path: spec.template.metadata.annotations
+          value:
+            checksum/configmap: 2de0669d0a20d2f716f6c02286382a01e43909b1f7829eced8169a8b949811c0
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: logging-config
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: mq-router
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: grpc-router
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: cradle-manager
+  - it: set dictionaries
+    documentIndex: 1
+    set:
+      component:
+        dictionaries:
+          - name: FIX
+            alias: FIX5
+            type: SINGLE
+            data: ABC
+            checksum: fix-checksum
+          - name: NATIVE
+            alias: NAT
+            type: LEVEL
+            data: bub
+            checksum: nat-checksum
+    asserts:
+      - equal:
+          path: spec.template.metadata.annotations
+          value:
+            checksum/configmap: 1ae9c09f167c359907d528b6c9125332d7dd9dd573bfd0c6dc09b8f4a931a776
+            checksum/logging: loggingchecksum
+            checksum/mqrouter: mqchecksum
+            checksum/grpcrouter: grpcchecksum
+            checksum/cradlemanager: cradleMangerchecksum
+            checksum/fix5: fix-checksum
+            checksum/nat: nat-checksum
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: fix
+            mountPath: /var/th2/config/dictionary/fix5/
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: native
+            mountPath: /var/th2/config/dictionary/nat/
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: dictionaries
+            projected:
+              sources:
+                - configMap:
+                    name: fix-dictionary
+                    items:
+                      - key: fix.encoded
+                        path: fix5
+                - configMap:
+                    name: native-dictionary
+                    items:
+                      - key: native.encoded
+                        path: nat
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: fix
+            configMap:
+              name: fix-dictionary
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: native
+            configMap:
+              name: native-dictionary
+  - it: set old dictionaries
+    documentIndex: 1
+    set:
+      component:
+        oldDictionaries:
+          - name: FIX-OLD
+            alias: FIX5-OLD
+            type: SINGLE
+            data: ABC
+            checksum: fix-old-checksum
+          - name: NATIVE-OLD
+            alias: NAT-OLD
+            type: LEVEL
+            data: bub
+            checksum: nat-old-checksum
+    asserts:
+      - equal:
+          path: spec.template.metadata.annotations
+          value:
+            checksum/configmap: 1ae9c09f167c359907d528b6c9125332d7dd9dd573bfd0c6dc09b8f4a931a776
+            checksum/logging: loggingchecksum
+            checksum/mqrouter: mqchecksum
+            checksum/grpcrouter: grpcchecksum
+            checksum/cradlemanager: cradleMangerchecksum
+            checksum/fix-old: fix-old-checksum
+            checksum/native-old: nat-old-checksum
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: fix-old
+            mountPath: /var/th2/config/dictionary/single/
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: native-old
+            mountPath: /var/th2/config/dictionary/level/
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: fix-old
+            configMap:
+              name: fix-old-dictionary
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: native-old
+            configMap:
+              name: native-old-dictionary
+  - it: not prometheus
+    documentIndex: 1
+    set:
+      component:
+        prometheus: 
+    asserts:
+      - equal:
+          path: spec.template.metadata.labels
+          value:
+            app: comp1
+            monitoring-pod: "true"
+      - contains:
+          path: spec.template.spec.containers[0].ports
+          content:
+            name: metrics
+            containerPort: 9752
+  - it: prometheus enabled
+    documentIndex: 1
+    set:
+      component:
+        prometheus:
+          enabled: true 
+    asserts:
+      - equal:
+          path: spec.template.metadata.labels
+          value:
+            app: comp1
+            monitoring-pod: "true"
+      - contains:
+          path: spec.template.spec.containers[0].ports
+          content:
+            name: metrics
+            containerPort: 9752
+  - it: prometheus enabled with port
+    documentIndex: 1
+    set:
+      component:
+        prometheus:
+          enabled: true
+          port: 9999
+    asserts:
+      - equal:
+          path: spec.template.metadata.labels
+          value:
+            app: comp1
+            monitoring-pod: "true"
+      - contains:
+          path: spec.template.spec.containers[0].ports
+          content:
+            name: metrics
+            containerPort: 9999
+  - it: set image
+    documentIndex: 1
+    set:
+      component:
+        image: busybox
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: busybox
+  - it: set k8sProbes
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          k8sProbes: true
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].livenessProbe
+          value:
+            exec:
+              command:
+                - cat
+                - /tmp/healthy
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      - equal:
+          path: spec.template.spec.containers[0].readinessProbe
+          value:
+            exec:
+              command:
+                - cat
+                - /tmp/ready
+            initialDelaySeconds: 30
+            periodSeconds: 10
+  - it: set envVariable
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          envVariables:
+            var: test
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: var
+            value: test
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: JAVA_TOOL_OPTIONS
+            value: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85
+  - it: set JAVA_TOOL_OPTIONS envVariable
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          envVariables:
+            JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: JAVA_TOOL_OPTIONS
+            value: -XX:+ExitOnOutOfMemoryError
+  - it: set JAVA_TOOL_OPTIONS envVariable with ${JAVA_TOOL_OPTIONS}
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          envVariables:
+            JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS} -XX:+test
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: JAVA_TOOL_OPTIONS
+            value: -XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85 -XX:+test
+  - it: set secretPathsConfig
+    documentIndex: 1
+    set:
+      component:
+        secretPathsConfig: 
+          env1: key1
+          env2: key2
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: env1
+            value: /var/th2/config/secrets/key1/key1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: env2
+            value: /var/th2/config/secrets/key2/key2
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: secrets
+            mountPath: /var/th2/config/secrets
+            readOnly: true
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: secrets
+            projected:
+              sources:
+              - secret:
+                  name: secret-custom-config
+                  items:
+                  - key: key1
+                    path: key1
+                  - key: key2
+                    path: key2
+  - it: set secretValuesConfig
+    documentIndex: 1
+    set:
+      component:
+        secretValuesConfig:
+          env1: key1
+          env2: key2
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: env1
+            valueFrom:
+              secretKeyRef:
+                name: secret-custom-config
+                key: key1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: env2
+            valueFrom:
+              secretKeyRef:
+                name: secret-custom-config
+                key: key2
+  - it: sharedMemory enabled
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          sharedMemory: 
+            enabled: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: shm
+            mountPath: /dev/shm
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: shm
+            emptyDir:
+              medium: Memory
+  - it: set mounting points
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          mounting:
+            volume1:
+              pvcName: volumeName1
+              path: /tmp/volumeName1
+            volume2:
+              pvcName: volumeName2
+              path: /tmp/volumeName2
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: volumename1
+            mountPath: "/tmp/volumeName1"
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: volumename2
+            mountPath: "/tmp/volumeName2"
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: volumename1
+            persistentVolumeClaim:
+              claimName: volumeName1
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: volumename2
+            persistentVolumeClaim:
+              claimName: volumeName2
+  - it: set imagePullSecrets
+    documentIndex: 1
+    set:
+      component:
+        imagePullSecrets:
+          - secret1
+          - secret2
+    asserts:
+      - equal:
+          path: spec.template.spec.imagePullSecrets
+          value:
+            - name: secret1
+            - name: secret2
+  - it: hostAliases empty
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          hostAliases: []
+    asserts:
+      - isEmpty:
+          path: spec.template.spec.hostAliases
+  - it: valid hostAliases
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          hostAliases: 
+          - ip: "127.0.0.1"
+            hostnames:
+            - "foo.local"
+    asserts:
+      - isNotEmpty:
+          path: spec.template.spec.hostAliases
+      - isNotEmpty:
+          path: spec.template.spec.hostAliases[0].hostnames
+      - isNotNull:
+          path: spec.template.spec.hostAliases[0].ip
+      - equal:
+          path: spec.template.spec.hostAliases[0].ip
+          value: 127.0.0.1
+      - equal:
+          path: spec.template.spec.hostAliases[0].hostnames[0]
+          value: "foo.local"
+  - it: more than one hostAliases
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          hostAliases: 
+          - ip: "127.0.0.1"
+            hostnames:
+            - "foo.local"
+          - ip: "10.1.2.3"
+            hostnames:
+            - "foo.remote"
+    asserts:
+      - isNotEmpty:
+          path: spec.template.spec.hostAliases
+      - isNotEmpty:
+          path: spec.template.spec.hostAliases[0].hostnames
+      - isNotNull:
+          path: spec.template.spec.hostAliases[0].ip
+      - isNotEmpty:
+          path: spec.template.spec.hostAliases[1].hostnames
+      - isNotNull:
+          path: spec.template.spec.hostAliases[1].ip
+      - equal:
+          path: spec.template.spec.hostAliases[1].ip
+          value: 10.1.2.3
+      - equal:
+          path: spec.template.spec.hostAliases[1].hostnames[0]
+          value: "foo.remote"
+  - it: hostNetwork true
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          hostNetwork: true
+    asserts:
+      - equal: 
+          path: spec.template.spec.hostNetwork
+          value: true
+      - equal:
+          path: spec.template.spec.dnsPolicy
+          value: "ClusterFirstWithHostNet"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content: 
+            configMap:
+              name: "rabbit-mq-app-config"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "rabbit-mq-external-app-config"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap: 
+              name: "cradle-external"

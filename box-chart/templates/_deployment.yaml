@@ -1,0 +1,59 @@
+{{/* 
+Generating deployment for k8
+*/}}
+{{- define "deployment" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .component.name }}
+  name: {{ .component.name }}
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+spec:
+  replicas: {{ .component.extendedSettings.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .component.name }}
+  template:
+    metadata:
+      annotations:
+        {{- include "checksum" . }}
+        {{- include "common-annotations" . | nindent 8  }}
+      labels:
+        app: {{ .component.name }}
+        {{- if not .component.prometheus }}
+        monitoring-pod: "true"
+        {{- else }}
+        {{- if .component.prometheus.enabled }}
+        monitoring-pod: "true"
+        {{- end }}
+        {{- end }}
+    spec:
+      containers:
+      - image: {{ .component.image }}
+        {{- include "probes-deploy" . }}
+        name: {{ .component.name }}
+        {{- include "prometheus-deploy" . }}
+        resources:
+          {{- .component.extendedSettings.resources | toYaml | nindent 10 }}
+        env:
+        {{- include "envVariable" . }}
+        {{- include "volumes" . }}
+      imagePullSecrets:
+      {{- range $pullSecret := .component.imagePullSecrets }}
+      - name: {{ $pullSecret | replace "." "-" | replace ":" "-" }}
+      {{- end }}
+      {{- if .component.extendedSettings.nodeSelector }}
+      nodeSelector: {{ .component.extendedSettings.nodeSelector | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if .component.extendedSettings.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+      {{- if .component.extendedSettings.hostAliases }}
+      hostAliases:
+        {{ .component.extendedSettings.hostAliases | toYaml | nindent 8 }}
+      {{- end }}
+  revisionHistoryLimit: 2
+{{- end }}

@@ -1,0 +1,74 @@
+{{ include "infraOperator-config" . }}
+---
+{{ include "infra-operator-service" . }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-operator
+  labels:
+    app: infra-operator
+    {{ include "th2-labels" . }}
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+spec:
+  selector:
+    matchLabels:
+      app: infra-operator
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include "infraOperator-config" . | sha256sum }}
+      labels:
+        app: infra-operator
+    spec:
+      imagePullSecrets:
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+      serviceAccountName: infra-operator-service
+      containers:
+      - name: infra-operator
+        image: "{{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}"
+        {{- if .Values.infraOperator.prometheusConfiguration.enabled }}
+        ports:
+        - name: metrics
+          containerPort: {{ .Values.infraOperator.prometheusConfiguration.port }}
+        {{- end }}
+        resources:
+{{ toYaml .Values.infraOperator.resources | indent 10 }}
+        volumeMounts:
+          - name: configs
+            mountPath: /var/th2/config/
+        env:
+        {{- if .Values.infraOperator.jvm.javaToolOptions }}
+        - name: JAVA_TOOL_OPTIONS
+          value: {{ .Values.infraOperator.jvm.javaToolOptions | quote }}
+        {{- end }}
+        - name: RABBITMQ_PASS
+          valueFrom:
+            secretKeyRef:
+              {{- if .Values.rabbitmq }}
+              {{- if .Values.rabbitmq.fullnameOverride }}
+              name: {{ .Values.rabbitmq.fullnameOverride }}
+              {{- else }}
+              name: rabbitmq
+              {{- end }}
+              {{- else }}
+              name: rabbitmq
+              {{- end }}
+              key: rabbitmq-password
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.infraMgr.prometheusConfiguration.port }}
+          initialDelaySeconds: {{ .Values.infraOperator.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.infraOperator.livenessProbe.timeoutSeconds }}
+          periodSeconds: {{ .Values.infraOperator.livenessProbe.periodSeconds }}
+      volumes:
+        - name: configs
+          projected:
+            sources:
+            - configMap:
+                name: logging-config
+            - configMap:
+                name: infra-operator

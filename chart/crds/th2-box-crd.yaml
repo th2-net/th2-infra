@@ -1,0 +1,481 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: th2boxes.th2.exactpro.com
+spec:
+  conversion:
+    strategy: None
+  group: th2.exactpro.com
+  names:
+    kind: Th2Box
+    listKind: Th2BoxList
+    plural: th2boxes
+    singular: th2box
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.subResourceName
+      name: HelmRelease
+      type: string
+    - jsonPath: .spec.type
+      name: Type
+      type: string
+    - jsonPath: .status.phase
+      name: Status
+      type: string
+    - jsonPath: .status.message
+      name: Message
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: Th2Box defines generic Th2 component instance
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Specification of desired box
+            properties:
+              custom-config:
+                description: this is custom configuration
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              loggingConfig:
+                type: string
+              mqRouter:
+                description: this is custom configuration for rouer mq
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              grpcRouter:
+                description: this is custom configuration for rouer grpc
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              cradleManager:
+                description: this is custom configuration for cradle
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              extended-settings:
+                properties:
+                  chart-cfg:
+                    properties:
+                      path:
+                        type: string
+                      ref:
+                        type: string
+                    type: object
+                  envVariables:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  sharedMemory:
+                    type: object
+                    properties:
+                      enabled:
+                        enum:
+                          - "false"
+                          - "true"
+                        type: string
+                  replicas:
+                    type: string
+                    pattern: "^[0-9]+$"
+                  k8sProbes:
+                    type: string
+                    enum:
+                      - "false"
+                      - "true"
+                    default: "false"
+                  externalBox:
+                    properties:
+                      address:
+                        type: string
+                      enabled:
+                        enum:
+                        - "false"
+                        - "true"
+                        type: string
+                      endpoints:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            targetPort:
+                              type: string
+                          required:
+                          - name
+                          - targetPort
+                          type: object
+                        type: array
+                    type: object
+                  hostAliases:
+                    description: HostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. This is only valid for non-hostNetwork pods.
+                    type: array
+                    items:
+                      properties:
+                        ip:
+                          description: IP address of the host file entry.
+                          type: string
+                        hostnames:
+                          description: Hostnames for the above IP address.
+                          items:
+                            type: string
+                          type: array
+                      required:
+                        - ip
+                        - hostnames
+                      type: object
+                  hostNetwork:
+                    enum:
+                    - "false"
+                    - "true"
+                    type: string
+                  nodeSelector:
+                    additionalProperties:
+                      type: string
+                    description: |
+                      NodeSelector is a selector which must be true for the pod to fit on a node.
+                      Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+                    type: object
+                  bookName:
+                    type: string
+                  mounting:
+                    items:
+                      properties:
+                        path:
+                          type: string
+                        pvcName:
+                          type: string
+                      type: object
+                    type: array
+                  resources:
+                    properties:
+                      limits:
+                        properties:
+                          cpu:
+                            type: string
+                          memory:
+                            type: string
+                        type: object
+                      requests:
+                        properties:
+                          cpu:
+                            type: string
+                          memory:
+                            type: string
+                        type: object
+                    type: object
+                  service:
+                    properties:
+                      enabled:
+                        enum:
+                        - "false"
+                        - "true"
+                        type: string
+                      endpoints:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            nodePort:
+                              type: string
+                              pattern: "^[0-9]+$"
+                            targetPort:
+                              type: string
+                              pattern: "^[0-9]+$"
+                            port:
+                              type: string
+                              pattern: "^[0-9]+$"
+                          required:
+                          - name
+                          type: object
+                        type: array
+                      nodePort:
+                        type: string
+                        pattern: "^[0-9]+$"
+                      targetPort:
+                        type: string
+                        pattern: "^[0-9]+$"
+                      type:
+                        enum:
+                        - ClusterIP
+                        - NodePort
+                        - LoadBalancer
+                        - ExternalName
+                        type: string
+                      ingress:
+                        description: Creates Ingress for the Box
+                        type: object
+                        properties:
+                          urlPaths:
+                            description: |
+                              Path is a suffix, it is appended to namespace url, e.g for th2-test namespace:
+
+                              urlPaths:
+                              - /my-box/
+
+                              service will be available at /th2-test/my-box/
+                            type: array
+                            items:
+                              type: string
+                              pattern: "^[-a-zA-Z0-9_/]+$"
+                    type: object
+                type: object
+              disabled:
+                type: string
+                enum:
+                  - "false"
+                  - "true"
+              image-name:
+                type: string
+              image-version:
+                type: string
+              version-range:
+                type: string
+              params:
+                description: List of generic parameters
+                items:
+                  properties:
+                    name:
+                      type: string
+                    value:
+                      type: string
+                  required:
+                  - name
+                  - value
+                  type: object
+                type: array
+              pins:
+                description: List of connection pins
+                items:
+                  properties:
+                    attributes:
+                      items:
+                        type: string
+                      type: array
+                    service-class:
+                      type: string
+                    service-classes:
+                      items:
+                        type: string
+                      type: array
+                    strategy:
+                      type: string
+                      default: robin
+                    connection-type:
+                      enum:
+                      - mq
+                      - grpc-server
+                      - grpc-client
+                      type: string
+                    filters:
+                      items:
+                        properties:
+                          properties:
+                            items:
+                              properties:
+                                expected-value:
+                                  type: string
+                                field-name:
+                                  type: string
+                                operation:
+                                  enum:
+                                    - EQUAL
+                                    - NOT_EQUAL
+                                    - EMPTY
+                                    - NOT_EMPTY
+                                    - WILDCARD
+                                  type: string
+                              required:
+                                - field-name
+                                - expected-value
+                                - operation
+                              type: object
+                            type: array
+                          message:
+                            items:
+                              properties:
+                                expected-value:
+                                  type: string
+                                field-name:
+                                  type: string
+                                operation:
+                                  enum:
+                                  - EQUAL
+                                  - NOT_EQUAL
+                                  - EMPTY
+                                  - NOT_EMPTY
+                                  - WILDCARD
+                                  type: string
+                              required:
+                              - field-name
+                              - expected-value
+                              - operation
+                              type: object
+                            type: array
+                          metadata:
+                            items:
+                              properties:
+                                expected-value:
+                                  type: string
+                                field-name:
+                                  type: string
+                                operation:
+                                  enum:
+                                  - EQUAL
+                                  - NOT_EQUAL
+                                  - EMPTY
+                                  - NOT_EMPTY
+                                  - WILDCARD
+                                  type: string
+                              required:
+                              - field-name
+                              - expected-value
+                              - operation
+                              type: object
+                            type: array
+                        type: object
+                      type: array
+                    name:
+                      type: string
+                      pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                      maxLength: 71
+                    settings:
+                      properties:
+                        overloadStrategy:
+                          type: string
+                          enum:
+                            - "drop-head"
+                            - "reject-publish"
+                          default: "drop-head"
+                        queueLength:
+                          type: string
+                          default: "1000"
+                        storageOnDemand:
+                          type: string
+                          enum:
+                          - "false"
+                          - "true"
+                          default: "false"
+                      type: object
+                  required:
+                  - name
+                  - connection-type
+                  type: object
+                type: array
+              prometheus:
+                properties:
+                  enabled:
+                    enum:
+                    - "false"
+                    - "true"
+                    type: string
+                  host:
+                    type: string
+                  port:
+                    type: string
+                type: object
+              type:
+                enum:
+                - th2-act
+                - th2-codec
+                - th2-conn
+                - th2-rpt-data-provider
+                - th2-rpt-viewer
+                - th2-check1
+                - th2-check2-bookcheck
+                - th2-check2-recon
+                - th2-script
+                - th2-sim
+                - th2-hand
+                - th2-read
+                - th2-util
+                - th2-cradle-viewer
+                - th2-crawler
+                - th2-crawler-processor
+                - th2-data-provider
+                - th2-adapter
+                - th2-reactive-script
+                - th2-monkey
+                type: string
+            required:
+            - image-name
+            - image-version
+            - type
+            type: object
+          status:
+            description: contains status information about this resource
+            properties:
+              conditions:
+                description: Conditions contains observations of the resource's state
+                items:
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the timestamp corresponding
+                        to the last status change of this condition.
+                      format: date-time
+                      type: string
+                    lastUpdateTime:
+                      description: LastUpdateTime is the timestamp corresponding to
+                        the last status update of this condition.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable description of the
+                        details of the last transition, complementing reason.
+                      nullable: true
+                      type: string
+                    reason:
+                      description: Reason is a brief machine readable explanation
+                        for the condition's last transition.
+                      type: string
+                    status:
+                      description: Status of the condition, one of ('True', 'False',
+                        'Unknown').
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: Type of the condition
+                      enum:
+                      - Deployed
+                      - Enqueued
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              message:
+                description: Message describe current state of this resource
+                type: string
+              phase:
+                description: ComponentStatus is the status as given by Operator for
+                  this resource
+                type: string
+              subResourceName:
+                description: SubResourceName is the name of produced helmrelease tied
+                  with this resource
+                type: string
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    listKind: ""
+    plural: ""
+    singular: ""
+  conditions: []
+  storedVersions: []

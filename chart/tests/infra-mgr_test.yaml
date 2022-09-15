@@ -1,0 +1,109 @@
+suite: test infra-mgr
+values:
+  - ../values.yaml
+templates:
+  - infra-mgr.yaml
+tests:
+  - it: hostAliases missing
+    set:
+      hostAliases: null
+    documentIndex: 3
+    asserts:
+      - isKind:
+          of: Deployment
+      - isNull:
+          path: spec.template.spec.hostAliases
+  - it: default hostAliases
+    documentIndex: 3
+    asserts:
+      - isEmpty:
+          path: spec.template.spec.hostAliases
+  - it: more than one hostAliases
+    set:
+      hostAliases:
+        - ip: "127.0.0.1"
+          hostnames:
+            - "foo.local"
+        - ip: "10.1.2.3"
+          hostnames:
+            - "foo.remote"
+    documentIndex: 3
+    asserts:
+      - equal:
+          path: spec.template.spec.hostAliases[0].ip
+          value: 127.0.0.1
+      - equal:
+          path: spec.template.spec.hostAliases[0].hostnames[0]
+          value: "foo.local"
+      - equal:
+          path: spec.template.spec.hostAliases[1].ip
+          value: 10.1.2.3
+      - equal:
+          path: spec.template.spec.hostAliases[1].hostnames[0]
+          value: "foo.remote"
+  - it: http connection
+    set:
+      infraMgr:
+        git:
+          repository: https://github.com/th2-net/th2-demo-configuration.git
+    documentIndex: 3
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTPS_AUTH_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: infra-mgr
+                key: httpAuthUsername
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTPS_AUTH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: infra-mgr
+                key: httpAuthPassword
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: secrets
+            projected:
+              sources:
+                - secret:
+                    name: infra-mgr
+                - configMap:
+                    name: ssh-config
+  - it: ssh connection
+    set:
+      infraMgr:
+        git:
+          repository: git@github.com:th2-net/th2-demo-configuration.git
+    documentIndex: 3
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTPS_AUTH_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: infra-mgr
+                key: httpAuthUsername
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: HTTPS_AUTH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: infra-mgr
+                key: httpAuthPassword
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: secrets
+            projected:
+              sources:
+                - secret:
+                    name: infra-mgr
+                - configMap:
+                    name: ssh-config

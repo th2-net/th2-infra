@@ -1,0 +1,9 @@
+{{/*
+Adding annotations into config maps, secrets and ingresses
+*/}}
+
+{{- define "common-annotations" -}}
+{{- if .Values.commonAnnotations -}}
+{{ .Values.commonAnnotations | toYaml }}
+{{- end -}}
+{{- end -}}
