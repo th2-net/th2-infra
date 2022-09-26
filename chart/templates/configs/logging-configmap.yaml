@@ -14,6 +14,9 @@ data:
     rootLogger.appenderRef.stdout.ref=consoleLogger
     logger.fabric8.name=io.fabric8.kubernetes.client.informers.cache
     logger.fabric8.level=WARN
+    #set th2 logging level to DEBUG
+    logger.th2.name=com.exactpro.th2
+    logger.th2.level={{ .Values.logging.th2 }}
 kind: ConfigMap
 metadata:
   name: logging-config
