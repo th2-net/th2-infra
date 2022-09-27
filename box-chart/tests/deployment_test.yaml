@@ -31,14 +31,6 @@ tests:
           value:
             app: comp1
       - equal:
-          path: spec.template.metadata.annotations
-          value:
-            checksum/configmap: 1ae9c09f167c359907d528b6c9125332d7dd9dd573bfd0c6dc09b8f4a931a776
-            checksum/logging: loggingchecksum
-            checksum/mqrouter: mqchecksum
-            checksum/grpcrouter: grpcchecksum
-            checksum/cradlemanager: cradleMangerchecksum
-      - equal:
           path: spec.template.metadata.labels
           value:
             app: comp1
@@ -79,6 +71,11 @@ tests:
                 secretKeyRef:
                   name: cassandra
                   key: cassandra-password
+            - name: USER_CASSANDRA_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: cassandraPassword
+                  name: secret-custom-config
       - equal:
           path: spec.template.spec.containers[0].volumeMounts
           value:
@@ -128,14 +125,8 @@ tests:
           value:
             comm/ant: test
       - equal:
-          path: spec.template.metadata.annotations
-          value:
-            comm/ant: test
-            checksum/configmap: 43a80647d7d595098bd3a763c6695f9ddf5014eba199cca7a3b444c6c233a0f3
-            checksum/logging: loggingchecksum
-            checksum/mqrouter: mqchecksum
-            checksum/grpcrouter: grpcchecksum
-            checksum/cradlemanager: cradleMangerchecksum
+          path: spec.template.metadata.annotations.[comm/ant]
+          value: test
   - it: set checksum configs
     documentIndex: 1
     set:
@@ -152,7 +143,7 @@ tests:
       - equal:
           path: spec.template.metadata.annotations
           value:
-            checksum/configmap: 2de0669d0a20d2f716f6c02286382a01e43909b1f7829eced8169a8b949811c0
+            checksum/configmap: 17c407462e56c3af0920029a6a4cac0b0dae530ba54330221034f3ca28fde3c7
       - notContains:
           path: spec.template.spec.volumes[0].projected.sources
           content:
@@ -182,33 +173,16 @@ tests:
             alias: FIX5
             type: SINGLE
             data: ABC
-            checksum: fix-checksum
           - name: NATIVE
             alias: NAT
             type: LEVEL
             data: bub
-            checksum: nat-checksum
     asserts:
-      - equal:
-          path: spec.template.metadata.annotations
-          value:
-            checksum/configmap: 1ae9c09f167c359907d528b6c9125332d7dd9dd573bfd0c6dc09b8f4a931a776
-            checksum/logging: loggingchecksum
-            checksum/mqrouter: mqchecksum
-            checksum/grpcrouter: grpcchecksum
-            checksum/cradlemanager: cradleMangerchecksum
-            checksum/fix5: fix-checksum
-            checksum/nat: nat-checksum
       - contains:
           path: spec.template.spec.containers[0].volumeMounts
           content:
-            name: fix
-            mountPath: /var/th2/config/dictionary/fix5/
-      - contains:
-          path: spec.template.spec.containers[0].volumeMounts
-          content:
-            name: native
-            mountPath: /var/th2/config/dictionary/nat/
+            name: dictionaries
+            mountPath: /var/th2/config/dictionaries/
       - contains:
           path: spec.template.spec.volumes
           content:
@@ -216,75 +190,15 @@ tests:
             projected:
               sources:
                 - configMap:
-                    name: fix-dictionary
+                    name: fix
                     items:
-                      - key: fix.encoded
-                        path: fix5
+                      - key: fix
+                        path: fix
                 - configMap:
-                    name: native-dictionary
+                    name: native
                     items:
-                      - key: native.encoded
-                        path: nat
-      - contains:
-          path: spec.template.spec.volumes
-          content:
-            name: fix
-            configMap:
-              name: fix-dictionary
-      - contains:
-          path: spec.template.spec.volumes
-          content:
-            name: native
-            configMap:
-              name: native-dictionary
-  - it: set old dictionaries
-    documentIndex: 1
-    set:
-      component:
-        oldDictionaries:
-          - name: FIX-OLD
-            alias: FIX5-OLD
-            type: SINGLE
-            data: ABC
-            checksum: fix-old-checksum
-          - name: NATIVE-OLD
-            alias: NAT-OLD
-            type: LEVEL
-            data: bub
-            checksum: nat-old-checksum
-    asserts:
-      - equal:
-          path: spec.template.metadata.annotations
-          value:
-            checksum/configmap: 1ae9c09f167c359907d528b6c9125332d7dd9dd573bfd0c6dc09b8f4a931a776
-            checksum/logging: loggingchecksum
-            checksum/mqrouter: mqchecksum
-            checksum/grpcrouter: grpcchecksum
-            checksum/cradlemanager: cradleMangerchecksum
-            checksum/fix-old: fix-old-checksum
-            checksum/native-old: nat-old-checksum
-      - contains:
-          path: spec.template.spec.containers[0].volumeMounts
-          content:
-            name: fix-old
-            mountPath: /var/th2/config/dictionary/single/
-      - contains:
-          path: spec.template.spec.containers[0].volumeMounts
-          content:
-            name: native-old
-            mountPath: /var/th2/config/dictionary/level/
-      - contains:
-          path: spec.template.spec.volumes
-          content:
-            name: fix-old
-            configMap:
-              name: fix-old-dictionary
-      - contains:
-          path: spec.template.spec.volumes
-          content:
-            name: native-old
-            configMap:
-              name: native-old-dictionary
+                      - key: native
+                        path: native
   - it: not prometheus
     documentIndex: 1
     set:
@@ -635,3 +549,93 @@ tests:
           content:
             configMap:
               name: "cradle-external"
+  - it: hostNetwork false
+    documentIndex: 1
+    set:
+      component:
+        extendedSettings:
+          hostNetwork: false
+    asserts:
+      - isNull:
+          path: spec.template.spec.hostNetwork
+      - isNull:
+          path: spec.template.spec.dnsPolicy
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "rabbit-mq-app-config"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "rabbit-mq-external-app-config"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "cradle"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "cradle-external"
+  - it: cradleManager config missing
+    documentIndex: 1
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "cradle"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "rabbit-mq-app-config"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "cradle-manager"
+  - it: cradleManager config present
+    documentIndex: 1
+    set:
+      component:
+        cradleManager:
+          config: "config"
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "cradle"
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "rabbit-mq-app-config"
+      - notContains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "cradle-manager"
+  - it: set dictionary
+    documentIndex: 1
+    set:
+      component:
+        dictionaries:
+          - name: fix50-generic
+            checksum: fix50-checksum
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes[0].projected.sources
+          content:
+            configMap:
+              name: "fix50-generic"
+              items:
+                - key: fix50-generic
+                  path: fix50-generic
+      - equal:
+          path: spec.template.metadata.annotations.checksum/fix50-generic
+          value: fix50-checksum
