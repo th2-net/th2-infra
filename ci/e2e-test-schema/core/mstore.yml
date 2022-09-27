@@ -7,7 +7,8 @@ spec:
   imageVersion: 3.2.0
   extendedSettings:
     envVariables:
-      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="5000
+      JAVA_TOOL_OPTIONS:
+        -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="5000
         milliseconds"
     resources:
       limits:

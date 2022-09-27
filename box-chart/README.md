@@ -9,10 +9,11 @@ th2 Box template chart for infra-operator
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | commonAnnotations | object | `{}` |  |
+| component.bookConfig.bookName | string | `"defaultBook"` |  |
 | component.cradleManager.checksum | string | `"cradleMangerchecksum"` |  |
 | component.cradleManager.config | string | `nil` |  |
 | component.custom | string | `nil` |  |
-| component.dictionaries | string | `nil` |  |
+| component.dictionaries | object | `{}` |  |
 | component.extendedSettings.replicas | int | `1` |  |
 | component.extendedSettings.resources.limits.cpu | string | `"200m"` |  |
 | component.extendedSettings.resources.limits.ephemeral-storage | string | `"1Gi"` |  |
