@@ -137,7 +137,7 @@ spec:
                           type: array
                       required:
                         - ip
-                        - hostname
+                        - hostnames
                       type: object
                   hostNetwork:
                     description: if the flag is set to true, pod will run on node network and kubernetes will decide which node will be used for running the box.
