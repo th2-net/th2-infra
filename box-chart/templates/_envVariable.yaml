@@ -45,4 +45,9 @@ Generating envVariables for k8
             secretKeyRef:
               name: {{ .component.secrets.cassandra }}
               key: cassandra-password
+        - name: USER_CASSANDRA_PASS
+          valueFrom:
+            secretKeyRef:
+              name: secret-custom-config
+              key: cassandraPassword
 {{- end }}

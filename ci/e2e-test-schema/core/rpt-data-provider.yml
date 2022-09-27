@@ -19,7 +19,8 @@ spec:
     messageSearchPipelineBuffer: 500
   extendedSettings:
     envVariables:
-      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="10000
+      JAVA_TOOL_OPTIONS:
+        -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="10000
         milliseconds" -Ddatastax-java-driver.basic.request.timeout="10 seconds"
     resources:
       limits:
@@ -31,20 +32,20 @@ spec:
     service:
       enabled: true
       endpoints:
-      - name: grpc
-        targetPort: 8080
+        - name: grpc
+          targetPort: 8080
       type: ClusterIP
   pins:
     mq:
       publishers:
         - name: to_codec
           attributes:
-          - to_codec
-          - raw
-          - publish
+            - to_codec
+            - raw
+            - publish
       subscribers:
         - name: from_codec
           attributes:
-          - from_codec
-          - parsed
-          - subscribe
+            - from_codec
+            - parsed
+            - subscribe

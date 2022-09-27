@@ -1,6 +1,6 @@
 # th2
 
-![Version: 1.8.0](https://img.shields.io/badge/Version-1.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 th2 service Helm chart
 
@@ -35,7 +35,7 @@ th2 service Helm chart
 | commonAnnotations | object | `{}` | Annotations will be added to all deployments, configMaps and ingresses that are created by th2-infra. |
 | dashboard.image.repository | string | `"kubernetesui/dashboard"` |  |
 | dashboard.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
-| dashboard.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;"` |  |
+| dashboard.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;"` |  |
 | dashboard.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | dashboard.ingress.enabled | bool | `true` |  |
 | dashboard.ingress.hosts[0] | string | `""` |  |
@@ -72,7 +72,7 @@ th2 service Helm chart
 | infraGit.resources.limits.memory | string | `"200Mi"` |  |
 | infraGit.resources.requests.cpu | string | `"50m"` |  |
 | infraGit.resources.requests.memory | string | `"100Mi"` |  |
-| infraMgr.cassandra.keyspacePrefix | string | `"schema_"` |  |
+| infraMgr.cassandra.keyspacePrefix | string | `"th2_"` |  |
 | infraMgr.cassandra.secret | string | `"cassandra"` |  |
 | infraMgr.git.gitFetchInterval | string | `"14000"` | Infra manager git fetch interval in milliseconds |
 | infraMgr.git.httpAuthPassword | string | `""` | Required for Git repository via HTTPS |
@@ -83,7 +83,7 @@ th2 service Helm chart
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"1.7.21"` |  |
+| infraMgr.image.tag | string | `"2.2.1-infra-2.0-2955083181"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -111,15 +111,14 @@ th2 service Helm chart
 | infraOperator.config.chart.version | string | `"1.0.0"` | Do not change the version |
 | infraOperator.config.k8sUrl | string | `"<kubernetes-external-entrypoint>"` |  |
 | infraOperator.config.namespacePrefixes[0] | string | `"th2-"` |  |
+| infraOperator.config.rabbitMQManagement.exchangeName | string | `"global-notification"` |  |
 | infraOperator.config.rabbitMQManagement.password | string | `"${RABBITMQ_PASS}"` |  |
 | infraOperator.config.rabbitMQManagement.persistence | bool | `true` |  |
-| infraOperator.config.rabbitMQManagement.port | string | `"15672"` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.configure | string | `""` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.read | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
-| infraOperator.config.rabbitMQManagement.username | string | `"th2"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"3.6.7"` |  |
+| infraOperator.image.tag | string | `"4.3.5-infra-2.0-2972153075"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraOperator.livenessProbe.periodSeconds | int | `30` |  |
@@ -131,12 +130,10 @@ th2 service Helm chart
 | infraOperator.resources.requests.cpu | string | `"200m"` |  |
 | infraOperator.resources.requests.memory | string | `"500Mi"` |  |
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
-| infraRepo.image.tag | string | `"1.8.0@sha256:80a90ef65b6311111036ac06e22575f7170227b52d709764652fca7d7cf6c627"` |  |
-| ingress.annotations.default."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;"` |  |
-| ingress.annotations.default."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
-| ingress.annotations.default."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
-| ingress.annotations.default."nginx.ingress.kubernetes.io/use-regex" | string | `"true"` |  |
-| ingress.annotations.extra | object | `{}` | Annotations will be added to all ingress-rules generated by th2-infra |
+| infraRepo.image.tag | string | `"2.0.0@sha256:c7754eb8928a9002091537828705ba86d1efad54bb443f5760c9004606bc562c"` |  |
+| ingress.annotations.infraNamespace | object | `{"nginx.ingress.kubernetes.io/configuration-snippet":"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;","nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for infra services |
+| ingress.annotations.root | object | `{}` | Annotations for th2 root URL |
+| ingress.annotations.th2Namespace | object | `{"nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for th2 schema services |
 | ingress.host | string | `""` | Hostname for th2 namespace services |
 | ingress.infraHost | string | `""` | Hostname for infra services. If not set, than host will be used |
 | ingress.ingressClass | string | `"nginx"` | Hostname to access ingress |
@@ -151,7 +148,7 @@ th2 service Helm chart
 | rabbitmq.extraConfiguration | string | `"default_vhost = th2\ndisk_free_limit.absolute = 10GB\nprometheus.return_per_object_metrics=true"` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
 | rabbitmq.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
-| rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]*)$ $scheme://$http_host/$1/ redirect;\nif ($request_uri ~ \"^/rabbitmq(/.*)\") {\n  proxy_pass http://upstream_balancer$1;\n  break;\n}\n"` |  |
+| rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;\nif ($request_uri ~ \"^/rabbitmq(/.*)\") {\n  proxy_pass http://upstream_balancer$1;\n  break;\n}\n"` |  |
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | rabbitmq.ingress.enabled | bool | `true` |  |
 | rabbitmq.ingress.hostname | string | `" "` |  |
