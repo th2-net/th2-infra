@@ -185,7 +185,6 @@ spec:
                       enabled:
                         description: if enabled allows pod to be exposed using ClusterIP
                         type: boolean
-                      endpoints:
                       clusterIP:
                         description: endpoints for cluster IP service type
                         type: array
@@ -195,11 +194,9 @@ spec:
                             name:
                               description: name of the endpoint
                               type: string
-                            nodePort:
                             containerPort:
                               description: allows to specify Kubernetes port for the pod.
                               type: integer
-                            targetPort:
                         required:
                           - name
                       nodePort:
@@ -214,11 +211,9 @@ spec:
                             exposedPort:
                               description: a port on which the service will be accessible.
                               type: integer
-                            port:
                             containerPort:
                               description: allows to specify Kubernetes port for the pod.
                               type: integer
-                          required:
                         required:
                           - name
                           type: object
@@ -238,8 +233,10 @@ spec:
                           urlPaths:
                             description: |
                               Path is a suffix, it is appended to namespace url, e.g for th2-test namespace:
+
                               urlPaths:
                               - /my-box/
+
                               service will be available at /th2-test/my-box/
                             type: array
                             items:
