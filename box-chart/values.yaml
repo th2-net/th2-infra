@@ -18,6 +18,10 @@ component:
   extendedSettings:
     service:
       enabled: false
+      clusterIP:
+        - name: default
+          containerPort: 8080
+          protocol: TCP
       ingress:
         urlPaths: []
     resources:
