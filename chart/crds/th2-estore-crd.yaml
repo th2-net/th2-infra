@@ -213,15 +213,6 @@ spec:
                               type: integer
                         required:
                           - name
-                          type: object
-                        type: array
-                      type:
-                        enum:
-                        - ClusterIP
-                        - NodePort
-                        - LoadBalancer
-                        - ExternalName
-                        type: string
                           - exposedPort
                       ingress:
                         description: section for ingress
