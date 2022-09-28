@@ -7,17 +7,10 @@ Generating configMap for k8
 {{/*
 Generating deployment for k8
 */}}
-{{- if not .Values.component.extendedSettings.externalBox }}
-
-{{- include "deployment" .Values }}
-{{- include "ingress" . }}
-
-{{- else }}
 
 {{- if not .Values.component.extendedSettings.externalBox.enabled }}
 
 {{- include "deployment" .Values }}
 {{- include "ingress" . }}
 
-{{- end }}
 {{- end }}
