@@ -10,7 +10,7 @@ Generating deployment for k8
 
 {{- if not .Values.component.extendedSettings.externalBox.enabled }}
 
-{{- include "deployment" .Values }}
+{{- include "deployment" . }}
 {{- include "ingress" . }}
 
 {{- end }}
