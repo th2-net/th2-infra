@@ -35,5 +35,6 @@ spec:
       port: {{ default 8080 $list.containerPort  }}
       targetPort: {{ default "8080" $list.containerPort }}
   {{- end }}
+  type: ClusterIP
 {{- end }}
 {{- end }}

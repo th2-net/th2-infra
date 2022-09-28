@@ -15,10 +15,9 @@ spec:
           - "test.local"
     service:
       enabled: true
-      type: ClusterIP
-      endpoints:
-        - name: "gui"
-          targetPort: 8080
+      clusterIP:
+        - name: http
+          containerPort: 8080
     resources:
       limits:
         cpu: 50m

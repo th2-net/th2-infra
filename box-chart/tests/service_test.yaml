@@ -38,8 +38,9 @@ tests:
               port: 9752
               protocol: TCP
               targetPort: metrics
-      - isNull:
+      - equal:
           path: spec.type
+          value: ClusterIP
 
   - it: ServiceEnabled - Common check
     set:
@@ -148,7 +149,7 @@ tests:
     asserts:
       - equal:
           path: spec.type
-          value: NodePort
+          value: ClusterIP
       - equal:
           path: spec.ports
           value:
@@ -161,12 +162,31 @@ tests:
               port: 8090
               targetPort: 8090
 
-  - it: ServiceEnabled - empty service type
+  - it: ServiceEnabled - ClusterIP + Prometheus
     set:
       component:
         extendedSettings:
+          prometheus:
+            enabled:
           service:
             enabled: true
+            clusterIP:
+              - name: grpc
+                containerPort: 8080
+              - name: ui
+                containerPort: 8090
     asserts:
-      - isNull:
+      - equal:
           path: spec.type
+          value: ClusterIP
+      - equal:
+          path: spec.ports
+          value:
+            - name: grpc
+              protocol: TCP
+              port: 8080
+              targetPort: 8080
+            - name: ui
+              protocol: TCP
+              port: 8090
+              targetPort: 8090
