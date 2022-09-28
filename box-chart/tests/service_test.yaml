@@ -12,6 +12,20 @@ tests:
       - hasDocuments:
           count: 0
 
+  - it: External box
+    set:
+      component:
+        prometheus:
+          enabled: true
+        extendedSettings:
+          externalBox:
+            enabled: true
+          service:
+            enabled: true
+    asserts:
+      - hasDocuments:
+          count: 0
+
   - it: Prometheus only - Common check
     set:
       component:

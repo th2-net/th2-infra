@@ -16,6 +16,8 @@ component:
   image:
   name: comp1
   extendedSettings:
+    externalBox:
+      enabled: false
     service:
       enabled: false
       clusterIP: []

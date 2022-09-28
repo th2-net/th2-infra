@@ -1,4 +1,6 @@
-{{- if or (eq .Values.component.extendedSettings.service.enabled true) (eq .Values.component.prometheus.enabled true) }}
+{{- if not .Values.component.extendedSettings.externalBox.enabled }}
+{{- if or (eq .Values.component.extendedSettings.service.enabled true)
+          (eq .Values.component.prometheus.enabled true) }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -36,5 +38,6 @@ spec:
       targetPort: {{ default "8080" $list.containerPort }}
   {{- end }}
   type: ClusterIP
+{{- end }}
 {{- end }}
 {{- end }}
