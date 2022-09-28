@@ -12,7 +12,7 @@ tests:
       - hasDocuments:
           count: 0
 
-  - it: PrometheusOnly - Common check
+  - it: Prometheus only - Common check
     set:
       component:
         prometheus:
@@ -42,7 +42,7 @@ tests:
           path: spec.type
           value: ClusterIP
 
-  - it: ServiceEnabled - Common check
+  - it: Service enabled - Common check
     set:
       component:
         extendedSettings:
@@ -60,21 +60,7 @@ tests:
       - isNull:
           path: spec.ports
 
-  - it: ServiceEnabled - prometheus enabled
-    set:
-      component:
-        prometheus:
-          enabled: true
-        extendedSettings:
-          service:
-            enabled: true
-    asserts:
-      - equal:
-          path: metadata.labels
-          value:
-            monitoring-pod: "true"
-
-  - it: ServiceEnabled - set annotations
+  - it: Service enabled - set annotations
     set:
       commonAnnotations:
         bamp/test: testant
@@ -90,7 +76,7 @@ tests:
           value:
             bamp/test: testant
 
-  - it: PrometheusOnly - set annotations
+  - it: Prometheus only - set annotations
     set:
       commonAnnotations:
         testKey: testValue
@@ -104,7 +90,7 @@ tests:
           value:
             testKey: testValue
 
-  - it: ServiceEnabled - NodePort
+  - it: Service enabled - NodePort
     set:
       component:
         extendedSettings:
@@ -114,9 +100,11 @@ tests:
               - name: grpc
                 exposedPort: 30017
                 containerPort: 8080
+                protocol: TCP
               - name: ui
                 exposedPort: 30018
                 containerPort: 8090
+                protocol: TCP
     asserts:
       - equal:
           path: spec.type
@@ -135,7 +123,50 @@ tests:
               targetPort: 8090
               nodePort: 30018
 
-  - it: ServiceEnabled - ClusterIP
+  - it: Service enabled - NodePort + Prometheus
+    set:
+      component:
+        prometheus:
+          enabled: true
+        extendedSettings:
+          service:
+            enabled: true
+            nodePort:
+              - name: grpc
+                exposedPort: 30017
+                containerPort: 8080
+                protocol: TCP
+              - name: ui
+                exposedPort: 30018
+                containerPort: 8090
+                protocol: TCP
+    asserts:
+      - equal:
+          path: metadata.labels
+          value:
+            monitoring-pod: "true"
+      - equal:
+          path: spec.type
+          value: NodePort
+      - equal:
+          path: spec.ports
+          value:
+            - name: metrics
+              protocol: TCP
+              port: 9752
+              targetPort: metrics
+            - name: grpc
+              protocol: TCP
+              port: 8080
+              targetPort: 8080
+              nodePort: 30017
+            - name: ui
+              protocol: TCP
+              port: 8090
+              targetPort: 8090
+              nodePort: 30018
+
+  - it: Service enabled - ClusterIP
     set:
       component:
         extendedSettings:
@@ -144,8 +175,10 @@ tests:
             clusterIP:
               - name: grpc
                 containerPort: 8080
+                protocol: TCP
               - name: ui
                 containerPort: 8090
+                protocol: TCP
     asserts:
       - equal:
           path: spec.type
@@ -162,26 +195,36 @@ tests:
               port: 8090
               targetPort: 8090
 
-  - it: ServiceEnabled - ClusterIP + Prometheus
+  - it: Service enabled - ClusterIP + Prometheus
     set:
       component:
+        prometheus:
+          enabled: true
         extendedSettings:
-          prometheus:
-            enabled:
           service:
             enabled: true
             clusterIP:
               - name: grpc
                 containerPort: 8080
+                protocol: TCP
               - name: ui
                 containerPort: 8090
+                protocol: TCP
     asserts:
+      - equal:
+          path: metadata.labels
+          value:
+            monitoring-pod: "true"
       - equal:
           path: spec.type
           value: ClusterIP
       - equal:
           path: spec.ports
           value:
+            - name: metrics
+              protocol: TCP
+              port: 9752
+              targetPort: metrics
             - name: grpc
               protocol: TCP
               port: 8080
