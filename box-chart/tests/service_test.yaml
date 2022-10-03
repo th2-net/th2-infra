@@ -137,6 +137,35 @@ tests:
               targetPort: 8090
               nodePort: 30018
 
+  - it: Service enabled - LoadBalancer
+    set:
+      component:
+        extendedSettings:
+          service:
+            enabled: true
+            loadBalancer:
+              - name: grpc
+                protocol: TCP
+                containerPort: 8080
+              - name: ui
+                protocol: TCP
+                containerPort: 8090
+    asserts:
+      - equal:
+          path: spec.type
+          value: LoadBalancer
+      - equal:
+          path: spec.ports
+          value:
+            - name: grpc
+              protocol: TCP
+              port: 8080
+              targetPort: 8080
+            - name: ui
+              protocol: TCP
+              port: 8090
+              targetPort: 8090
+
   - it: Service enabled - NodePort + Prometheus
     set:
       component:

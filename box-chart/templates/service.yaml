@@ -29,13 +29,21 @@ spec:
       nodePort: {{ $list.exposedPort }}
   {{- end }}
   type: NodePort
+{{ else if .Values.component.extendedSettings.service.loadBalancer }}
+  {{- range $list := .Values.component.extendedSettings.service.loadBalancer }}
+    - name: {{ $list.name }}
+      protocol: {{ $list.protocol }}
+      port: {{ default 8080 $list.containerPort  }}
+      targetPort: {{ default "8080" $list.containerPort }}
+      {{- end }}
+  type: LoadBalancer
 {{ else }}
   {{- range $list := .Values.component.extendedSettings.service.clusterIP }}
     - name: {{ $list.name }}
       protocol: {{ $list.protocol }}
       port: {{ default 8080 $list.containerPort  }}
       targetPort: {{ default "8080" $list.containerPort }}
-  {{- end }}
+      {{- end }}
   type: ClusterIP
 {{- end }}
 {{- end }}
