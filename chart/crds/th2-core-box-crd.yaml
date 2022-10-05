@@ -199,7 +199,7 @@ spec:
                         required:
                           - name
                       nodePort:
-                        description: endpoints for cluster IP service type
+                        description: endpoints for nodePort service type
                         type: array
                         items:
                           type: object
@@ -216,6 +216,20 @@ spec:
                         required:
                           - name
                           - exposedPort
+                      loadBalancer:
+                        description: endpoints for loadBalancer service type
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              description: name of the endpoint
+                              type: string
+                            containerPort:
+                              description: allows to specify Kubernetes port for the pod.
+                              type: integer
+                        required:
+                          - name
                       ingress:
                         description: Creates Ingress for the Box
                         type: object

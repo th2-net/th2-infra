@@ -199,22 +199,6 @@ tests:
                     items:
                       - key: native
                         path: native
-  - it: not prometheus
-    documentIndex: 1
-    set:
-      component:
-        prometheus:
-    asserts:
-      - equal:
-          path: spec.template.metadata.labels
-          value:
-            app: comp1
-            monitoring-pod: "true"
-      - contains:
-          path: spec.template.spec.containers[0].ports
-          content:
-            name: metrics
-            containerPort: 9752
   - it: prometheus enabled
     documentIndex: 1
     set:

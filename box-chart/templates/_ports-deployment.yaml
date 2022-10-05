@@ -1,0 +1,29 @@
+{{/*
+Generating container port for prometheus stats from pods
+*/}}
+{{- define "ports-deploy" }}
+
+{{- if not .Values.component.extendedSettings.externalBox.enabled }}
+  {{- if or (eq .Values.component.extendedSettings.service.enabled true) (eq .Values.component.prometheus.enabled true) }}
+        ports:
+    {{- if .Values.component.prometheus.enabled }}
+        - name: metrics
+          containerPort: {{ default "9752" .Values.component.prometheus.port }}
+    {{- end }}
+
+    {{- if .Values.component.extendedSettings.service.nodePort }}
+        {{- range $list := .Values.component.extendedSettings.service.nodePort }}
+        - name: {{ $list.name }}
+          containerPort: {{ default "8080" $list.containerPort }}
+        {{- end }}
+    {{- else }}
+        {{- range $list := .Values.component.extendedSettings.service.clusterIP }}
+        - name: {{ $list.name }}
+          containerPort: {{ default "8080" $list.containerPort }}
+        {{- end }}
+    {{- end }}
+
+  {{- end }}
+{{- end }}
+
+{{- end }}

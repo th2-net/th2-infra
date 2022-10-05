@@ -1,0 +1,50 @@
+{{- if not .Values.component.extendedSettings.externalBox.enabled }}
+{{- if or (eq .Values.component.extendedSettings.service.enabled true) (eq .Values.component.prometheus.enabled true) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.component.name }}
+  annotations:
+  {{- include "common-annotations" .Values | nindent 4  }}
+  {{- if .Values.component.prometheus.enabled }}
+  labels:
+    monitoring-pod: "true"
+  {{- end }}
+spec:
+  selector:
+    app: {{ .Values.component.name }}
+  ports:
+  {{- if .Values.component.prometheus.enabled }}
+    - name: metrics
+      port: 9752
+      protocol: TCP
+      targetPort: metrics
+  {{- end }}
+{{- if .Values.component.extendedSettings.service.nodePort }}
+  {{- range $list := .Values.component.extendedSettings.service.nodePort }}
+    - name: {{ default "default" $list.name }}
+      protocol: {{ $list.protocol }}
+      port: {{ default 8080 $list.containerPort  }}
+      targetPort: {{ default "8080" $list.containerPort }}
+      nodePort: {{ $list.exposedPort }}
+  {{- end }}
+  type: NodePort
+{{ else if .Values.component.extendedSettings.service.loadBalancer }}
+  {{- range $list := .Values.component.extendedSettings.service.loadBalancer }}
+    - name: {{ $list.name }}
+      protocol: {{ $list.protocol }}
+      port: {{ default 8080 $list.containerPort  }}
+      targetPort: {{ default "8080" $list.containerPort }}
+      {{- end }}
+  type: LoadBalancer
+{{ else }}
+  {{- range $list := .Values.component.extendedSettings.service.clusterIP }}
+    - name: {{ $list.name }}
+      protocol: {{ $list.protocol }}
+      port: {{ default 8080 $list.containerPort  }}
+      targetPort: {{ default "8080" $list.containerPort }}
+      {{- end }}
+  type: ClusterIP
+{{- end }}
+{{- end }}
+{{- end }}

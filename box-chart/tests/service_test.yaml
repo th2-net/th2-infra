@@ -2,18 +2,63 @@ suite: test services
 values:
   - ../values.yaml
 templates:
-  - component.yaml
+  - service.yaml
 chart:
   version: 1.0.0
   appVersion: 1.0.0
 tests:
-  ###ServiceEnabled
-  - it: ServiceEnabled - Common check
-    documentIndex: 2
+  - it: Default
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: External box
     set:
       component:
         prometheus:
-          enabled: false
+          enabled: true
+        extendedSettings:
+          externalBox:
+            enabled: true
+          service:
+            enabled: true
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: Prometheus only - Common check
+    set:
+      component:
+        prometheus:
+          enabled: true
+    asserts:
+      - isKind:
+          of: Service
+      - hasDocuments:
+          count: 1
+      - isAPIVersion:
+          of: v1
+      - equal:
+          path: metadata.name
+          value: comp1
+      - equal:
+          path: metadata.labels
+          value:
+            monitoring-pod: "true"
+      - equal:
+          path: spec.ports
+          value:
+            - name: metrics
+              port: 9752
+              protocol: TCP
+              targetPort: metrics
+      - equal:
+          path: spec.type
+          value: ClusterIP
+
+  - it: Service enabled - Common check
+    set:
+      component:
         extendedSettings:
           service:
             enabled: true
@@ -21,80 +66,15 @@ tests:
       - isKind:
           of: Service
       - hasDocuments:
-          count: 3 
+          count: 1
       - isAPIVersion:
           of: v1
       - isNull:
           path: metadata.labels
-  - it: PrometheusOnly - Common check
-    documentIndex: 2
-    set:
-      component:
-        prometheus:
-          enabled: true
-    asserts:
-      - isKind:
-          of: Service
-      - hasDocuments:
-          count: 3 
-      - isAPIVersion:
-          of: v1
-      - equal:
-          path: metadata.labels
-          value:
-            monitoring-pod: "true"
-      - contains:
+      - isNull:
           path: spec.ports
-          content:
-            name: metrics
-            port: 9752
-            protocol: TCP
-            targetPort: metrics
-  - it: ServiceEnabled - set name
-    documentIndex: 2
-    set:
-      component:
-        name: testname
-        extendedSettings:
-          service:
-            enabled: true
-    asserts:
-      - equal: 
-          path: metadata.name
-          value: testname
-      - equal:
-          path: spec.selector.app
-          value: testname
-  - it: PrometheusOnly - set name
-    documentIndex: 2
-    set:
-      component:
-        name: testname
-        prometheus:
-          enabled: true
-    asserts:
-      - equal: 
-          path: metadata.name
-          value: testname
-      - equal:
-          path: spec.selector.app
-          value: testname
-  - it: ServiceEnabled - prometheus enabled
-    documentIndex: 2
-    set:
-      component:
-        prometheus:
-          enabled: true
-        extendedSettings:
-          service:
-            enabled: true
-    asserts:
-      - equal:
-          path: metadata.labels
-          value:
-            monitoring-pod: "true"
-  - it: ServiceEnabled - set annotations
-    documentIndex: 2
+
+  - it: Service enabled - set annotations
     set:
       commonAnnotations:
         bamp/test: testant
@@ -109,13 +89,12 @@ tests:
           path: metadata.annotations
           value:
             bamp/test: testant
-  - it: PrometheusOnly - set annotations
-    documentIndex: 2
+
+  - it: Prometheus only - set annotations
     set:
       commonAnnotations:
-        bamp/test: testant
-      annotations:
-        test-annotation
+        testKey: testValue
+      annotations: test-annotation
       component:
         prometheus:
           enabled: true
@@ -123,80 +102,177 @@ tests:
       - equal:
           path: metadata.annotations
           value:
-            th2.exactpro.com/antecedent: test-annotation
-  - it: ServiceEnabled - set service type and endpoints
-    documentIndex: 2
+            testKey: testValue
+
+  - it: Service enabled - NodePort
     set:
       component:
         extendedSettings:
           service:
             enabled: true
-            type: NodePort
-            endpoints:
-              npt:
-                name: nodePortEndpoint
-                nodePort: 30017
-                port: 80
-                targetPort: 80
-              pt:
-                name: clusteripWithPortAndTargetPort
-                port: 143
-                targetPort: 9090
-              t:
-                name: clusterIpWithoutPort
-                targetPort: 80
-              p:
-                name: clusterIpWithoutTargetPort
-                port: 666
+            nodePort:
+              - name: grpc
+                exposedPort: 30017
+                containerPort: 8080
+                protocol: TCP
+              - name: ui
+                exposedPort: 30018
+                containerPort: 8090
+                protocol: TCP
     asserts:
       - equal:
           path: spec.type
           value: NodePort
-      - contains:
+      - equal:
           path: spec.ports
-          content: 
-            name: nodePortEndpoint
-            protocol: TCP
-            port: 80
-            targetPort: 80
-            nodePort: 30017
-      - contains:
-          path: spec.ports
-          content: 
-            name: clusteripWithPortAndTargetPort
-            protocol: TCP
-            port: 143
-            targetPort: 9090
-      - contains:
-          path: spec.ports
-          content: 
-            name: clusterIpWithoutPort
-            protocol: TCP
-            port: 80
-            targetPort: 80
-      - contains:
-          path: spec.ports
-          content: 
-            name: clusterIpWithoutTargetPort
-            protocol: TCP
-            port: 666
-            
-  - it: ServiceEnabled - empty service type
-    documentIndex: 2
+          value:
+            - name: grpc
+              protocol: TCP
+              port: 8080
+              targetPort: 8080
+              nodePort: 30017
+            - name: ui
+              protocol: TCP
+              port: 8090
+              targetPort: 8090
+              nodePort: 30018
+
+  - it: Service enabled - LoadBalancer
     set:
       component:
         extendedSettings:
           service:
             enabled: true
-            type: 
+            loadBalancer:
+              - name: grpc
+                protocol: TCP
+                containerPort: 8080
+              - name: ui
+                protocol: TCP
+                containerPort: 8090
     asserts:
-      - isNull:
+      - equal:
           path: spec.type
-      - contains:
+          value: LoadBalancer
+      - equal:
           path: spec.ports
-          content:
-            name: app-default
-            protocol: TCP
-            port: 8080
-            targetPort: 8080
-  
+          value:
+            - name: grpc
+              protocol: TCP
+              port: 8080
+              targetPort: 8080
+            - name: ui
+              protocol: TCP
+              port: 8090
+              targetPort: 8090
+
+  - it: Service enabled - NodePort + Prometheus
+    set:
+      component:
+        prometheus:
+          enabled: true
+        extendedSettings:
+          service:
+            enabled: true
+            nodePort:
+              - name: grpc
+                exposedPort: 30017
+                containerPort: 8080
+                protocol: TCP
+              - name: ui
+                exposedPort: 30018
+                containerPort: 8090
+                protocol: TCP
+    asserts:
+      - equal:
+          path: metadata.labels
+          value:
+            monitoring-pod: "true"
+      - equal:
+          path: spec.type
+          value: NodePort
+      - equal:
+          path: spec.ports
+          value:
+            - name: metrics
+              protocol: TCP
+              port: 9752
+              targetPort: metrics
+            - name: grpc
+              protocol: TCP
+              port: 8080
+              targetPort: 8080
+              nodePort: 30017
+            - name: ui
+              protocol: TCP
+              port: 8090
+              targetPort: 8090
+              nodePort: 30018
+
+  - it: Service enabled - ClusterIP
+    set:
+      component:
+        extendedSettings:
+          service:
+            enabled: true
+            clusterIP:
+              - name: grpc
+                containerPort: 8080
+                protocol: TCP
+              - name: ui
+                containerPort: 8090
+                protocol: TCP
+    asserts:
+      - equal:
+          path: spec.type
+          value: ClusterIP
+      - equal:
+          path: spec.ports
+          value:
+            - name: grpc
+              protocol: TCP
+              port: 8080
+              targetPort: 8080
+            - name: ui
+              protocol: TCP
+              port: 8090
+              targetPort: 8090
+
+  - it: Service enabled - ClusterIP + Prometheus
+    set:
+      component:
+        prometheus:
+          enabled: true
+        extendedSettings:
+          service:
+            enabled: true
+            clusterIP:
+              - name: grpc
+                containerPort: 8080
+                protocol: TCP
+              - name: ui
+                containerPort: 8090
+                protocol: TCP
+    asserts:
+      - equal:
+          path: metadata.labels
+          value:
+            monitoring-pod: "true"
+      - equal:
+          path: spec.type
+          value: ClusterIP
+      - equal:
+          path: spec.ports
+          value:
+            - name: metrics
+              protocol: TCP
+              port: 9752
+              targetPort: metrics
+            - name: grpc
+              protocol: TCP
+              port: 8080
+              targetPort: 8080
+            - name: ui
+              protocol: TCP
+              port: 8090
+              targetPort: 8090
