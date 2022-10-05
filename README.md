@@ -383,5 +383,6 @@ Expose services as LoadBalancer if available.
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
 
+
 ## Migration to v1.8.0 th2-infra chart 
 Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
