@@ -16,3 +16,4 @@ data:
       sshDir: {{ .Values.converter.git.sshDir }}
       httpAuthUsername: "${HTTPS_AUTH_USERNAME}"
       httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
+      
