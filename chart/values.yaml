@@ -198,8 +198,8 @@ converter:
       cpu: 500m
       memory: 2500Mi
     requests:
-      cpu: 300m
-      memory: 1000Mi
+      cpu: 250m
+      memory: 700Mi
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
