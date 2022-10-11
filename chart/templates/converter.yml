@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: converter
+  namespace: service
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+  labels:
+    app: converter
+    {{ include "th2-labels" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: converter
+  template:
+    metadata:
+      labels:
+        app: converter
+    spec:
+      imagePullSecrets:
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+      {{- if .Values.hostAliases }}
+      hostAliases: {{ toYaml .Values.hostAliases | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- if not (hasPrefix "https" .Values.converter.git.repository) }}
+        - name: secrets
+          projected:
+            sources:
+              - secret:
+                  name: {{ .Values.converter.git.secretName }}
+              - configMap:
+                  name: ssh-config
+        {{- end }}
+        - name: configs
+          projected:
+            sources:
+              - configMap:
+                  name: converter
+              - configMap:
+                  name: logging-config
+      containers:
+      - name: converter
+        image: "{{ .Values.converter.image.repository }}:{{ .Values.converter.image.tag }}"
+        ports:
+          - name: default
+            containerPort: 8080
+          {{- if .Values.converter.prometheusConfiguration.enabled }}
+          - name: metrics
+            containerPort: {{ .Values.converter.prometheusConfiguration.port }}
+          {{- end }}
+        resources:
+{{ toYaml .Values.converter.resources | indent 10 }}
+        volumeMounts:
+          - name: configs
+            mountPath: /var/th2/config/
+            {{- if not (hasPrefix "https" .Values.converter.git.repository) }}
+          - name: secrets
+            readOnly: true
+            mountPath: {{ .Values.converter.git.sshDir }}
+            {{- end }}
+        env:
+          {{- if .Values.converter.jvm.javaToolOptions }}
+          - name: JAVA_TOOL_OPTIONS
+            value: {{ .Values.converter.jvm.javaToolOptions | quote }}
+          {{- end }}
+          {{- if hasPrefix "https" .Values.converter.git.repository }}
+          - name: HTTPS_AUTH_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.converter.git.secretName }}
+                key: httpAuthUsername
+          - name: HTTPS_AUTH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.converter.git.secretName }}
+                key: httpAuthPassword
+          {{- end }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.converter.prometheusConfiguration.port }}
+          initialDelaySeconds: {{ .Values.converter.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.converter.livenessProbe.timeoutSeconds }}
+          periodSeconds: {{ .Values.converter.livenessProbe.periodSeconds }}
+          
