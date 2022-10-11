@@ -17,7 +17,8 @@ spec:
   selector:
     app: converter
   ports:
-    - protocol: TCP
+    - name: default
+      protocol: TCP
       port: 8080
       targetPort: 8080
 {{- if .Values.converter.prometheusConfiguration.enabled }}

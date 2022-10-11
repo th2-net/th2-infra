@@ -77,11 +77,4 @@ spec:
                 name: {{ .Values.converter.git.secretName }}
                 key: httpAuthPassword
           {{- end }}
-        livenessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.converter.prometheusConfiguration.port }}
-          initialDelaySeconds: {{ .Values.converter.livenessProbe.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.converter.livenessProbe.timeoutSeconds }}
-          periodSeconds: {{ .Values.converter.livenessProbe.periodSeconds }}
           
