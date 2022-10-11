@@ -13,14 +13,13 @@ metadata:
     monitoring-pod: "true"
     {{- end }}
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: converter
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-      nodePort: {{ .Values.converter.service.port }}
 {{- if .Values.converter.prometheusConfiguration.enabled }}
   {{- include "svc-prometheus-port" .Values }}
 {{- end }}

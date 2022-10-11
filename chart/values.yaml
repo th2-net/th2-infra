@@ -183,14 +183,12 @@ converter:
   git:
     secretName: converter
     sshDir: /home/service/keys
-    repository: https://github.com/th2-net/th2-demo-configuration.git-dasdasda
+    repository: https://github.com/th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
     # -- Required for Git repository via HTTPS
     httpAuthUsername: ""
     # -- Required for Git repository via HTTPS
     httpAuthPassword: ""
-  service:
-    port: 31245
   livenessProbe:
     initialDelaySeconds: 30
     timeoutSeconds: 5
@@ -200,8 +198,8 @@ converter:
       cpu: 500m
       memory: 2500Mi
     requests:
-      cpu: 200m
-      memory: 500Mi
+      cpu: 300m
+      memory: 1000Mi
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 

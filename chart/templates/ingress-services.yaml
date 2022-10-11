@@ -37,6 +37,13 @@ spec:
             name: infra-mgr
             port:
               number: 8080
+      - path: /converter/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
+        pathType: Prefix
+        backend:
+          service:
+            name: converter
+            port:
+              number: 8080
       {{- if .Values.infraEditorV2.enabled }}
       - path: /editor-2{{ ternary "/" "($|/.*)" $.Values.openshift.enabled }}
         pathType: Prefix
