@@ -15,6 +15,26 @@
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/infra-dashboard.json
     ```
   </details>
+* converter has been added to infra
+  <details>
+    <summary>Include converter in installation</summary>
+
+    ### Adding converter values
+    * schema repo should be passed to converter.git.repository
+    ```
+      converter:
+        git:
+          repository: <repository>
+    ```
+
+    ### Adding converter key in secrets
+    * secrets.yaml should convain value from converter-ed25519.key
+    ```
+      converter:
+        git:
+          privateKey: <privateKey>
+    ```
+  </details>
 
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
