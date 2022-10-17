@@ -156,7 +156,7 @@ $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ```
 $ base64 -w 0 ./infra-mgr-rsa.key
 ```
-* [Add a new deploy key to your schema repository on GitHub with read and write permissions](https://docs.github.com/en/developers/overviewmanaging-deploy-keys#deploy-keys)
+* [Add a new deploy key to your schema repository on GitHub with read and write permissions](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 
 #### Set up __https__ access
 
