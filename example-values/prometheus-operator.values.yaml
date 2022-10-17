@@ -88,6 +88,8 @@ grafana:
         url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-new.json
       Infra-dashboard:
         url: http://infra-repo.service.svc.cluster.local:8080/dashboards/infra-dashboard.json
+      JVM-dashboard:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/JVM-dashboard(for-Prometheus-Operator).json
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1

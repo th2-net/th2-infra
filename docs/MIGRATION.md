@@ -1,18 +1,20 @@
 # Migrations
 
 ## Migration to RELEASE v2.0.0
-* Infra-dashboard should be added in grafana during deployment
+* Infra and JVM dashboards should be added in grafana during deployment
   <details>
-    <summary>Adding infra dashboard</summary>
+    <summary>Adding dashboards</summary>
 
-    ### Adding infra-dashboard Url in Prometheus-stack
-    * Infra-dashboard should be added in grafana from infra-repo by Url.
+    ### Adding Urls in Prometheus-stack
+    * Infra and JVM dashboards should be added in grafana from infra-repo by Url.
     ```
       grafana:
         dashboards:
           default:
             Infra-dashboard:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/infra-dashboard.json
+            JVM-dashboard:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/JVM-dashboard(for-Prometheus-Operator).json
     ```
   </details>
 * converter has been added to infra
