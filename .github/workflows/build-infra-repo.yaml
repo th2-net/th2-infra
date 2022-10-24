@@ -16,10 +16,10 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Install Helm
-        uses: azure/setup-helm@v1
+      - name: Set up Helm
+        uses: azure/setup-helm@v3.4
         with:
           version: v3.4.1
 
@@ -31,22 +31,22 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: log in to github container registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Read infra version
         id: chart
-        uses: KJ002/read-yaml@main
+        uses: jbutcher5/read-yaml@main
         with:
           file: "./chart/Chart.yaml"
           key-path: '["version"]'
 
       - name: build image & push to registry
         id: build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           file: ./infra-repo/Dockerfile
           context: ./infra-repo/
