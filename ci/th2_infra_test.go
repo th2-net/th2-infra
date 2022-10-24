@@ -27,6 +27,7 @@ const (
 	dataProviderSvc         = "rpt-data-provider"
 	reportViewerSvc         = "rpt-data-viewer"
 	infraMgrSvc             = "infra-mgr"
+	infraOperatorSvc        = "infra-operator"
 	infraEditorSvc          = "infra-editor"
 	dashboardSvc            = "th2-infra-dashboard"
 	retries                 = 10
@@ -71,11 +72,32 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 }
 
 func TestErrorsInMgr(t *testing.T) {
-	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, infraMgrSvc, retries, timeout)
-	output, err := k8s.RunKubectlAndGetOutputE(t, options, "logs", "-l", "app=infra-mgr")
-	assert.Nilf(t, err, "kubectl failed, err was: %s ", err.Error())
-	print(output)
+	var getLogsFromPod = func(appName string) (string, error) {
+		options := k8s.NewKubectlOptions("", "", serviceNamespace)
+		k8s.WaitUntilServiceAvailable(t, options, appName, retries, timeout) //appName is the same as service name in our case
+		return k8s.RunKubectlAndGetOutputE(t, options, "logs", "-l", "app="+appName)
+	}
+
+	mgrLogs, err := getLogsFromPod("infra-mgr")
+	assert.Nilf(t, err, "kubectl logs infra-mgr failed")
+	operatorLogs, err := getLogsFromPod("infra-operator")
+	assert.Nilf(t, err, "kubectl logs infra-operator failed")
+
+	var getErrorsFromLogs = func(logs string) string {
+		lines := strings.Split(logs, "\n")
+		var errors []string
+		for _, line := range lines {
+			if strings.Contains(strings.ToLower(line), "error") {
+				errors = append(errors, line)
+			}
+		}
+
+		return strings.Join(errors, "\n")
+	}
+	print("full mgr logs: " + mgrLogs)
+	print("full operator logs: " + operatorLogs)
+	print("mgr errors: \n" + getErrorsFromLogs(mgrLogs))
+	print("operator errors: \n" + getErrorsFromLogs(operatorLogs))
 }
 
 func TestDashboardEndpoint(t *testing.T) {
