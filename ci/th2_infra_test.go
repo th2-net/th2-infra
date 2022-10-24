@@ -78,10 +78,10 @@ func TestErrorsInMgr(t *testing.T) {
 		return k8s.RunKubectlAndGetOutputE(t, options, "logs", "-l", "app="+appName)
 	}
 
-	mgrLogs, err := getLogsFromPod("infra-mgr")
-	assert.Nilf(t, err, "kubectl logs infra-mgr failed")
-	operatorLogs, err := getLogsFromPod("infra-operator")
-	assert.Nilf(t, err, "kubectl logs infra-operator failed")
+	_, mgrErr := getLogsFromPod("infra-mgr")
+	assert.Nilf(t, mgrErr, "kubectl logs infra-mgr failed")
+	_, operatorErr := getLogsFromPod("infra-operator")
+	assert.Nilf(t, operatorErr, "kubectl logs infra-operator failed")
 
 	var _ = func(logs string) string {
 		lines := strings.Split(logs, "\n")
@@ -94,8 +94,8 @@ func TestErrorsInMgr(t *testing.T) {
 
 		return strings.Join(errors, "\n")
 	}
-	logger.Log(t, "full mgr logs: \n"+mgrLogs)
-	logger.Log(t, "full operator logs: \n"+operatorLogs)
+	//logger.Log(t, "full mgr logs: \n"+mgrLogs)
+	//logger.Log(t, "full operator logs: \n"+operatorLogs)
 
 	//print("mgr errors: \n" + getErrorsFromLogs(mgrLogs))
 	//print("operator errors: \n" + getErrorsFromLogs(operatorLogs))
