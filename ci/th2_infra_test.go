@@ -83,7 +83,7 @@ func TestErrorsInMgr(t *testing.T) {
 	operatorLogs, err := getLogsFromPod("infra-operator")
 	assert.Nilf(t, err, "kubectl logs infra-operator failed")
 
-	var getErrorsFromLogs = func(logs string) string {
+	var _ = func(logs string) string {
 		lines := strings.Split(logs, "\n")
 		var errors []string
 		for _, line := range lines {
@@ -94,10 +94,11 @@ func TestErrorsInMgr(t *testing.T) {
 
 		return strings.Join(errors, "\n")
 	}
-	print("full mgr logs: " + mgrLogs)
-	print("full operator logs: " + operatorLogs)
-	print("mgr errors: \n" + getErrorsFromLogs(mgrLogs))
-	print("operator errors: \n" + getErrorsFromLogs(operatorLogs))
+	logger.Log(t, "full mgr logs: \n"+mgrLogs)
+	logger.Log(t, "full operator logs: \n"+operatorLogs)
+
+	//print("mgr errors: \n" + getErrorsFromLogs(mgrLogs))
+	//print("operator errors: \n" + getErrorsFromLogs(operatorLogs))
 }
 
 func TestDashboardEndpoint(t *testing.T) {
