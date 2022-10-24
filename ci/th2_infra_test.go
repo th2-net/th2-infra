@@ -70,6 +70,14 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 	}
 }
 
+func TestErrorsInMgr(t *testing.T) {
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilServiceAvailable(t, options, infraMgrSvc, retries, timeout)
+	output, err := k8s.RunKubectlAndGetOutputE(t, options, "logs", "-l", "app=infra-mgr")
+	assert.Nilf(t, err, "kubectl failed, err was: %s ", err.Error())
+	print(output)
+}
+
 func TestDashboardEndpoint(t *testing.T) {
 	// t.Parallel()
 	endpoint := "http://localhost:30000/dashboard/"
