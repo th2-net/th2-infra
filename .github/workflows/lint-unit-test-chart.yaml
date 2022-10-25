@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@main
         with:
           version: v3.4.1
 
@@ -40,7 +40,7 @@ jobs:
           helm unittest -3 chart --color -o ./test-results/results.xml -t JUnit
       
       - name: Publish Th2 Chart Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action@v2.2.0
         if: always()
         with:
           check_name: Th2 Chart Unit Test Results
