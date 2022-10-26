@@ -2,6 +2,7 @@ package test
 
 import (
 	"fmt"
+	"github.com/gruntwork-io/go-commons/shell"
 	"os"
 	"strings"
 	"testing"
@@ -75,15 +76,19 @@ func TestErrorsInMgr(t *testing.T) {
 	var getLogsFromPod = func(appName string) (string, error) {
 		options := k8s.NewKubectlOptions("", "", serviceNamespace)
 		k8s.WaitUntilServiceAvailable(t, options, appName, retries, timeout) //appName is the same as service name in our case
-		return k8s.RunKubectlAndGetOutputE(t, options, "logs", "-l", "app="+appName)
+		logs, err := shell.RunShellCommandAndGetOutput(
+			shell.NewShellOptions(),
+			"kubectl -n %s logs -l app=%s", serviceNamespace, appName)
+
+		return logs, err
 	}
 
-	_, mgrErr := getLogsFromPod("infra-mgr")
+	mgrLogs, mgrErr := getLogsFromPod("infra-mgr")
 	assert.Nilf(t, mgrErr, "kubectl logs infra-mgr failed")
 	_, operatorErr := getLogsFromPod("infra-operator")
 	assert.Nilf(t, operatorErr, "kubectl logs infra-operator failed")
 
-	var _ = func(logs string) string {
+	var getErrorsFromLogs = func(logs string) string {
 		lines := strings.Split(logs, "\n")
 		var errors []string
 		for _, line := range lines {
@@ -94,10 +99,10 @@ func TestErrorsInMgr(t *testing.T) {
 
 		return strings.Join(errors, "\n")
 	}
-	//logger.Log(t, "full mgr logs: \n"+mgrLogs)
+	logger.Log(t, "FULL MGR LOGS: \n"+mgrLogs)
 	//logger.Log(t, "full operator logs: \n"+operatorLogs)
 
-	//print("mgr errors: \n" + getErrorsFromLogs(mgrLogs))
+	print("MGR ERRORS: \n" + getErrorsFromLogs(mgrLogs))
 	//print("operator errors: \n" + getErrorsFromLogs(operatorLogs))
 }
 
