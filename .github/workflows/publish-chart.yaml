@@ -24,7 +24,7 @@ jobs:
           path: th2-net.github.io
 
       - name: Install Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@main
         with:
           version: v3.4.1
 
