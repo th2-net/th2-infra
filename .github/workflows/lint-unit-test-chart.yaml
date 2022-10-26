@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Helm
-        uses: dils0n/setup-helm@main
+        uses: azure/setup-helm@v3
         with:
           version: v3.4.1
 
