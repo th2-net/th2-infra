@@ -45,7 +45,7 @@ jobs:
         with:
           check_name: Th2 Chart Unit Test Results
           comment_title: Th2 Chart Test Results
-          files: "./test-results/results.xml"
+          junit_files: "./test-results/results.xml"
 
       - name: Run infra chart linting
         run: |

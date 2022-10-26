@@ -44,7 +44,7 @@ jobs:
         with:
           check_name: Box Chart Unit Test Results
           comment_title: Box Chart Test Results
-          files: "./test-results/results.xml"
+          junit_files: "./test-results/results.xml"
 
       - name: Run box chart linting
         run: |
