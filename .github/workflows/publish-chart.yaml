@@ -23,8 +23,8 @@ jobs:
           token: ${{ secrets.PAT_CI_ACTION }}
           path: th2-net.github.io
 
-      - name: Install Helm
-        uses: azure/setup-helm@v3
+      - name: Set up Helm
+        uses: azure/setup-helm@v3.3
         with:
           version: v3.4.1
 
