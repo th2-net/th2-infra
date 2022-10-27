@@ -29,6 +29,8 @@ const (
 	reportViewerSvc         = "rpt-data-viewer"
 	infraMgrSvc             = "infra-mgr"
 	infraOperatorSvc        = "infra-operator"
+	infraMgrAppName         = "infra-mgr"
+	infraOperatorAppName    = "infra-operator"
 	infraEditorSvc          = "infra-editor"
 	dashboardSvc            = "th2-infra-dashboard"
 	retries                 = 10
@@ -72,21 +74,27 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 	}
 }
 
+func failIfErrExist(t *testing.T, err error, logMsg string) {
+	if err != nil {
+		t.Error(logMsg, err.Error())
+	}
+}
+
 func TestErrorsInMgr(t *testing.T) {
 	var getLogsFromPod = func(appName string) (string, error) {
 		options := k8s.NewKubectlOptions("", "", serviceNamespace)
 		k8s.WaitUntilServiceAvailable(t, options, appName, retries, timeout) //appName is the same as service name in our case
 		logs, err := shell.RunShellCommandAndGetOutput(
 			shell.NewShellOptions(),
-			"kubectl -n %s logs -l app=%s", serviceNamespace, appName)
+			"kubectl", "-n", serviceNamespace, "logs -l", "app="+appName)
 
 		return logs, err
 	}
 
-	mgrLogs, mgrErr := getLogsFromPod("infra-mgr")
-	assert.Nilf(t, mgrErr, "kubectl logs infra-mgr failed")
-	_, operatorErr := getLogsFromPod("infra-operator")
-	assert.Nilf(t, operatorErr, "kubectl logs infra-operator failed")
+	mgrLogs, mgrErr := getLogsFromPod(infraMgrAppName)
+	failIfErrExist(t, mgrErr, "kubectl logs infra-mgr failed")
+	_, operatorErr := getLogsFromPod(infraOperatorAppName)
+	failIfErrExist(t, operatorErr, "kubectl logs infra-operator failed")
 
 	var getErrorsFromLogs = func(logs string) string {
 		lines := strings.Split(logs, "\n")
