@@ -76,42 +76,43 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 
 func failIfErrExist(t *testing.T, err error, logMsg string) {
 	if err != nil {
-		t.Error(logMsg, err.Error())
+		t.Fatal(logMsg, err.Error())
 	}
 }
 
-func TestErrorsInMgr(t *testing.T) {
-	var getLogsFromPod = func(appName string) (string, error) {
-		options := k8s.NewKubectlOptions("", "", serviceNamespace)
-		k8s.WaitUntilServiceAvailable(t, options, appName, retries, timeout) //appName is the same as service name in our case
-		logs, err := shell.RunShellCommandAndGetOutput(
-			shell.NewShellOptions(),
-			"kubectl", "--namespace", serviceNamespace, "logs", "-l", "app="+appName, "--tail=1000")
+func getLogsFromApp(t *testing.T, appName string) (string, error) {
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilServiceAvailable(t, options, appName, retries, timeout) //appName is the same as service name in our case
+	logs, err := shell.RunShellCommandAndGetOutput(
+		shell.NewShellOptions(),
+		"kubectl", "--namespace", serviceNamespace, "logs", "-l", "app="+appName, "--tail=1000")
 
-		return logs, err
-	}
+	return logs, err
+}
 
-	mgrLogs, mgrErr := getLogsFromPod(infraMgrAppName)
-	failIfErrExist(t, mgrErr, "kubectl logs infra-mgr failed")
-	//_, operatorErr := getLogsFromPod(infraOperatorAppName)
-	//failIfErrExist(t, operatorErr, "kubectl logs infra-operator failed")
-
-	var getErrorsFromLogs = func(logs string) string {
-		lines := strings.Split(logs, "\n")
-		var errors []string
-		for _, line := range lines {
-			if strings.Contains(strings.ToLower(line), "error") {
-				errors = append(errors, line)
-			}
+func errorFreeLogs(logs string) bool {
+	errorKeyword := "ERROR"
+	lines := strings.Split(logs, "\n") //TODO: may remove after removing logging
+	for _, line := range lines {
+		if strings.Contains(line, errorKeyword) {
+			return false
 		}
-
-		return strings.Join(errors, "\n")
 	}
-	t.Log("FULL MGR LOGS: \n", mgrLogs)
-	//t.log("full operator logs: \n"+operatorLogs)
 
-	t.Log("MGR ERRORS: \n", getErrorsFromLogs(mgrLogs))
-	//t.log("operator errors: \n" + getErrorsFromLogs(operatorLogs))
+	return true
+}
+
+func TestErrorsInMgr(t *testing.T) {
+	mgrLogs, mgrErr := getLogsFromApp(t, infraMgrAppName)
+	failIfErrExist(t, mgrErr, "kubectl logs infra-mgr failed")
+	assert.Truef(t, errorFreeLogs(mgrLogs), "infra-mgr contains errors")
+}
+
+func TestErrorsInOperator(t *testing.T) {
+	operatorLogs, operatorErr := getLogsFromApp(t, infraOperatorAppName)
+	t.Log(operatorLogs) //TODO: to remove
+	failIfErrExist(t, operatorErr, "kubectl logs infra-operator failed")
+	assert.Truef(t, errorFreeLogs(operatorLogs), "infra-operator contains errors")
 }
 
 func TestDashboardEndpoint(t *testing.T) {
