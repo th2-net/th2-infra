@@ -1,6 +1,7 @@
 # Migrations
 
 ## Migration to RELEASE v2.0.0
+* NGINX Ingress Controller chart must be upgraded 4.1.2 > 4.3.0.
 * Infra and JVM dashboards should be added in grafana during deployment
   <details>
     <summary>Adding dashboards</summary>
