@@ -84,9 +84,8 @@ func TestErrorsInMgr(t *testing.T) {
 	var getLogsFromPod = func(appName string) (string, error) {
 		options := k8s.NewKubectlOptions("", "", serviceNamespace)
 		k8s.WaitUntilServiceAvailable(t, options, appName, retries, timeout) //appName is the same as service name in our case
-		shellOpts := shell.ShellOptions{Env: options.Env}
 		logs, err := shell.RunShellCommandAndGetOutput(
-			&shellOpts,
+			shell.NewShellOptions(),
 			"kubectl", "--namespace", serviceNamespace, "logs", "-l", "app="+appName)
 
 		return logs, err
