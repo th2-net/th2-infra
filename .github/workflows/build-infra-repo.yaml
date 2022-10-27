@@ -39,7 +39,7 @@ jobs:
 
       - name: Read infra version
         id: chart
-        uses: KJ002/read-yaml@main
+        uses: jbutcher5/read-yaml@main
         with:
           file: "./chart/Chart.yaml"
           key-path: '["version"]'
