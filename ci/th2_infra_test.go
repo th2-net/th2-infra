@@ -86,7 +86,7 @@ func TestErrorsInMgr(t *testing.T) {
 		k8s.WaitUntilServiceAvailable(t, options, appName, retries, timeout) //appName is the same as service name in our case
 		logs, err := shell.RunShellCommandAndGetOutput(
 			shell.NewShellOptions(),
-			"kubectl", "--namespace", serviceNamespace, "logs", "--since=1h", "-l", "app="+appName)
+			"kubectl", "--namespace", serviceNamespace, "logs", "-l", "app="+appName, "--tail=1000")
 
 		return logs, err
 	}
