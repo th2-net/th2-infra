@@ -107,11 +107,11 @@ func TestErrorsInMgr(t *testing.T) {
 
 		return strings.Join(errors, "\n")
 	}
-	logger.Log(t, "FULL MGR LOGS: \n"+mgrLogs)
-	//logger.Log(t, "full operator logs: \n"+operatorLogs)
+	t.Log("FULL MGR LOGS: \n", mgrLogs)
+	//t.log("full operator logs: \n"+operatorLogs)
 
-	print("MGR ERRORS: \n" + getErrorsFromLogs(mgrLogs))
-	//print("operator errors: \n" + getErrorsFromLogs(operatorLogs))
+	t.Log("MGR ERRORS: \n", getErrorsFromLogs(mgrLogs))
+	//t.log("operator errors: \n" + getErrorsFromLogs(operatorLogs))
 }
 
 func TestDashboardEndpoint(t *testing.T) {
