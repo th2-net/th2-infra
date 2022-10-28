@@ -2,7 +2,6 @@ package test
 
 import (
 	"fmt"
-	"github.com/gruntwork-io/go-commons/shell"
 	"os"
 	"strings"
 	"testing"
@@ -74,46 +73,18 @@ func validFunc(t *testing.T, testCode int, substr string) func(int, string) bool
 	}
 }
 
-func failIfErrExist(t *testing.T, err error, logMsg string) {
-	if err != nil {
-		t.Fatal(logMsg, err.Error())
-	}
-}
-
-func getLogsFromApp(t *testing.T, appName string) (string, error) {
-	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, appName, retries, timeout) //appName is the same as service name in our case
-	logs, err := shell.RunShellCommandAndGetOutput(
-		shell.NewShellOptions(),
-		"kubectl", "--namespace", serviceNamespace, "logs", "-l", "app="+appName, "--tail=1000")
-
-	return logs, err
-}
-
-func errorFreeLogs(logs string) bool {
-	errorKeyword := "ERROR"
-	lines := strings.Split(logs, "\n") //TODO: may remove after removing logging
-	for _, line := range lines {
-		if strings.Contains(line, errorKeyword) {
-			return false
-		}
-	}
-
-	return true
-}
-
-func TestErrorsInMgr(t *testing.T) {
-	mgrLogs, mgrErr := getLogsFromApp(t, infraMgrAppName)
-	failIfErrExist(t, mgrErr, "kubectl logs infra-mgr failed")
-	assert.Truef(t, errorFreeLogs(mgrLogs), "infra-mgr contains errors")
-}
-
-func TestErrorsInOperator(t *testing.T) {
-	operatorLogs, operatorErr := getLogsFromApp(t, infraOperatorAppName)
-	t.Log(operatorLogs) //TODO: to remove
-	failIfErrExist(t, operatorErr, "kubectl logs infra-operator failed")
-	assert.Truef(t, errorFreeLogs(operatorLogs), "infra-operator contains errors")
-}
+//func TestErrorsInMgr(t *testing.T) {
+//	mgrLogs, mgrErr := getLogsFromApp(t, infraMgrAppName)
+//	failIfErrExist(t, mgrErr, "kubectl logs infra-mgr failed")
+//	assert.Truef(t, errorFreeLogs(mgrLogs), "infra-mgr contains errors")
+//}
+//
+//func TestErrorsInOperator(t *testing.T) {
+//	operatorLogs, operatorErr := getLogsFromApp(t, infraOperatorAppName)
+//	t.Log(operatorLogs) //TODO: to remove
+//	failIfErrExist(t, operatorErr, "kubectl logs infra-operator failed")
+//	assert.Truef(t, errorFreeLogs(operatorLogs), "infra-operator contains errors")
+//}
 
 func TestDashboardEndpoint(t *testing.T) {
 	// t.Parallel()
@@ -201,6 +172,13 @@ func TestNamespaceDataProviderEndpoint(t *testing.T) {
 
 	validator := validFunc(t, 200, "[\"attachedMessageId\",\"type\",\"name\",\"body\",\"status\"]")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+}
+
+func TestRabbitAllQueues(t *testing.T) {
+	endpoint := fmt.Sprintf("http://%s:%s@localhost:30000/rabbitmq/api/queues/%s", rabbitmqUser, rabbitmqPassword, defaultVhost)
+	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
+	t.Log(http_helper.HttpGet(t, endpoint, nil))
 }
 
 func TestRabbitMQQueues(t *testing.T) {
