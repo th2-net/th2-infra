@@ -341,7 +341,8 @@ dashboard:
     hosts: [*host]
 
 jupyterhub:
-  internal: true
+  # -- jupiterhub values. If true - will be deployed as dependency
+  # internal: true
   hub:
     service:
       ports:
