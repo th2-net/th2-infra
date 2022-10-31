@@ -18,6 +18,8 @@ rabbitmq:
       enabled: true
   metrics:
     enabled: false
+jupyterhub:
+  internal: true
 cassandra:
   # existingConfiguration: cassandra-configuration
   initDBConfigMap: cassandra-init
