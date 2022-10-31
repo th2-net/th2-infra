@@ -34,6 +34,11 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   name: cassandra
   version: 9.7.3
+- alias: jhub
+  condition: jhub.internal
+  repository: https://jupyterhub.github.io/helm-chart/
+  name: jupyterhub
+  version: 0.4
 - alias: helmoperator
   condition: helmoperator.internal
   repository: https://charts.fluxcd.io

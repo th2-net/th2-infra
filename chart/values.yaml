@@ -339,5 +339,37 @@ dashboard:
       # @default -- `"/dashboard($\|/.*)"`
       - /dashboard($|/.*)
     hosts: [*host]
+
+jhub:
+  internal: true
+  hub:
+    service:
+      ports:
+        nodePort: 30081
+      type: NodePort
+    db:
+      pvc:
+        accessModes:
+        - ReadWriteOnce
+        annotations: {}
+        selector:
+          matchLabels:
+            app: jupyter-db
+        storage: 200Mi
+        storageClassName: local-storage
+  proxy:
+    service:
+      nodePorts:
+        http: 30080
+        https: 30443
+      type: NodePort
+  singleuser:
+    storage:
+      capacity: 200Mi
+      static:
+        pvcName: jupiter-users-volume
+        subPath: '{username}'
+      type: static
+
 logging:
   th2: INFO
