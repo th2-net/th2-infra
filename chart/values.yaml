@@ -340,7 +340,7 @@ dashboard:
       - /dashboard($|/.*)
     hosts: [*host]
 
-jhub:
+jupyterhub:
   internal: true
   hub:
     service:
