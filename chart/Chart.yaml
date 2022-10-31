@@ -38,7 +38,7 @@ dependencies:
   condition: jhub.internal
   repository: https://jupyterhub.github.io/helm-chart/
   name: jupyterhub
-  version: 0.4
+  version: 2.0.0
 - alias: helmoperator
   condition: helmoperator.internal
   repository: https://charts.fluxcd.io
