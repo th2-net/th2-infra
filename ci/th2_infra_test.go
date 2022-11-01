@@ -2,6 +2,7 @@ package test
 
 import (
 	"fmt"
+	"k8s.io/apimachinery/pkg/util/json"
 	"os"
 	"strings"
 	"testing"
@@ -178,20 +179,52 @@ func TestRabbitAllQueues(t *testing.T) {
 	endpoint := fmt.Sprintf("http://%s:%s@localhost:30000/rabbitmq/api/queues/%s", rabbitmqUser, rabbitmqPassword, defaultVhost)
 	options := k8s.NewKubectlOptions("", "", serviceNamespace)
 	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
-	t.Log(http_helper.HttpGet(t, endpoint, nil))
+	status, response := http_helper.HttpGet(t, endpoint, nil)
+	if status != 200 {
+		t.Fatalf("queues endpoint didn't return success (200 status code), instead it was: %d", status)
+	}
+	jsonByteArr := []byte(response)
+	var jsonMaps []map[string]interface{}
+
+	if err := json.Unmarshal(jsonByteArr, &jsonMaps); err != nil {
+		t.Fatalf("Error occured during unmarshaling json: %s", err.Error())
+	}
+
+	makeName := func(resourceName string, pinName string) string {
+		return fmt.Sprintf("link[%s:%s:%s]", defaultSchemaNamespace, resourceName, pinName)
+	}
+
+	expectedQueues := []string{
+		makeName("mstore", "mstore-pin"),
+		makeName("estore", "estore-pin"),
+		makeName("codec-fix", "in_codec_encode"),
+		makeName("codec-fix", "in_codec_decode"),
+		makeName("codec-fix", "in_codec_general_encode"),
+		makeName("codec-fix", "in_codec_general_decode"),
+		makeName("rpt-data-provider", "from_codec"),
+	}
+
+	var actualQueues []string
+
+	for _, jsonMap := range jsonMaps {
+		actualQueues = append(actualQueues, fmt.Sprint(jsonMap["name"]))
+	}
+
+	assert.Equal(t, expectedQueues, actualQueues)
+
 }
 
-func TestRabbitMQQueues(t *testing.T) {
-	// t.Parallel()
-	endpoint := fmt.Sprintf("http://%s:%s@localhost:30000/rabbitmq/api/queues/%s/link%%5B%s%%3Arpt-data-provider%%3Afrom_codec%%5D",
-		rabbitmqUser, rabbitmqPassword, defaultVhost, schemaNamespace,
-	)
-	options := k8s.NewKubectlOptions("", "", serviceNamespace)
-	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
-	expectedString := fmt.Sprintf("\"name\":\"link[%s:rpt-data-provider:from_codec]\"", schemaNamespace)
-	validator := validFunc(t, 200, expectedString)
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
-}
+//func TestRabbitMQQueues(t *testing.T) {
+//	// t.Parallel()
+//	endpoint := fmt.Sprintf("http://%s:%s@localhost:30000/rabbitmq/api/queues/%s/link%%5B%s%%3Arpt-data-provider%%3Afrom_codec%%5D",
+//		rabbitmqUser, rabbitmqPassword, defaultVhost, schemaNamespace,
+//	)
+//	options := k8s.NewKubectlOptions("", "", serviceNamespace)
+//	k8s.WaitUntilPodAvailable(t, options, rabbitmqPod, retries, timeout)
+//	expectedString := fmt.Sprintf("\"name\":\"link[%s:rpt-data-provider:from_codec]\"", schemaNamespace)
+//	validator := validFunc(t, 200, expectedString)
+//	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+//}
 
 func TestPodAnnotations(t *testing.T) {
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
