@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"k8s.io/apimachinery/pkg/util/json"
 	"os"
+	"sort"
 	"strings"
 	"testing"
 	"time"
@@ -209,6 +210,9 @@ func TestRabbitAllQueues(t *testing.T) {
 	for _, jsonMap := range jsonMaps {
 		actualQueues = append(actualQueues, fmt.Sprint(jsonMap["name"]))
 	}
+
+	sort.Strings(expectedQueues)
+	sort.Strings(actualQueues)
 
 	assert.Equal(t, expectedQueues, actualQueues)
 
