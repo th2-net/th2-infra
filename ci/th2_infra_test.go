@@ -155,15 +155,15 @@ func TestInfraMgrEndpoint(t *testing.T) {
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
-func TestNamespaceReportEndpoint(t *testing.T) {
-	// t.Parallel()
-	endpoint := fmt.Sprintf("http://localhost:30000/%s/", schemaNamespace)
-	options := k8s.NewKubectlOptions("", "", schemaNamespace)
-	k8s.WaitUntilServiceAvailable(t, options, reportViewerSvc, retries, timeout)
-
-	validator := validFunc(t, 200, "<title>TH2 Report</title>")
-	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
-}
+//func TestNamespaceReportEndpoint(t *testing.T) {
+//	// t.Parallel()
+//	endpoint := fmt.Sprintf("http://localhost:30000/%s/", schemaNamespace)
+//	options := k8s.NewKubectlOptions("", "", schemaNamespace)
+//	k8s.WaitUntilServiceAvailable(t, options, reportViewerSvc, retries, timeout)
+//
+//	validator := validFunc(t, 200, "<title>TH2 Report</title>")
+//	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
+//}
 
 func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	// t.Parallel()
