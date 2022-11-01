@@ -69,7 +69,7 @@ spec:
                 type: object
                 description: section for extended settings
                 properties:
-                  chartCfg:
+                  chartConfig:
                     description: specifies which charts to use for rolling out infra
                     properties:
                       path:
