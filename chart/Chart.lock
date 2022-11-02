@@ -5,11 +5,14 @@ dependencies:
 - name: cassandra
   repository: ""
   version: 5.6.7
+- name: jupyterhub
+  repository: https://jupyterhub.github.io/helm-chart/
+  version: 0.11.1
 - name: helm-operator
   repository: https://charts.fluxcd.io
   version: 1.4.2
 - name: kubernetes-dashboard
   repository: https://kubernetes.github.io/dashboard/
   version: 5.0.4
-digest: sha256:8b04ad9937d4f09e5cee86b4a79d061fc76de3716cf56cdd96b14c1bdb2396c2
-generated: "2022-06-07T11:07:03.85353435+04:00"
+digest: sha256:18a2ff78915aae96f6972277e99a4ac265dbb1514c6f183aa69651daf697ebd0
+generated: "2022-11-02T11:59:24.046495248+04:00"

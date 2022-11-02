@@ -1,6 +1,7 @@
 # Migrations
 
 ## Migration to RELEASE v2.0.0
+* jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jhub parent value.
 * Infra and JVM dashboards should be added in grafana during deployment
   <details>
     <summary>Adding dashboards</summary>
