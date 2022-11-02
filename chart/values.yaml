@@ -343,28 +343,29 @@ dashboard:
 jupyterhub:
   # -- jupiterhub values. If true - will be deployed as dependency
   internal: true
-  hub:
-    service:
-      ports:
-        nodePort: 30081
-      type: NodePort
-    db:
-      pvc:
-        accessModes:
-        - ReadWriteOnce
-        annotations: {}
-        selector:
-          matchLabels:
-            app: jupyter-db
-        storage: 200Mi
-        storageClassName: local-storage
   proxy:
     secretToken: 65589277c5c121351c9a15199b67f8a52c651dd636e5c3f727f7a00df88a7c9c
     service:
+      type: NodePort
       nodePorts:
         http: 30080
         https: 30443
+  hub:
+    service:
       type: NodePort
+      ports:
+        nodePort: 30081
+    db:
+      type: sqlite-pvc
+      pvc:
+        selector:
+          matchLabels:
+            app: jupyter-db
+        annotations: {}
+        accessModes:
+        - ReadWriteOnce
+        storage: 200Mi
+        storageClassName: local-storage
   singleuser:
     storage:
       capacity: 200Mi
