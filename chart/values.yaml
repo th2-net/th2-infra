@@ -363,7 +363,7 @@ jupyterhub:
             app: jupyter-db
         annotations: {}
         accessModes:
-        - ReadWriteOnce
+          - ReadWriteOnce
         storage: 200Mi
         storageClassName: local-storage
   singleuser:
