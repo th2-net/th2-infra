@@ -105,6 +105,6 @@
               privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
           converter:
             git:
-              privateKey: "{{ lookup('file', './id_ssh_red25519') | b64encode }}"
+              privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
         create_namespace: true
         wait: true
