@@ -7,12 +7,12 @@ dependencies:
   version: 5.6.7
 - name: jupyterhub
   repository: https://jupyterhub.github.io/helm-chart/
-  version: 0.11.1
+  version: 2.0.0
 - name: helm-operator
   repository: https://charts.fluxcd.io
   version: 1.4.2
 - name: kubernetes-dashboard
   repository: https://kubernetes.github.io/dashboard/
   version: 5.0.4
-digest: sha256:18a2ff78915aae96f6972277e99a4ac265dbb1514c6f183aa69651daf697ebd0
-generated: "2022-11-02T11:59:24.046495248+04:00"
+digest: sha256:53687d2115983909046e2780d88ca3bbe852c552c943d056cd9ae0f871176f19
+generated: "2022-11-04T14:41:37.077582577+04:00"

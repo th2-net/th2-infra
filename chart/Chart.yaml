@@ -34,10 +34,10 @@ dependencies:
   name: cassandra
   version: 5.6.7
 - alias: jupyterhub
-  condition: jupyterhub.internal
+  condition: jupyterhub.custom.internal
   repository: https://jupyterhub.github.io/helm-chart/
   name: jupyterhub
-  version: 0.11.1
+  version: 2.0.0
 - alias: helmoperator
   condition: helmoperator.internal
   repository: https://charts.fluxcd.io

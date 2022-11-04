@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: hub
+  name: {{ include "jupyterhub.hub.fullname" . }}
   labels:
     {{- include "jupyterhub.labels" . | nindent 4 }}
 spec:
@@ -56,36 +56,29 @@ spec:
 
     {{- with .Values.hub.networkPolicy.ingress }}
     # depends, but default is nothing --> hub
-    {{- . | toYaml | trimSuffix "\n" | nindent 4 }}
+    {{- . | toYaml | nindent 4 }}
     {{- end }}
 
   egress:
     # hub --> proxy
-    - ports:
-        - port: 8001
-      to:
+    - to:
         - podSelector:
             matchLabels:
               {{- $_ := merge (dict "componentLabel" "proxy") . }}
               {{- include "jupyterhub.matchLabels" $_ | nindent 14 }}
+      ports:
+        - port: 8001
+
     # hub --> singleuser-server
-    - ports:
-        - port: 8888
-      to:
+    - to:
         - podSelector:
             matchLabels:
               {{- $_ := merge (dict "componentLabel" "singleuser-server") . }}
               {{- include "jupyterhub.matchLabels" $_ | nindent 14 }}
+      ports:
+        - port: 8888
 
-    # hub --> Kubernetes internal DNS
-    - ports:
-        - protocol: UDP
-          port: 53
-        - protocol: TCP
-          port: 53
-
-    {{- with .Values.hub.networkPolicy.egress }}
-    # hub --> depends, but the default is everything
-    {{- . | toYaml | trimSuffix "\n" | nindent 4 }}
+    {{- with (include "jupyterhub.networkPolicy.renderEgressRules" (list . .Values.hub.networkPolicy)) }}
+    {{- . | nindent 4 }}
     {{- end }}
 {{- end }}

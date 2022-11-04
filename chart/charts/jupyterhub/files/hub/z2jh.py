@@ -3,23 +3,23 @@ Utility methods for use in jupyterhub_config.py and dynamic subconfigs.
 
 Methods here can be imported by extraConfig in values.yaml
 """
-from collections import Mapping
-from functools import lru_cache
 import os
+from collections.abc import Mapping
+from functools import lru_cache
 
 import yaml
 
 
 # memoize so we only load config once
-@lru_cache()
+@lru_cache
 def _load_config():
-    """Load configuration from disk
+    """Load the Helm chart configuration used to render the Helm templates of
+    the chart from a mounted k8s Secret, and merge in values from an optionally
+    mounted secret (hub.existingSecret)."""
 
-    Memoized to only load once
-    """
     cfg = {}
-    for source in ("config", "secret"):
-        path = f"/etc/jupyterhub/{source}/values.yaml"
+    for source in ("secret/values.yaml", "existing-secret/values.yaml"):
+        path = f"/usr/local/etc/jupyterhub/{source}"
         if os.path.exists(path):
             print(f"Loading {path}")
             with open(path) as f:
@@ -28,6 +28,48 @@ def _load_config():
         else:
             print(f"No config at {path}")
     return cfg
+
+
+@lru_cache
+def _get_config_value(key):
+    """Load value from the k8s ConfigMap given a key."""
+
+    path = f"/usr/local/etc/jupyterhub/config/{key}"
+    if os.path.exists(path):
+        with open(path) as f:
+            return f.read()
+    else:
+        raise Exception(f"{path} not found!")
+
+
+@lru_cache
+def get_secret_value(key, default="never-explicitly-set"):
+    """Load value from the user managed k8s Secret or the default k8s Secret
+    given a key."""
+
+    for source in ("existing-secret", "secret"):
+        path = f"/usr/local/etc/jupyterhub/{source}/{key}"
+        if os.path.exists(path):
+            with open(path) as f:
+                return f.read()
+    if default != "never-explicitly-set":
+        return default
+    raise Exception(f"{key} not found in either k8s Secret!")
+
+
+def get_name(name):
+    """Returns the fullname of a resource given its short name"""
+    return _get_config_value(name)
+
+
+def get_name_env(name, suffix=""):
+    """Returns the fullname of a resource given its short name along with a
+    suffix, converted to uppercase with dashes replaced with underscores. This
+    is useful to reference named services associated environment variables, such
+    as PROXY_PUBLIC_SERVICE_PORT."""
+    env_key = _get_config_value(name) + suffix
+    env_key = env_key.upper().replace("-", "_")
+    return os.environ[env_key]
 
 
 def _merge_dictionaries(a, b):
