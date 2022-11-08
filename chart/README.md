@@ -33,6 +33,24 @@ th2 service Helm chart
 | cassandra.persistence.storageClass | string | `"local-storage"` |  |
 | clusterDomain | string | `"cluster.local"` | Kubernetes cluster domain |
 | commonAnnotations | object | `{}` | Annotations will be added to all deployments, configMaps and ingresses that are created by th2-infra. |
+| converter.git.httpAuthPassword | string | `""` | Required for Git repository via HTTPS |
+| converter.git.httpAuthUsername | string | `""` | Required for Git repository via HTTPS |
+| converter.git.repository | string | `"https://github.com/th2-net/th2-demo-configuration.git"` |  |
+| converter.git.repositoryLocalCache | string | `"/home/service/repository"` |  |
+| converter.git.secretName | string | `"converter"` |  |
+| converter.git.sshDir | string | `"/home/service/keys"` |  |
+| converter.image.repository | string | `"ghcr.io/th2-net/th2-cr-converter"` |  |
+| converter.image.tag | string | `"0.6.0"` |  |
+| converter.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
+| converter.livenessProbe.initialDelaySeconds | int | `30` |  |
+| converter.livenessProbe.periodSeconds | int | `30` |  |
+| converter.livenessProbe.timeoutSeconds | int | `5` |  |
+| converter.prometheusConfiguration.enabled | bool | `true` |  |
+| converter.prometheusConfiguration.port | int | `9752` |  |
+| converter.resources.limits.cpu | string | `"500m"` |  |
+| converter.resources.limits.memory | string | `"2500Mi"` |  |
+| converter.resources.requests.cpu | string | `"250m"` |  |
+| converter.resources.requests.memory | string | `"700Mi"` |  |
 | dashboard.image.repository | string | `"kubernetesui/dashboard"` |  |
 | dashboard.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | dashboard.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;"` |  |
@@ -77,13 +95,12 @@ th2 service Helm chart
 | infraMgr.git.gitFetchInterval | string | `"14000"` | Infra manager git fetch interval in milliseconds |
 | infraMgr.git.httpAuthPassword | string | `""` | Required for Git repository via HTTPS |
 | infraMgr.git.httpAuthUsername | string | `""` | Required for Git repository via HTTPS |
-| infraMgr.git.privateKey | string | `""` | Required for Git repository via SSH. Rsa private key in base64 encoding |
 | infraMgr.git.repository | string | `"https://github.com/th2-net/th2-demo-configuration.git"` |  |
 | infraMgr.git.repositoryLocalCache | string | `"/home/service/repository"` |  |
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"2.2.1-infra-2.0-2955083181"` |  |
+| infraMgr.image.tag | string | `"2.2.2-infra-2.0-3182300519"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -118,7 +135,7 @@ th2 service Helm chart
 | infraOperator.config.rabbitMQManagement.schemaPermissions.read | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"4.3.5-infra-2.0-2972153075"` |  |
+| infraOperator.image.tag | string | `"4.3.7-infra-2.0-3081808383"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraOperator.livenessProbe.periodSeconds | int | `30` |  |
@@ -130,13 +147,14 @@ th2 service Helm chart
 | infraOperator.resources.requests.cpu | string | `"200m"` |  |
 | infraOperator.resources.requests.memory | string | `"500Mi"` |  |
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
-| infraRepo.image.tag | string | `"2.0.0@sha256:c7754eb8928a9002091537828705ba86d1efad54bb443f5760c9004606bc562c"` |  |
+| infraRepo.image.tag | string | `"2.0.0@sha256:7acc3569c66f24e3afbe7a451cd796c0c41a10a95ad1cc9e5044cd987f3128f3"` |  |
 | ingress.annotations.infraNamespace | object | `{"nginx.ingress.kubernetes.io/configuration-snippet":"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;","nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for infra services |
 | ingress.annotations.root | object | `{}` | Annotations for th2 root URL |
 | ingress.annotations.th2Namespace | object | `{"nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for th2 schema services |
 | ingress.host | string | `""` | Hostname for th2 namespace services |
 | ingress.infraHost | string | `""` | Hostname for infra services. If not set, than host will be used |
 | ingress.ingressClass | string | `"nginx"` | Hostname to access ingress |
+| logging.th2 | string | `"INFO"` |  |
 | openshift | object | `{"enabled":false}` | Enable th2 for Openshift, impacts on Ingress. |
 | prometheus.operator.enabled | bool | `true` | Set true if kube-prometheus-stack is used |
 | prometheus.operator.serviceMonitor.name | string | `"pods-monitoring"` |  |
@@ -168,6 +186,7 @@ th2 service Helm chart
 | rabbitmq.podAntiAffinityPreset | string | `"hard"` |  |
 | rabbitmq.prometheus.operator.enabled | bool | `true` |  |
 | rabbitmq.rabbitmqExchange | string | `"th2-exchange"` |  |
+| rabbitmq.rabbitmqVhost | string | `"th2"` | Value for compatibility with bitnami rabbitmq chart, must be changed with extraConfiguration |
 | rabbitmq.replicaCount | int | `1` |  |
 | rabbitmq.resources.limits.memory | string | `"3000Mi"` |  |
 | rabbitmq.service.managerNodePort | int | `32025` |  |
