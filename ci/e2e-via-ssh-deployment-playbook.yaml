@@ -97,5 +97,8 @@
           infraMgr:
             git:
               privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
+          converter:
+            git:
+              privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
         create_namespace: true
         wait: true
