@@ -1,6 +1,7 @@
 # Migrations
 
 ## Migration to RELEASE v2.0.0
+* Helm operator is removed from chart dependency. HelmRelease CRD must be removed before infra installation
 * Infra and JVM dashboards should be added in grafana during deployment
   <details>
     <summary>Adding dashboards</summary>
