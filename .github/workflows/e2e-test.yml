@@ -103,9 +103,10 @@ jobs:
           ansible-galaxy collection install community.crypto:==1.3.0 community.kubernetes:==1.1.1
           pip install kubernetes==12.0.0
 
-      # - name: Install helm-controller
-      #   run: |
-      #     kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
+      - name: Install helm-controller
+        run: |
+          kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
+          kubectl get pods --all-namespaces
       
       - name: Run th2-infra deployment via Ansible
         run: |
