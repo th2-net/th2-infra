@@ -103,10 +103,32 @@ jobs:
           ansible-galaxy collection install community.crypto:==1.3.0 community.kubernetes:==1.1.1
           pip install kubernetes==12.0.0
 
-      - name: Install helm-controller
+      - name: Setup fluxctl
+        uses: fluxcd/fluxctl-action@master
+
+      - name: Install Flux
         run: |
-          kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
-          kubectl get pods --all-namespaces
+          kubectl create ns flux
+          fluxctl install \
+          --git-path=test \
+          --git-branch=${GITHUB_REF#refs/heads/} \
+          --git-readonly=true \
+          --registry-disable-scanning=true \
+          --git-email=fluxcdbot@users.noreply.github.com \
+          --git-url=https://github.com/fluxcd/fluxctl-action.git \
+          --namespace=flux | kubectl apply -f -
+
+      - name: Verify install
+        run: kubectl -n flux rollout status deploy/flux --timeout=1m
+
+      - name: Sync git with cluster
+        env:
+          FLUX_FORWARD_NAMESPACE: flux
+        run: fluxctl sync
+
+      # - name: Install helm-controller
+      #   run: |
+      #     flux install
       
       - name: Run th2-infra deployment via Ansible
         run: |
