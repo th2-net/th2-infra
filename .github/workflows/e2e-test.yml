@@ -103,8 +103,8 @@ jobs:
           ansible-galaxy collection install community.crypto:==1.3.0 community.kubernetes:==1.1.1
           pip install kubernetes==12.0.0
 
-      # - name: Setup fluxctl
-      #   uses: fluxcd/fluxctl-action@master
+      - name: Setup fluxctl
+        uses: fluxcd/fluxctl-action@master
 
       # - name: Install Flux
       #   run: |
