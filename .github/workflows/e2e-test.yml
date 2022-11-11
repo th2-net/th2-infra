@@ -105,6 +105,8 @@ jobs:
 
       - name: Setup fluxctl
         uses: fluxcd/fluxctl-action@master
+        run: |
+          flux install
 
       # - name: Install Flux
       #   run: |
@@ -126,9 +128,9 @@ jobs:
       #     FLUX_FORWARD_NAMESPACE: flux
       #   run: fluxctl sync
 
-      - name: Install helm-controller
-        run: |
-          flux install
+      # - name: Install helm-controller
+      #   run: |
+      #     flux install
       
       - name: Run th2-infra deployment via Ansible
         run: |
