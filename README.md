@@ -137,12 +137,6 @@ prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1    
 ```
 * Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
   http://your-host:30000/grafana/login
-  
-## Helm Controller
-Helm-controller is going to be used instead of helm-operator. It must be installed separately before installing th2-infra.
-```
-$ kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
-```
 
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.

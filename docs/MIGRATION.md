@@ -2,10 +2,6 @@
 
 ## Migration to RELEASE v2.0.0
 * Helm operator is removed from chart dependency. HelmRelease CRD must be removed before infra installation
-* Helm controller is going to be used instead of helm operator. Helm controller must be installed before th2-infra
-  ```
-  $ kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
-  ```
 * Infra and JVM dashboards should be added in grafana during deployment
   <details>
     <summary>Adding dashboards</summary>
