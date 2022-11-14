@@ -137,7 +137,7 @@ prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1    
 ```
 * Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
   http://your-host:30000/grafana/login
-
+  
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.
 
