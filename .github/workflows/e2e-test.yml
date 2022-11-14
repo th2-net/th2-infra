@@ -98,9 +98,9 @@ jobs:
           docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/
           kind load docker-image --name chart-testing ghcr.io/th2-net/infra-repo:e2e
 
-      - name: Install helm-controller
-        run: |
-          kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
+      # - name: Install helm-controller
+      #   run: |
+      #     kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
 
       - name: Install python and ansible dependencies
         run: |
