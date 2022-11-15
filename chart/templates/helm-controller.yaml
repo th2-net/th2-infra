@@ -8257,4 +8257,4 @@ spec:
     matchLabels:
       app: notification-controller
   policyTypes:
-  - Ingress 
+  - Ingress
