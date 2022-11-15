@@ -1,5 +1,11 @@
 # Migrations
 
+## Migration to RELEASE v1.8.1
+* jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jhub parent value.
+* NGINX Ingress Controller chart must be upgraded 4.1.2 > 4.3.0.
+* Loki-stack must be upgraded 2.6.5 > 2.8.3
+* Prometheus-stack must be upgraded 21.0.5 > 41.4.0
+
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
 * Prometheus stack must be upgraded 15.0.0 > 21.0.5
