@@ -299,6 +299,11 @@ $ helm install -n service --version=<version> th2-infra th2/th2 -f ./service.val
 ```
 _Note_: replace <version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
 
+* Create helm repository CR
+```
+$ kubectl -n service apply ./helm-repository.yaml
+```
+
 Wait for all pods in service namespace are up and running, once completed proceed with [schema configuration](https://github.com/th2-net/th2-infra-schema-demo/blob/master/README.md) to deploy th2 namespaces.
 
 ### Upgrade th2-infra

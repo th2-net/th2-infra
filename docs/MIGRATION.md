@@ -1,7 +1,21 @@
 # Migrations
 
 ## Migration to RELEASE v2.0.0
-* Helm operator is removed from chart dependency. HelmRelease CRD must be removed before infra installation
+* Helm operator is removed from chart dependency.
+  <details>
+    <summary>Helm-controller is going to be used instead of Helm-operator</summary> 
+    
+    ### HelmRelease CRD must be removed before infra installation
+    ```
+    $ kubectl delete crd helmreleases.helm.fluxcd.io
+    ```
+
+    ### helm repository CR must be created
+    * helm-repository file from example-values should be added into infra values git repository
+    ```
+    $ kubectl apply -f ./helm-repository.yaml
+    ```
+  </details>
 * Infra and JVM dashboards should be added in grafana during deployment
   <details>
     <summary>Adding dashboards</summary>

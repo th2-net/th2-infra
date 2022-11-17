@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: helm-repo
+  namespace: service
+spec:
+  # The interval at wich to check the upstream for updates
+  interval: 10m
+  # The repository URL, a valid URL contains at least a protocol and host
+  url: http://infra-repo.service.svc.cluster.local:8080/
