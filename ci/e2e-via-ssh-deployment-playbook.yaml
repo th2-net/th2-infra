@@ -80,6 +80,12 @@
         template: "{{ playbook_dir }}/deploy/jupyterhub-pv.yaml"
         namespace: "{{ infra_namespace }}"
 
+    - name: Create jupyterhub persistent volume
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/jupyterhub-pv.yaml"
+        namespace: "{{ infra_namespace }}"
+
     - name: Create Cassandra configmap
       kubernetes.core.k8s:
         state: present
