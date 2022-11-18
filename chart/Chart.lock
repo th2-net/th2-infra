@@ -1,7 +1,7 @@
 dependencies:
 - name: rabbitmq
   repository: https://charts.bitnami.com/bitnami
-  version: 11.0.3
+  version: 8.24.13
 - name: cassandra
   repository: ""
   version: 5.6.7
@@ -15,4 +15,4 @@ dependencies:
   repository: https://kubernetes.github.io/dashboard/
   version: 5.0.4
 digest: sha256:c64fab7a25dbe0bd0b82241556df200d35535127ffb146b9fc50164988cd74dd
-generated: "2022-11-18T09:28:22.804684577Z"
+generated: "2022-11-18T10:55:17.777369691Z"
