@@ -36,7 +36,7 @@ jobs:
       matrix:
         k8s-version:
         - kindest/node:v1.19.16@sha256:d9c819e8668de8d5030708e484a9fdff44d95ec4675d136ef0a0a584e587f65c
-        - kindest/node:v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
+        - kindest/node:v1.21.14@sha256:9d9eb5fb26b4fbc0c6d95fa8c790414f9750dd583f5d7cee45d92e8c26670aa1
     name: ${{ github.job }}
     if: |
       !contains(github.event.pull_request.labels, 'automated')
