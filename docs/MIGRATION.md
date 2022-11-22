@@ -1,5 +1,24 @@
 # Migrations
 
+## Migration to RELEASE v1.8.1
+* jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jupyterhub parent value.
+  <details>
+    <summary>jupyterhub PV and PVC</summary>
+
+    ### Create directory
+    * the following command can require root permissions, create directory on th2 node:
+    ```
+    $ mkdir /opt/jupiter_users /opt/jupiter_db
+    ```
+
+    ### Apply PV and PVC
+    * jupyterhub PV and PVC are in example-values/pvs.yaml and example-values/pvcs.yaml
+    ```
+    $ kubectl apply -f ./pvs.yaml
+    $ kubectl apply -f ./pvcs.yaml
+    ```
+  </details>
+
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
 * Prometheus stack must be upgraded 15.0.0 > 21.0.5
