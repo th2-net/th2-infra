@@ -2,12 +2,12 @@
 
 ## Migration to RELEASE v2.0.0
 * NGINX Ingress Controller chart must be upgraded 4.1.2 > 4.3.0.
-* Infra and JVM dashboards should be added in grafana during deployment
+* Infra, Diagnostic and JVM dashboards should be added in grafana during deployment
   <details>
     <summary>Adding dashboards</summary>
 
     ### Adding Urls in Prometheus-stack
-    * Infra and JVM dashboards should be added in grafana from infra-repo by Url.
+    * Infra, Diagnostic and JVM dashboards should be added in grafana from infra-repo by Url.
     ```
       grafana:
         dashboards:
@@ -16,6 +16,8 @@
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/infra-dashboard.json
             JVM-dashboard:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/JVM-dashboard(for-Prometheus-Operator).json
+            Diagnostic-dashboard:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/diagnostic-dashboard-v1.0.2.json
     ```
   </details>
 
