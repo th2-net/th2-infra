@@ -74,7 +74,7 @@ _Note: Examples below use HostPath type of [Persistent Volume(PV)](https://kuber
 
 * the following command can require root permissions, create directory on th2 node:
 ```
-$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq  /opt/jupiter_users /opt/jupiter_db
+$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq
 ```
 * set node name in `pvs.yaml`
 * create PVs and PVCs:
