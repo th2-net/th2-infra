@@ -22,7 +22,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - <node-name>
+          - chart-testing-control-plane
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -47,7 +47,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - <node-name>
+          - chart-testing-control-plane
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
