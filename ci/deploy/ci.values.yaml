@@ -35,8 +35,3 @@ cassandra:
 infraMgr:
   git:
     repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git
-
-jupyterhub:
-  # -- jupiterhub values. If true - will be deployed as dependency
-  custom:
-    internal: true
