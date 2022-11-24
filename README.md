@@ -117,8 +117,8 @@ grafana:
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm install --version=2.6.5 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
-$ helm install --version=21.0.5 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
+$ helm install --version=2.8.3 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=41.4.0 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
 ```
@@ -281,7 +281,7 @@ $ git clone git@<node-address>:/home/git/repo/schema.git
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-$ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
+$ helm install -n service --version=4.3.0 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
 ```
 Check:
 ```
