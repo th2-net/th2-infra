@@ -99,9 +99,3 @@
               privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
         create_namespace: true
         wait: true
-
-    - name: Create Helm Repository
-      kubernetes.core.k8s:
-        state: present
-        template: "{{ playbook_dir }}/deploy/helm-repository.yaml"
-        namespace: "{{ infra_namespace }}"

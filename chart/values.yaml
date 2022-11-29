@@ -332,3 +332,6 @@ dashboard:
     hosts: [*host]
 logging:
   th2: INFO
+
+helmController:
+  internal: true

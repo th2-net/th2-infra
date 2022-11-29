@@ -38,7 +38,7 @@ dependencies:
   repository: https://kubernetes.github.io/dashboard/
   name: kubernetes-dashboard
   version: 5.0.4
-- alias: helm-controller
-  condition: helm-controller.internal
+- alias: helmController
+  condition: helmController.internal
   name: helm-controller
   version: 0.1.0
