@@ -9,7 +9,7 @@
     <summary>Adding dashboards</summary>
 
     ### Adding Urls in Prometheus-stack
-    * Infra, Diagnostic and JVM dashboards should be added in grafana from infra-repo by Url.
+    * Infra, Diagnostic and JVM dashboards should be added in grafana, monitoring-old should be removed and monitoring-new should be renamed during deployment
     ```
       grafana:
         dashboards:
@@ -20,6 +20,19 @@
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/JVM-dashboard(for-Prometheus-Operator).json
             Diagnostic-dashboard:
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/diagnostic-dashboard-v1.0.2.json
+    ```
+  </details>
+  <details>
+    <summary>Editing monitoring dashboards</summary>
+
+    ### Edit Urls in Prometheus-stack
+    * The section with monitoring-old and monitoring-new dashboards should be replaced with the following.
+    ```
+      grafana:
+        dashboards:
+          default:
+            Monitoring:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring.json
     ```
   </details>
 
