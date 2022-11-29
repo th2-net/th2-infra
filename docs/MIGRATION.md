@@ -317,4 +317,3 @@ $ kubectl delete customresourcedefinitions helmreleases.helm.fluxcd.io
 More information about seamless migration between schemas:
 https://grafana.com/docs/loki/v2.2.0/storage/#schema-configs
 https://grafana.com/docs/loki/v2.2.0/configuration/#schema_config
-
