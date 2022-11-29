@@ -340,4 +340,4 @@ dashboard:
       - /dashboard($|/.*)
     hosts: [*host]
 logging:
-  th2: INFO
+  th2: INFO 
