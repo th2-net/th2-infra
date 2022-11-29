@@ -27,14 +27,6 @@
     ```
     $ kubectl delete crd helmreleases.helm.fluxcd.io
     ```
-
-    ### helm repository CR must be created
-    * helm-repository file from example-values should be added into infra values git repository
-    ```
-    $ kubectl apply -f ./helm-repository.yaml
-            Diagnostic-dashboard:
-              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/diagnostic-dashboard-v1.0.2.json
-    ```
   </details>
 
 ## Migration to RELEASE v1.8.0
