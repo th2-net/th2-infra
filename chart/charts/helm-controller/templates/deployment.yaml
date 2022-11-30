@@ -211,13 +211,13 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 64Mi
+        # resources:
+        #   limits:
+        #     cpu: 1000m
+        #     memory: 1Gi
+        #   requests:
+        #     cpu: 100m
+        #     memory: 64Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -295,13 +295,13 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 64Mi
+        # resources:
+        #   limits:
+        #     cpu: 1000m
+        #     memory: 1Gi
+        #   requests:
+        #     cpu: 100m
+        #     memory: 64Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -380,13 +380,13 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 64Mi
+        # resources:
+        #   limits:
+        #     cpu: 1000m
+        #     memory: 1Gi
+        #   requests:
+        #     cpu: 100m
+        #     memory: 64Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -469,13 +469,13 @@ spec:
           httpGet:
             path: /
             port: http
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 50m
-            memory: 64Mi
+        # resources:
+        #   limits:
+        #     cpu: 1000m
+        #     memory: 1Gi
+        #   requests:
+        #     cpu: 50m
+        #     memory: 64Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
