@@ -343,4 +343,4 @@ jupyterhub:
       static:
         pvcName: jupiter-users-volume
         subPath: '{username}'
-      type: static 
+      type: static
