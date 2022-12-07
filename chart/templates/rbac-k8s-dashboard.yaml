@@ -7,6 +7,14 @@ metadata:
   {{- include "common-annotations" . | nindent 4  }}
 rules:
 - apiGroups:
+  - source.toolkit.fluxcd.io
+  resources:
+  - '*'
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
   - helm.toolkit.fluxcd.io
   resources:
   - '*'
