@@ -24,7 +24,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 291,
-  "iteration": 1669632616675,
+  "iteration": 1670498774507,
   "links": [
     {
       "asDropdown": false,
@@ -499,7 +499,7 @@
       "type": "stat"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "datasource": null,
       "gridPos": {
         "h": 1,
@@ -508,186 +508,185 @@
         "y": 5
       },
       "id": 31,
-      "panels": [
-        {
-          "datasource": null,
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "noValue": "No Data",
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "rgba(224, 47, 68, 0)",
-                    "value": null
-                  },
-                  {
-                    "color": "semi-dark-red",
-                    "value": 0
-                  },
-                  {
-                    "color": "semi-dark-green",
-                    "value": 1
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 20,
-            "x": 0,
-            "y": 6
-          },
-          "id": 17,
-          "links": [],
-          "options": {
-            "colorMode": "background",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {
-              "titleSize": 15,
-              "valueSize": 15
-            },
-            "textMode": "name"
-          },
-          "pluginVersion": "8.2.5",
-          "targets": [
-            {
-              "aggregation": "Last",
-              "decimals": 2,
-              "displayAliasType": "Warning / Critical",
-              "displayType": "Regular",
-              "displayValueWithAlias": "Never",
-              "exemplar": true,
-              "expr": "kube_pod_container_status_ready{namespace=\"$namespace\", pod=~\"([em]store|rpt-data-[pv]).*\"}",
-              "instant": true,
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "{{pod}}",
-              "refId": "A",
-              "units": "none",
-              "valueHandler": "Number Threshold"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Core components readiness",
-          "transformations": [
-            {
-              "id": "renameByRegex",
-              "options": {
-                "regex": "(.*)+-.*-.*",
-                "renamePattern": "$1"
-              }
-            }
-          ],
-          "type": "stat"
-        },
-        {
-          "datasource": null,
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "rgba(224, 47, 68, 0)",
-                    "value": null
-                  },
-                  {
-                    "color": "semi-dark-red",
-                    "value": 0
-                  },
-                  {
-                    "color": "semi-dark-green",
-                    "value": 1
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 9
-          },
-          "id": 18,
-          "links": [],
-          "options": {
-            "colorMode": "background",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "last"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {
-              "titleSize": 12,
-              "valueSize": 12
-            },
-            "textMode": "name"
-          },
-          "pluginVersion": "8.2.5",
-          "targets": [
-            {
-              "aggregation": "Last",
-              "decimals": 2,
-              "displayAliasType": "Warning / Critical",
-              "displayType": "Regular",
-              "displayValueWithAlias": "Never",
-              "exemplar": true,
-              "expr": "kube_pod_container_status_ready{namespace=\"$namespace\", pod!~\"([em]store|rpt-data-[pv]).*\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{pod}}",
-              "refId": "A",
-              "units": "none",
-              "valueHandler": "Number Threshold"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "k8s readiness",
-          "transformations": [
-            {
-              "id": "renameByRegex",
-              "options": {
-                "regex": "(.*)+-.*-.*",
-                "renamePattern": "$1"
-              }
-            }
-          ],
-          "type": "stat"
-        }
-      ],
+      "panels": [],
       "title": "Components status",
       "type": "row"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "No Data",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(224, 47, 68, 0)",
+                "value": null
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 0
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 20,
+        "x": 0,
+        "y": 6
+      },
+      "id": 17,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 15,
+          "valueSize": 15
+        },
+        "textMode": "name"
+      },
+      "pluginVersion": "8.2.5",
+      "targets": [
+        {
+          "aggregation": "Last",
+          "decimals": 2,
+          "displayAliasType": "Warning / Critical",
+          "displayType": "Regular",
+          "displayValueWithAlias": "Never",
+          "exemplar": true,
+          "expr": "kube_pod_container_status_ready{namespace=\"$namespace\", pod=~\"([em]store|rpt-data-[pv]).*\"}",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{pod}}",
+          "refId": "A",
+          "units": "none",
+          "valueHandler": "Number Threshold"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Core components readiness",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*)+-.*-.*",
+            "renamePattern": "$1"
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(224, 47, 68, 0)",
+                "value": null
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 0
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 18,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 12,
+          "valueSize": 12
+        },
+        "textMode": "name"
+      },
+      "pluginVersion": "8.2.5",
+      "targets": [
+        {
+          "aggregation": "Last",
+          "decimals": 2,
+          "displayAliasType": "Warning / Critical",
+          "displayType": "Regular",
+          "displayValueWithAlias": "Never",
+          "exemplar": true,
+          "expr": "kube_pod_container_status_ready{namespace=\"$namespace\", pod!~\"([em]store|rpt-data-[pv]).*\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{pod}}",
+          "refId": "A",
+          "units": "none",
+          "valueHandler": "Number Threshold"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "k8s readiness",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*)+-.*-.*",
+            "renamePattern": "$1"
+          }
+        }
+      ],
+      "type": "stat"
     },
     {
       "collapsed": false,
@@ -696,7 +695,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 17
       },
       "id": 37,
       "panels": [],
@@ -1172,7 +1171,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 18
       },
       "id": 23,
       "interval": "5s",
@@ -1401,148 +1400,147 @@
       "type": "table"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 29
       },
       "id": 29,
-      "panels": [
-        {
-          "aliasColors": {
-            "DEBUG": "light-green",
-            "ERROR": "red",
-            "INFO": "dark-green",
-            "TRACE": "#727372",
-            "WARN": "orange"
-          },
-          "bars": true,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "${DS_LOKI}",
-          "fieldConfig": {
-            "defaults": {
-              "unit": "short"
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 6,
-            "w": 24,
-            "x": 0,
-            "y": 19
-          },
-          "hiddenSeries": false,
-          "id": 25,
-          "interval": "1m",
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": false,
-          "linewidth": 1,
-          "nullPointMode": "null",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "8.2.5",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum by(level) (count_over_time({namespace=\"$namespace\", app=~\"$component\", level=~\"$level\"}[1m]))",
-              "legendFormat": "{{level}}",
-              "refId": "A"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Log message rate",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "datasource": "${DS_LOKI}",
-          "gridPos": {
-            "h": 9,
-            "w": 24,
-            "x": 0,
-            "y": 25
-          },
-          "id": 27,
-          "options": {
-            "dedupStrategy": "none",
-            "enableLogDetails": true,
-            "prettifyLogMessage": false,
-            "showCommonLabels": false,
-            "showLabels": false,
-            "showTime": false,
-            "sortOrder": "Descending",
-            "wrapLogMessage": true
-          },
-          "targets": [
-            {
-              "expr": "�{namespace=\"$namespace\", app=~\"$component\", level=~\"$level\"}",
-              "refId": "A"
-            }
-          ],
-          "title": "$component logs",
-          "type": "logs"
-        }
-      ],
+      "panels": [],
       "title": "Logs",
       "type": "row"
+    },
+    {
+      "aliasColors": {
+        "DEBUG": "light-green",
+        "ERROR": "red",
+        "INFO": "dark-green",
+        "TRACE": "#727372",
+        "WARN": "orange"
+      },
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Loki",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 30
+      },
+      "hiddenSeries": false,
+      "id": 25,
+      "interval": "1m",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.2.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum by(level) (count_over_time({namespace=\"$namespace\", app=~\"$component\", level=~\"$level\"}[1m]))",
+          "legendFormat": "{{level}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Log message rate",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "datasource": "Loki",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 27,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "expr": "﻿{namespace=\"$namespace\", app=~\"$component\", level=~\"$level\"}",
+          "refId": "A"
+        }
+      ],
+      "title": "$component logs",
+      "type": "logs"
     }
   ],
   "refresh": "5s",
@@ -1556,9 +1554,9 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "text": "th2-schema18",
-          "value": "th2-schema18"
+          "selected": false,
+          "text": "arangodb",
+          "value": "arangodb"
         },
         "datasource": null,
         "definition": "label_values(kube_pod_info{namespace !~ \"kube-.*\"}, namespace)",
@@ -1586,9 +1584,9 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "text": "act-fix",
-          "value": "act-fix"
+          "selected": false,
+          "text": "arango-db",
+          "value": "arango-db"
         },
         "datasource": null,
         "definition": "label_values(kube_pod_labels{namespace=\"$namespace\"},label_app)",
@@ -1707,5 +1705,5 @@
   "timezone": "",
   "title": "diagnostic dashboard v1.0.2",
   "uid": "diag101",
-  "version": 1
+  "version": 3
 }
