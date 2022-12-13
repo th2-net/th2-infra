@@ -251,13 +251,14 @@ rabbitmq:
     size: 10Gi
   service:
     type: "NodePort"
-    nodePort: 32000
-    managerNodePort: 32025
+    nodePorts:
+      amqp: 32000
+      manager: 32025
   metrics:
     enabled: true
     serviceMonitor:
       enabled: true
-      additionalLabels:
+      labels:
         release: prometheus
         app: kube-prometheus-stack
       path: /metrics
