@@ -11,7 +11,7 @@ metadata:
         app.kubernetes.io/instance: deployment
         release: deployment
 spec:
-    replicas: 2
+    replicas: 1
     strategy:
         type: Recreate
         
