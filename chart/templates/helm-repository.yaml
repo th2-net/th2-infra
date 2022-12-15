@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: helm-repo
-  namespace: {{ Release.namespace}}
+  namespace: {{ .Release.Namespace }}
 spec:
   # The interval at wich to check the upstream for updates
   interval: 10m
