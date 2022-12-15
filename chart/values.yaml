@@ -339,5 +339,9 @@ dashboard:
       # @default -- `"/dashboard($\|/.*)"`
       - /dashboard($|/.*)
     hosts: [*host]
+
+arangodb:
+  internal: true
+  licenseKey: ""
 logging:
   th2: INFO 

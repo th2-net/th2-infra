@@ -11,5 +11,8 @@ dependencies:
 - name: kubernetes-dashboard
   repository: https://kubernetes.github.io/dashboard/
   version: 5.0.4
-digest: sha256:8b04ad9937d4f09e5cee86b4a79d061fc76de3716cf56cdd96b14c1bdb2396c2
-generated: "2022-06-07T11:07:03.85353435+04:00"
+- name: arangodb-operator
+  repository: ""
+  version: 0.1.0
+digest: sha256:95bafd8aae27514aa7a699ac6875235dedc1e6a23f5752a3cfcb681c0fe459a5
+generated: "2022-12-15T08:03:12.41808268Z"

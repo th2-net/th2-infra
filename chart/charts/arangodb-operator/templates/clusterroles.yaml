@@ -1,0 +1,174 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+    name: arango-deployment-operator-rbac-crd
+    labels:
+        app.kubernetes.io/name: kube-arangodb
+        helm.sh/chart: kube-arangodb-1.2.20
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/instance: deployment
+        release: deployment
+rules:
+    - apiGroups: ["apiextensions.k8s.io"]
+      resources: ["customresourcedefinitions"]
+      verbs: ["get", "list", "watch", "update", "delete"]
+      resourceNames:
+        - "arangodeployments.database.arangodb.com"
+        - "arangoclustersynchronizations.database.arangodb.com"
+        - "arangomembers.database.arangodb.com"
+        - "arangotasks.database.arangodb.com"
+        - "arangodeploymentreplications.replication.database.arangodb.com"
+        - "arangobackups.backup.arangodb.com"
+        - "arangobackuppolicies.backup.arangodb.com"
+        - "arangojobs.apps.arangodb.com"
+        - "arangolocalstorages.storage.arangodb.com"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+    name: arango-deployment-operator-rbac-deployment
+    labels:
+        app.kubernetes.io/name: kube-arangodb
+        helm.sh/chart: kube-arangodb-1.2.20
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/instance: deployment
+        release: deployment
+rules:
+    - apiGroups: ["apiextensions.k8s.io"]
+      resources: ["customresourcedefinitions"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""]
+      resources: ["namespaces", "nodes", "persistentvolumes"]
+      verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+    name: arango-deployment-operator-rbac-crd
+    labels:
+        app.kubernetes.io/name: kube-arangodb
+        helm.sh/chart: kube-arangodb-1.2.20
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/instance: deployment
+        release: deployment
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: arango-deployment-operator-rbac-crd
+subjects:
+    - kind: ServiceAccount
+      name: arango-deployment-operator
+      namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+    name: arango-deployment-operator-rbac-deployment
+    labels:
+        app.kubernetes.io/name: kube-arangodb
+        helm.sh/chart: kube-arangodb-1.2.20
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/instance: deployment
+        release: deployment
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: arango-deployment-operator-rbac-deployment
+subjects:
+    - kind: ServiceAccount
+      name: arango-deployment-operator
+      namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+    name: arango-deployment-operator-rbac-default
+    namespace: default
+    labels:
+        app.kubernetes.io/name: kube-arangodb
+        helm.sh/chart: kube-arangodb-1.2.20
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/instance: deployment
+        release: deployment
+rules:
+    - apiGroups: [""]
+      resources: ["pods"]
+      verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+    name: arango-deployment-operator-rbac-deployment
+    namespace: default
+    labels:
+        app.kubernetes.io/name: kube-arangodb
+        helm.sh/chart: kube-arangodb-1.2.20
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/instance: deployment
+        release: deployment
+rules:
+    - apiGroups: ["database.arangodb.com"]
+      resources: ["arangodeployments", "arangodeployments/status","arangomembers", "arangomembers/status"]
+      verbs: ["*"]
+    - apiGroups: ["database.arangodb.com"]
+      resources: ["arangoclustersynchronizations", "arangoclustersynchronizations/status"]
+      verbs: ["*"]
+    - apiGroups: ["database.arangodb.com"]
+      resources: ["arangotasks", "arangotasks/status"]
+      verbs: ["*"]
+    - apiGroups: [""]
+      resources: ["pods", "services", "endpoints", "persistentvolumeclaims", "events", "secrets", "serviceaccounts", "configmaps"]
+      verbs: ["*"]
+    - apiGroups: ["apps"]
+      resources: ["deployments", "replicasets"]
+      verbs: ["get"]
+    - apiGroups: ["policy"]
+      resources: ["poddisruptionbudgets"]
+      verbs: ["*"]
+    - apiGroups: ["backup.arangodb.com"]
+      resources: ["arangobackuppolicies", "arangobackups"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["monitoring.coreos.com"]
+      resources: ["servicemonitors"]
+      verbs: ["get", "create", "delete", "update", "list", "watch", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+    name: arango-deployment-operator-rbac-default
+    namespace: default
+    labels:
+        app.kubernetes.io/name: kube-arangodb
+        helm.sh/chart: kube-arangodb-1.2.20
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/instance: deployment
+        release: deployment
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: arango-deployment-operator-rbac-default
+subjects:
+    - kind: ServiceAccount
+      name: default
+      namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+    name: arango-deployment-operator-rbac-deployment
+    namespace: default
+    labels:
+        app.kubernetes.io/name: kube-arangodb
+        helm.sh/chart: kube-arangodb-1.2.20
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/instance: deployment
+        release: deployment
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: arango-deployment-operator-rbac-deployment
+subjects:
+    - kind: ServiceAccount
+      name: arango-deployment-operator
+      namespace: default

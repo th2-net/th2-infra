@@ -229,6 +229,10 @@ rabbitmq:
     # must be random string
     erlangCookie: cookie
 
+arangodb:
+  # set license key for arangoDB
+  licenseKey: <key>
+
 # required if http(s) access to gitlab/github repositories is used
 #infraMgr:
 #  git:
