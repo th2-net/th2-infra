@@ -232,6 +232,7 @@ rabbitmq:
   #  host: ""
   fullnameOverride: rabbitmq
   # -- Value for compatibility with bitnami rabbitmq chart, must be changed with extraConfiguration
+  rabbitmqVhost: th2
   # default_vhost must be updated with rabbitmqVhost value
   extraConfiguration: |-
     default_vhost = th2
