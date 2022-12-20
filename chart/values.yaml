@@ -235,7 +235,6 @@ rabbitmq:
   rabbitmqVhost: th2
   # default_vhost must be updated with rabbitmqVhost value
   extraConfiguration: |-
-    default_vhost = th2
     disk_free_limit.absolute = 10GB
     prometheus.return_per_object_metrics=true
   auth:

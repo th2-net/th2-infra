@@ -111,9 +111,9 @@ jobs:
           kubectl -n $INFRA_NAMESPACE patch deployments.apps infra-operator -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz rabbitmq 5672; do echo \"Waiting for rabbitmq service\"; sleep 2; done;"]}]}}}}'
           kubectl get pods --all-namespaces
 
-      - name: Sleep for 5 minutes
-        run: sleep 5m
-        shell: bash
+      # - name: Sleep for 5 minutes
+      #   run: sleep 5m
+      #   shell: bash
 
       - name: Testing
         run: |
