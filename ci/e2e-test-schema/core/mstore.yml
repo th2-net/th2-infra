@@ -4,11 +4,10 @@ metadata:
   name: mstore
 spec:
   imageName: ghcr.io/th2-net/th2-mstore
-  imageVersion: 3.2.0
+  imageVersion: 5.0.0-dev-version-5-3702708856-09c69d3
   extendedSettings:
     envVariables:
-      JAVA_TOOL_OPTIONS:
-        -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="5000
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="5000
         milliseconds"
     resources:
       limits:

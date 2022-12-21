@@ -11,12 +11,9 @@ spec:
     port: 8080
     responseTimeout: 60000
     serverCacheTimeout: 60000
-    clientCacheTimeout: 60
     eventCacheSize: 100000
     messageCacheSize: 100000
-    ioDispatcherThreadPoolSize: 10
-    maxMessagesLimit: 1000
-    messageSearchPipelineBuffer: 500
+    ioDispatcherThreadPoolSize: 1
   extendedSettings:
     envVariables:
       JAVA_TOOL_OPTIONS:
