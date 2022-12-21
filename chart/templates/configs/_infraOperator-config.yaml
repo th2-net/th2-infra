@@ -28,11 +28,11 @@ data:
     schemaSecrets:
       rabbitMQ: rabbitmq
       cassandra: cassandra
-    imagePullSecrets:
-    {{- include "imagePullSecretList" .Values.registries | trim | nindent 4 -}}
-    {{- with .Values.infraMgr.kubernetes.secrets }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
+    # imagePullSecrets:
+    # {{- include "imagePullSecretList" .Values.registries | trim | nindent 4 -}}
+    # {{- with .Values.infraMgr.kubernetes.secrets }}
+    #   {{- toYaml . | nindent 4 }}
+    # {{- end }}
  
     rabbitMQManagement:
       {{- if .Values.rabbitmq.host }}
