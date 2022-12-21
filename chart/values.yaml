@@ -80,7 +80,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 4.4.0-infra-2.0-3638552129-7b37698
+    tag: 4.4.0-infra-2.0-3748339126-91bf667
   config:
     chart:
       spec:
