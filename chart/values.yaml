@@ -74,7 +74,7 @@ infraRepo:
 
 infraOperator:
   imagePullSecrets:
-    - test
+  - test
   prometheusConfiguration:
     enabled: true
     port: 9752
