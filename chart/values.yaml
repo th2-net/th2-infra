@@ -73,8 +73,7 @@ infraRepo:
     tag: 2.0.0@sha256:5368d1e89f6093852569c69d1d3ea2d2d2b3781bdcfddd0685e942e20a38819f
 
 infraOperator:
-  imagePullSecrets:
-  - test
+  imagePullSecrets: test
   prometheusConfiguration:
     enabled: true
     port: 9752
