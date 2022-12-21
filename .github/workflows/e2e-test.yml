@@ -119,10 +119,10 @@ jobs:
       #   run: sleep 5m
       #   shell: bash
 
-      # - name: Testing
-      #   run: |
-      #     cd ./ci
-      #     go test -failfast th2_infra_test.go
+      - name: Testing
+        run: |
+          cd ./ci
+          go test -failfast th2_infra_test.go
 
       - name: Getting logs
         if: always()
