@@ -140,7 +140,7 @@ func TestInfraMgrEndpoint(t *testing.T) {
 
 func TestNamespaceReportEndpoint(t *testing.T) {
 	// t.Parallel()
-	endpoint := fmt.Sprintf("http://127.0.0.1:30000/%s/", schemaNamespace)
+	endpoint := fmt.Sprintf("http://localhost:30000/%s/", schemaNamespace)
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, reportViewerSvc, retries, timeout)
 
