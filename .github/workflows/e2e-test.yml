@@ -110,19 +110,25 @@ jobs:
           kubectl -n $INFRA_NAMESPACE patch deployments.apps infra-mgr -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz infra-git 22; do echo \"Waiting for infra-git service\"; sleep 2; done;"]}]}}}}'
           kubectl -n $INFRA_NAMESPACE patch deployments.apps infra-operator -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz rabbitmq 5672; do echo \"Waiting for rabbitmq service\"; sleep 2; done;"]}]}}}}'
           kubectl get pods --all-namespaces
-          kubectl -n $INFRA_NAMESPACE logs statefulsets/rabbitmq
-          kubectl -n $INFRA_NAMESPACE exec deployments/infra-operator -- nc -vz rabbitmq:5672
-          kubectl -n $INFRA_NAMESPACE logs deployments/infra-operator
-          kubectl -n $INFRA_NAMESPACE get cm infra-operator -oyaml
-          # kubectl -n th2-schema describe helmrelease/rpt-data-provider
-      - name: Sleep for 2 minutes
-        run: sleep 10m
-        shell: bash
+          sleep 2m
+          # kubectl -n $INFRA_NAMESPACE logs statefulsets/rabbitmq
+          # kubectl -n $INFRA_NAMESPACE exec deployments/infra-operator -- nc -vz rabbitmq:5672
+          # kubectl -n $INFRA_NAMESPACE logs deployments/infra-operator
+          # kubectl -n $INFRA_NAMESPACE get cm infra-operator -oyaml
+          kubectl -n th2-schema get hr
+          kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
+          kubectl -n th2-schema describe th2coreboxes.th2.exactpro.com rpt-data-provider
+          kubectl -n th2-schema get ingress 
+          curl -v 127.0.0.1:30000/th2-schema/
 
-      - name: Testing
-        run: |
-          cd ./ci
-          go test -failfast th2_infra_test.go
+      # - name: Sleep for 2 minutes
+      #   run: sleep 10m
+      #   shell: bash
+
+      # - name: Testing
+      #   run: |
+      #     cd ./ci
+      #     go test -failfast th2_infra_test.go
 
       - name: Getting logs
         if: always()
