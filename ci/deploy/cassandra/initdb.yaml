@@ -1,9 +1,9 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-    name: cassandra-init
-data:
-    init.cql: |
-        CREATE KEYSPACE cradle_info WITH replication={'class':'SimpleStrategy','replication_factor':1} AND durable_writes = true;
-        CREATE TABLE IF NOT EXISTS cradle_info.books (name text PRIMARY KEY,fullname text,keyspace_name text,description text,created timestamp,schema_version text);
-        CREATE TABLE IF NOT EXISTS cradle_info.books_status (book_name text,object_type text,object_name text,created timestamp,schema_version text,PRIMARY KEY(book_name,object_type,object_name));
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#     name: cassandra-init
+# data:
+#     init.cql: |
+#         CREATE KEYSPACE cradle_info WITH replication={'class':'SimpleStrategy','replication_factor':1} AND durable_writes = true;
+#         CREATE TABLE IF NOT EXISTS cradle_info.books (name text PRIMARY KEY,fullname text,keyspace_name text,description text,created timestamp,schema_version text);
+#         CREATE TABLE IF NOT EXISTS cradle_info.books_status (book_name text,object_type text,object_name text,created timestamp,schema_version text,PRIMARY KEY(book_name,object_type,object_name));
