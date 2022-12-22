@@ -10,6 +10,6 @@ data:
     "cradleMaxEventBatchSize": {{ .Values.cassandra.cradle.cradleMaxEventBatchSize | quote }},
     "cradleMaxMessageBatchSize": {{ .Values.cassandra.cradle.cradleMaxMessageBatchSize | quote }},
     "timeout": {{ .Values.cassandra.cradle.timeout | quote }},
-    "pageSize": {{ .Values.cassandra.cradle.pageSize | quote }}
+    "pageSize": {{ .Values.cassandra.cradle.pageSize | quote }},
     "prepareStorage": "true"
     }
