@@ -11,5 +11,5 @@ data:
     "cradleMaxMessageBatchSize": {{ .Values.cassandra.cradle.cradleMaxMessageBatchSize | quote }},
     "timeout": {{ .Values.cassandra.cradle.timeout | quote }},
     "pageSize": {{ .Values.cassandra.cradle.pageSize | quote }}
-    "prepareStorage": true
+    "prepareStorage": "true"
     }
