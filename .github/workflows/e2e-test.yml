@@ -126,9 +126,9 @@ jobs:
           kubectl version
           kubectl -n th2-schema describe hr rpt-data-provider
           kubectl -n th2-schema describe pod
-      - name: Sleep for 2 minutes
-        run: sleep 2m
-        shell: bash
+      # - name: Sleep for 2 minutes
+      #   run: sleep 2m
+      #   shell: bash
 
       - name: Run th2-infra deployment via Ansible
         run: |
