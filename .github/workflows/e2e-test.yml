@@ -36,7 +36,8 @@ jobs:
       matrix:
         k8s-version:
         - kindest/node:v1.19.16@sha256:d9c819e8668de8d5030708e484a9fdff44d95ec4675d136ef0a0a584e587f65c
-        - kindest/node:v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
+        # - kindest/node:v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
+        - kindest/node:v1.22.15@sha256:7d9708c4b0873f0fe2e171e2b1b7f45ae89482617778c1c875f1053d4cef2e41
     name: ${{ github.job }}
     if: |
       !contains(github.event.pull_request.labels, 'automated')
@@ -131,7 +132,8 @@ jobs:
           kubectl -n th2-schema get endpoints
           kubectl -n th2-schema get svc
           kubectl -n th2-schema get hr
-
+          kubectl -n th2-schema get ingress
+          curl -v 127.0.0.1:30000/th2-schema/
       - name: Testing
         run: |
           cd ./ci
@@ -143,6 +145,8 @@ jobs:
           kubectl -n th2-schema get endpoints
           kubectl -n th2-schema get svc
           kubectl -n th2-schema get hr
+          kubectl -n th2-schema get ingress
+          curl -v 127.0.0.1:30000/th2-schema/
 
       - name: Getting logs
         if: always()
