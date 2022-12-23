@@ -118,11 +118,13 @@ jobs:
           # kubectl -n $INFRA_NAMESPACE get cm infra-operator -oyaml
           kubectl -n th2-schema get hr
           kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
+          kubectl -n th2-schema get hr
           kubectl -n th2-schema describe th2coreboxes.th2.exactpro.com rpt-data-provider
           kubectl -n th2-schema get ingress 
           curl -v 127.0.0.1:30000/th2-schema/
           kubectl version
-          
+          kubectl -n th2-schema describe hr rpt-data-provider
+
       - name: Sleep for 2 minutes
         run: sleep 2m
         shell: bash
@@ -134,7 +136,10 @@ jobs:
           kubectl -n th2-schema get svc
           kubectl -n th2-schema get hr
           kubectl -n th2-schema get ingress
+          kubectl -n th2-schema describe hr rpt-data-provider
+          kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
           curl -v 127.0.0.1:30000/th2-schema/
+          
       - name: Testing
         run: |
           cd ./ci
