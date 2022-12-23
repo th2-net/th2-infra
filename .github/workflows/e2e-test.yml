@@ -127,7 +127,7 @@ jobs:
           kubectl -n th2-schema describe hr rpt-data-provider
           kubectl -n th2-schema describe pod
           kubectl describe nodes
-          kubectl -n kube-system logs kube-scheduler-th2-schema
+          kubectl -n kube-system get pods
       # - name: Sleep for 2 minutes
       #   run: sleep 2m
       #   shell: bash
@@ -170,7 +170,7 @@ jobs:
           kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
           kubectl -n th2-schema describe pod
           kubectl describe nodes
-          kubectl -n kube-system logs kube-scheduler-th2-schema
+          kubectl -n kube-system get pods
           curl -v 127.0.0.1:30000/th2-schema/
           echo -e "\n\033[0;31m[Pods]\033[0m" && kubectl get pods -o wide --all-namespaces || true
           echo -e "\n\033[0;31m[Services]\033[0m" && kubectl get svc --all-namespaces || true
