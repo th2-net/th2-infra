@@ -35,10 +35,10 @@ jobs:
     strategy:
       matrix:
         k8s-version:
-        - kindest/node:v1.19.16@sha256:d9c819e8668de8d5030708e484a9fdff44d95ec4675d136ef0a0a584e587f65c
+        # - kindest/node:v1.19.16@sha256:d9c819e8668de8d5030708e484a9fdff44d95ec4675d136ef0a0a584e587f65c
         # - kindest/node:v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
         # - kindest/node:v1.22.15@sha256:7d9708c4b0873f0fe2e171e2b1b7f45ae89482617778c1c875f1053d4cef2e41
-        # - kindest/node:v1.20.15@sha256:a32bf55309294120616886b5338f95dd98a2f7231519c7dedcec32ba29699394
+        - kindest/node:v1.20.15@sha256:a32bf55309294120616886b5338f95dd98a2f7231519c7dedcec32ba29699394
     name: ${{ github.job }}
     if: |
       !contains(github.event.pull_request.labels, 'automated')
@@ -125,7 +125,7 @@ jobs:
           curl -v 127.0.0.1:30000/th2-schema/
           kubectl version
           kubectl -n th2-schema describe hr rpt-data-provider
-
+          kubectl -n th2-schema describe pod
       - name: Sleep for 2 minutes
         run: sleep 2m
         shell: bash
@@ -140,7 +140,7 @@ jobs:
           kubectl -n th2-schema describe hr rpt-data-provider
           kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
           curl -v 127.0.0.1:30000/th2-schema/
-          
+          kubectl -n th2-schema describe pod          
       - name: Testing
         run: |
           cd ./ci
@@ -165,6 +165,7 @@ jobs:
           kubectl -n th2-schema get ingress
           kubectl -n th2-schema describe hr rpt-data-provider
           kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
+          kubectl -n th2-schema describe pod
           curl -v 127.0.0.1:30000/th2-schema/
           echo -e "\n\033[0;31m[Pods]\033[0m" && kubectl get pods -o wide --all-namespaces || true
           echo -e "\n\033[0;31m[Services]\033[0m" && kubectl get svc --all-namespaces || true
