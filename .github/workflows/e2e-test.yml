@@ -158,6 +158,14 @@ jobs:
       - name: Getting logs
         if: always()
         run: |
+          kubectl -n th2-schema get pods
+          kubectl -n th2-schema get endpoints
+          kubectl -n th2-schema get svc
+          kubectl -n th2-schema get hr
+          kubectl -n th2-schema get ingress
+          kubectl -n th2-schema describe hr rpt-data-provider
+          kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
+          curl -v 127.0.0.1:30000/th2-schema/
           echo -e "\n\033[0;31m[Pods]\033[0m" && kubectl get pods -o wide --all-namespaces || true
           echo -e "\n\033[0;31m[Services]\033[0m" && kubectl get svc --all-namespaces || true
           echo -e "\n\033[0;31m[Ingresses]\033[0m" && kubectl describe ingress --all-namespaces || true
