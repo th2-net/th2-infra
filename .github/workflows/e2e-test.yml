@@ -136,7 +136,12 @@ jobs:
           cd ./ci
           go test -failfast th2_infra_test.go
 
-
+      - name: Run th2-infra deployment via Ansible
+        run: |
+          kubectl -n th2-schema get pods
+          kubectl -n th2-schema get endpoints
+          kubectl -n th2-schema get svc
+          kubectl -n th2-schema get hr
 
       - name: Getting logs
         if: always()
