@@ -128,6 +128,7 @@ jobs:
           kubectl -n th2-schema describe pod
           kubectl describe nodes
           kubectl -n kube-system get pods
+          
       - name: Sleep for 2 minutes
         run: sleep 2m
         shell: bash
