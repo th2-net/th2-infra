@@ -128,23 +128,23 @@ jobs:
           kubectl -n th2-schema describe pod
           kubectl describe nodes
           kubectl -n kube-system get pods
-          kubectl -n kube-system  logs pod kube-scheduler-chart-testing-control-plane 
-      - name: Sleep for 2 minutes
-        run: sleep 2m
-        shell: bash
+          kubectl -n kube-system  logs kube-scheduler-chart-testing-control-plane 
+      # - name: Sleep for 2 minutes
+      #   run: sleep 2m
+      #   shell: bash
 
-      - name: Run th2-infra deployment via Ansible
-        run: |
-          kubectl -n th2-schema get pods
-          kubectl -n th2-schema get endpoints
-          kubectl -n th2-schema get svc
-          kubectl -n th2-schema get hr
-          kubectl -n th2-schema get ingress
-          kubectl -n th2-schema describe hr rpt-data-provider
-          kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
-          curl -v 127.0.0.1:30000/th2-schema/
-          kubectl -n th2-schema describe pod 
-          kubectl describe nodes         
+      # - name: Run th2-infra deployment via Ansible
+      #   run: |
+      #     kubectl -n th2-schema get pods
+      #     kubectl -n th2-schema get endpoints
+      #     kubectl -n th2-schema get svc
+      #     kubectl -n th2-schema get hr
+      #     kubectl -n th2-schema get ingress
+      #     kubectl -n th2-schema describe hr rpt-data-provider
+      #     kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
+      #     curl -v 127.0.0.1:30000/th2-schema/
+      #     kubectl -n th2-schema describe pod 
+      #     kubectl describe nodes         
       # - name: Testing
       #   run: |
       #     cd ./ci
