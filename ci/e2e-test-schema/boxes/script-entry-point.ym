@@ -1,0 +1,24 @@
+apiVersion: th2.exactpro.com/v2
+kind: Th2Box
+metadata:
+  name: script-entry-point
+spec:
+  imageName: dev-script
+  imageVersion: dev-script
+  type: th2-script
+  extendedSettings:
+    externalBox:
+      enabled: true
+    service:
+      enabled: false
+  pins:
+    grpc:
+      client:
+      - name: to_act
+        serviceClass: PLEASE SPECIFY SERVICE CLASS
+      - name: to_check1
+        serviceClass: PLEASE SPECIFY SERVICE CLASS
+      server:
+      - name: server
+        serviceClasses:
+        - PLEASE SPECIFY SERVICE CLASSES

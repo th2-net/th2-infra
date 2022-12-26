@@ -1,0 +1,20 @@
+apiVersion: th2.exactpro.com/v2
+kind: Th2Estore
+metadata:
+  name: estore
+spec:
+  imageName: ghcr.io/th2-net/th2-estore
+  imageVersion: 5.0.0-dev-version-5-3702701076-459e10e
+  # bookName: testbooks
+  extendedSettings:
+    envVariables:
+      JAVA_TOOL_OPTIONS: -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="5000
+        milliseconds"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 502Mi
+      requests:
+        cpu: 20m
+        memory: 100Mi
+  disabled: true
