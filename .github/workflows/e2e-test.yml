@@ -128,7 +128,7 @@ jobs:
           kubectl -n th2-schema describe pod
           kubectl describe nodes
           kubectl -n kube-system get pods
-          
+
       - name: Sleep for 2 minutes
         run: sleep 2m
         shell: bash
@@ -144,7 +144,7 @@ jobs:
           kubectl -n th2-schema get th2coreboxes.th2.exactpro.com
           curl -v 127.0.0.1:30000/th2-schema/
           kubectl -n th2-schema describe pod 
-          kubectl decribe nodes         
+          kubectl describe nodes         
       # - name: Testing
       #   run: |
       #     cd ./ci
