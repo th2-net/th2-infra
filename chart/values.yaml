@@ -82,7 +82,7 @@ infraEditorV2:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 1.8.1@sha256:07eb084238b8ef4f1b3a0dd6ea316220fa3583a1e35539647997f42621106c1e
+    tag: 1.8.1@sha256:8272259eb3636828d56c655170613b519e178c8eb15aa72a52cbcfdf16c25781
 
 infraOperator:
   prometheusConfiguration:
