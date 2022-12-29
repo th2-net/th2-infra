@@ -385,4 +385,3 @@ Expose services as LoadBalancer if available.
 
 ## Migration to v1.8.1 th2-infra chart 
 Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
-
