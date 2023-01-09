@@ -5,7 +5,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: converter
-  namespace: service
+  # namespace: service
   annotations:
   {{- include "common-annotations" . | nindent 4 }}
 data:
