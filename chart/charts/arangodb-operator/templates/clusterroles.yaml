@@ -59,7 +59,7 @@ roleRef:
 subjects:
     - kind: ServiceAccount
       name: arango-deployment-operator
-      namespace: default
+      namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -78,13 +78,13 @@ roleRef:
 subjects:
     - kind: ServiceAccount
       name: arango-deployment-operator
-      namespace: default
+      namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
     name: arango-deployment-operator-rbac-default
-    namespace: default
+    namespace: {{ .Release.Namespace }}
     labels:
         app.kubernetes.io/name: kube-arangodb
         helm.sh/chart: kube-arangodb-1.2.20
@@ -100,7 +100,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
     name: arango-deployment-operator-rbac-deployment
-    namespace: default
+    namespace: {{ .Release.Namespace }}
     labels:
         app.kubernetes.io/name: kube-arangodb
         helm.sh/chart: kube-arangodb-1.2.20
@@ -137,7 +137,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
     name: arango-deployment-operator-rbac-default
-    namespace: default
+    namespace: {{ .Release.Namespace }}
     labels:
         app.kubernetes.io/name: kube-arangodb
         helm.sh/chart: kube-arangodb-1.2.20
@@ -151,13 +151,13 @@ roleRef:
 subjects:
     - kind: ServiceAccount
       name: default
-      namespace: default
+      namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
     name: arango-deployment-operator-rbac-deployment
-    namespace: default
+    namespace: {{ .Release.Namespace }}
     labels:
         app.kubernetes.io/name: kube-arangodb
         helm.sh/chart: kube-arangodb-1.2.20
@@ -171,4 +171,4 @@ roleRef:
 subjects:
     - kind: ServiceAccount
       name: arango-deployment-operator
-      namespace: default
+      namespace: {{ .Release.Namespace }}

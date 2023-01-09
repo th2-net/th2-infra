@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: arango-deployment-operator
-    namespace: default
+    namespace: {{ .Release.Namespace }}
     labels:
         app.kubernetes.io/name: kube-arangodb
         helm.sh/chart: kube-arangodb-1.2.20
