@@ -14,6 +14,7 @@ th2 Box template chart for infra-operator
 | component.cradleManager.config | string | `nil` |  |
 | component.custom | string | `nil` |  |
 | component.dictionaries | object | `{}` |  |
+| component.extendedSettings.externalBox.enabled | bool | `false` |  |
 | component.extendedSettings.replicas | int | `1` |  |
 | component.extendedSettings.resources.limits.cpu | string | `"200m"` |  |
 | component.extendedSettings.resources.limits.ephemeral-storage | string | `"1Gi"` |  |
@@ -21,6 +22,7 @@ th2 Box template chart for infra-operator
 | component.extendedSettings.resources.requests.cpu | string | `"50m"` |  |
 | component.extendedSettings.resources.requests.ephemeral-storage | string | `"1Gi"` |  |
 | component.extendedSettings.resources.requests.memory | string | `"100Mi"` |  |
+| component.extendedSettings.service.clusterIP | list | `[]` |  |
 | component.extendedSettings.service.enabled | bool | `false` |  |
 | component.extendedSettings.service.ingress.urlPaths | list | `[]` |  |
 | component.grpc | string | `nil` |  |
