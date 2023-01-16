@@ -68,16 +68,6 @@ spec:
                 type: object
                 description: section for extended settings
                 properties:
-                  chartConfig:
-                    description: specifies which charts to use for rolling out infra
-                    properties:
-                      path:
-                        description: DESCRIPTION NEEDED
-                        type: string
-                      ref:
-                        description: DESCRIPTION NEEDED
-                        type: string
-                    type: object
                   replicas:
                     description: number of replicas
                     type: integer
@@ -296,7 +286,7 @@ spec:
                               description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
                               type: string
                               pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                              maxLength: 71
+                              maxLength: 70
                           required:
                             - name
                             - serviceClasses
@@ -368,7 +358,7 @@ spec:
                               description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
                               type: string
                               pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                              maxLength: 71
+                              maxLength: 70
                         required:
                           - name
                           - serviceClass
@@ -387,7 +377,7 @@ spec:
                               description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
                               type: string
                               pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                              maxLength: 71
+                              maxLength: 70
                             attributes:
                               description: attributes for mq
                               items:
@@ -520,7 +510,7 @@ spec:
                               description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
                               type: string
                               pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                              maxLength: 71
+                              maxLength: 70
                             attributes:
                               description: attributes for mq
                               items:
