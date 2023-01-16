@@ -26,7 +26,7 @@ appVersion: 1.0.0
 dependencies:
 - alias: rabbitmq
   condition: rabbitmq.internal
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami 
+  repository: https://charts.bitnami.com/bitnami
   name: rabbitmq
   version: 11.0.3
 - alias: cassandra
