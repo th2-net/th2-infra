@@ -1,6 +1,6 @@
 dependencies:
 - name: rabbitmq
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+  repository: https://charts.bitnami.com/bitnami
   version: 11.0.3
 - name: cassandra
   repository: https://charts.bitnami.com/bitnami
@@ -11,5 +11,5 @@ dependencies:
 - name: helm-controller
   repository: ""
   version: 0.1.0
-digest: sha256:9a346f7669b4553e6b5f2ab34831d5813b5d71d7c09d221233f87a25647c03a0
-generated: "2023-01-16T09:40:00.862330711Z"
+digest: sha256:6026c47743c68df687364b2304ccb2b0ac690c8318fb223adc501f171eb46026
+generated: "2023-01-16T09:49:46.333148683Z"
