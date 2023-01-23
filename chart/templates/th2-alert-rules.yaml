@@ -107,7 +107,7 @@ spec:
           POD {{`{{ $labels.pod }}`}} has been restarted by reason {{`{{ $labels.reason }}`}}
         summary:
           pod has been restarted  
-      expr: kube_pod_container_status_last_terminated_reason{namespace=~"th2.*", reason="OOMKilled|Error|Evicted"} == 1 and on(container) rate(kube_pod_container_status_restarts_total[5m]) * 300 > 1
+      expr: kube_pod_container_status_last_terminated_reason{namespace=~"th2.*", reason=~"OOMKilled|Error|Evicted"} == 1 and on(container) rate(kube_pod_container_status_restarts_total[5m]) * 300 > 1
       labels:
         severity: high
         team: devops       
