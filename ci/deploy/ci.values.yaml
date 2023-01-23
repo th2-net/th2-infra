@@ -7,6 +7,9 @@ infraRepo:
     tag: e2e
 externalRabbitMQHost:
   host: localhost
+jupyterhub:
+  custom:
+    internal: true
 rabbitmq:
   auth:
     username: th2

@@ -82,10 +82,14 @@ grafana:
         url: http://infra-repo.service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.2.json
       Components-logs:
         url: http://infra-repo.service.svc.cluster.local:8080/dashboards/components-logs.json
-      Monitoring-1:
-        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-old.json
-      Monitoring-3:
-        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring-new.json
+      Monitoring:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring.json
+      Infra-dashboard:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/infra-dashboard.json
+      JVM-dashboard:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/JVM-dashboard(for-Prometheus-Operator).json
+      Diagnostic-dashboard:
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/diagnostic-dashboard-v1.0.2.json
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1

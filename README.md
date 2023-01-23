@@ -74,7 +74,7 @@ _Note: Examples below use HostPath type of [Persistent Volume(PV)](https://kuber
 
 * the following command can require root permissions, create directory on th2 node:
 ```
-$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq
+$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq  /opt/jupiter_users /opt/jupiter_db
 ```
 * set node name in `pvs.yaml`
 * create PVs and PVCs:
@@ -383,5 +383,6 @@ Expose services as LoadBalancer if available.
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
 
-## Migration to v1.8.0 th2-infra chart 
+## Migration to v1.8.1 th2-infra chart 
 Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
+

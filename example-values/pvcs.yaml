@@ -32,3 +32,19 @@ spec:
   selector:
     matchLabels:
       app: "grafana"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jupiter-users-volume
+  namespace: service
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-storage
+  selector:
+    matchLabels:
+      app: jupiter-users

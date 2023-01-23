@@ -1,5 +1,57 @@
 # Migrations
 
+## Migration to RELEASE v1.8.1
+* jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jupyterhub parent value.
+  <details>
+    <summary>jupyterhub PV and PVC</summary>
+
+    ### Create directory
+    * the following command can require root permissions, create directory on th2 node:
+    ```
+    $ mkdir /opt/jupiter_users /opt/jupiter_db
+    ```
+
+    ### Apply PV and PVC
+    * jupyterhub PV and PVC are in example-values/pvs.yaml and example-values/pvcs.yaml
+    ```
+    $ kubectl apply -f ./pvs.yaml
+    $ kubectl apply -f ./pvcs.yaml
+    ```
+  </details>
+
+* Infra, Diagnostic and JVM dashboards should be added in grafana, monitoring-old should be removed and monitoring-new should be renamed during deployment
+  <details>
+    <summary>Adding dashboards</summary>
+
+    ### Adding Urls in Prometheus-stack
+    * Infra, Diagnostic and JVM dashboards should be added in grafana from infra-repo by Url.
+    ```
+      grafana:
+        dashboards:
+          default:
+            Infra-dashboard:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/infra-dashboard.json
+            JVM-dashboard:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/JVM-dashboard(for-Prometheus-Operator).json
+            Diagnostic-dashboard:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/diagnostic-dashboard-v1.0.2.json
+    ```
+  </details>
+  <details>
+    <summary>Editing monitoring dashboards</summary>
+
+    ### Edit Urls in Prometheus-stack
+    * The section with monitoring-old and monitoring-new dashboards should be replaced with the following.
+    ```
+      grafana:
+        dashboards:
+          default:
+            Monitoring:
+              url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring.json
+    ```
+  </details>
+
+
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
 * Prometheus stack must be upgraded 15.0.0 > 21.0.5
