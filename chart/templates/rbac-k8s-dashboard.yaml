@@ -10,10 +10,7 @@ rules:
   - database.arangodb.com
   resources:
   - '*'
-  verbs:
-  - get
-  - watch
-  - list
+  verbs: ["*"]
 - apiGroups:
   - helm.fluxcd.io
   resources:
