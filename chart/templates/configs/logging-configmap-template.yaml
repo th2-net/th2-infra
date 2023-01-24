@@ -73,6 +73,14 @@ data:
 
     logger.sf.name=com.exactpro.sf
     logger.sf.level=${LOGLEVEL_JAVA}
+  zerolog.properties: |
+    global_level=${LOGLEVEL_GO}
+    time_field=time
+    disable_sampling=false
+    time_format=2006-01-02 15:04:05.000
+    level_field=level
+    message_field=message
+    error_field=error
 kind: ConfigMap
 metadata:
   name: logging-config-template
