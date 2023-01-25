@@ -316,6 +316,12 @@ jupyterhub:
   custom:
     internal: true
   hub:
+    config:
+      Authenticator:
+        admin_users: []
+        allowed_users: []
+      DummyAuthenticator:
+        password: ""
     service:
       ports:
         nodePort: 30081
