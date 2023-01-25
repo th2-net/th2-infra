@@ -20,6 +20,7 @@ spec:
       protocol: TCP
       targetPort: metrics
   {{- end }}
+{{- if .Values.component.extendedSettings.service.enabled }}
 {{- if .Values.component.extendedSettings.service.nodePort }}
   {{- range $list := .Values.component.extendedSettings.service.nodePort }}
     - name: {{ default "default" $list.name }}
@@ -45,6 +46,7 @@ spec:
       targetPort: {{ default "8080" $list.containerPort }}
       {{- end }}
   type: ClusterIP
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
