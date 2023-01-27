@@ -345,6 +345,13 @@ jupyterhub:
       type: NodePort
   singleuser:
     storage:
+      extraVolumes:
+      - name: jupyterhub-shared
+        persistentVolumeClaim:
+          claimName: jupyterhub-shared-volume
+      extraVolumeMounts:
+      - name: jupyterhub-shared
+        mountPath: /home/jovyan/shared
       capacity: 200Mi
       static:
         pvcName: jupiter-users-volume
