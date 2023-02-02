@@ -3,6 +3,7 @@ commonAnnotations: {}
 openshift:
   enabled: false
 component:
+  runAsJob: false
   bookConfig:
     bookName: defaultBook
   ingress:
