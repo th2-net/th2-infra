@@ -14,7 +14,7 @@ nodes:
         # optional: set the protocol to one of TCP, UDP, SCTP.
         # TCP is the default
         protocol: TCP
-  - role: slave
+  - role: worker
     extraPortMappings:
       - containerPort: 30000
         hostPort: 30000
