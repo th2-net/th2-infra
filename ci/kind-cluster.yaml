@@ -5,7 +5,6 @@ networking:
   serviceSubnet: "10.96.0.0/12"
 nodes:
   - role: control-plane
-  - role: worker
     extraPortMappings:
       - containerPort: 30000
         hostPort: 30000
