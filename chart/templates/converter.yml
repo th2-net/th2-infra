@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: converter
-  namespace: service
   annotations:
   {{- include "common-annotations" . | nindent 4  }}
   labels:

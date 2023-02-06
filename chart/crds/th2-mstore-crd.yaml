@@ -66,16 +66,6 @@ spec:
                 type: object
                 description: section for extended settings
                 properties:
-                  chartConfig:
-                    description: specifies which charts to use for rolling out infra
-                    properties:
-                      path:
-                        description: DESCRIPTION NEEDED
-                        type: string
-                      ref:
-                        description: DESCRIPTION NEEDED
-                        type: string
-                    type: object
                   replicas:
                     description: number of replicas
                     type: integer
