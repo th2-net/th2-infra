@@ -352,6 +352,12 @@ jupyterhub:
         http: 30080
         https: 30443
   hub:
+    config:
+      Authenticator:
+        admin_users: []
+        allowed_users: []
+      DummyAuthenticator:
+        password: ""
     service:
       type: NodePort
       ports:
@@ -369,6 +375,13 @@ jupyterhub:
         storageClassName: local-storage
   singleuser:
     storage:
+      extraVolumes:
+        - name: jupyterhub-shared
+          persistentVolumeClaim:
+            claimName: jupyterhub-shared-volume
+      extraVolumeMounts:
+        - name: jupyterhub-shared
+          mountPath: /home/jovyan/shared
       capacity: 200Mi
       static:
         pvcName: jupiter-users-volume

@@ -2,6 +2,25 @@
 
 ## Migration to RELEASE v2.0.0
 * jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jhub parent value.
+* Update secrets.yaml
+  <details>
+    <summary>Adding Jupyterhub users</summary>
+
+    ### Adding Credentials
+    * Values for admin and regular user credentials should be added into secrets.yaml
+    ```
+    jupyterhub:
+      hub:
+        config:
+          Authenticator:
+            admin_users:
+              - <admin-username>
+            allowed_users:
+              - <username>
+          DummyAuthenticator:
+            password: <password>
+    ```
+  </details>
 * Infra, Diagnostic and JVM dashboards should be added in grafana during deployment
   <details>
     <summary>Adding dashboards</summary>
