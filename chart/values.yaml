@@ -342,6 +342,6 @@ dashboard:
 
 arangodb:
   internal: true
-  licenseKey: ""
+
 logging:
   th2: INFO 

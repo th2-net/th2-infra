@@ -202,6 +202,13 @@ rabbitmq:
     hostname: example.com
 ```
 
+### Define arangodb namespace
+* set `arangodb.namespace` value if required into [service.values.yaml](./example-values/service.values.yaml) file otherwise it will be installed in infra namespace
+```
+arangodb:
+  namespace: example.namespace
+```
+
 ### Create secret with th2 credentials
 
 Create secrets.yaml in `./` folder (*do not commit into git*). Example:

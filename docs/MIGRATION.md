@@ -32,6 +32,23 @@
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring.json
     ```
   </details>
+* Add arangodb namespace
+  <details>
+    <summary>Adding namespace<sumamry>
+
+    ### Create namespace for arangodb
+    * namespace should be created for arangodb installation otherwive it will be installed in the same namespace as infra
+    ```
+    $ kubectl create ns arangodb
+    ```
+
+    ### Adding namespace into values
+    * namespace should be added into service.values.yaml file if required
+    ```
+      arangodb:
+        namespace: <namespace>
+    ```
+  </details>
 
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
