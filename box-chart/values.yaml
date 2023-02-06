@@ -17,6 +17,8 @@ component:
   image:
   name: comp1
   extendedSettings:
+    parallelism: 1
+    completions: 1
     externalBox:
       enabled: false
     service:

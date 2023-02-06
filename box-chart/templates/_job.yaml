@@ -11,10 +11,11 @@ metadata:
   annotations:
   {{- include "common-annotations" .Values | nindent 4  }}
 spec:
-  replicas: {{ .Values.component.extendedSettings.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.component.name }}
+  parallelism: {{ .Values.component.extendedSettings.parallelism }}
+  completions: {{ .Values.component.extendedSettings.completions }}
   template:
     metadata:
       annotations:
@@ -40,6 +41,7 @@ spec:
         env:
         {{- include "envVariable" .Values }}
         {{- include "volumes" .Values }}
+      restartPolicy: OnFailure
       imagePullSecrets:
       {{- range $pullSecret := .Values.component.imagePullSecrets }}
       - name: {{ $pullSecret | replace "." "-" | replace ":" "-" }}
@@ -55,5 +57,5 @@ spec:
       hostAliases:
         {{ .Values.component.extendedSettings.hostAliases | toYaml | nindent 8 }}
       {{- end }}
-  revisionHistoryLimit: 2
+  backoffLimit: 4
 {{- end }}
