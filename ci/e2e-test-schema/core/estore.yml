@@ -4,7 +4,7 @@ metadata:
   name: estore
 spec:
   imageName: ghcr.io/th2-net/th2-estore
-  imageVersion: 3.3.0
+  imageVersion: 5.0.0-dev-version-5-3900619177-a23ad36
   extendedSettings:
     envVariables:
       JAVA_TOOL_OPTIONS:
