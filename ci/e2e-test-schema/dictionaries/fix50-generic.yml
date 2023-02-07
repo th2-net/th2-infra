@@ -294,8 +294,6 @@ spec:
                 <value name="QUOTE">S</value>
                 <value name="QUOTE_CANCEL">Z</value>
                 <value name="MASS_QUOTE_ACKNOWLEDGEMENT">b</value>
-                <value name="SECURITY_STATUS_REQUEST">e</value>
-                <value name="SECURITY_STATUS">f</value>
                 <value name="BUSINESS_MESSAGE_REJECT">j</value>
                 <value name="BID_REQUEST">k</value>
                 <value name="ORDER_MASS_CANCEL_REQUEST">q</value>
@@ -2920,11 +2918,11 @@ spec:
                 <value name="AUSTRALIAN_BUSINESS_NUMBER">9</value>
                 <value name="AUSTRALIAN_TAX_FILE_NUMBER">A</value>
                 <value name="BIC">B</value>
-                <value name="SHORT_CODE_IDENTIFIER">P</value>
                 <value name="GENERALLY_ACCEPTED_MARKET_PARTICIPANT_IDENTIFIER">C</value>
                 <value name="PROPRIETARY_CUSTOM_CODE">D</value>
                 <value name="ISO_COUNTRY_CODE">E</value>
                 <value name="SETTLEMENT_ENTITY_LOCATION">F</value>
+                <value name="CUSTOM">P</value>
                 <value name="MIC">G</value>
                 <value name="CSD_PARTICIPANT_MEMBER_CODE">H</value>
                 <value name="DIRECTED_BROKER">I</value>
@@ -3025,7 +3023,7 @@ spec:
                 <value name="TRADER_GROUP">76</value>
                 <value name="MARKET_DATA_MARKET">77</value>
                 <value name="ALLOCATION_ENTITY">78</value>
-                <value name="INVESTMENT_DECISION_MAKER">122</value>
+                <value name="InvestmentDecisionMaker">122</value>
             </field>
             <field id="field-NoPartyIDs" name="NoPartyIDs" type="java.lang.Integer">
                 <attribute name="tag" type="java.lang.Integer">453</attribute>
@@ -6967,10 +6965,6 @@ spec:
                 <attribute name="tag" type="java.lang.Integer">1300</attribute>
                 <attribute name="fixtype" type="java.lang.String">STRING</attribute>
             </field>
-            <field id="field-MarketID" name="MarketID" type="java.lang.String">
-                <attribute name="tag" type="java.lang.Integer">1301</attribute>
-                <attribute name="fixtype" type="java.lang.String">MARKETID</attribute>
-            </field>
             <field id="field-RejectText" name="RejectText" type="java.lang.String">
                 <attribute name="tag" type="java.lang.Integer">1328</attribute>
                 <attribute name="fixtype" type="java.lang.String">STRING</attribute>
@@ -7274,42 +7268,6 @@ spec:
                 <attribute name="fixtype" type="java.lang.String">NUMINGROUP</attribute>
                 <field name="BidDescriptorType" reference="field-BidDescriptorType" required="false"/>
             </message>
-            <message name="SecurityStatusRequest">
-                <attribute name="entity_type" type="java.lang.String">Message</attribute>
-                <attribute name="IsAdmin" type="java.lang.Boolean">false</attribute>
-                <attribute name="MessageType" type="java.lang.String">e</attribute>
-                <field name="header" reference="header" required="true"/>
-                <field name="SecurityStatusReqID" reference="field-SecurityStatusReqID" required="true"/>
-                <field name="SecurityID" reference="field-SecurityID" required="true"/>
-                <field name="SecurityIDSource" reference="field-SecurityIDSource" required="true"/>
-                <field name="TradingSessionID" reference="field-TradingSessionID" required="false"/>
-                <field name="SubscriptionRequestType" reference="field-SubscriptionRequestType" required="false"/>
-                <field name="trailer" reference="trailer" required="true"/>
-            </message>
-            <message name="SecurityStatus">
-                <attribute name="entity_type" type="java.lang.String">Message</attribute>
-                <attribute name="IsAdmin" type="java.lang.Boolean">false</attribute>
-                <attribute name="MessageType" type="java.lang.String">f</attribute>
-                <field name="header" reference="header" required="true"/>
-                <field name="SecurityID" reference="field-SecurityID" required="true"/>
-                <field name="SecurityIDSource" reference="field-SecurityIDSource" required="true"/>
-                <field name="SecurityStatusReqID" reference="field-SecurityStatusReqID" required="true"/>
-                <field name="Currency" reference="field-Currency" required="false"/>
-                <field name="MarketID" reference="field-MarketID" required="false"/>
-                <field name="MarketSegmentID" reference="field-MarketSegmentID" required="false"/>
-                <field name="TradingSessionID" reference="field-TradingSessionID" required="false"/>
-                <field name="TradingSessionSubID" reference="field-TradingSessionSubID" required="false"/>
-                <field name="UnsolicitedIndicator" reference="field-UnsolicitedIndicator" required="false"/>
-                <field name="SecurityTradingStatus" reference="field-SecurityTradingStatus" required="true"/>
-                <field name="BuyVolume" reference="field-BuyVolume" required="false"/>
-                <field name="SellVolume" reference="field-SellVolume" required="false"/>
-                <field name="HighPx" reference="field-HighPx" required="false"/>
-                <field name="LowPx" reference="field-LowPx" required="false"/>
-                <field name="LastPx" reference="field-LastPx" required="false"/>
-                <field name="FirstPx" reference="field-FirstPx" required="false"/>
-                <field name="Text" reference="field-Text" required="false"/>
-                <field name="trailer" reference="trailer" required="true"/>
-            </message>
             <message name="NewOrderSingle">
                 <attribute name="entity_type" type="java.lang.String">Message</attribute>
                 <attribute name="IsAdmin" type="java.lang.Boolean">false</attribute>
@@ -7328,7 +7286,7 @@ spec:
                 <field name="ExpireDate" reference="field-ExpireDate" required="false"/>
                 <field name="Side" reference="field-Side" required="true"/>
                 <field name="OrderQty" reference="field-OrderQty" required="true"/>
-                <field name="DisplayQty" reference="field-DisplayQty" required="false"/>
+                <field name="DisplayQty" reference="field-DisplayQty" required="true"/>
                 <field name="DisplayMethod" reference="field-DisplayMethod" required="false"/>
                 <field name="Price" reference="field-Price" required="false"/>
                 <field name="StopPx" reference="field-StopPx" required="false"/>
@@ -7415,7 +7373,7 @@ spec:
                 <field name="ExpireDate" reference="field-ExpireDate" required="false"/>
                 <field name="Side" reference="field-Side" required="true"/>
                 <field name="OrderQty" reference="field-OrderQty" required="true"/>
-                <field name="DisplayQty" reference="field-DisplayQty" required="false"/>
+                <field name="DisplayQty" reference="field-DisplayQty" required="true"/>
                 <field name="DisplayMethod" reference="field-DisplayMethod" required="false"/>
                 <field name="Price" reference="field-Price" required="false"/>
                 <field name="StopPx" reference="field-StopPx" required="false"/>
