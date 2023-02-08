@@ -18,5 +18,5 @@ spec:
         cpu: 20m
         memory: 100Mi
     service:
-      enabled: false
+      enabled: true
  
