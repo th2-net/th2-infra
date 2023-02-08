@@ -19,6 +19,4 @@ spec:
         memory: 100Mi
     service:
       enabled: false
-  disabled: true    
-      
  
