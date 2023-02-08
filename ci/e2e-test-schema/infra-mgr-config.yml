@@ -3,7 +3,7 @@ metadata:
   name: infra-mgr-config
 spec:
   cradle: 
-    keyspace: "schema"
+    keyspace: "system"
   k8s-propagation: rule
   th2BoxConfig:
     logging:
