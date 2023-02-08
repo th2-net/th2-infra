@@ -2,17 +2,24 @@ kind: SettingsFile
 metadata:
   name: infra-mgr-config
 spec:
-#  cradle: 
-#    keyspace: "test3"
-  k8s-propagation: rule
+  cradle: 
+    keyspace: test3
+  bookConfig:
+    defaultBook: "demo_book_1"
   th2BoxConfig:
+    mqRouter:
+      connectionTimeout: -1
+      connectionCloseTimeout: 10000
+      maxRecoveryAttempts: 5
+    grpcRouter:
+      workers: 5
+    cradleManager:
+      connectionCloseTimeout: 1000
     logging:
       logLevelTh2: DEBUG
       logLevelRoot: INFO
-  bookConfig:
-    # bookNames:
-    #   - "dvbook1"
-    defaultBook: "book"
+
+   
 #
 #  values for k8s-propagation property:
 #
