@@ -2,8 +2,8 @@ kind: SettingsFile
 metadata:
   name: infra-mgr-config
 spec:
-#  cradle: 
-#    keyspace: "test3"
+  cradle: 
+    keyspace: "test3"
   k8s-propagation: rule
   th2BoxConfig:
     logging:
