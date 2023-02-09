@@ -6,6 +6,8 @@ spec:
   imageName: ghcr.io/th2-net/th2-rpt-data-provider
   imageVersion: 5.6.0-master_migration_to_cradle_rebase-3996142926
   type: th2-rpt-data-provider
+  cradleManager:
+    prepareStorage: true
   customConfig:
     hostname: localhost
     port: 8080
@@ -22,6 +24,7 @@ spec:
     eventCacheSize: 100000
     messageCacheSize: 100000
     ioDispatcherThreadPoolSize: 10
+
 
   extendedSettings:
     envVariables:
