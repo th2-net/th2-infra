@@ -10,9 +10,9 @@ spec:
       logLevelTh2: DEBUG
       logLevelRoot: INFO
   bookConfig:
-    # bookNames:
-    #   - "dvbook1"
-    defaultBook: "book"
+    bookNames:
+      - "dvbook1"
+    defaultBook: "booktest"
 #
 #  values for k8s-propagation property:
 #
