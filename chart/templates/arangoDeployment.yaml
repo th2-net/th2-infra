@@ -1,7 +1,7 @@
 apiVersion: "database.arangodb.com/v1"
 kind: "ArangoDeployment"
 metadata:
-  name: "example-simple-cluster"
+  name: "arangodb"
   namespace: {{ .Values.arangodb.namespace }}
 spec:
   metrics:
@@ -13,5 +13,6 @@ spec:
     prometheus.io/scrape: 'true'
     prometheus.io/port: '9101'
     prometheus.io/scrape_interval: '5s'
+  ownerReferences: {}
   mode: Cluster
   image: 'arangodb/arangodb:3.7.10'
