@@ -6,6 +6,8 @@ th2 service Helm chart
 
 ## Requirements
 
+
+
 | Repository | Name | Version |
 |------------|------|---------|
 |  | cassandra(cassandra) | 5.6.7 |
