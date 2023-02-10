@@ -80,6 +80,10 @@ infraOperator:
     repository: ghcr.io/th2-net/th2-infra-operator
     tag: 4.4.3-infra-2.0-4006752623-45bb088
   config:
+    chart:
+      spec:
+        chart: box-chart
+        version: 1.0.0
     namespacePrefixes:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
