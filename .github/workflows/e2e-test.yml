@@ -132,9 +132,9 @@ jobs:
           # kubectl -n kube-system get pods
           # kubectl -n kube-system  logs kube-scheduler-chart-testing-control-plane
 
-      # - name: Sleep for 2 minutes
-      #   run: sleep 2m
-      #   shell: bash
+      - name: Sleep for 2 minutes
+        run: sleep 2m
+        shell: bash
 
       # - name: Run th2-infra deployment via Ansible
       #   run: |
@@ -148,10 +148,10 @@ jobs:
       #     curl -v 127.0.0.1:30000/th2-schema/
       #     kubectl -n th2-schema describe pod 
       #     kubectl describe nodes         
-      # - name: Testing
-      #   run: |
-      #     cd ./ci
-      #     go test -failfast th2_infra_test.go
+      - name: Testing
+        run: |
+          cd ./ci
+          go test -failfast th2_infra_test.go
 
       - name: Run th2-infra deployment via Ansible
         run: |
