@@ -99,3 +99,4 @@
               privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
         create_namespace: true
         wait: true
+        wait_timeout: 10m

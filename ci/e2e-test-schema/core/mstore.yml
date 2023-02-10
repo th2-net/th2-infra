@@ -4,7 +4,7 @@ metadata:
   name: mstore
 spec:
   imageName: ghcr.io/th2-net/th2-mstore
-  imageVersion: 3.2.0
+  imageVersion: 5.0.0-dev-version-5-3900619717-d39c804
   extendedSettings:
     envVariables:
       JAVA_TOOL_OPTIONS:
@@ -19,4 +19,5 @@ spec:
         memory: 100Mi
     service:
       enabled: false
-  disabled: true
+  disabled: false   
+ 

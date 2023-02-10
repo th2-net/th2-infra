@@ -6,7 +6,7 @@ metadata:
     e2e: "test-annotation"
 spec:
   imageName: ghcr.io/th2-net/th2-rpt-viewer
-  imageVersion: 3.1.127
+  imageVersion: 5.1.6 #5.0.67-books-pages-5-3748908791 #5.0.68-books-pages-5-3755481216
   type: th2-rpt-viewer
   extendedSettings:
     hostAliases:
