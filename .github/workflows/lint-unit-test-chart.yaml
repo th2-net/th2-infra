@@ -50,7 +50,7 @@ jobs:
       - name: Run infra chart linting
         run: |
           ct lint \
-            --chart-repos rabbitmq=https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami,helm-operator=https://charts.fluxcd.io,kubernetes-dashboard=https://kubernetes.github.io/dashboard \
+            --chart-repos rabbitmq=https://charts.bitnami.com/bitnami,kubernetes-dashboard=https://kubernetes.github.io/dashboard \
             --lint-conf=./ci/cfg/lint-cfg.yml \
             --check-version-increment \
             --validate-maintainers=false --debug --charts ./chart
