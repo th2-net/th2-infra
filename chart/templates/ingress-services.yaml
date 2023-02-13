@@ -44,6 +44,13 @@ spec:
             name: converter
             port:
               number: 8080
+      - path: /storage/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
+        pathType: Prefix
+        backend:
+          service:
+            name: storage-service
+            port:
+              number: 8080
       {{- if .Values.infraEditorV2.enabled }}
       - path: /editor-2{{ ternary "/" "($|/.*)" $.Values.openshift.enabled }}
         pathType: Prefix

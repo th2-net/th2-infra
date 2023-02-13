@@ -194,6 +194,27 @@ converter:
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
+storageService:
+  prometheusConfiguration:
+    enabled: true
+    port: 9752
+  image:
+    repository: ghcr.io/th2-net/th2-storage-services
+    tag: 0.1.0-initial-3197171695-6c83553
+  livenessProbe:
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    periodSeconds: 30
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2500Mi
+    requests:
+      cpu: 100m
+      memory: 700Mi
+  jvm:
+    javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
+
 infraGit:
   # -- If there is no ability to get access for cluster to repo with schemas namespaces configs git repo can be deployed internal in the cluster.
   # Change to "internal = true" in case you need internal git repo.
