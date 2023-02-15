@@ -3,6 +3,7 @@ commonAnnotations: {}
 openshift:
   enabled: false
 component:
+  runAsJob: false
   bookConfig:
     bookName: defaultBook
   ingress:
@@ -16,6 +17,8 @@ component:
   image:
   name: comp1
   extendedSettings:
+    parallelism: 1
+    completions: 1
     externalBox:
       enabled: false
     service:
