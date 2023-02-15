@@ -78,16 +78,12 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 4.4.2-infra-2.0-3904397522-c864c9b
+    tag: 4.4.3-infra-2.0-4006752623-45bb088
   config:
     chart:
       spec:
         chart: box-chart
         version: 1.0.0
-        sourceRef:
-          kind: HelmRepository
-          name: helm-repo
-          namespace: service
     namespacePrefixes:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
