@@ -40,8 +40,8 @@ data:
       {{- else }}
       host: "{{ .Values.rabbitmq.fullnameOverride }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
       {{- end }}
-      managementPort: {{ .Values.rabbitmq.service.managerPort | quote }}
-      applicationPort: {{ .Values.rabbitmq.service.port | quote }}
+      managementPort: {{ .Values.rabbitmq.service.ports.manager | quote }}
+      applicationPort: {{ .Values.rabbitmq.service.ports.amqp | quote }}
       vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
       exchangeName: {{ .Values.infraOperator.config.rabbitMQManagement.exchangeName | quote }}
       username: {{ .Values.rabbitmq.auth.username | quote }}
