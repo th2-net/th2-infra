@@ -21,6 +21,7 @@ spec:
       targetPort: metrics
   {{- end }}
 {{- if .Values.component.extendedSettings.service.nodePort }}
+  {{- if .Values.component.extendedSettings.service.enabled }}
   {{- range $list := .Values.component.extendedSettings.service.nodePort }}
     - name: {{ default "default" $list.name }}
       protocol: {{ $list.protocol }}
@@ -28,22 +29,27 @@ spec:
       targetPort: {{ default "8080" $list.containerPort }}
       nodePort: {{ $list.exposedPort }}
   {{- end }}
+  {{- end }}
   type: NodePort
 {{ else if .Values.component.extendedSettings.service.loadBalancer }}
+  {{- if .Values.component.extendedSettings.service.enabled }}
   {{- range $list := .Values.component.extendedSettings.service.loadBalancer }}
     - name: {{ $list.name }}
       protocol: {{ $list.protocol }}
       port: {{ default 8080 $list.containerPort  }}
       targetPort: {{ default "8080" $list.containerPort }}
       {{- end }}
+  {{- end }}
   type: LoadBalancer
 {{ else }}
+  {{- if .Values.component.extendedSettings.service.enabled }}
   {{- range $list := .Values.component.extendedSettings.service.clusterIP }}
     - name: {{ $list.name }}
       protocol: {{ $list.protocol }}
       port: {{ default 8080 $list.containerPort  }}
       targetPort: {{ default "8080" $list.containerPort }}
       {{- end }}
+  {{- end }}
   type: ClusterIP
 {{- end }}
 {{- end }}

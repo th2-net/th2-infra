@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-service
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+  labels:
+    app: storage-service
+    {{ include "th2-labels" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: storage-service
+  template:
+    metadata:
+      labels:
+        app: storage-service
+    spec:
+      imagePullSecrets:
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+      {{- if .Values.hostAliases }}
+      hostAliases: {{ toYaml .Values.hostAliases | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: configs
+          projected:
+            sources:
+              - configMap:
+                  name: storage-service
+              - configMap:
+                  name: logging-config
+      containers:
+      - name: storage-service
+        image: "{{ .Values.storageService.image.repository }}:{{ .Values.storageService.image.tag }}"
+        ports:
+          - name: default
+            containerPort: 8080
+          {{- if .Values.storageService.prometheusConfiguration.enabled }}
+          - name: metrics
+            containerPort: {{ .Values.storageService.prometheusConfiguration.port }}
+          {{- end }}
+        resources:
+{{ toYaml .Values.storageService.resources | indent 10 }}
+        volumeMounts:
+          - mountPath: /home/main/layers/resources
+            name: configs
+            readOnly: true
+        env:
+          - name: CASSANDRA_PASS
+            valueFrom:
+              secretKeyRef:
+                {{- if .Values.cassandra }}
+                  {{- if .Values.cassandra.fullnameOverride }}
+                  name: {{ .Values.cassandra.fullnameOverride }}
+                  {{- else }}
+                  name: cassandra
+                  {{- end }}
+                  key: cassandra-password
+                {{- end }}
+          {{- if .Values.storageService.jvm.javaToolOptions }}
+          - name: JAVA_TOOL_OPTIONS
+            value: {{ .Values.storageService.jvm.javaToolOptions | quote }}
+          {{- end }}

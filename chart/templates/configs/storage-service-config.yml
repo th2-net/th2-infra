@@ -1,0 +1,37 @@
+{{/*
+  Generating config-map for converter for k8
+  */}}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: storage-service
+  annotations:
+  {{- include "common-annotations" . | nindent 4 }}
+data:
+  application.yml: |
+    micronaut:
+      application:
+        name: th2-storage-services
+      server:
+        context-path: /api
+      router:
+        static-resources:
+          swagger:
+            paths: classpath:META-INF/swagger
+            mapping: /swagger/**
+    netty:
+      default:
+        allocator:
+          max-order: 3
+    cassandra:
+      "dataCenter": {{ .Values.cassandra.cluster.datacenter | quote }}
+      {{- if .Values.cassandra.host }}
+      "host": {{ .Values.cassandra.host | quote }}
+      {{- else }}
+      "host": "{{ .Values.cassandra.fullnameOverride }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
+      {{- end }}
+      "port": 9042
+      "username": {{ .Values.cassandra.dbUser.user | quote }}
+      "password": "${CASSANDRA_PASS}"
+      "timeout": {{ .Values.cassandra.cradle.timeout }}
+      
