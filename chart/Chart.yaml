@@ -43,3 +43,7 @@ dependencies:
   condition: helmController.internal
   name: helm-controller
   version: 0.1.0
+- alias: arangodb
+  condition: arangodb.internal
+  name: arangodb-operator
+  version: 0.1.0

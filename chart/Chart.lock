@@ -11,5 +11,8 @@ dependencies:
 - name: helm-controller
   repository: ""
   version: 0.1.0
-digest: sha256:6026c47743c68df687364b2304ccb2b0ac690c8318fb223adc501f171eb46026
-generated: "2023-01-16T09:49:46.333148683Z"
+- name: arangodb-operator
+  repository: ""
+  version: 0.1.0
+digest: sha256:61fa19df02fa89cbed6fadce49096a999285a99ba84bb4d6c864f25e592b3b42
+generated: "2023-02-15T12:00:17.316041368Z"
