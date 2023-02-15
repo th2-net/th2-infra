@@ -623,3 +623,11 @@ tests:
       - equal:
           path: spec.template.metadata.annotations.checksum/fix50-generic
           value: fix50-checksum
+  - it: set runAsJob
+    documentIndex: 1
+    set:
+      component:
+        runAsJob: true
+    asserts:
+      - isKind:
+          of: Job
