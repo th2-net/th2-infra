@@ -1,6 +1,10 @@
 # Migrations
 
 ## Migration to RELEASE v2.0.0
+* Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.20-1.25 releases
+* NGINX Ingress Controller chart must be upgraded 4.1.2 > 4.3.0.
+* Prometheus-stack should be upgraded 21.0.5 > 41.4.0.
+* Loki-stack should be upgraded 2.6.5 > 2.8.3.
 * Infra, Diagnostic and JVM dashboards should be added in grafana during deployment
   <details>
     <summary>Adding dashboards</summary>
@@ -32,6 +36,7 @@
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring.json
     ```
   </details>
+
 * Add arangodb namespace
   <details>
     <summary>Adding namespace<sumamry>
@@ -47,6 +52,14 @@
     ```
       arangodb:
         namespace: <namespace>
+
+* Helm operator is removed from chart dependency.
+  <details>
+    <summary>Helm-controller is going to be used instead of Helm-operator</summary> 
+    
+    ### HelmRelease CRD must be removed before infra installation
+    ```
+    $ kubectl delete crd helmreleases.helm.fluxcd.io
     ```
   </details>
 
