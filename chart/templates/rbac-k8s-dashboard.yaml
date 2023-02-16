@@ -8,6 +8,13 @@ metadata:
 rules:
 - apiGroups:
   - database.arangodb.com
+  resources:
+    - '*'
+  verbs:
+    - get
+    - watch
+    - list
+- apiGroups:
   - source.toolkit.fluxcd.io
   resources:
   - '*'
