@@ -78,7 +78,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 4.4.3-infra-2.0-4006752623-45bb088
+    tag: 4.5.1-infra-2.0-4183978520-cc0f252
   config:
     chart:
       spec:
@@ -115,7 +115,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 2.2.8-infra-2.0-3996671104-a892629
+    tag: 2.3.1-infra-2.0-4181734752-89ce479
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
@@ -196,7 +196,7 @@ storageService:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-storage-services
-    tag: 0.1.0-keyspace-endpoint-4174126327-332d078
+    tag: 0.1.0-initial-4184529298-6b769b7
   livenessProbe:
     initialDelaySeconds: 30
     timeoutSeconds: 5
@@ -348,10 +348,6 @@ dashboard:
       # @default -- `"/dashboard($\|/.*)"`
       - /dashboard($|/.*)
     hosts: [*host]
-
-arangodb:
-  internal: true
-
 logging:
   th2: INFO
 
