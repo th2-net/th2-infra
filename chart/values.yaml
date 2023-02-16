@@ -351,5 +351,9 @@ dashboard:
 logging:
   th2: INFO
 
+arangodb:
+  internal: true
+  namespace:
+
 helmController:
   internal: true
