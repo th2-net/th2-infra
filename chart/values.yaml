@@ -353,7 +353,6 @@ logging:
 
 arangodb:
   internal: true
-  namespace:
 
 helmController:
   internal: true

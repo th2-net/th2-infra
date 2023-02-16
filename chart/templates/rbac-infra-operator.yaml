@@ -7,11 +7,6 @@ metadata:
   {{- include "common-annotations" . | nindent 4  }}
 rules:
   - apiGroups:
-      - database.arangodb.com
-    resources:
-      - '*'
-    verbs: ["*"]
-  - apiGroups:
       - ""
     resources:
       - configmaps
