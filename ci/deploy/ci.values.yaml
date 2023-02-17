@@ -2,9 +2,16 @@ commonAnnotations:
   e2ecommon: "test-common-annotation"
 infraGit:
   internal: true
+  resources:
+    requests:
+      cpu: 25m
 infraRepo:
   image:
     tag: e2e
+infraOperator:
+  resources:
+    requests:
+      cpu: 100m
 externalRabbitMQHost:
   host: localhost
 rabbitmq:
@@ -35,3 +42,14 @@ cassandra:
 infraMgr:
   git:
     repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git
+  resources:
+    requests:
+      cpu: 100m
+converter:
+  resources:
+    requests:
+      cpu: 50m
+storageService:
+  resources:
+    requests:
+      cpu: 50m
