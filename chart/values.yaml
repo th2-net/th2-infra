@@ -220,6 +220,8 @@ infraGit:
 rabbitmq:
   # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
   # otherwise service will be deployed as a chart dependency
+  statefulsetLabels:
+    app: rabbitmq   
   internal: true
   resources:
     limits:
