@@ -70,7 +70,6 @@
             password: <password>
     ```
 
-
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
 * Prometheus stack must be upgraded 15.0.0 > 21.0.5
