@@ -4,14 +4,14 @@ infraGit:
   internal: true
   resources:
     requests:
-      cpu: 25m
+      cpu: 10m
 infraRepo:
   image:
     tag: e2e
 infraOperator:
   resources:
     requests:
-      cpu: 100m
+      cpu: 30m
 externalRabbitMQHost:
   host: localhost
 rabbitmq:
@@ -44,12 +44,12 @@ infraMgr:
     repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git
   resources:
     requests:
-      cpu: 100m
+      cpu: 30m
 converter:
   resources:
     requests:
-      cpu: 50m
+      cpu: 15m
 storageService:
   resources:
     requests:
-      cpu: 50m
+      cpu: 15m

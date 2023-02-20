@@ -15,10 +15,10 @@ spec:
       JAVA_TOOL_OPTIONS: '-XX:+ExitOnOutOfMemoryError'
     resources:
       limits:
-        cpu: 200m
+        cpu: 50m
         memory: 200Mi
       requests:
-        cpu: 10m
+        cpu: 5m
         memory: 100Mi
     service:
       enabled: false
