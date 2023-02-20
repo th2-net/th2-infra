@@ -154,7 +154,7 @@ func TestNamespaceDataProviderEndpoint(t *testing.T) {
 	options := k8s.NewKubectlOptions("", "", schemaNamespace)
 	k8s.WaitUntilServiceAvailable(t, options, dataProviderSvc, retries, timeout)
 
-	validator := validFunc(t, 200, "[\"attachedMessageId\",\"parentId\",\"type\",\"name\",\"body\",\"status\"]")
+	validator := validFunc(t, 200, "[\"attachedMessageId\",\"type\",\"name\",\"body\",\"status\"]")
 	http_helper.HttpGetWithRetryWithCustomValidation(t, endpoint, nil, retries, timeout, validator)
 }
 
