@@ -107,7 +107,7 @@ infraOperator:
       password: "${RABBITMQ_PASS}"
       persistence: true
       schemaPermissions:
-        configure: ""
+        configure: ".*"
         read: ".*"
         write: ".*"
   livenessProbe:
