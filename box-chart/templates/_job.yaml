@@ -1,0 +1,61 @@
+{{/* 
+Generating deployment for k8
+*/}}
+{{- define "job" }}
+apiVersion: apps/v1
+kind: Job
+metadata:
+  labels:
+    app: {{ .Values.component.name }}
+  name: {{ .Values.component.name }}
+  annotations:
+  {{- include "common-annotations" .Values | nindent 4  }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.component.name }}
+  parallelism: {{ .Values.component.extendedSettings.parallelism }}
+  completions: {{ .Values.component.extendedSettings.completions }}
+  template:
+    metadata:
+      annotations:
+        {{- include "checksum" .Values }}
+        {{- include "common-annotations" .Values | nindent 8  }}
+      labels:
+        app: {{ .Values.component.name }}
+        {{- if not .Values.component.prometheus }}
+        monitoring-pod: "true"
+        {{- else }}
+        {{- if .Values.component.prometheus.enabled }}
+        monitoring-pod: "true"
+        {{- end }}
+        {{- end }}
+    spec:
+      containers:
+      - image: {{ .Values.component.image }}
+        {{- include "probes-deploy" .Values }}
+        name: {{ .Values.component.name }}
+        {{- include "ports-deploy" . }}
+        resources:
+          {{- .Values.component.extendedSettings.resources | toYaml | nindent 10 }}
+        env:
+        {{- include "envVariable" .Values }}
+        {{- include "volumes" .Values }}
+      restartPolicy: OnFailure
+      imagePullSecrets:
+      {{- range $pullSecret := .Values.component.imagePullSecrets }}
+      - name: {{ $pullSecret | replace "." "-" | replace ":" "-" }}
+      {{- end }}
+      {{- if .Values.component.extendedSettings.nodeSelector }}
+      nodeSelector: {{ .Values.component.extendedSettings.nodeSelector | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if .Values.component.extendedSettings.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+      {{- if .Values.component.extendedSettings.hostAliases }}
+      hostAliases:
+        {{ .Values.component.extendedSettings.hostAliases | toYaml | nindent 8 }}
+      {{- end }}
+  backoffLimit: 4
+{{- end }}

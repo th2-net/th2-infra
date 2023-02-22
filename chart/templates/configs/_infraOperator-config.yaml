@@ -21,7 +21,13 @@ data:
       port: {{ .Values.infraOperator.prometheusConfiguration.port | quote }}
       enabled: {{ .Values.infraOperator.prometheusConfiguration.enabled | quote }}
     chart:
-      {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
+      spec:
+        chart: box-chart
+        version: 1.0.0
+        sourceRef:
+          kind: HelmRepository
+          name: helm-repo
+          namespace: {{ .Release.Namespace }}
     namespacePrefixes:
       {{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 6 }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}
@@ -40,8 +46,8 @@ data:
       {{- else }}
       host: "{{ .Values.rabbitmq.fullnameOverride }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
       {{- end }}
-      managementPort: {{ .Values.rabbitmq.service.managerPort | quote }}
-      applicationPort: {{ .Values.rabbitmq.service.port | quote }}
+      managementPort: {{ .Values.rabbitmq.service.ports.manager | quote }}
+      applicationPort: {{ .Values.rabbitmq.service.ports.amqp | quote }}
       vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
       exchangeName: {{ .Values.infraOperator.config.rabbitMQManagement.exchangeName | quote }}
       username: {{ .Values.rabbitmq.auth.username | quote }}
