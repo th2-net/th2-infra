@@ -92,7 +92,7 @@ infraOperator:
       persistence: true
       exchangeName: "global-notification"
       schemaPermissions:
-        configure: ""
+        configure: ".*"
         read: ".*"
         write: ".*"
   livenessProbe:
