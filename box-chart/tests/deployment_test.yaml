@@ -143,7 +143,7 @@ tests:
       - equal:
           path: spec.template.metadata.annotations
           value:
-            checksum/configmap: 17c407462e56c3af0920029a6a4cac0b0dae530ba54330221034f3ca28fde3c7
+            checksum/configmap: 25621098adbcb8c3eb015a88f73f58005a36272a180b7be4fb5ef24e0e7aa763
       - notContains:
           path: spec.template.spec.volumes[0].projected.sources
           content:
