@@ -83,11 +83,24 @@
 | pods.metrics.k8s.io            | []                | []              | [get list watch] |
 
 
-### helm-operator
-| Resources     | Non-Resource URLs | Resource Names  | Verbs |
-| --------------|-------------------|-----------------|------ |
-| [*]           | []                | []              | [*]   |
-| [*]           | [*]               | []              | [*]   |
+### crd-controller
+
+| Resources                      | Non-Resource URLs | Resource Names |Verbs                                         |
+| ---------                      | ----------------- | -------------- |----------------------------------------------|
+| *.helm.toolkit.fluxcd.io       |   []              |   []           |   [*]                                        |
+| *.image.toolkit.fluxcd.io      |   []              |   []           |   [*]                                        |
+| *.kustomize.toolkit.fluxcd.io  |   []              |   []           |   [*]                                        |
+| *.notification.toolkit.fluxcd.io|  []              |   []           |   [*]                                        |
+| *.source.toolkit.fluxcd.io      |  []              |   []           |   [*]                                        |
+| events                          |  []              |   []           |   [create patch]                             |
+| configmaps                      |  []              |   []           |   [get list watch create update patch delete]|
+| leases.coordination.k8s.io      |  []              |   []           |   [get list watch create update patch delete]|
+| namespaces                      |  []              |   []           |   [get list watch]                           |
+| secrets                         |  []              |   []           |   [get list watch]                           |
+| serviceaccounts                 |  []              |   []           |   [get list watch]                           |
+| configmaps/status               |  []              |   []           |   [get update patch]                         |
+
+
 
 ### ingress nginx
 | Resources                          | Non-Resource URLs | Resource Names |Verbs                    |
