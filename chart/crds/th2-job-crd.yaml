@@ -69,6 +69,12 @@ spec:
                 type: object
                 description: section for extended settings
                 properties:
+                  parallelism:
+                    type: integer
+                    description: Specifies the maximum desired number of pods the job should run at any given time. The actual number of pods running in steady state will be less than this number when ((.spec.completions - .status.successful) < .spec.parallelism), i.e. when the work left to do is less than max parallelism
+                  completions:
+                    type: integer
+                    description: Specifies the desired number of successfully finished pods the job should be run with. Setting to nil means that the success of any pod signals the success of all pods, and allows parallelism to have any positive value. Setting to 1 means that parallelism is limited to 1 and the success of that pod signals the success of the job
                   envVariables:
                     description: allows us to pass specific environment variables that are going to be set into the pods.
                     type: object
