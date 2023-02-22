@@ -315,6 +315,13 @@ cassandra:
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: cassandra
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      selector:
+        release: prometheus
+        app: kube-prometheus-stack
   cluster:
     datacenter: dc1
   dbUser:
