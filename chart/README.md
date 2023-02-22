@@ -140,7 +140,7 @@ th2 service Helm chart
 | infraOperator.resources.requests.cpu | string | `"200m"` |  |
 | infraOperator.resources.requests.memory | string | `"500Mi"` |  |
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
-| infraRepo.image.tag | string | `"2.0.0@sha256:5368d1e89f6093852569c69d1d3ea2d2d2b3781bdcfddd0685e942e20a38819f"` |  |
+| infraRepo.image.tag | string | `"2.0.0@sha256:1d69101660633ab0240fbb288e50d4eab7243f8e7f41cc8f4cdb83e921017b2b"` |  |
 | ingress.annotations.infraNamespace | object | `{"nginx.ingress.kubernetes.io/configuration-snippet":"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;","nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for infra services |
 | ingress.annotations.root | object | `{}` | Annotations for th2 root URL |
 | ingress.annotations.th2Namespace | object | `{"nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for th2 schema services |
