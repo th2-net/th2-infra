@@ -9,8 +9,11 @@ Generating deployment for k8
 */}}
 
 {{- if not .Values.component.extendedSettings.externalBox.enabled }}
-
+{{- if eq .Values.component.runAsJob true }}
+{{- include "job" . }}
+{{- else }}
 {{- include "deployment" . }}
+{{- end }}
 {{- include "ingress" . }}
 
 {{- end }}
