@@ -56,15 +56,6 @@
           privateKey: <privateKey>
     ```
   </details>
-* Helm operator is removed from chart dependency.
-  <details>
-    <summary>Helm-controller is going to be used instead of Helm-operator</summary> 
-    
-    ### HelmRelease CRD must be removed before infra installation
-    ```
-    $ kubectl delete crd helmreleases.helm.fluxcd.io
-    ```
-  </details>
 
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
