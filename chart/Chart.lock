@@ -11,8 +11,8 @@ dependencies:
 - name: kubernetes-dashboard
   repository: https://kubernetes.github.io/dashboard/
   version: 5.11.0
-- name: helm-controller
-  repository: ""
-  version: 0.1.0
-digest: sha256:68775adcc87fc47a1dd5b8cf7c4a11d9f309ab5167e1e6e18d15f74bd9710cc9
-generated: "2023-02-23T08:39:41.692786903Z"
+- name: helm-operator
+  repository: https://charts.fluxcd.io
+  version: 1.4.2
+digest: sha256:5e548fb75d48ca780e1b979a55612f0e92b3d4c5a0bc20cd0a71e3a3c52bb15a
+generated: "2023-02-23T13:03:07.285301209Z"

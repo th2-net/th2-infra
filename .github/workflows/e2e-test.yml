@@ -129,7 +129,6 @@ jobs:
           echo -e "\n\033[0;31m[Pods]\033[0m" && kubectl get pods -o wide --all-namespaces || true
           echo -e "\n\033[0;31m[Services]\033[0m" && kubectl get svc --all-namespaces || true
           echo -e "\n\033[0;31m[Ingresses]\033[0m" && kubectl describe ingress --all-namespaces || true
-          echo -e "\n\033[0;31m[HelmRepositories]\033[0m" && kubectl get helmrepo --all-namespaces || true
           echo -e "\n\033[0;31m[HelmReleases]\033[0m" && kubectl get hr --all-namespaces || true
           echo -e "\n\033[0;31m[Nodes]\033[0m" && kubectl describe nodes || true
           echo -e "\n\033[0;31m[Configmaps]\033[0m" && kubectl get configmaps --all-namespaces || true

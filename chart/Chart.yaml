@@ -44,7 +44,8 @@ dependencies:
   repository: https://kubernetes.github.io/dashboard/
   name: kubernetes-dashboard
   version: 5.11.0
-- alias: helmController
-  condition: helmController.internal
-  name: helm-controller
-  version: 0.1.0
+- alias: helmOperator
+  condition: helmOperator.internal
+  repository: https://charts.fluxcd.io
+  name: helm-operator
+  version: 1.4.2
