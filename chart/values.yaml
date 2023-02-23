@@ -127,7 +127,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 2.3.1-infra-2.0-4204214597-b8f9e6c
+    tag: 2.3.1-infra-2.0-4252043915-fe0498c
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
@@ -178,7 +178,7 @@ converter:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-cr-converter
-    tag: 1.0.0
+    tag: 1.3.3
   git:
     secretName: converter
     sshDir: /home/service/keys
@@ -208,7 +208,7 @@ storageService:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-storage-services
-    tag: 1.0.0-dev-version-1-4203485848-41f53ab
+    tag: 1.0.0-owasp-4251615853-d9c095f
   livenessProbe:
     initialDelaySeconds: 30
     timeoutSeconds: 5
