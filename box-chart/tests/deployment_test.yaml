@@ -50,7 +50,6 @@ tests:
           value:
             limits:
               memory: 200Mi
-              cpu: 200m
               ephemeral-storage: "1Gi"
             requests:
               memory: 100Mi
