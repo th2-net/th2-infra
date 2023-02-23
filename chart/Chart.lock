@@ -5,11 +5,14 @@ dependencies:
 - name: cassandra
   repository: https://charts.bitnami.com/bitnami
   version: 9.7.3
+- name: jupyterhub
+  repository: https://jupyterhub.github.io/helm-chart/
+  version: 2.0.0
 - name: kubernetes-dashboard
   repository: https://kubernetes.github.io/dashboard/
   version: 5.11.0
 - name: helm-controller
   repository: ""
   version: 0.1.0
-digest: sha256:6026c47743c68df687364b2304ccb2b0ac690c8318fb223adc501f171eb46026
-generated: "2023-01-16T09:49:46.333148683Z"
+digest: sha256:68775adcc87fc47a1dd5b8cf7c4a11d9f309ab5167e1e6e18d15f74bd9710cc9
+generated: "2023-02-23T08:39:41.692786903Z"
