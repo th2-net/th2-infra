@@ -29,6 +29,7 @@ spec:
       containers:
       - name: infra-mgr
         image: "{{ .Values.infraMgr.image.repository }}:{{ .Values.infraMgr.image.tag }}"
+        {{- include "securityContext" . | nindent 8 }}
         ports:
         - name: default
           containerPort: 8080

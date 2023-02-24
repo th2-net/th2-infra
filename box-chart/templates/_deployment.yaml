@@ -33,6 +33,9 @@ spec:
       containers:
       - image: {{ .Values.component.image }}
         {{- include "probes-deploy" .Values }}
+        securityContext:
+          runAsUser: 65635
+          runAsGroup: 65635
         name: {{ .Values.component.name }}
         {{- include "ports-deploy" . }}
         resources:
