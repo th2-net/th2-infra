@@ -94,8 +94,10 @@ infraOperator:
   config:
     chart:
       spec:
-        chart: box-chart
+        repository: http://infra-repo:8080
+        # -- Do not change the version
         version: 1.0.0
+        name: box-chart
     namespacePrefixes:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
