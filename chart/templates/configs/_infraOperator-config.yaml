@@ -21,13 +21,7 @@ data:
       port: {{ .Values.infraOperator.prometheusConfiguration.port | quote }}
       enabled: {{ .Values.infraOperator.prometheusConfiguration.enabled | quote }}
     chart:
-      spec:
-        chart: box-chart
-        version: 1.0.0
-        sourceRef:
-          kind: HelmRepository
-          name: helm-repo
-          namespace: {{ .Release.Namespace }}
+      {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
     namespacePrefixes:
       {{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 6 }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}

@@ -1,10 +1,33 @@
 # Migrations
 
 ## Migration to RELEASE v2.0.0
+
+* jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jhub parent value.
+* Update secrets.yaml
+  <details>
+    <summary>Adding Jupyterhub users</summary>
+
+    ### Adding Credentials
+    * Values for admin and regular user credentials should be added into secrets.yaml
+    ```
+    jupyterhub:
+      hub:
+        config:
+          Authenticator:
+            admin_users:
+              - <admin-username>
+            allowed_users:
+              - <username>
+          DummyAuthenticator:
+            password: <password>
+    ```
+  </details>
+
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.20-1.26 releases
 * NGINX Ingress Controller chart must be upgraded 4.1.2 > 4.3.0.
 * Prometheus-stack should be upgraded 21.0.5 > 41.4.0.
 * Loki-stack should be upgraded 2.6.5 > 2.8.3.
+
 * Infra, Diagnostic and JVM dashboards should be added in grafana during deployment
   <details>
     <summary>Adding dashboards</summary>

@@ -74,6 +74,12 @@
         template: "{{ playbook_dir }}/deploy/infra-repo-pv.yaml"
         namespace: "{{ infra_namespace }}"
 
+    - name: Create jupyterhub persistent volume
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/jupyterhub-pv.yaml"
+        namespace: "{{ infra_namespace }}"
+    
     - name: Create Cassandra configmap
       kubernetes.core.k8s:
         state: present
@@ -95,6 +101,9 @@
           - "{{ playbook_dir }}/deploy/ci.values.yaml"
         values:
           infraMgr:
+            git:
+              privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
+          converter:
             git:
               privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
         create_namespace: true

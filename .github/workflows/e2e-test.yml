@@ -97,7 +97,7 @@ jobs:
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
-          docker exec chart-testing-control-plane mkdir -p /opt/git/
+          docker exec chart-testing-control-plane mkdir -p /opt/git/  /opt/jupiter_users /opt/jupiter_db
           docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/
           kind load docker-image --name chart-testing ghcr.io/th2-net/infra-repo:e2e
 
@@ -129,7 +129,6 @@ jobs:
           echo -e "\n\033[0;31m[Pods]\033[0m" && kubectl get pods -o wide --all-namespaces || true
           echo -e "\n\033[0;31m[Services]\033[0m" && kubectl get svc --all-namespaces || true
           echo -e "\n\033[0;31m[Ingresses]\033[0m" && kubectl describe ingress --all-namespaces || true
-          echo -e "\n\033[0;31m[HelmRepositories]\033[0m" && kubectl get helmrepo --all-namespaces || true
           echo -e "\n\033[0;31m[HelmReleases]\033[0m" && kubectl get hr --all-namespaces || true
           echo -e "\n\033[0;31m[Nodes]\033[0m" && kubectl describe nodes || true
           echo -e "\n\033[0;31m[Configmaps]\033[0m" && kubectl get configmaps --all-namespaces || true

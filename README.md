@@ -277,6 +277,19 @@ rabbitmq:
 #    # authentication password
 #    # when using token auth for GitLab it should be equal to token itself
 #    # when using token auth for GitHub it should be equal to empty string
+
+jupyterhub:
+# set credentials for admin and other users
+```
+  hub:
+    config:
+      Authenticator:
+        admin_users:
+          - <admin-username>
+        allowed_users:
+          - <username>
+      DummyAuthenticator:
+        password: <password>
 ```
 ### infra-git deployment
 

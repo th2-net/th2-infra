@@ -18,7 +18,7 @@ rules:
     resources: ["*"]
     verbs: ["*"]
   - apiGroups:
-      - helm.toolkit.fluxcd.io
+      - helm.fluxcd.io
     resources:
       - helmreleases
       - helmreleases/status
