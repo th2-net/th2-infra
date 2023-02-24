@@ -418,7 +418,6 @@ jupyterhub:
         pvcName: jupiter-users-volume
         subPath: '{username}'
       type: static
+
 logging:
-  th2: INFO 
-
-
+  th2: INFO
