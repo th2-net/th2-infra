@@ -241,6 +241,18 @@ rabbitmq:
 #    # authentication password
 #    # when using token auth for GitLab it should be equal to token itself
 #    # when using token auth for GitHub it should be equal to empty string
+
+jupyterhub:
+# set credentials for admin and other users
+  hub:
+    config:
+      Authenticator:
+        admin_users:
+          - <admin-username>
+        allowed_users:
+          - <username>
+      DummyAuthenticator:
+        password: <password>
 ```
 ### infra-git deployment
 
@@ -330,7 +342,7 @@ $ kubectl get customresourcedefinitions | grep "^th2"
 $ helm repo update
 $ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
-_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/release
+_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
   
 ### Re-adding persistence for components in th2 namespaces
 PersistentVolumeClaim is namespace scoped resource, so after namespace re-creation PVCs should be added for components require persistence.

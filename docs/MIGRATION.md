@@ -51,6 +51,24 @@
     ```
   </details>
 
+* Update secrets.yaml
+  <details>
+    <summary>Adding Jupyterhub users</summary>
+
+    ### Adding Credentials
+    * Values for admin and regular user credentials should be added into secrets.yaml
+    ```
+    jupyterhub:
+      hub:
+        config:
+          Authenticator:
+            admin_users:
+              - <admin-username>
+            allowed_users:
+              - <username>
+          DummyAuthenticator:
+            password: <password>
+    ```
 
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases

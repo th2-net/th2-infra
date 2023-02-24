@@ -203,6 +203,8 @@ infraGit:
 rabbitmq:
   # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
   # otherwise service will be deployed as a chart dependency
+  statefulsetLabels:
+    app: rabbitmq   
   internal: true
   resources:
     limits:
@@ -316,6 +318,12 @@ jupyterhub:
   custom:
     internal: true
   hub:
+    config:
+      Authenticator:
+        admin_users: []
+        allowed_users: []
+      DummyAuthenticator:
+        password: ""
     service:
       ports:
         nodePort: 30081
@@ -339,6 +347,13 @@ jupyterhub:
       type: NodePort
   singleuser:
     storage:
+      extraVolumes:
+        - name: jupyterhub-shared
+          persistentVolumeClaim:
+            claimName: jupyterhub-shared-volume
+      extraVolumeMounts:
+        - name: jupyterhub-shared
+          mountPath: /home/jovyan/shared
       capacity: 200Mi
       static:
         pvcName: jupiter-users-volume
