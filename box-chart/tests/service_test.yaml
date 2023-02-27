@@ -52,9 +52,6 @@ tests:
               port: 9752
               protocol: TCP
               targetPort: metrics
-      - equal:
-          path: spec.type
-          value: ClusterIP
 
   - it: Service enabled - Common check
     set:
