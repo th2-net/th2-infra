@@ -44,6 +44,7 @@ data:
     kubernetes:
       useCustomConfig: false
       namespacePrefix: {{ .Values.infraMgr.kubernetes.namespacePrefix }}
+      schemaSyncMode: {{ .Values.infraMgr.kubernetes.schemaSyncMode }}
 
       secretNames:
       {{- include "imagePullSecretList" .Values.registries | trim | nindent 6 }}

@@ -157,6 +157,7 @@ infraMgr:
   kubernetes:
     # -- must be not more than 5 symbols
     namespacePrefix: "th2-"
+    schemaSyncMode: CHECK_NAMESPACE
     configMaps:
       logging: logging-config-template
       rabbitmq: rabbit-mq-app-config
