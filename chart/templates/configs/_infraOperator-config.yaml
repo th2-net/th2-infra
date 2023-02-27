@@ -16,6 +16,8 @@ data:
     {{- .Values.ingress | toYaml | nindent 6 }}
     openshift:
       enabled: {{ .Values.openshift.enabled }}
+    rootless:
+      enabled: {{ .Values.rootless.enabled }}  
     prometheusConfiguration:
       host: "0.0.0.0"
       port: {{ .Values.infraOperator.prometheusConfiguration.port | quote }}

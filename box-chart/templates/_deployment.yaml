@@ -20,6 +20,7 @@ spec:
       annotations:
         {{- include "checksum" .Values }}
         {{- include "common-annotations" .Values | nindent 8  }}
+        test: test-rootless
       labels:
         app: {{ .Values.component.name }}
         {{- if not .Values.component.prometheus }}
@@ -33,9 +34,11 @@ spec:
       containers:
       - image: {{ .Values.component.image }}
         {{- include "probes-deploy" .Values }}
+        {{- if .Values.component.rootless.enabled }}
         securityContext:
-          runAsUser: 65635
-          runAsGroup: 65635
+          runAsUser: {{ .Values.component.securityContext.runAsUser }}
+          runAsGroup: {{ .Values.component.securityContext.runAsGroup }}
+        {{- end }}
         name: {{ .Values.component.name }}
         {{- include "ports-deploy" . }}
         resources:
