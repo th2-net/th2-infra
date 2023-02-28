@@ -280,7 +280,6 @@ rabbitmq:
 
 jupyterhub:
 # set credentials for admin and other users
-```
   hub:
     config:
       Authenticator:
