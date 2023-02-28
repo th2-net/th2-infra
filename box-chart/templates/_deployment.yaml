@@ -20,7 +20,6 @@ spec:
       annotations:
         {{- include "checksum" .Values }}
         {{- include "common-annotations" .Values | nindent 8  }}
-        test: test-rootless
       labels:
         app: {{ .Values.component.name }}
         {{- if not .Values.component.prometheus }}
