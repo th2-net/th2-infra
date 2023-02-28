@@ -77,7 +77,7 @@ helmoperator:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.1.20
+    tag: 1.1.20-rootles-4292101152
 
 infraEditorV2:
   enabled: false
@@ -88,7 +88,7 @@ infraEditorV2:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 2.0.0@sha256:62ef9af0edb0e5fdd0b8b4c5fa4ed3e840b1f9012c626219cf762545f77dacba
+    tag: 2.0.0@sha256:8680ccec206d6a9cb3f9910031a13b402acfc13497fead69106505bd9a8ebfe8
 
 infraOperator:
   prometheusConfiguration:
@@ -134,7 +134,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 2.3.1-infra-2.0-4252043915-fe0498c
+    tag: 2.3.2
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
