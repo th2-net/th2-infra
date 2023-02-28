@@ -9,10 +9,10 @@ th2 service Helm chart
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | cassandra(cassandra) | 9.7.3 |
+| https://charts.bitnami.com/bitnami | rabbitmq(rabbitmq) | 11.0.3 |
 | https://charts.fluxcd.io | helmoperator(helm-operator) | 1.4.2 |
 | https://jupyterhub.github.io/helm-chart/ | jupyterhub(jupyterhub) | 2.0.0 |
 | https://kubernetes.github.io/dashboard/ | dashboard(kubernetes-dashboard) | 5.11.0 |
-| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | rabbitmq(rabbitmq) | 11.0.3 |
 
 ## Values
 
