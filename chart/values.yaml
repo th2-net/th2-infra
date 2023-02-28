@@ -124,7 +124,7 @@ infraOperator:
       memory: 1200Mi
     requests:
       cpu: 100m
-      memory: 400Mi
+      memory: 200Mi
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
