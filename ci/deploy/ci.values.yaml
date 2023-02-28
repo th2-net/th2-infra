@@ -1,5 +1,7 @@
 commonAnnotations:
   e2ecommon: "test-common-annotation"
+# rootless:
+#   enabled: true
 infraGit:
   internal: true
 infraRepo:

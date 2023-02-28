@@ -41,7 +41,7 @@ openshift:
 
 # -- Enable non root user 
 rootless:
-  enabled: true
+  enabled: false
   userId: 65535
   groupId: 65535
 
@@ -73,9 +73,9 @@ helmoperator:
     enabled: enabled
     serviceMonitor:
       create: true
-  securityContext: 
-    runAsUser: 65635
-    runAsGroup: 65635
+  # securityContext: 
+  #   runAsUser: 65635
+  #   runAsGroup: 65635
 
 infraEditor:
   image:
