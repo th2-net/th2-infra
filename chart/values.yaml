@@ -73,6 +73,9 @@ helmoperator:
     enabled: enabled
     serviceMonitor:
       create: true
+  securityContext: 
+    runAsUser: 65635
+    runAsGroup: 65635
 
 infraEditor:
   image:
