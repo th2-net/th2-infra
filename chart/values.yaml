@@ -39,6 +39,12 @@ hostAliases:
 openshift:
   enabled: false
 
+# -- Enable non root user 
+rootless:
+  enabled: false
+  userId: 65535
+  groupId: 65535
+
 # -- Annotations will be added to all deployments, configMaps and ingresses that are created by th2-infra.
 commonAnnotations: {}
 
@@ -90,7 +96,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 4.5.2-infra-2.0-4260281100-407d4ff
+    tag: 4.5.3
   config:
     chart:
       repository: http://infra-repo:8080
@@ -117,8 +123,8 @@ infraOperator:
       cpu: 800m
       memory: 1200Mi
     requests:
-      cpu: 200m
-      memory: 500Mi
+      cpu: 100m
+      memory: 200Mi
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
@@ -151,6 +157,7 @@ infraMgr:
   kubernetes:
     # -- must be not more than 5 symbols
     namespacePrefix: "th2-"
+    schemaSyncMode: CHECK_NAMESPACE
     configMaps:
       logging: logging-config-template
       rabbitmq: rabbit-mq-app-config
