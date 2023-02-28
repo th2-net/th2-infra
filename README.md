@@ -74,7 +74,7 @@ _Note: Examples below use HostPath type of [Persistent Volume(PV)](https://kuber
 
 * the following command can require root permissions, create directory on th2 node:
 ```
-$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq
+$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq  /opt/jupiter_users /opt/jupiter_db
 ```
 * set node name in `pvs.yaml`
 * create PVs and PVCs:
@@ -342,8 +342,9 @@ $ kubectl get customresourcedefinitions | grep "^th2"
 $ helm repo update
 $ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
-_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/release
 
+_Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
+  
 ### Re-adding persistence for components in th2 namespaces
 PersistentVolumeClaim is namespace scoped resource, so after namespace re-creation PVCs should be added for components require persistence.
 * Check the state of PV in a cluster:
@@ -397,4 +398,6 @@ Expose services as LoadBalancer if available.
 
 
 ## Migration to v2.0.0 th2-infra chart 
+
 Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
+

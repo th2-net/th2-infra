@@ -28,12 +28,34 @@
 * Prometheus-stack should be upgraded 21.0.5 > 41.4.0.
 * Loki-stack should be upgraded 2.6.5 > 2.8.3.
 
-* Infra, Diagnostic and JVM dashboards should be added in grafana during deployment
+## Migration to RELEASE v1.8.1
+* jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jupyterhub parent value.
+  <details>
+    <summary>jupyterhub PV and PVC</summary>
+
+    ### Create directory
+    * the following command can require root permissions, create directory on th2 node:
+    ```
+    $ mkdir /opt/jupiter_users /opt/jupiter_db
+    ```
+
+    ### Apply PV and PVC
+    * jupyterhub PV and PVC are in example-values/pvs.yaml and example-values/pvcs.yaml
+    ```
+    $ kubectl apply -f ./pvs.yaml
+    $ kubectl apply -f ./pvcs.yaml
+    ```
+  </details>
+
+* Infra, Diagnostic and JVM dashboards should be added in grafana, monitoring-old should be removed and monitoring-new should be renamed during deployment
+
   <details>
     <summary>Adding dashboards</summary>
 
     ### Adding Urls in Prometheus-stack
+
     * Infra, Diagnostic and JVM dashboards should be added in grafana, monitoring-old should be removed and monitoring-new should be renamed during deployment
+
     ```
       grafana:
         dashboards:
@@ -59,15 +81,25 @@
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring.json
     ```
   </details>
-* Helm operator is removed from chart dependency.
+
+* Update secrets.yaml
   <details>
-    <summary>Helm-controller is going to be used instead of Helm-operator</summary> 
-    
-    ### HelmRelease CRD must be removed before infra installation
+    <summary>Adding Jupyterhub users</summary>
+
+    ### Adding Credentials
+    * Values for admin and regular user credentials should be added into secrets.yaml
     ```
-    $ kubectl delete crd helmreleases.helm.fluxcd.io
+    jupyterhub:
+      hub:
+        config:
+          Authenticator:
+            admin_users:
+              - <admin-username>
+            allowed_users:
+              - <username>
+          DummyAuthenticator:
+            password: <password>
     ```
-  </details>
 
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases
