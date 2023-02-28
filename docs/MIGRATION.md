@@ -59,13 +59,24 @@
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring.json
     ```
   </details>
-* Helm operator is removed from chart dependency.
+* converter has been added to infra
   <details>
-    <summary>Helm-controller is going to be used instead of Helm-operator</summary> 
-    
-    ### HelmRelease CRD must be removed before infra installation
+    <summary>Include converter in installation</summary>
+
+    ### Adding converter values
+    * schema repo should be passed to converter.git.repository
     ```
-    $ kubectl delete crd helmreleases.helm.fluxcd.io
+      converter:
+        git:
+          repository: <repository>
+    ```
+
+    ### Adding converter key in secrets
+    * secrets.yaml should convain value from converter-ed25519.key
+    ```
+      converter:
+        git:
+          privateKey: <privateKey>
     ```
   </details>
 
