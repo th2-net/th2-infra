@@ -2,8 +2,6 @@ commonAnnotations:
   e2ecommon: "test-common-annotation"
 rootless:
   enabled: true
-  userId: 65535
-  groupId: 65535
 infraGit:
   internal: true
 infraRepo:
