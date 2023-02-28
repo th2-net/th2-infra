@@ -41,7 +41,7 @@ openshift:
 
 # -- Enable non root user 
 rootless:
-  enabled: false
+  enabled: true
   userId: 65535
   groupId: 65535
 
