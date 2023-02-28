@@ -16,6 +16,11 @@ component:
     cassandra: cassandra
   image:
   name: comp1
+  rootless:
+    enabled: false
+  securityContext:
+    runAsUser: 65635
+    runAsGroup: 65635
   extendedSettings:
     parallelism: 1
     completions: 1

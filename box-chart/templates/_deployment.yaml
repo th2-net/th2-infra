@@ -33,6 +33,11 @@ spec:
       containers:
       - image: {{ .Values.component.image }}
         {{- include "probes-deploy" .Values }}
+        {{- if .Values.component.rootless.enabled }}
+        securityContext:
+          runAsUser: {{ .Values.component.securityContext.runAsUser }}
+          runAsGroup: {{ .Values.component.securityContext.runAsGroup }}
+        {{- end }}
         name: {{ .Values.component.name }}
         {{- include "ports-deploy" . }}
         resources:

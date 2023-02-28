@@ -42,6 +42,7 @@ spec:
       containers:
       - name: converter
         image: "{{ .Values.converter.image.repository }}:{{ .Values.converter.image.tag }}"
+        {{- include "securityContext" . | nindent 8 }}
         ports:
           - name: default
             containerPort: 8080

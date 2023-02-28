@@ -35,6 +35,7 @@ spec:
     spec:
       containers:
       - image: "{{ .Values.infraEditor.image.repository }}:{{ .Values.infraEditor.image.tag }}"
+        {{- include "securityContext" . | nindent 8 }}
         name: infra-editor
         resources:
           limits:

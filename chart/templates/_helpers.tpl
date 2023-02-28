@@ -86,3 +86,14 @@ Connectivity endpoint
 {{- define "th2.connectivityEndpoint" -}}
 {{ printf `"%s": {"host": "%s", "port": 8080}` . . }}
 {{- end }}
+
+{{/*
+security Context
+*/}}
+{{- define "securityContext" }}
+{{- if .Values.rootless.enabled -}}
+securityContext:
+    runAsUser: {{ .Values.rootless.userId }}
+    runAsGroup: {{ .Values.rootless.groupId }}
+{{- end }}
+{{- end }}

@@ -30,6 +30,7 @@ spec:
       - name: infra-operator
         image: "{{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}"
         {{- if .Values.infraOperator.prometheusConfiguration.enabled }}
+        {{- include "securityContext" . | nindent 8 }}
         ports:
         - name: metrics
           containerPort: {{ .Values.infraOperator.prometheusConfiguration.port }}
