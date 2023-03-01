@@ -96,7 +96,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 4.5.3
+    tag: 4.5.4
   config:
     chart:
       repository: http://infra-repo:8080
@@ -134,7 +134,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 2.3.2
+    tag: 2.3.3
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
@@ -186,7 +186,7 @@ converter:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-cr-converter
-    tag: 1.3.3
+    tag: 1.3.5
   git:
     secretName: converter
     sshDir: /home/service/keys
@@ -216,7 +216,7 @@ storageService:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-storage-services
-    tag: 1.0.0-owasp-4251615853-d9c095f
+    tag: 1.0.0-dev-version-1-4294758865-9e1b842
   livenessProbe:
     initialDelaySeconds: 30
     timeoutSeconds: 5
