@@ -33,7 +33,6 @@ spec:
     matchLabels:
       app: "grafana"
 ---
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:

@@ -23,17 +23,58 @@
     ```
   </details>
 
+* converter has been added to infra
+  <details>
+    <summary>Include converter in installation</summary>
+
+    ### Adding converter values
+    * schema repo should be passed to converter.git.repository
+    ```
+      converter:
+        git:
+          repository: <repository>
+    ```
+
+    ### Adding converter key in secrets
+    * secrets.yaml should convain value from converter-ed25519.key
+    ```
+      converter:
+        git:
+          privateKey: <privateKey>
+    ```
+  </details>
+
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.20-1.26 releases
 * NGINX Ingress Controller chart must be upgraded 4.1.2 > 4.3.0.
 * Prometheus-stack should be upgraded 21.0.5 > 41.4.0.
 * Loki-stack should be upgraded 2.6.5 > 2.8.3.
 
-* Infra, Diagnostic and JVM dashboards should be added in grafana during deployment
+
+## Migration to RELEASE v1.8.1
+* jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jupyterhub parent value.
+  <details>
+    <summary>jupyterhub PV and PVC</summary>
+
+    ### Create directory
+    * the following command can require root permissions, create directory on th2 node:
+    ```
+    $ mkdir /opt/jupiter_users /opt/jupiter_db
+    ```
+
+    ### Apply PV and PVC
+    * jupyterhub PV and PVC are in example-values/pvs.yaml and example-values/pvcs.yaml
+    ```
+    $ kubectl apply -f ./pvs.yaml
+    $ kubectl apply -f ./pvcs.yaml
+    ```
+  </details>
+
+* Infra, Diagnostic and JVM dashboards should be added in grafana, monitoring-old should be removed and monitoring-new should be renamed during deployment
   <details>
     <summary>Adding dashboards</summary>
 
     ### Adding Urls in Prometheus-stack
-    * Infra, Diagnostic and JVM dashboards should be added in grafana, monitoring-old should be removed and monitoring-new should be renamed during deployment
+    * Infra, Diagnostic and JVM dashboards should be added in grafana from infra-repo by Url.
     ```
       grafana:
         dashboards:
@@ -59,26 +100,25 @@
               url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Monitoring.json
     ```
   </details>
-* converter has been added to infra
+
+* Update secrets.yaml
   <details>
-    <summary>Include converter in installation</summary>
+    <summary>Adding Jupyterhub users</summary>
 
-    ### Adding converter values
-    * schema repo should be passed to converter.git.repository
+    ### Adding Credentials
+    * Values for admin and regular user credentials should be added into secrets.yaml
     ```
-      converter:
-        git:
-          repository: <repository>
+    jupyterhub:
+      hub:
+        config:
+          Authenticator:
+            admin_users:
+              - <admin-username>
+            allowed_users:
+              - <username>
+          DummyAuthenticator:
+            password: <password>
     ```
-
-    ### Adding converter key in secrets
-    * secrets.yaml should convain value from converter-ed25519.key
-    ```
-      converter:
-        git:
-          privateKey: <privateKey>
-    ```
-  </details>
 
 ## Migration to RELEASE v1.8.0
 * Migrated to new Kubernetes API versions. Now th2-infra supports Kubernetes 1.19-1.23 releases

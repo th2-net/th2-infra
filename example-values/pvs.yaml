@@ -175,7 +175,7 @@ spec:
           values:
           - <node-name>
 ---
-#if you neeed to deploy onfra-git
+#if you neeed to deploy infra-git
 #apiVersion: v1
 #kind: PersistentVolume
 #metadata:
