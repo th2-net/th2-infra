@@ -16,4 +16,4 @@ cassandra:
   host: <cassandra-host>
 
 rootless:
-  enabled: true
+  enabled: false
