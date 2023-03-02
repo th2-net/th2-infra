@@ -12,7 +12,7 @@ crd:
   technical_name: th2estores.th2.exactpro.com
   scope: Namespaced
   source_repository: https://github.com/th2-net/th2-infra
-  source_repository_ref: 2.0-docs
+  source_repository_ref: rel-v2.0.0-conf-solve
   versions:
     - v2
 layout: crd
@@ -22,7 +22,7 @@ aliases:
   - /reference/cp-k8s-api/th2estores.th2.exactpro.com/
 technical_name: th2estores.th2.exactpro.com
 source_repository: https://github.com/th2-net/th2-infra
-source_repository_ref: 2.0-docs
+source_repository_ref: rel-v2.0.0-conf-solve
 ---
 
 # Th2Estore

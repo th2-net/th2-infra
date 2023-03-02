@@ -8,9 +8,10 @@ th2 service Helm chart
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | helmController(helm-controller) | 0.1.0 |
 | https://charts.bitnami.com/bitnami | cassandra(cassandra) | 9.7.3 |
 | https://charts.bitnami.com/bitnami | rabbitmq(rabbitmq) | 11.0.3 |
+| https://charts.fluxcd.io | helmoperator(helm-operator) | 1.4.2 |
+| https://jupyterhub.github.io/helm-chart/ | jupyterhub(jupyterhub) | 2.0.0 |
 | https://kubernetes.github.io/dashboard/ | dashboard(kubernetes-dashboard) | 5.11.0 |
 
 ## Values
@@ -28,6 +29,10 @@ th2 service Helm chart
 | cassandra.fullnameOverride | string | `"cassandra"` |  |
 | cassandra.internal | bool | `true` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | cassandra.keyspace | string | `"cradle"` |  |
+| cassandra.metrics.enabled | bool | `true` |  |
+| cassandra.metrics.serviceMonitor.enabled | bool | `true` |  |
+| cassandra.metrics.serviceMonitor.selector.app | string | `"kube-prometheus-stack"` |  |
+| cassandra.metrics.serviceMonitor.selector.release | string | `"prometheus"` |  |
 | cassandra.persistence.enabled | bool | `false` |  |
 | cassandra.persistence.size | string | `"50Gi"` |  |
 | cassandra.persistence.storageClass | string | `"local-storage"` |  |
@@ -40,7 +45,7 @@ th2 service Helm chart
 | converter.git.secretName | string | `"converter"` |  |
 | converter.git.sshDir | string | `"/home/service/keys"` |  |
 | converter.image.repository | string | `"ghcr.io/th2-net/th2-cr-converter"` |  |
-| converter.image.tag | string | `"1.0.0"` |  |
+| converter.image.tag | string | `"1.3.5"` |  |
 | converter.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | converter.livenessProbe.initialDelaySeconds | int | `30` |  |
 | converter.livenessProbe.periodSeconds | int | `30` |  |
@@ -64,10 +69,16 @@ th2 service Helm chart
 | dashboard.rbac.create | bool | `true` |  |
 | dashboard.serviceAccount.create | bool | `false` |  |
 | dashboard.serviceAccount.name | string | `"th2infra-kubernetes-dashboard"` |  |
-| helmController.internal | bool | `true` |  |
+| helmoperator.chartsSyncInterval | string | `"300m"` |  |
+| helmoperator.fullnameOverride | string | `"helm-operator"` |  |
+| helmoperator.helm.versions | string | `"v3"` |  |
+| helmoperator.internal | bool | `true` |  |
+| helmoperator.nameOverrde | string | `"helm-operator"` |  |
+| helmoperator.prometheus.enabled | string | `"enabled"` |  |
+| helmoperator.prometheus.serviceMonitor.create | bool | `true` |  |
 | hostAliases | list | `[]` | Adds host aliases to infra-mgr |
 | infraEditor.image.repository | string | `"ghcr.io/th2-net/th2-infra-editor"` |  |
-| infraEditor.image.tag | string | `"1.1.20"` |  |
+| infraEditor.image.tag | string | `"1.1.20-rootles-4292101152"` |  |
 | infraEditorV2.enabled | bool | `false` |  |
 | infraEditorV2.image.repository | string | `"ghcr.io/th2-net/th2-infra-editor-v2"` |  |
 | infraEditorV2.image.tag | string | `"2.1.1"` |  |
@@ -94,7 +105,7 @@ th2 service Helm chart
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"2.3.1-infra-2.0-4204214597-b8f9e6c"` |  |
+| infraMgr.image.tag | string | `"2.3.3"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -103,6 +114,7 @@ th2 service Helm chart
 | infraMgr.kubernetes.configMaps.rabbitmq | string | `"rabbit-mq-app-config"` |  |
 | infraMgr.kubernetes.configMaps.rabbitmq-ext | string | `"rabbit-mq-external-app-config"` |  |
 | infraMgr.kubernetes.namespacePrefix | string | `"th2-"` | must be not more than 5 symbols |
+| infraMgr.kubernetes.schemaSyncMode | string | `"CHECK_NAMESPACE"` |  |
 | infraMgr.kubernetes.secrets | list | `[]` |  |
 | infraMgr.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraMgr.livenessProbe.periodSeconds | int | `30` |  |
@@ -117,18 +129,19 @@ th2 service Helm chart
 | infraMgr.resources.limits.memory | string | `"2500Mi"` |  |
 | infraMgr.resources.requests.cpu | string | `"200m"` |  |
 | infraMgr.resources.requests.memory | string | `"500Mi"` |  |
-| infraOperator.config.chart.spec.chart | string | `"box-chart"` |  |
-| infraOperator.config.chart.spec.version | string | `"1.0.0"` |  |
+| infraOperator.config.chart.name | string | `"box-chart"` |  |
+| infraOperator.config.chart.repository | string | `"http://infra-repo:8080"` |  |
+| infraOperator.config.chart.version | string | `"1.0.0"` | Do not change the version |
 | infraOperator.config.k8sUrl | string | `"<kubernetes-external-entrypoint>"` |  |
 | infraOperator.config.namespacePrefixes[0] | string | `"th2-"` |  |
 | infraOperator.config.rabbitMQManagement.exchangeName | string | `"global-notification"` |  |
 | infraOperator.config.rabbitMQManagement.password | string | `"${RABBITMQ_PASS}"` |  |
 | infraOperator.config.rabbitMQManagement.persistence | bool | `true` |  |
-| infraOperator.config.rabbitMQManagement.schemaPermissions.configure | string | `""` |  |
+| infraOperator.config.rabbitMQManagement.schemaPermissions.configure | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.read | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"4.5.1-infra-2.0-4183978520-cc0f252"` |  |
+| infraOperator.image.tag | string | `"4.5.4"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraOperator.livenessProbe.periodSeconds | int | `30` |  |
@@ -137,16 +150,40 @@ th2 service Helm chart
 | infraOperator.prometheusConfiguration.port | int | `9752` |  |
 | infraOperator.resources.limits.cpu | string | `"800m"` |  |
 | infraOperator.resources.limits.memory | string | `"1200Mi"` |  |
-| infraOperator.resources.requests.cpu | string | `"200m"` |  |
-| infraOperator.resources.requests.memory | string | `"500Mi"` |  |
+| infraOperator.resources.requests.cpu | string | `"100m"` |  |
+| infraOperator.resources.requests.memory | string | `"200Mi"` |  |
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
-| infraRepo.image.tag | string | `"2.0.0@sha256:5368d1e89f6093852569c69d1d3ea2d2d2b3781bdcfddd0685e942e20a38819f"` |  |
+| infraRepo.image.tag | string | `"2.0.0@sha256:8680ccec206d6a9cb3f9910031a13b402acfc13497fead69106505bd9a8ebfe8"` |  |
 | ingress.annotations.infraNamespace | object | `{"nginx.ingress.kubernetes.io/configuration-snippet":"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;","nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for infra services |
 | ingress.annotations.root | object | `{}` | Annotations for th2 root URL |
 | ingress.annotations.th2Namespace | object | `{"nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for th2 schema services |
 | ingress.host | string | `""` | Hostname for th2 namespace services |
 | ingress.infraHost | string | `""` | Hostname for infra services. If not set, than host will be used |
 | ingress.ingressClass | string | `"nginx"` | Hostname to access ingress |
+| jupyterhub.custom | object | `{"internal":true}` | jupiterhub values. If true - will be deployed as dependency |
+| jupyterhub.hub.config.Authenticator.admin_users | list | `[]` |  |
+| jupyterhub.hub.config.Authenticator.allowed_users | list | `[]` |  |
+| jupyterhub.hub.config.DummyAuthenticator.password | string | `""` |  |
+| jupyterhub.hub.db.pvc.accessModes[0] | string | `"ReadWriteOnce"` |  |
+| jupyterhub.hub.db.pvc.annotations | object | `{}` |  |
+| jupyterhub.hub.db.pvc.selector.matchLabels.app | string | `"jupyter-db"` |  |
+| jupyterhub.hub.db.pvc.storage | string | `"200Mi"` |  |
+| jupyterhub.hub.db.pvc.storageClassName | string | `"local-storage"` |  |
+| jupyterhub.hub.db.type | string | `"sqlite-pvc"` |  |
+| jupyterhub.hub.service.ports.nodePort | int | `30081` |  |
+| jupyterhub.hub.service.type | string | `"NodePort"` |  |
+| jupyterhub.proxy.secretToken | string | `"65589277c5c121351c9a15199b67f8a52c651dd636e5c3f727f7a00df88a7c9c"` |  |
+| jupyterhub.proxy.service.nodePorts.http | int | `30080` |  |
+| jupyterhub.proxy.service.nodePorts.https | int | `30443` |  |
+| jupyterhub.proxy.service.type | string | `"NodePort"` |  |
+| jupyterhub.singleuser.storage.capacity | string | `"200Mi"` |  |
+| jupyterhub.singleuser.storage.extraVolumeMounts[0].mountPath | string | `"/home/jovyan/shared"` |  |
+| jupyterhub.singleuser.storage.extraVolumeMounts[0].name | string | `"jupyterhub-shared"` |  |
+| jupyterhub.singleuser.storage.extraVolumes[0].name | string | `"jupyterhub-shared"` |  |
+| jupyterhub.singleuser.storage.extraVolumes[0].persistentVolumeClaim.claimName | string | `"jupyterhub-shared-volume"` |  |
+| jupyterhub.singleuser.storage.static.pvcName | string | `"jupiter-users-volume"` |  |
+| jupyterhub.singleuser.storage.static.subPath | string | `"{username}"` |  |
+| jupyterhub.singleuser.storage.type | string | `"static"` |  |
 | logging.th2 | string | `"INFO"` |  |
 | openshift | object | `{"enabled":false}` | Enable th2 for Openshift, impacts on Ingress. |
 | prometheus.operator.enabled | bool | `true` | Set true if kube-prometheus-stack is used |
@@ -187,8 +224,9 @@ th2 service Helm chart
 | rabbitmq.service.type | string | `"NodePort"` |  |
 | rabbitmq.statefulsetLabels | object | `{"app":"rabbitmq"}` | If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps otherwise service will be deployed as a chart dependency |
 | registries | object | `{}` | Registries are attached as pull secrets to pods |
+| rootless | object | `{"enabled":false,"groupId":65535,"userId":65535}` | Enable non root user  |
 | storageService.image.repository | string | `"ghcr.io/th2-net/th2-storage-services"` |  |
-| storageService.image.tag | string | `"1.0.0-dev-version-1-4203485848-41f53ab"` |  |
+| storageService.image.tag | string | `"1.0.0"` |  |
 | storageService.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | storageService.livenessProbe.initialDelaySeconds | int | `30` |  |
 | storageService.livenessProbe.periodSeconds | int | `30` |  |
