@@ -1,25 +1,27 @@
-apiVersion: th2.exactpro.com/v1
+apiVersion: th2.exactpro.com/v2
 kind: Th2CoreBox
 metadata:
   name: rpt-data-viewer
   annotations:
     e2e: "test-annotation"
 spec:
-  image-name: ghcr.io/th2-net/th2-rpt-viewer
-  image-version: 3.1.127
+  imageName: ghcr.io/th2-net/th2-rpt-viewer
+  imageVersion: 5.1.6 #5.0.67-books-pages-5-3748908791 #5.0.68-books-pages-5-3755481216
   type: th2-rpt-viewer
-  extended-settings:
+  extendedSettings:
     hostAliases:
-    - ip: "127.0.0.1"
-      hostnames: 
-      - "test.local"
+      - ip: "127.0.0.1"
+        hostnames:
+          - "test.local"
     service:
       enabled: true
-      type: ClusterIP
-      endpoints:
-        - name: "gui"
-          targetPort: 8080
+      clusterIP:
+        - name: http
+          containerPort: 8080
     resources:
-      requests:
-        memory: 50Mi
+      limits:
         cpu: 50m
+        memory: 50Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi

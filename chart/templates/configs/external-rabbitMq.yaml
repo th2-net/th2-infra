@@ -12,7 +12,7 @@ data:
     "port": "5672",
     {{- else }}
     "host": {{ .Values.infraOperator.config.k8sUrl | quote }},
-    "port": {{ .Values.rabbitmq.service.nodePort | quote }},
+    "port": {{ .Values.rabbitmq.service.nodePorts.amqp | quote }},
     {{- end }}
     "vHost": "",
     "username": "",

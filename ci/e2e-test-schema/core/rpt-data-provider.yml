@@ -1,48 +1,59 @@
-apiVersion: th2.exactpro.com/v1
+apiVersion: th2.exactpro.com/v2
 kind: Th2CoreBox
 metadata:
   name: rpt-data-provider
 spec:
-  image-name: ghcr.io/th2-net/th2-rpt-data-provider
-  image-version: 5.3.20
+  imageName: ghcr.io/th2-net/th2-rpt-data-provider
+  imageVersion: 5.6.0-master_migration_to_cradle_rebase-3996142926
   type: th2-rpt-data-provider
-  custom-config:
+  cradleManager:
+    prepareStorage: true
+  customConfig:
     hostname: localhost
     port: 8080
+    #responseTimeout: 60000
+    #serverCacheTimeout: 60000
+    #clientCacheTimeout: 60
+    #eventCacheSize: 100000
+    #messageCacheSize: 100000
+    #ioDispatcherThreadPoolSize: 10
+    #maxMessagesLimit: 1000
+    #messageSearchPipelineBuffer: 500
     responseTimeout: 60000
     serverCacheTimeout: 60000
-    clientCacheTimeout: 60
     eventCacheSize: 100000
     messageCacheSize: 100000
     ioDispatcherThreadPoolSize: 10
-    maxMessagesLimit: 1000
-    messageSearchPipelineBuffer: 500
-  pins:
-    - name: to_codec
-      connection-type: mq
-      attributes:
-        - to_codec
-        - raw
-        - publish
-    - name: from_codec
-      connection-type: mq
-      attributes:
-        - from_codec
-        - parsed
-        - subscribe
-  extended-settings:
-    service:
-      enabled: true
-      type: ClusterIP
-      endpoints:
-        - name: "grpc"
-          targetPort: 8080
+
+
+  extendedSettings:
     envVariables:
-      JAVA_TOOL_OPTIONS: '-XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="10000 milliseconds" -Ddatastax-java-driver.basic.request.timeout="10 seconds"'
+      JAVA_TOOL_OPTIONS:
+        -XX:+ExitOnOutOfMemoryError -Ddatastax-java-driver.advanced.connection.init-query-timeout="10000
+        milliseconds" -Ddatastax-java-driver.basic.request.timeout="10 seconds"
     resources:
       limits:
-        memory: 1000Mi
         cpu: 1000m
+        memory: 1000Mi
       requests:
-        memory: 300Mi
         cpu: 20m
+        memory: 300Mi
+    service:
+      enabled: true
+      clusterIP:
+        - name: http
+          containerPort: 8080
+  pins:
+    mq:
+      publishers:
+        - name: to_codec
+          attributes:
+            - to_codec
+            - raw
+            - publish
+      subscribers:
+        - name: from_codec
+          attributes:
+            - from_codec
+            - parsed
+            - subscribe

@@ -36,6 +36,7 @@ spec:
       containers:
       - image: "{{ .Values.infraGit.image.repository }}:{{ .Values.infraGit.image.tag }}"
         name: infra-git
+        {{- include "securityContext" . | nindent 8 }}
         volumeMounts:
           - name: repos-volume
             mountPath: /home/git/repo/

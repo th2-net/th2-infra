@@ -1,0 +1,18 @@
+{{/*
+  Generating config-map for converter for k8
+  */}}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: converter
+  annotations:
+  {{- include "common-annotations" . | nindent 4 }}
+data:
+  converter-config.yml: |
+    git:
+      remoteRepository: {{ .Values.converter.git.repository }}
+      localRepositoryRoot: {{ .Values.converter.git.repositoryLocalCache }}
+      sshDir: {{ .Values.converter.git.sshDir }}
+      httpAuthUsername: "${HTTPS_AUTH_USERNAME}"
+      httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
+      

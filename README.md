@@ -5,7 +5,7 @@ Before you begin, please check the following prerequisites:
 * Fully functioning Kubernetes cluster suitable for your bussiness needs, please refer to [technical requirements](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements) and [version compatibility](https://github.com/th2-net/th2-infra/blob/compatibility-docs/docs/COMPATIBILITY.md)
 * Operator-box that meets [hardware](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements) and [software](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements#software-requirements) requirements
 * Installed [Apache Cassandra](https://cassandra.apache.org/) - [technical requirements](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements#apache-cassandra-cluster-hardware-requirements)
-  
+
 All th2 components are deployed via Helm charts by [Helm](https://helm.sh/) and [Helm Operator](https://docs.fluxcd.io/projects/helm-operator/en/stable/).
 
 ## Steps
@@ -47,13 +47,13 @@ The _`service`_ namespace is used for infrastructure services:
 * [RabbitMQ](https://www.rabbitmq.com/)
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Helm Operator](https://github.com/fluxcd/helm-operator)
-  
+
 and for th2-infra components:
 * [th2-infra-editor](https://github.com/th2-net/th2-infra-editor-v2)
 * [th2-infra-operator](https://github.com/th2-net/th2-infra-operator)
 * [th2-infra-mgr](https://github.com/th2-net/th2-infra-mgr)
 * [th2-infra-repo](https://github.com/th2-net/infra-operator-tpl)
-  
+
 The following picture describes a cluser with monitoring stack, th2-infra and th2 namespace:
 
 ![k8s cluster](https://user-images.githubusercontent.com/690243/101762881-0925d080-3aef-11eb-9d15-70e9277b0fa5.jpg)
@@ -74,7 +74,9 @@ _Note: Examples below use HostPath type of [Persistent Volume(PV)](https://kuber
 
 * the following command can require root permissions, create directory on th2 node:
 ```
-$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq  /opt/jupiter_users /opt/jupiter_db
+
+$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq /opt/jupiter_users /opt/jupiter_db /opt/jupiter_shared
+
 ```
 * set node name in `pvs.yaml`
 * create PVs and PVCs:
@@ -117,8 +119,8 @@ grafana:
 ```
 $ helm repo add grafana https://grafana.github.io/helm-charts
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm install --version=2.6.5 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
-$ helm install --version=21.0.5 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
+$ helm install --version=2.8.3 loki -n monitoring grafana/loki-stack -f ./loki.values.yaml
+$ helm install --version=41.4.0 prometheus -n monitoring prometheus-community/kube-prometheus-stack -f ./prometheus-operator.values.yaml
 ```
 * Check result:
 ```
@@ -137,7 +139,7 @@ prometheus-prometheus-prometheus-oper-prometheus-0       3/3     Running   1    
 ```
 * Check access to Grafana _(default user/password: `admin/prom-operator`. Must be changed)_: <br>
   http://your-host:30000/grafana/login
-  
+
 ## Cluster configuration
 Once all of the required software is installed on your test-box and operator-box and th2-infra repositories are ready you can start configuring the cluster.
 
@@ -145,7 +147,7 @@ Once all of the required software is installed on your test-box and operator-box
 
 `ssh` or `https` access with write permissions is required by **th2-infra-mgr** component
 
-#### Set up __ssh__ access 
+#### Set up __ssh__ access
 
 * Generate keys without passphrase  
 ```
@@ -156,12 +158,29 @@ $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ```
 $ base64 -w 0 ./infra-mgr-rsa.key
 ```
-* [Add a new deploy key to your schema repository on GitHub ](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
+* [Add a new deploy key to your schema repository on GitHub with read and write permissions](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 
 #### Set up __https__ access
 
 * [Generate access token for schema repository with read and write permissions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 * Set up values in secrets.yaml file (described below)
+
+### Access for converter th2 schema git repository:
+
+`ssh` or `https` access with write permissions is required by **th2-converter** component
+
+#### Set up __ssh__ access
+
+* Generate keys without passphrase  
+```
+$ ssh-keygen -t ed25519 -m pem -f ./converter-ed25519.key
+```
+
+* Get key in base64 format and put in converter.git.privateKey
+```
+$ base64 -w 0 ./converter-ed25519.key
+```
+* [Add a new deploy key to your schema repository on GitHub with read and write permissions](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 
 ### Set the repository with schema configuration
 set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to link of your schema repository, `ssh` or `https`:
@@ -170,10 +189,16 @@ set `infraMgr.git.repository` value in the [service.values.yaml](./example-value
 infraMgr:
   git:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
+converter:
+  git:
+    repository: git@github.com:th2-net/th2-infra-demo-configuration.git
 ```
 * **https**
 ```
 infraMgr:
+  git:
+    repository: https://github.com/th2-net/th2-infra-schema-demo.git
+converter:
   git:
     repository: https://github.com/th2-net/th2-infra-schema-demo.git
 ```
@@ -237,6 +262,19 @@ rabbitmq:
 #    # authentication username
 #    # when using token auth for GitLab it should be equal to "oauth2"
 #    # when using token auth for GitHub it should be equal to token itself
+#    httpAuthPassword:
+#    # authentication password
+#    # when using token auth for GitLab it should be equal to token itself
+#    # when using token auth for GitHub it should be equal to empty string
+
+# required if http(s) access to gitlab/github repositories is used
+#converter:
+#  git:
+#    privateKey: <private key in base64>
+#    httpAuthUsername: username
+#    # authentication username
+#    # when using token auth for GitLab it should be equal to "oauth2"
+#    # when using token auth for GitHub it should be equal to token itself
 #    httpAuthPassword: 
 #    # authentication password
 #    # when using token auth for GitLab it should be equal to token itself
@@ -263,10 +301,17 @@ If you have any restrictions to get access to any external repositories from the
 ```
 $ kubectl -n service create configmap keys-repo --from-file=authorized_keys=./infra-mgr-rsa.pub
 ```
+*  Create configmap "keys-repo-converter" from public part of key from point "Access for converter th2 schema git repository":
+```
+$ kubectl -n service create configmap keys-repo-converter --from-file=authorized_keys=./converter-ed25519.pub
+```
 *  Define configs for infra-git in services.values.yaml
-*  set `infraMgr.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
+*  set `infraMgr.git.repository` and `converter.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
 ```
 infraMgr:
+  git:
+    repository: ssh://git@infra-git/home/git/repo/schema.git
+converter:
   git:
     repository: ssh://git@infra-git/home/git/repo/schema.git
 ```
@@ -285,15 +330,15 @@ Host <node-address>
     Port 32600
     IdentityFile ~/path_to_private_key/infra-mgr-rsa.key
 ```
-* clone your infra-git repo using 
+* clone your infra-git repo using
 ```
 $ git clone git@<node-address>:/home/git/repo/schema.git
-``` 
+```
 ## th2 deployment
 ### Install NGINX Ingress Controller
 ```
 $ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-$ helm install -n service --version=4.1.2 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
+$ helm install -n service --version=4.3.0 ingress ingress-nginx/ingress-nginx -f ./ingress.values.yaml
 ```
 Check:
 ```
@@ -342,6 +387,7 @@ $ kubectl get customresourcedefinitions | grep "^th2"
 $ helm repo update
 $ helm install -n service --version=<new_version> th2-infra th2/th2 -f ./service.values.yaml -f ./secrets.yaml
 ```
+
 _Note_: replace <new_version> with th2-infra release version you need, please follow to https://github.com/th2-net/th2-infra/releases
   
 ### Re-adding persistence for components in th2 namespaces
@@ -359,7 +405,7 @@ $ kubectl patch pv <pv-name> -p '{"spec":{"claimRef": null}}'
 $ kubectl -n <th2-namespace> apply -f ./pvc.yaml
 ```
 _Note_: replace <th2-namespace> with th2 namespace you use
-  
+
 ## th2 in Openshift
 Steps with Ingress controller and Monitoring deployment should be skipped
 
@@ -395,6 +441,7 @@ Expose services as LoadBalancer if available.
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
 
-## Migration to v1.8.1 th2-infra chart 
+## Migration to v2.0.0 th2-infra chart 
+
 Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
 

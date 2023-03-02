@@ -2,11 +2,17 @@ kind: SettingsFile
 metadata:
   name: infra-mgr-config
 spec:
+  cradle: 
+    keyspace: "rpt"
   k8s-propagation: rule
   th2BoxConfig:
     logging:
       logLevelTh2: DEBUG
       logLevelRoot: INFO
+  bookConfig:
+#    bookNames:
+#      - "dvbook1"
+    defaultBook: "booktest"
 #
 #  values for k8s-propagation property:
 #

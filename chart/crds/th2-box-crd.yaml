@@ -29,7 +29,7 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v1
+    name: v2
     schema:
       openAPIV3Schema:
         description: Th2Box defines generic Th2 component instance
@@ -43,69 +43,69 @@ spec:
           spec:
             description: Specification of desired box
             properties:
-              custom-config:
+              customConfig:
                 description: this is custom configuration
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               loggingConfig:
+                description: this is logging configuration
                 type: string
               mqRouter:
-                description: this is custom configuration for rouer mq
+                description: this is custom configuration for router mq
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               grpcRouter:
-                description: this is custom configuration for rouer grpc
+                description: this is custom configuration for router grpc
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               cradleManager:
                 description: this is custom configuration for cradle
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              extended-settings:
+              bookName:
+                description: Can be used for passing custom book for a specific CR
+                type: string
+              extendedSettings:
+                type: object
+                description: section for extended settings
                 properties:
-                  chart-cfg:
-                    properties:
-                      path:
-                        type: string
-                      ref:
-                        type: string
-                    type: object
                   envVariables:
+                    description: allows us to pass specific environment variables that are going to be set into the pods.
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
                   sharedMemory:
+                    description: DESCRIPTION NEEDED
                     type: object
                     properties:
                       enabled:
-                        enum:
-                          - "false"
-                          - "true"
-                        type: string
+                        description: DESCRIPTION NEEDED
+                        type: boolean
                   replicas:
-                    type: string
-                    pattern: "^[0-9]+$"
+                    description: number of replicas
+                    type: integer
                   k8sProbes:
-                    type: string
-                    enum:
-                      - "false"
-                      - "true"
-                    default: "false"
+                    description: if enabled liveness probes will be collected from pod
+                    type: boolean
+                    default: false
                   externalBox:
+                    description: using this section we can configure boxes that are going to be run outside of kubernetes cluster
                     properties:
                       address:
+                        description: address to the machine on which external box is running
                         type: string
                       enabled:
-                        enum:
-                        - "false"
-                        - "true"
-                        type: string
+                        description: represents the state of the external box
+                        type: boolean
                       endpoints:
+                        description: internal mapping for ports
                         items:
                           properties:
                             name:
+                              description: name for the endpoint
                               type: string
                             targetPort:
-                              type: string
+                              description: value for exposed port
+                              type: integer
                           required:
                           - name
                           - targetPort
@@ -130,10 +130,8 @@ spec:
                         - hostnames
                       type: object
                   hostNetwork:
-                    enum:
-                    - "false"
-                    - "true"
-                    type: string
+                    description: if the flag is set to true, pod will run on node network and kubernetes will decide which node will be used for running the box.
+                    type: boolean
                   nodeSelector:
                     additionalProperties:
                       type: string
@@ -141,18 +139,20 @@ spec:
                       NodeSelector is a selector which must be true for the pod to fit on a node.
                       Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
                     type: object
-                  bookName:
-                    type: string
                   mounting:
+                    description: allows to configure persistent volume mounting for pods
                     items:
                       properties:
                         path:
+                          description: a directory in pod where you mount external folder
                           type: string
                         pvcName:
+                          description: name for the pvc
                           type: string
                       type: object
                     type: array
                   resources:
+                    description: here we can specify resource limitations and allowances for this specific component
                     properties:
                       limits:
                         properties:
@@ -170,43 +170,57 @@ spec:
                         type: object
                     type: object
                   service:
+                    type: object
                     properties:
                       enabled:
-                        enum:
-                        - "false"
-                        - "true"
-                        type: string
-                      endpoints:
+                        description: if enabled allows pod to be exposed using ClusterIP
+                        type: boolean
+                      clusterIP:
+                        description: endpoints for cluster IP service type
+                        type: array
                         items:
+                          type: object
                           properties:
                             name:
+                              description: name of the endpoint
                               type: string
-                            nodePort:
-                              type: string
-                              pattern: "^[0-9]+$"
-                            targetPort:
-                              type: string
-                              pattern: "^[0-9]+$"
-                            port:
-                              type: string
-                              pattern: "^[0-9]+$"
-                          required:
+                            containerPort:
+                              description: allows to specify Kubernetes port for the pod.
+                              type: integer
+                        required:
                           - name
-                          type: object
-                        type: array
                       nodePort:
-                        type: string
-                        pattern: "^[0-9]+$"
-                      targetPort:
-                        type: string
-                        pattern: "^[0-9]+$"
-                      type:
-                        enum:
-                        - ClusterIP
-                        - NodePort
-                        - LoadBalancer
-                        - ExternalName
-                        type: string
+                        description: endpoints for nodePort service type
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              description: name of the endpoint
+                              type: string
+                            exposedPort:
+                              description: a port on which the service will be accessible.
+                              type: integer
+                            containerPort:
+                              description: allows to specify Kubernetes port for the pod.
+                              type: integer
+                        required:
+                          - name
+                          - exposedPort
+                      loadBalancer:
+                        description: endpoints for loadBalancer service type
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              description: name of the endpoint
+                              type: string
+                            containerPort:
+                              description: allows to specify Kubernetes port for the pod.
+                              type: integer
+                        required:
+                          - name
                       ingress:
                         description: Creates Ingress for the Box
                         type: object
@@ -223,161 +237,364 @@ spec:
                             items:
                               type: string
                               pattern: "^[-a-zA-Z0-9_/]+$"
-                    type: object
-                type: object
               disabled:
+                description: if set to true resource will act as if it is removed from schema without actually deleting the file. The default value is false.
+                type: boolean
+              imageName:
+                description: docker image repository URL
                 type: string
-                enum:
-                  - "false"
-                  - "true"
-              image-name:
+              imageVersion:
+                description: docker image tag
                 type: string
-              image-version:
+              versionRange:
+                description: when the appropriate pattern is provided, image-version will be updated with the latest tag from the image repository that satisfies that pattern.
                 type: string
-              version-range:
-                type: string
-              params:
-                description: List of generic parameters
-                items:
-                  properties:
-                    name:
-                      type: string
-                    value:
-                      type: string
-                  required:
-                  - name
-                  - value
-                  type: object
-                type: array
               pins:
-                description: List of connection pins
-                items:
-                  properties:
-                    attributes:
-                      items:
-                        type: string
-                      type: array
-                    service-class:
-                      type: string
-                    service-classes:
-                      items:
-                        type: string
-                      type: array
-                    strategy:
-                      type: string
-                      default: robin
-                    connection-type:
-                      enum:
-                      - mq
-                      - grpc-server
-                      - grpc-client
-                      type: string
-                    filters:
-                      items:
-                        properties:
+                description: consists of grpc(server, client) and mq pin sections
+                type: object
+                properties:
+                  grpc:
+                    description: pin section for grpc
+                    type: object
+                    properties:
+                      server:
+                        description: grpc server subsection
+                        type: array
+                        items:
+                          type: object
                           properties:
-                            items:
-                              properties:
-                                expected-value:
-                                  type: string
-                                field-name:
-                                  type: string
-                                operation:
-                                  enum:
-                                    - EQUAL
-                                    - NOT_EQUAL
-                                    - EMPTY
-                                    - NOT_EMPTY
-                                    - WILDCARD
-                                  type: string
-                              required:
-                                - field-name
-                                - expected-value
-                                - operation
+                            serviceClasses:
+                              description: list of the service classes supported by the grpc server
+                              items:
+                                type: string
+                              type: array
+                            name:
+                              description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
+                              type: string
+                              pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                              maxLength: 70
+                          required:
+                            - name
+                            - serviceClasses
+                      client:
+                        description: grpc client subsection
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            attributes:
+                              description: attributes of grpc client
+                              items:
+                                type: string
+                              type: array
+                            serviceClass:
+                              description: name of the service class used supported by the grpc client
+                              type: string
+                            strategy:
+                              description: strategy to be used for grpc communication. default value is set to robin
+                              type: string
+                              default: robin
+                            filters:
+                              description: filters for grpc client
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  properties:
+                                    description: DESCRIPTION NEEDED
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                            linkTo:
+                              description: DESCRIPTION NEEDED
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  box:
+                                    description: name of the box
+                                    type: string
+                                  pin:
+                                    description: represents the pin of the box that we want to connect
+                                    type: string
+                                required:
+                                  - box
+                                  - pin
+                            name:
+                              description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
+                              type: string
+                              pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                              maxLength: 70
+                        required:
+                          - name
+                          - serviceClass
+                  mq:
+                    type: object
+                    properties:
+                      subscribers:
+                        description: section for subscriber mq pins
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - name
+                          properties:
+                            name:
+                              description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
+                              type: string
+                              pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                              maxLength: 70
+                            attributes:
+                              description: attributes for mq
+                              items:
+                                type: string
+                              type: array
+                            filters:
+                              description: filters for mq
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  properties:
+                                    description: DESCRIPTION NEEDED
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                                  message:
+                                    description: DESCRIPTION NEEDED
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                                  metadata:
+                                    description: metadata for mq pin
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                            linkTo:
+                              description: DESCRIPTION NEEDED
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  box:
+                                    description: name of the box
+                                    type: string
+                                  pin:
+                                    description: represents the pin of the box that we want to connect
+                                    type: string
+                                required:
+                                  - box
+                                  - pin
+                            settings:
+                              description: settings for rabbitMq queue configuration
                               type: object
-                            type: array
-                          message:
-                            items:
                               properties:
-                                expected-value:
+                                overloadStrategy:
+                                  description: configuration for rabbit mq queue. default is set to “drop-head”.
                                   type: string
-                                field-name:
-                                  type: string
-                                operation:
                                   enum:
-                                  - EQUAL
-                                  - NOT_EQUAL
-                                  - EMPTY
-                                  - NOT_EMPTY
-                                  - WILDCARD
-                                  type: string
-                              required:
-                              - field-name
-                              - expected-value
-                              - operation
-                              type: object
-                            type: array
-                          metadata:
-                            items:
-                              properties:
-                                expected-value:
-                                  type: string
-                                field-name:
-                                  type: string
-                                operation:
-                                  enum:
-                                  - EQUAL
-                                  - NOT_EQUAL
-                                  - EMPTY
-                                  - NOT_EMPTY
-                                  - WILDCARD
-                                  type: string
-                              required:
-                              - field-name
-                              - expected-value
-                              - operation
-                              type: object
-                            type: array
-                        type: object
-                      type: array
-                    name:
-                      type: string
-                      pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
-                      maxLength: 71
-                    settings:
-                      properties:
-                        overloadStrategy:
-                          type: string
-                          enum:
-                            - "drop-head"
-                            - "reject-publish"
-                          default: "drop-head"
-                        queueLength:
-                          type: string
-                          default: "1000"
-                        storageOnDemand:
-                          type: string
-                          enum:
-                          - "false"
-                          - "true"
-                          default: "false"
-                      type: object
-                  required:
-                  - name
-                  - connection-type
-                  type: object
-                type: array
+                                    - "drop-head"
+                                    - "reject-publish"
+                                  default: "drop-head"
+                                queueLength:
+                                  description: configuration for rabbit mq queue. default is set to 1000 msg. queueLength isn't used if storageOnDemand is set to true.
+                                  type: integer
+                                  default: 1000
+                                storageOnDemand:
+                                  description: configuration for rabbit mq queue. default value is set to false
+                                  type: boolean
+                                  default: false
+                      publishers:
+                        description: section for subscriber mq pins
+                        type: array
+                        items:
+                          required:
+                            - name
+                          type: object
+                          properties:
+                            name:
+                              description: name for the pin. must follow the regex pattern ^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$ and max length of 71 characters
+                              type: string
+                              pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9]*[_a-z0-9])+$"
+                              maxLength: 70
+                            attributes:
+                              description: attributes for mq
+                              items:
+                                type: string
+                              type: array
+                            filters:
+                              description: filters for mq
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  properties:
+                                    description: DESCRIPTION NEEDED
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                                  message:
+                                    description: DESCRIPTION NEEDED
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
+                                  metadata:
+                                    description: metadata for mq pin
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        expectedValue:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        fieldName:
+                                          description: DESCRIPTION NEEDED
+                                          type: string
+                                        operation:
+                                          description: DESCRIPTION NEEDED
+                                          enum:
+                                            - EQUAL
+                                            - NOT_EQUAL
+                                            - EMPTY
+                                            - NOT_EMPTY
+                                            - WILDCARD
+                                          type: string
+                                      required:
+                                        - fieldName
+                                        - expectedValue
+                                        - operation
               prometheus:
+                description: custom configuration of prometheus for microservices
                 properties:
                   enabled:
-                    enum:
-                    - "false"
-                    - "true"
-                    type: string
+                    description: By default this is set to true.
+                    type: boolean
                   host:
+                    description: host for prometheus
                     type: string
                   port:
-                    type: string
+                    description: port for prometheus
+                    type: integer
                 type: object
               type:
                 enum:
@@ -403,8 +620,8 @@ spec:
                 - th2-monkey
                 type: string
             required:
-            - image-name
-            - image-version
+            - imageName
+            - imageVersion
             - type
             type: object
           status:

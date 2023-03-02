@@ -39,6 +39,12 @@ hostAliases:
 openshift:
   enabled: false
 
+# -- Enable non root user 
+rootless:
+  enabled: false
+  userId: 65535
+  groupId: 65535
+
 # -- Annotations will be added to all deployments, configMaps and ingresses that are created by th2-infra.
 commonAnnotations: {}
 
@@ -71,7 +77,7 @@ helmoperator:
 infraEditor:
   image:
     repository: ghcr.io/th2-net/th2-infra-editor
-    tag: 1.1.20
+    tag: 1.1.20-rootles-4292101152
 
 infraEditorV2:
   enabled: false
@@ -82,7 +88,7 @@ infraEditorV2:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 1.8.1@sha256:11caaa5515050e5af732dcd442ae7f24381c4a1a9e024e4c8967d6535e3a0a9d
+    tag: 2.0.0@sha256:8680ccec206d6a9cb3f9910031a13b402acfc13497fead69106505bd9a8ebfe8
 
 infraOperator:
   prometheusConfiguration:
@@ -90,7 +96,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 3.6.9
+    tag: 4.5.4
   config:
     chart:
       repository: http://infra-repo:8080
@@ -101,13 +107,11 @@ infraOperator:
       - "th2-"
     k8sUrl: "<kubernetes-external-entrypoint>"
     rabbitMQManagement:
-      #      host: "" -  host is taken from rabbitmq config
-      port: "15672"
-      username: "th2"
       password: "${RABBITMQ_PASS}"
       persistence: true
+      exchangeName: "global-notification"
       schemaPermissions:
-        configure: ""
+        configure: ".*"
         read: ".*"
         write: ".*"
   livenessProbe:
@@ -119,8 +123,8 @@ infraOperator:
       cpu: 800m
       memory: 1200Mi
     requests:
-      cpu: 200m
-      memory: 500Mi
+      cpu: 100m
+      memory: 200Mi
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
@@ -130,7 +134,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 1.7.22
+    tag: 2.3.3
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
@@ -140,8 +144,6 @@ infraMgr:
     httpAuthUsername: ""
     # -- Required for Git repository via HTTPS
     httpAuthPassword: ""
-    # -- Required for Git repository via SSH. Rsa private key in base64 encoding
-    privateKey: ""
     # -- Infra manager git fetch interval in milliseconds
     gitFetchInterval: "14000"
   rabbitmq:
@@ -150,11 +152,12 @@ infraMgr:
     secret: rabbitmq
     passwordLength: 24
   cassandra:
-    keyspacePrefix: schema_
+    keyspacePrefix: th2_
     secret: cassandra
   kubernetes:
     # -- must be not more than 5 symbols
     namespacePrefix: "th2-"
+    schemaSyncMode: CHECK_NAMESPACE
     configMaps:
       logging: logging-config-template
       rabbitmq: rabbit-mq-app-config
@@ -174,6 +177,57 @@ infraMgr:
     requests:
       cpu: 200m
       memory: 500Mi
+  jvm:
+    javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
+
+converter:
+  prometheusConfiguration:
+    enabled: true
+    port: 9752
+  image:
+    repository: ghcr.io/th2-net/th2-cr-converter
+    tag: 1.3.5
+  git:
+    secretName: converter
+    sshDir: /home/service/keys
+    repository: https://github.com/th2-net/th2-demo-configuration.git
+    repositoryLocalCache: /home/service/repository
+    # -- Required for Git repository via HTTPS
+    httpAuthUsername: ""
+    # -- Required for Git repository via HTTPS
+    httpAuthPassword: ""
+  livenessProbe:
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    periodSeconds: 30
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2500Mi
+    requests:
+      cpu: 100m
+      memory: 700Mi
+  jvm:
+    javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
+
+storageService:
+  prometheusConfiguration:
+    enabled: true
+    port: 9752
+  image:
+    repository: ghcr.io/th2-net/th2-storage-services
+    tag: 1.0.0
+  livenessProbe:
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    periodSeconds: 30
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2500Mi
+    requests:
+      cpu: 100m
+      memory: 700Mi
   jvm:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
@@ -216,6 +270,9 @@ rabbitmq:
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: rabbitmq
+  # -- Value for compatibility with bitnami rabbitmq chart, must be changed with extraConfiguration
+  rabbitmqVhost: th2
+  # default_vhost must be updated with rabbitmqVhost value
   extraConfiguration: |-
     default_vhost = th2
     disk_free_limit.absolute = 10GB
@@ -233,13 +290,14 @@ rabbitmq:
     size: 10Gi
   service:
     type: "NodePort"
-    nodePort: 32000
-    managerNodePort: 32025
+    nodePorts:
+      amqp: 32000
+      manager: 32025
   metrics:
     enabled: true
     serviceMonitor:
       enabled: true
-      additionalLabels:
+      labels:
         release: prometheus
         app: kube-prometheus-stack
       path: /metrics
@@ -277,6 +335,13 @@ cassandra:
   #it is not required if the service internal
   #  host: ""
   fullnameOverride: cassandra
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      selector:
+        release: prometheus
+        app: kube-prometheus-stack
   cluster:
     datacenter: dc1
   dbUser:
@@ -317,6 +382,13 @@ jupyterhub:
   # -- jupiterhub values. If true - will be deployed as dependency
   custom:
     internal: true
+  proxy:
+    secretToken: 65589277c5c121351c9a15199b67f8a52c651dd636e5c3f727f7a00df88a7c9c
+    service:
+      type: NodePort
+      nodePorts:
+        http: 30080
+        https: 30443
   hub:
     config:
       Authenticator:
@@ -325,26 +397,20 @@ jupyterhub:
       DummyAuthenticator:
         password: ""
     service:
+      type: NodePort
       ports:
         nodePort: 30081
-      type: NodePort
     db:
+      type: sqlite-pvc
       pvc:
-        accessModes:
-          - ReadWriteOnce
-        annotations: {}
         selector:
           matchLabels:
             app: jupyter-db
+        annotations: {}
+        accessModes:
+          - ReadWriteOnce
         storage: 200Mi
         storageClassName: local-storage
-  proxy:
-    secretToken: 65589277c5c121351c9a15199b67f8a52c651dd636e5c3f727f7a00df88a7c9c
-    service:
-      nodePorts:
-        http: 30080
-        https: 30443
-      type: NodePort
   singleuser:
     storage:
       extraVolumes:
@@ -358,4 +424,7 @@ jupyterhub:
       static:
         pvcName: jupiter-users-volume
         subPath: '{username}'
-      type: static 
+      type: static
+
+logging:
+  th2: INFO

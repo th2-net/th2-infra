@@ -80,17 +80,23 @@
         template: "{{ playbook_dir }}/deploy/jupyterhub-pv.yaml"
         namespace: "{{ infra_namespace }}"
 
+    - name: Create jupyterhub persistent volume
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/jupyterhub-pv.yaml"
+        namespace: "{{ infra_namespace }}"
+    
     - name: Create Cassandra configmap
       kubernetes.core.k8s:
         state: present
         template: "{{ playbook_dir }}/deploy/cassandra/cassandra-configmap.yaml"
         namespace: "{{ infra_namespace }}"
 
-    # - name: Cassandra Init
-    #   kubernetes.core.k8s:
-    #     state: present
-    #     template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
-    #     namespace: service
+    - name: Cassandra Init
+      kubernetes.core.k8s:
+        state: present
+        template: "{{ playbook_dir }}/deploy/cassandra/initdb.yaml"
+        namespace: service
 
     - name: Deploy th2-infra
       kubernetes.core.helm:
@@ -103,5 +109,9 @@
           infraMgr:
             git:
               privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
+          converter:
+            git:
+              privateKey: "{{ lookup('file', './id_ssh_rsa') | b64encode }}"
         create_namespace: true
         wait: true
+        wait_timeout: 10m

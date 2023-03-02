@@ -3,6 +3,9 @@ commonAnnotations: {}
 openshift:
   enabled: false
 component:
+  runAsJob: false
+  bookConfig:
+    bookName: defaultBook
   ingress:
     host:
     annotations:
@@ -13,15 +16,24 @@ component:
     cassandra: cassandra
   image:
   name: comp1
+  rootless:
+    enabled: false
+  securityContext:
+    runAsUser: 65635
+    runAsGroup: 65635
   extendedSettings:
+    parallelism: 1
+    completions: 1
+    externalBox:
+      enabled: false
     service:
       enabled: false
+      clusterIP: []
       ingress:
         urlPaths: []
     resources:
       limits:
         memory: 200Mi
-        cpu: 200m
         ephemeral-storage: "1Gi"
       requests:
         memory: 100Mi
@@ -53,10 +65,4 @@ component:
   grpc:
     # sprod:
     #   value: 3333
-  dictionaries:
-    # - name: FIX5-0
-    #   type: SINGLE
-    #   data: ABC
-    # - name: FIX
-    #   type: LEVEL1
-    #   data: XYZ
+  dictionaries: {}

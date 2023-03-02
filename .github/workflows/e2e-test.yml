@@ -35,9 +35,11 @@ jobs:
     strategy:
       matrix:
         k8s-version:
-        - kindest/node:v1.19.16@sha256:d9c819e8668de8d5030708e484a9fdff44d95ec4675d136ef0a0a584e587f65c
-        # - kindest/node:v1.21.14@sha256:ad5b7446dd8332439f22a1efdac73670f0da158c00f0a70b45716e7ef3fae20b
-        - kindest/node:v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
+        - kindest/node:v1.20.15@sha256:a32bf55309294120616886b5338f95dd98a2f7231519c7dedcec32ba29699394
+        - kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
+        - kindest/node:v1.26.0@sha256:691e24bd2417609db7e589e1a479b902d2e209892a10ce375fab60a8407c7352
+      max-parallel: 3
+      fail-fast: false
     name: ${{ github.job }}
     if: |
       !contains(github.event.pull_request.labels, 'automated')
@@ -111,6 +113,10 @@ jobs:
           kubectl -n $INFRA_NAMESPACE patch deployments.apps infra-mgr -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz infra-git 22; do echo \"Waiting for infra-git service\"; sleep 2; done;"]}]}}}}'
           kubectl -n $INFRA_NAMESPACE patch deployments.apps infra-operator -p '{"spec":{"template":{"spec":{"initContainers":[{"name":"init-myservice","image":"busybox:1.30.1","command":["sh","-c","until nc -vz rabbitmq 5672; do echo \"Waiting for rabbitmq service\"; sleep 2; done;"]}]}}}}'
           kubectl get pods --all-namespaces
+
+      - name: Sleep for 5 minutes
+        run: sleep 5m
+        shell: bash
 
       - name: Testing
         run: |

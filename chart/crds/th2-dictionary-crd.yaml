@@ -14,7 +14,7 @@ spec:
     singular: th2dictionary
   scope: Namespaced
   versions:
-  - name: v1
+  - name: v2
     schema:
       openAPIV3Schema:
         description: Th2Dictionary defines th2 dictionary instance
@@ -29,11 +29,10 @@ spec:
             description: Specification of desired dictionary
             properties:
               compressed:
-                type: string
-                enum:
-                  - "false"
-                  - "true"
+                description: Indicates whether dictionary's data is already compressed. If set to true, no further compression will take place in infra. default is set to false
+                type: boolean
               data:
+                description: data for the dictionary
                 type: string
             required:
             - data

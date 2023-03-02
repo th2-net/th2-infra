@@ -16,7 +16,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.8.1
+version: 2.0.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -26,19 +26,14 @@ appVersion: 1.0.0
 dependencies:
 - alias: rabbitmq
   condition: rabbitmq.internal
-  #Due to https://github.com/bitnami/charts/issues/10539 the following link next line has been changed from https://charts.bitnami.com/bitnami
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+  repository: https://charts.bitnami.com/bitnami
   name: rabbitmq
-  version: 8.24.13
+  version: 11.0.3
 - alias: cassandra
   condition: cassandra.internal
+  repository: https://charts.bitnami.com/bitnami
   name: cassandra
-  version: 5.6.7
-- alias: helmoperator
-  condition: helmoperator.internal
-  repository: https://charts.fluxcd.io
-  name: helm-operator
-  version: 1.4.2
+  version: 9.7.3
 - alias: jupyterhub
   condition: jupyterhub.custom.internal
   repository: https://jupyterhub.github.io/helm-chart/
@@ -48,4 +43,9 @@ dependencies:
   condition: dashboard.internal
   repository: https://kubernetes.github.io/dashboard/
   name: kubernetes-dashboard
-  version: 5.0.4
+  version: 5.11.0
+- alias: helmoperator
+  condition: helmoperator.internal
+  repository: https://charts.fluxcd.io
+  name: helm-operator
+  version: 1.4.2

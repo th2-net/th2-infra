@@ -10,7 +10,7 @@ metadata:
   name: {{ .component.name }}-app-config
   labels:
     app: {{ .component.name }}
-data: 
+data:
   custom.json: |
     {{ .component.custom | toJson }}
   grpc.json: |
@@ -42,8 +42,13 @@ data:
     {{- .component.logging.config | nindent 4 }}
   log4j2.properties: |
     {{- .component.logging.config | nindent 4 }}
+  zerolog.properties: |
+    {{- .component.logging.config | nindent 4 }}
   {{- end }}
   box.json: |
-    {"boxName":{{ .component.name | quote }}}
+    {
+        "boxName":{{ .component.name | quote }},
+        "bookName":{{ .component.bookConfig.bookName | quote }}
+    }
 
 {{ end }}

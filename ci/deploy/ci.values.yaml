@@ -21,9 +21,12 @@ rabbitmq:
       enabled: true
   metrics:
     enabled: false
+jupyterhub:
+  custom:
+    internal: true
 cassandra:
   # existingConfiguration: cassandra-configuration
-  # initDBConfigMap: cassandra-init
+  initDBConfigMap: cassandra-init
   dbUser:
     user: cassandra
     password: cassandra
@@ -36,5 +39,8 @@ cassandra:
     extraOpts: "-Dcassandra.skip_wait_for_gossip_to_settle=0"
   internal: true
 infraMgr:
+  git:
+    repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git
+converter:
   git:
     repository: ssh://git@infra-git:22/home/git/repo/e2e-test-schema.git

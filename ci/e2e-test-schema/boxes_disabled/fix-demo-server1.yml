@@ -1,15 +1,15 @@
-apiVersion: th2.exactpro.com/v1
+apiVersion: th2.exactpro.com/v2
 kind: Th2Box
 metadata:
   name: fix-demo-server1
 spec:
-  image-name: ghcr.io/th2-net/th2-conn-fix
-  image-version: 2.1.0
+  imageName: ghcr.io/th2-net/th2-conn-fix
+  imageVersion: 2.1.0
   type: th2-conn
-  custom-config:
+  customConfig:
     session-alias: fix-demo-server1
     workspace: /home/sailfish/workspace
-    type: th2_service:FIX_Server
+    type: 'th2_service:FIX_Server'
     name: fix-demo-server1
     settings:
       autoStartable: true
@@ -23,7 +23,7 @@ spec:
       checkLatency: false
       defaultApplVerID: 9
       duplicateTagsAllowed: false
-      endTime: 00:00:00
+      endTime: '00:00:00'
       fileStorePath: store/fix/sessions
       logHeartbeats: true
       maxLatency: 120
@@ -35,7 +35,7 @@ spec:
       resetOnDisconnect: false
       resetOnLogout: false
       senderCompID: FGW
-      startTime: 00:00:00
+      startTime: '00:00:00'
       targetCompID: DEMO-CONN1
       useLocalTime: false
       useSSL: false
@@ -47,47 +47,42 @@ spec:
       applicationClassName: com.exactpro.sf.services.fix.ServerApplication
       keepMessagesInMemory: true
       socketAcceptPort: 8089
-  pins:
-    - name: in
-      connection-type: mq
-      attributes:
-        - first
-        - parsed
-        - publish
-        - store
-    - name: in_raw
-      connection-type: mq
-      attributes:
-        - first
-        - raw
-        - publish
-    - name: out
-      connection-type: mq
-      attributes:
-        - second
-        - parsed
-        - publish
-    - name: out_raw
-      connection-type: mq
-      attributes:
-        - second
-        - raw
-        - publish
-    - name: fix_to_send
-      connection-type: mq
-      attributes:
-        - send
-        - parsed
-        - subscribe
-  extended-settings:
-    service:
-      enabled: true
-      targetPort: "8089"
+  extendedSettings:
     envVariables:
-      JAVA_TOOL_OPTIONS: "-XX:+ExitOnOutOfMemoryError"
+      JAVA_TOOL_OPTIONS: '-XX:+ExitOnOutOfMemoryError'
     resources:
       limits:
-        memory: 200Mi
         cpu: 200m
-#      mounitng:
-#        TBD
+        memory: 200Mi
+    service:
+      enabled: false
+  pins:
+    mq:
+      subscribers:
+        - name: fix_to_send
+          attributes:
+            - send
+            - parsed
+            - subscribe
+      publishers:
+        - name: in
+          attributes:
+            - first
+            - parsed
+            - publish
+            - store
+        - name: in_raw
+          attributes:
+            - first
+            - raw
+            - publish
+        - name: out
+          attributes:
+            - second
+            - parsed
+            - publish
+        - name: out_raw
+          attributes:
+            - second
+            - raw
+            - publish

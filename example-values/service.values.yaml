@@ -15,3 +15,5 @@ cassandra:
   internal: false
   host: <cassandra-host>
 
+rootless:
+  enabled: false

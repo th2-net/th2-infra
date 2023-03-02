@@ -6,54 +6,59 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ .component.name }}
-  name: {{ .component.name }}
+    app: {{ .Values.component.name }}
+  name: {{ .Values.component.name }}
   annotations:
-  {{- include "common-annotations" . | nindent 4  }}
+  {{- include "common-annotations" .Values | nindent 4  }}
 spec:
-  replicas: {{ .component.extendedSettings.replicas }}
+  replicas: {{ .Values.component.extendedSettings.replicas }}
   selector:
     matchLabels:
-      app: {{ .component.name }}
+      app: {{ .Values.component.name }}
   template:
     metadata:
       annotations:
-        {{- include "checksum" . }}
-        {{- include "common-annotations" . | nindent 8  }}
+        {{- include "checksum" .Values }}
+        {{- include "common-annotations" .Values | nindent 8  }}
       labels:
-        app: {{ .component.name }}
-        {{- if not .component.prometheus }}
+        app: {{ .Values.component.name }}
+        {{- if not .Values.component.prometheus }}
         monitoring-pod: "true"
         {{- else }}
-        {{- if .component.prometheus.enabled }}
+        {{- if .Values.component.prometheus.enabled }}
         monitoring-pod: "true"
         {{- end }}
         {{- end }}
     spec:
       containers:
-      - image: {{ .component.image }}
-        {{- include "probes-deploy" . }}
-        name: {{ .component.name }}
-        {{- include "prometheus-deploy" . }}
+      - image: {{ .Values.component.image }}
+        {{- include "probes-deploy" .Values }}
+        {{- if .Values.component.rootless.enabled }}
+        securityContext:
+          runAsUser: {{ .Values.component.securityContext.runAsUser }}
+          runAsGroup: {{ .Values.component.securityContext.runAsGroup }}
+        {{- end }}
+        name: {{ .Values.component.name }}
+        {{- include "ports-deploy" . }}
         resources:
-          {{- .component.extendedSettings.resources | toYaml | nindent 10 }}
+          {{- .Values.component.extendedSettings.resources | toYaml | nindent 10 }}
         env:
-        {{- include "envVariable" . }}
-        {{- include "volumes" . }}
+        {{- include "envVariable" .Values }}
+        {{- include "volumes" .Values }}
       imagePullSecrets:
-      {{- range $pullSecret := .component.imagePullSecrets }}
+      {{- range $pullSecret := .Values.component.imagePullSecrets }}
       - name: {{ $pullSecret | replace "." "-" | replace ":" "-" }}
       {{- end }}
-      {{- if .component.extendedSettings.nodeSelector }}
-      nodeSelector: {{ .component.extendedSettings.nodeSelector | toYaml | nindent 8 }}
+      {{- if .Values.component.extendedSettings.nodeSelector }}
+      nodeSelector: {{ .Values.component.extendedSettings.nodeSelector | toYaml | nindent 8 }}
       {{- end }}
-      {{- if .component.extendedSettings.hostNetwork }}
+      {{- if .Values.component.extendedSettings.hostNetwork }}
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       {{- end }}
-      {{- if .component.extendedSettings.hostAliases }}
+      {{- if .Values.component.extendedSettings.hostAliases }}
       hostAliases:
-        {{ .component.extendedSettings.hostAliases | toYaml | nindent 8 }}
+        {{ .Values.component.extendedSettings.hostAliases | toYaml | nindent 8 }}
       {{- end }}
   revisionHistoryLimit: 2
 {{- end }}

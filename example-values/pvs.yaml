@@ -150,7 +150,32 @@ spec:
               values:
                 - <node-name>
 ---
-#if you neeed to deploy onfra-git
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: storage-jupyter-shared
+  labels:
+    app: jupyter-shared
+spec:
+  capacity:
+    storage: 20Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  local:
+    path: /opt/jupiter_shared
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - <node-name>
+---
+#if you neeed to deploy infra-git
 #apiVersion: v1
 #kind: PersistentVolume
 #metadata:

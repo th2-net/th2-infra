@@ -16,6 +16,8 @@ data:
     {{- .Values.ingress | toYaml | nindent 6 }}
     openshift:
       enabled: {{ .Values.openshift.enabled }}
+    rootless:
+      enabled: {{ .Values.rootless.enabled }}  
     prometheusConfiguration:
       host: "0.0.0.0"
       port: {{ .Values.infraOperator.prometheusConfiguration.port | quote }}
@@ -40,8 +42,11 @@ data:
       {{- else }}
       host: "{{ .Values.rabbitmq.fullnameOverride }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
       {{- end }}
-      port: {{ .Values.infraOperator.config.rabbitMQManagement.port | quote }}
-      username: {{ .Values.infraOperator.config.rabbitMQManagement.username | quote }}
+      managementPort: {{ .Values.rabbitmq.service.ports.manager | quote }}
+      applicationPort: {{ .Values.rabbitmq.service.ports.amqp | quote }}
+      vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
+      exchangeName: {{ .Values.infraOperator.config.rabbitMQManagement.exchangeName | quote }}
+      username: {{ .Values.rabbitmq.auth.username | quote }}
       password: {{ .Values.infraOperator.config.rabbitMQManagement.password | quote }}
       persistence: {{ .Values.infraOperator.config.rabbitMQManagement.persistence | quote }}
       schemaPermissions:
