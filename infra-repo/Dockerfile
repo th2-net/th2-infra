@@ -15,6 +15,13 @@ COPY ./box-chart ./box-chart
 RUN helm package ./th2-infra --destination . && helm package ./box-chart/ --destination . && \
     helm repo index .
 
+FROM python:3
+WORKDIR /app/repo/
+COPY requirements.txt ./
+RUN mkdir -p python-dependencies && \
+    pip install --no-cache-dir --upgrade pip && \
+    pip download -r requirements.txt -d ./python-dependencies
+
 FROM alpine:3.13
 COPY --from=builder /app/infra-repo /app/infra-repo
 COPY ./entry-page/ /app/repo/
