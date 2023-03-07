@@ -10,8 +10,9 @@ RUN ./download-plugins.sh
 
 FROM alpine/helm as helm-builder
 WORKDIR /app/repo/
+COPY ./chart ./th2-infra
 COPY ./box-chart ./box-chart
-RUN helm package ./box-chart/ --destination . && \
+RUN helm package ./th2-infra --destination . && helm package ./box-chart/ --destination . && \
     helm repo index .
 
 FROM alpine:3.13
