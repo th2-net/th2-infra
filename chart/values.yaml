@@ -427,4 +427,4 @@ jupyterhub:
       type: static
 
 logging:
-  th2: INFO
+  th2: INFO 
