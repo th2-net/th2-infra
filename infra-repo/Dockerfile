@@ -15,7 +15,7 @@ COPY ./box-chart ./box-chart
 RUN helm package ./th2-infra --destination . && helm package ./box-chart/ --destination . && \
     helm repo index .
 
-FROM python:3
+FROM python:3 as dependency-builder
 WORKDIR /app/repo/
 COPY requirements.txt ./
 RUN mkdir -p python-dependencies && \
@@ -28,4 +28,5 @@ COPY ./entry-page/ /app/repo/
 COPY ./dashboards /app/repo/dashboards
 COPY --from=plugin-builder /app/repo/plugins/ /app/repo/plugins/
 COPY --from=helm-builder /app/repo /app/repo
+COPY --from=dependency-builder /app/repo/python-dependencies/ /app/repo/python-dependencies/
 ENTRYPOINT ["/app/infra-repo", "-port=8080", "-path=/app/repo"]
