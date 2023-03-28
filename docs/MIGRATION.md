@@ -1,5 +1,22 @@
 # Migrations
 
+## Migration to RELEASE v2.0.1
+
+* cassandra dashboard has been corrected by th2 team
+  <details>
+    <summary>Replacing dashboard</summary>
+    
+    ### changing the name of the dashboard
+    * cassandra dashboard name should be updated in grafana values
+    ```
+    grafana:
+      dashboards:
+        default:
+          Cassandra-dashboard:
+            url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Cassandra-Dashboard(corrected-by-th2-team).json
+    ```
+  </details>
+
 ## Migration to RELEASE v2.0.0
 
 * jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jhub parent value.
