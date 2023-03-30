@@ -1,0 +1,330 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infra-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+  infra-dashboard.json: |
+    {
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": "-- Grafana --",
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "target": {
+              "limit": 100,
+              "matchAny": false,
+              "tags": [],
+              "type": "dashboard"
+            },
+            "type": "dashboard"
+          }
+        ]
+      },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "gnetId": null,
+      "graphTooltip": 0,
+      "id": 109,
+      "iteration": 1665145062252,
+      "links": [],
+      "liveNow": false,
+      "panels": [
+        {
+          "datasource": "Loki",
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 4,
+          "options": {
+            "dedupStrategy": "none",
+            "enableLogDetails": true,
+            "prettifyLogMessage": true,
+            "showCommonLabels": false,
+            "showLabels": false,
+            "showTime": true,
+            "sortOrder": "Ascending",
+            "wrapLogMessage": false
+          },
+          "targets": [
+            {
+              "expr": "{namespace=\"$namespace\", app=~\"$component\"} |~ \"(?i)new commit.*$commit|K8sSynchronization - Schema.*$commit|SchemaErrorPrinter.*$commit\"",
+              "refId": "A"
+            }
+          ],
+          "title": "Validation logs for specified commit",
+          "type": "logs"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "Loki",
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 9
+          },
+          "hiddenSeries": false,
+          "id": 8,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.2.5",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "rate({namespace=\"$namespace\", app=~\"$component\"} |~ \"(?i)Exception|Error\" [$__interval])",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Error graph",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "datasource": "Loki",
+          "description": "Displays errors and exceptions ",
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 16
+          },
+          "id": 2,
+          "options": {
+            "dedupStrategy": "none",
+            "enableLogDetails": true,
+            "prettifyLogMessage": true,
+            "showCommonLabels": false,
+            "showLabels": false,
+            "showTime": true,
+            "sortOrder": "Ascending",
+            "wrapLogMessage": false
+          },
+          "targets": [
+            {
+              "expr": "{namespace=\"$namespace\", app=~\"$component\"} |~ \"(?i)Exception|Error\"",
+              "refId": "A"
+            }
+          ],
+          "title": "Error Panel",
+          "type": "logs"
+        },
+        {
+          "datasource": "Loki",
+          "description": "Search for any word in infra-mgr and/or operator logs in any desired timeframe",
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 25
+          },
+          "id": 6,
+          "options": {
+            "dedupStrategy": "none",
+            "enableLogDetails": true,
+            "prettifyLogMessage": true,
+            "showCommonLabels": false,
+            "showLabels": false,
+            "showTime": true,
+            "sortOrder": "Ascending",
+            "wrapLogMessage": false
+          },
+          "targets": [
+            {
+              "expr": "{namespace=\"$namespace\", app=~\"$component\"} |~ \"(?i)$word\"",
+              "refId": "A"
+            }
+          ],
+          "title": "Logs for specified keyword",
+          "type": "logs"
+        }
+      ],
+      "schemaVersion": 32,
+      "style": "dark",
+      "tags": [],
+      "templating": {
+        "list": [
+          {
+            "allValue": null,
+            "current": {
+              "selected": false,
+              "text": "service",
+              "value": "service"
+            },
+            "datasource": "Loki",
+            "definition": "label_values(namespace)",
+            "description": null,
+            "error": null,
+            "hide": 0,
+            "includeAll": false,
+            "label": null,
+            "multi": false,
+            "name": "namespace",
+            "options": [],
+            "query": "label_values(namespace)",
+            "refresh": 1,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 0,
+            "type": "query"
+          },
+          {
+            "allValue": "infra-operator|infra-mgr",
+            "current": {
+              "selected": true,
+              "text": [
+                "infra-mgr",
+                "infra-operator"
+              ],
+              "value": [
+                "infra-mgr",
+                "infra-operator"
+              ]
+            },
+            "datasource": null,
+            "definition": "label_values(kube_pod_labels{namespace=\"$namespace\"},label_app)",
+            "description": null,
+            "error": null,
+            "hide": 0,
+            "includeAll": true,
+            "label": null,
+            "multi": true,
+            "name": "component",
+            "options": [],
+            "query": {
+              "query": "label_values(kube_pod_labels{namespace=\"$namespace\"},label_app)",
+              "refId": "StandardVariableQuery"
+            },
+            "refresh": 1,
+            "regex": "infra-operator|infra-mgr",
+            "skipUrlSync": false,
+            "sort": 0,
+            "type": "query"
+          },
+          {
+            "current": {
+              "selected": false,
+              "text": "96ba2ee8",
+              "value": "96ba2ee8"
+            },
+            "description": "enter commit hash",
+            "error": null,
+            "hide": 0,
+            "label": "commit to search",
+            "name": "commit",
+            "options": [
+              {
+                "selected": true,
+                "text": "96ba2ee8",
+                "value": "96ba2ee8"
+              }
+            ],
+            "query": "96ba2ee8",
+            "skipUrlSync": false,
+            "type": "textbox"
+          },
+          {
+            "current": {
+              "selected": false,
+              "text": "",
+              "value": ""
+            },
+            "description": null,
+            "error": null,
+            "hide": 0,
+            "label": "word to search",
+            "name": "word",
+            "options": [
+              {
+                "selected": true,
+                "text": "",
+                "value": ""
+              }
+            ],
+            "query": "",
+            "skipUrlSync": false,
+            "type": "textbox"
+          }
+        ]
+      },
+      "time": {
+        "from": "now-3d",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "",
+      "title": "Infra dashboard",
+      "uid": "yOiEBJ4Vk",
+      "version": 11
+    }
