@@ -1,0 +1,34 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "properties": {
+        "ingress": {
+            "description": "Ingress hostname",
+            "type": "object",
+            "properties": {
+                "host": {
+                    "type": "string",
+                    "not": {
+                        "enum": ["localhost"]
+                    }
+                }
+            }
+        },
+        "infraMgr": {
+            "description": "Infra-mgr settings",
+            "properties": {
+                "kubernetes": {
+                    "type": "object",
+                    "properties": {
+                        "namespacePrefix": {
+                            "type": "string",
+                            "maxLength": 5
+                        }
+                    }
+                }
+            },
+            "type": "object"
+        }
+    },
+    "title": "Values",
+    "type": "object"
+}

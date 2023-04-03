@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbit-mq-external-app-config
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+data:
+  rabbitMQ.json: |
+    {
+    {{- if .Values.rabbitmq.host }}
+    "host": {{ .Values.rabbitmq.host | quote }},
+    "port": "5672",
+    {{- else }}
+    "host": {{ .Values.infraOperator.config.k8sUrl | quote }},
+    "port": {{ .Values.rabbitmq.service.nodePorts.amqp | quote }},
+    {{- end }}
+    "vHost": "",
+    "username": "",
+    "password": "${RABBITMQ_PASS}",
+    "exchangeName": {{ .Values.rabbitmq.rabbitmqExchange | quote }}
+    }

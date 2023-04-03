@@ -1,0 +1,102 @@
+{{ include "infraMgr-config" . }}
+---
+{{ include "infra-mgr-service" . }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-mgr
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+  labels:
+    app: infra-mgr
+    {{ include "th2-labels" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infra-mgr
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include "infraMgr-config" . | sha256sum }}
+      labels:
+        app: infra-mgr
+    spec:
+      imagePullSecrets:
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+      serviceAccountName: infra-mgr-service
+      containers:
+      - name: infra-mgr
+        image: "{{ .Values.infraMgr.image.repository }}:{{ .Values.infraMgr.image.tag }}"
+        {{- include "securityContext" . | nindent 8 }}
+        ports:
+        - name: default
+          containerPort: 8080
+        {{- if .Values.infraMgr.prometheusConfiguration.enabled }}
+        - name: metrics
+          containerPort: {{ .Values.infraMgr.prometheusConfiguration.port }}
+        {{- end }}
+        resources:
+{{ toYaml .Values.infraMgr.resources | indent 10 }}
+        volumeMounts:
+          - name: configs
+            mountPath: /home/service/config/
+          {{- if not (hasPrefix "https" .Values.infraMgr.git.repository) }}
+          - name: secrets
+            readOnly: true
+            mountPath: {{ .Values.infraMgr.git.sshDir }}
+          {{- end }}
+        env:
+          - name: HOME 
+            value: /home/service/
+          - name: GIT_FETCH_INTERVAL 
+            value: "{{ .Values.infraMgr.git.gitFetchInterval }}"
+          {{- if .Values.infraMgr.jvm.javaToolOptions }}
+          - name: JAVA_TOOL_OPTIONS
+            value: {{ .Values.infraMgr.jvm.javaToolOptions | quote }}
+          {{- end }}          
+          {{- if hasPrefix "https" .Values.infraMgr.git.repository }}
+          - name: HTTPS_AUTH_USERNAME           
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.infraMgr.git.secretName }}
+                key: httpAuthUsername
+          - name: HTTPS_AUTH_PASSWORD 
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.infraMgr.git.secretName }}
+                key: httpAuthPassword
+          {{- end }}
+          - name: CASSANDRA_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
+                key: cassandra-password
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.infraMgr.prometheusConfiguration.port }}
+          initialDelaySeconds: {{ .Values.infraMgr.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.infraMgr.livenessProbe.timeoutSeconds }}
+          periodSeconds: {{ .Values.infraMgr.livenessProbe.periodSeconds }}
+      {{- if .Values.hostAliases }}
+      hostAliases: {{ toYaml .Values.hostAliases | nindent 8 }}
+      {{- end }}
+      volumes:
+      {{- if not (hasPrefix "https" .Values.infraMgr.git.repository)}}
+      - name : secrets
+        projected:
+          sources:
+          - secret:
+              name: {{ .Values.infraMgr.git.secretName }}
+          - configMap:
+              name: ssh-config
+      {{- end }}
+      - name: configs
+        projected:
+          sources:
+          - configMap:
+              name: logging-config
+          - configMap:
+              name: infra-mgr

@@ -1,0 +1,22 @@
+---
+{{/*
+Generating configMap for k8 with th2-infra info
+*/}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: about
+  labels:
+    app: th2-info
+data:
+  about.yaml: |
+  {{- include "collect-info" . | trim | nindent 4 }}
+  meta.json: |
+  {{- include "collect-info" . | fromYaml | toPrettyJson | trim | nindent 4 }}
+  services.json: |
+    [
+      {"link": "dashboard", "description": "Dashboard"},
+      {"link": "grafana", "description": "Grafana"},
+      {"link": "rabbitmq", "description": "RabbitMQ"},
+      {"link": "editor", "description": "Infra editor"}
+    ]

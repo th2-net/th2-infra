@@ -1,0 +1,61 @@
+{{/*
+Generating configMap for k8
+*/}}
+{{- define "infraMgr-config" }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ssh-config
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+data:
+  config: |
+    StrictHostKeyChecking no
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infra-mgr
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+data:
+  config.yml: |
+    prometheusConfiguration:
+      host: "0.0.0.0"
+      port: {{ .Values.infraMgr.prometheusConfiguration.port }}
+      enabled: {{ .Values.infraMgr.prometheusConfiguration.enabled }}
+    git:
+      remoteRepository: {{ .Values.infraMgr.git.repository }}
+      localRepositoryRoot: {{ .Values.infraMgr.git.repositoryLocalCache }}
+      sshDir: {{ .Values.infraMgr.git.sshDir }}
+      httpAuthUsername: "${HTTPS_AUTH_USERNAME}"
+      httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
+
+    rabbitmq:
+      vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
+      secret: {{ default .Values.infraMgr.rabbitmq.secret .Values.rabbitmq.fullnameOverride }}
+      passwordLength: {{ .Values.infraMgr.rabbitmq.passwordLength }}
+
+    cassandra:
+      keyspacePrefix: {{ .Values.infraMgr.cassandra.keyspacePrefix }}
+      secret: {{ default .Values.infraMgr.cassandra.secret .Values.cassandra.fullnameOverride }}
+
+    kubernetes:
+      useCustomConfig: false
+      namespacePrefix: {{ .Values.infraMgr.kubernetes.namespacePrefix }}
+      schemaSyncMode: {{ .Values.infraMgr.kubernetes.schemaSyncMode }}
+
+      secretNames:
+      {{- include "imagePullSecretList" .Values.registries | trim | nindent 6 }}
+      {{- with .Values.infraMgr.kubernetes.secrets }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+
+      configMaps:
+      {{- with .Values.infraMgr.kubernetes.configMaps }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      serviceMonitor: {{ .Values.prometheus.operator.serviceMonitor.name }}
+{{- end }}

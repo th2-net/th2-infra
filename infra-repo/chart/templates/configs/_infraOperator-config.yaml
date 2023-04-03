@@ -1,0 +1,56 @@
+{{/*
+Generating configMap for k8
+*/}}
+{{- define "infraOperator-config" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infra-operator
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+data:
+  infra-operator.yml: |
+    commonAnnotations:
+    {{- include "common-annotations" . | nindent 6 }}
+    ingress:
+    {{- .Values.ingress | toYaml | nindent 6 }}
+    openshift:
+      enabled: {{ .Values.openshift.enabled }}
+    rootless:
+      enabled: {{ .Values.rootless.enabled }}  
+    prometheusConfiguration:
+      host: "0.0.0.0"
+      port: {{ .Values.infraOperator.prometheusConfiguration.port | quote }}
+      enabled: {{ .Values.infraOperator.prometheusConfiguration.enabled | quote }}
+    chart:
+      {{- toYaml .Values.infraOperator.config.chart | nindent 6 }}
+    namespacePrefixes:
+      {{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 6 }}
+    k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}
+    schemaSecrets:
+      rabbitMQ: rabbitmq
+      cassandra: cassandra
+    imagePullSecrets:
+    {{- include "imagePullSecretList" .Values.registries | trim | nindent 4 -}}
+    {{- with .Values.infraMgr.kubernetes.secrets }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+ 
+    rabbitMQManagement:
+      {{- if .Values.rabbitmq.host }}
+      host: {{ .Values.rabbitmq.host | quote }}
+      {{- else }}
+      host: "{{ .Values.rabbitmq.fullnameOverride }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
+      {{- end }}
+      managementPort: {{ .Values.rabbitmq.service.ports.manager | quote }}
+      applicationPort: {{ .Values.rabbitmq.service.ports.amqp | quote }}
+      vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
+      exchangeName: {{ .Values.infraOperator.config.rabbitMQManagement.exchangeName | quote }}
+      username: {{ .Values.rabbitmq.auth.username | quote }}
+      password: {{ .Values.infraOperator.config.rabbitMQManagement.password | quote }}
+      persistence: {{ .Values.infraOperator.config.rabbitMQManagement.persistence | quote }}
+      schemaPermissions:
+        configure: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.configure | quote }}
+        read: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.read | quote }}
+        write: {{ .Values.infraOperator.config.rabbitMQManagement.schemaPermissions.write | quote }}
+{{ end }}

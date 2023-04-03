@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: infra-repo
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+spec:
+  selector:
+    app: infra-repo
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: infra-repo
+    {{ include "th2-labels" . }}
+  name: infra-repo
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infra-repo
+  template:
+    metadata:
+      labels:
+        app: infra-repo
+    spec:
+      containers:
+      - name: infra-repo
+        image: "{{ .Values.infraRepo.image.repository }}:{{ .Values.infraRepo.image.tag }}"
+        {{- include "securityContext" . | nindent 8 }}
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 40
+          periodSeconds: 20
+        volumeMounts:
+          - name: metadata
+            mountPath: /app/repo/meta.json
+            subPath: meta.json
+          - name: metadata
+            mountPath: /app/repo/services.json
+            subPath: services.json
+      imagePullSecrets:
+      {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
+      volumes:
+        - name: metadata
+          configMap:
+            name: about
+  revisionHistoryLimit: 2

@@ -1,0 +1,115 @@
+{{ if .Values.prometheus.operator.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: th2-alert-rules
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}
+  labels:
+{{ toYaml .Values.prometheus.operator.serviceMonitor.selector | indent 4 }}
+spec:
+  groups:
+  {{ if .Values.rabbitmq.prometheus.operator.enabled }}
+  - name: th2.rules
+    rules:
+    - alert: RabbitmqTooMuchMessages
+      expr: rabbitmq_queue_messages_ready > 100000
+      for: 2m
+      labels:
+        severity: high
+        team: devops
+      annotations:
+        summary: |-
+          Rabbitmq has more than 100000 messages in a queue
+        description: |-
+          Queue {{`{{ $labels.queue }}`}}: {{`{{ $value }}`}}
+    - alert: RabbitMqClusterNodeDown
+      annotations:
+        description: RabbitMQ {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod}}`}} is down
+        summary: RabbitMQ Node Is Down
+      expr: rabbitmq_up{service="rabbitmq"} == 0
+      for: 5m
+      labels:
+        severity: critical
+        team: devops
+    - alert: RabbitMqClusterNotAllNodesRunning
+      annotations:
+        description:
+          Some RabbitMQ Cluster Nodes Are Down in Service {{`{{ $labels.namespace }}`}}/{{`{{ $labels.service}}`}}
+        summary:
+          Some RabbitMQ Cluster Nodes Are Down in Service {{`{{ $labels.namespace }}`}}/{{`{{ $labels.service}}`}}
+      expr: sum(rabbitmq_up{service="rabbitmq"}) by (service) < 1
+      for: 5m
+      labels:
+        severity: critical
+        team: devops
+    - alert: RabbitMqDiskSpaceAlarm
+      annotations:
+        description:
+          RabbitMQ {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod}}`}} Disk Space
+          Alarm is going off.  Which means the node hit highwater mark and has cut
+          off network connectivity, see RabbitMQ WebUI
+        summary: RabbitMQ is Out of Disk Space
+      expr: rabbitmq_node_disk_free_alarm{service="rabbitmq"} == 1
+      for: 1m
+      labels:
+        severity: critical
+        team: devops
+    - alert: RabbitMqMemoryAlarm
+      annotations:
+        description:
+          RabbitMQ {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod}}`}} High Memory
+          Alarm is going off.  Which means the node hit highwater mark and has cut
+          off network connectivity, see RabbitMQ WebUI
+        summary: RabbitMQ is Out of Memory
+      expr: rabbitmq_node_mem_alarm{service="rabbitmq"} == 1
+      for: 1m
+      labels:
+        severity: critical
+        team: devops
+    - alert: RabbitMqMemoryUsageHigh
+      annotations:
+        description:
+          RabbitMQ {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod}}`}} Memory Usage > 90%
+        summary: RabbitMQ Node > 90% Memory Usage
+      expr:
+        (rabbitmq_node_mem_used{service="rabbitmq"} / rabbitmq_node_mem_limit{service="rabbitmq"}) > .9
+      for: 1m
+      labels:
+        severity: critical
+        team: devops
+    - alert: RabbitMqFileDescriptorsLow
+      annotations:
+        description:
+          RabbitMQ {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod}}`}} File Descriptor Usage > 90%
+        summary: RabbitMQ Low File Descriptor Available
+      expr:
+        (rabbitmq_fd_used{service="rabbitmq"} / rabbitmq_fd_total{service="rabbitmq"}) > .9
+      for: 5m
+      labels:
+        severity: critical
+        team: devops
+    - alert: RabbitMqDiskSpaceLow
+      annotations:
+        description:
+          RabbitMQ {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod}}`}} will hit disk
+          limit in the next hr based on last 15 mins trend.
+        summary: RabbitMQ is Low on Disk Space and will Run Out in the next hour
+      expr:
+        predict_linear(rabbitmq_node_disk_free{service="rabbitmq"}[15m], 1 * 60 * 60) < rabbitmq_node_disk_free_limit{service="rabbitmq"}
+      for: 5m
+      labels:
+        severity: critical
+        team: devops
+    - alert: Box has been restarted by reason
+      annotations:
+        description:
+          POD {{`{{ $labels.pod }}`}} has been restarted by reason {{`{{ $labels.reason }}`}}
+        summary:
+          pod has been restarted  
+      expr: kube_pod_container_status_last_terminated_reason{namespace=~"th2.*", reason=~"OOMKilled|Error|Evicted"} == 1 and on(container) rate(kube_pod_container_status_restarts_total[5m]) * 300 > 1
+      labels:
+        severity: high
+        team: devops       
+  {{ end }}
+{{ end }}
