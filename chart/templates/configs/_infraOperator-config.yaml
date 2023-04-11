@@ -27,7 +27,6 @@ data:
         sourceRef:
           kind: HelmRepository
           name: helm-repo
-          namespace: {{ .Release.Namespace }}
     namespacePrefixes:
       {{- toYaml .Values.infraOperator.config.namespacePrefixes | nindent 6 }}
     k8sUrl: {{ .Values.infraOperator.config.k8sUrl | quote }}

@@ -7,6 +7,10 @@ metadata:
   {{- include "common-annotations" . | nindent 4  }}
 rules:
   - apiGroups:
+      - source.toolkit.fluxcd.io
+    resources: ["*"]
+    verbs: ["*"]
+  - apiGroups:
       - ""
     resources:
       - configmaps
