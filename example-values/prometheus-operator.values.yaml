@@ -73,7 +73,7 @@ grafana:
   dashboards:
     default:
       Cassandra-dashboard:
-        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/cassandra-dashboard_rev2.json
+        url: http://infra-repo.service.svc.cluster.local:8080/dashboards/Cassandra-Dashboard(corrected-by-th2-team).json
       Rabbitmq-dashboard:
         url: http://infra-repo.service.svc.cluster.local:8080/dashboards/rabbitmq-overview_rev11.json
       Node-monitoring:
