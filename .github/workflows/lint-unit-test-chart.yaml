@@ -36,7 +36,7 @@ jobs:
       
       - name: run unit test
         run: |
-          helm plugin install https://github.com/quintush/helm-unittest
+          helm plugin install https://github.com/quintush/helm-unittest --version 0.2.8
           helm unittest -3 chart --color -o ./test-results/results.xml -t JUnit
       
       - name: Publish Th2 Chart Test Results
