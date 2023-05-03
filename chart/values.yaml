@@ -39,12 +39,6 @@ hostAliases:
 openshift:
   enabled: false
 
-# -- Enable non root user 
-rootless:
-  enabled: false
-  userId: 65535
-  groupId: 65535
-
 # -- Annotations will be added to all deployments, configMaps and ingresses that are created by th2-infra.
 commonAnnotations: {}
 
@@ -427,4 +421,9 @@ jupyterhub:
       type: static
 
 logging:
-  th2: INFO 
+  th2: INFO
+
+#development feature for k8s clusters, if you need to run without root priveleges for boxes
+#please be aware that mentioned option is in development phase
+rootless:
+  enabled: false
