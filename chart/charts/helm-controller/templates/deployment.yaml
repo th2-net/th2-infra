@@ -29,7 +29,6 @@ spec:
         - --log-encoding=json
         - --enable-leader-election
         - --concurrent=20
-        - --feature-gates=OOMWatch=true
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
