@@ -28,7 +28,7 @@ spec:
         - --log-level=info
         - --log-encoding=json
         - --enable-leader-election
-        - --concurrent=20
+        - --concurrent=300
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
@@ -55,10 +55,10 @@ spec:
         resources:
           limits:
             cpu: 1000m
-            memory: 1Gi
+            memory: 2Gi
           requests:
             cpu: 200m
-            memory: 400Mi
+            memory: 1000Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -442,7 +442,7 @@ spec:
         - --enable-leader-election
         - --storage-path=/data
         - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
-        - --concurrent=20
+        - --concurrent=300
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
@@ -471,13 +471,13 @@ spec:
           httpGet:
             path: /
             port: http
-        # resources:
-        #   limits:
-        #     cpu: 1000m
-        #     memory: 1Gi
-        #   requests:
-        #     cpu: 50m
-        #     memory: 64Mi
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 200m
+            memory: 1000Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
