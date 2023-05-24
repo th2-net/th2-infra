@@ -13,4 +13,4 @@ rabbitmq:
 
 cassandra:
   internal: false
-  host: <Cassandra-host>
+  host: <cassandra-host>
