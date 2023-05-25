@@ -5,7 +5,7 @@ on:
       - "ci/**"
       - "example-values/**"
       - "chart/**"
-      - ".github/workflows/lint-unit-test-chart.yaml"
+      - ".github/workflows/**"
   workflow_dispatch:
 
 jobs:
