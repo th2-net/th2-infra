@@ -50,7 +50,7 @@ jobs:
           file: ./infra-repo/Dockerfile
           context: ./infra-repo/
           push: true
-          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
           cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
 
       - name: Update values
