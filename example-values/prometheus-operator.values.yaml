@@ -132,5 +132,6 @@ grafana:
 #     imagePullSecrets:
 #   image:
 #     repository: quay.io/prometheus/node-exporter
+
 kube-state-metrics:
   metricLabelsAllowlist:  ['pods=[*]','deployments=[*]']
