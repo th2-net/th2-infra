@@ -16,7 +16,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Helm
         uses: azure/setup-helm@v3.5
@@ -39,10 +39,9 @@ jobs:
 
       - name: Read infra version
         id: chart
-        uses: jbutcher5/read-yaml@main
+        uses: actions-tools/yaml-outputs@v2
         with:
-          file: "./chart/Chart.yaml"
-          key-path: '["version"]'
+          file-path: "./chart/Chart.yaml"
 
       - name: build image & push to registry
         id: build
@@ -52,7 +51,7 @@ jobs:
           context: ./infra-repo/
           push: true
           tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
-          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
 
       - name: Update values
         run: |
