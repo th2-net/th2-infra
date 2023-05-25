@@ -14,7 +14,7 @@
         repo_url: "{{ item.value }}"
       with_dict:
         ingress-nginx: https://kubernetes.github.io/ingress-nginx
-        loki: https://grafana.github.io/loki/charts
+        loki: https://grafana.github.io/helm-charts
 
     - name: Ensure k8s namespaces exist
       kubernetes.core.k8s:
