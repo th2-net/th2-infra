@@ -427,4 +427,3 @@ logging:
 #please be aware that mentioned option is in development phase
 rootless:
   enabled: false
-  
