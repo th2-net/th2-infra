@@ -40,7 +40,7 @@ jobs:
           helm unittest -3 chart --color -o ./test-results/results.xml -t JUnit
       
       - name: Publish Th2 Chart Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         if: always()
         with:
           check_name: Th2 Chart Unit Test Results

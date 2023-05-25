@@ -72,10 +72,9 @@ jobs:
 
       - name: Read infra-repo version
         id: chart
-        uses: jbutcher5/read-yaml@main
+        uses: actions-tools/yaml-outputs@v2
         with:
-          file: "./chart/values.yaml"
-          key-path: '["infraRepo", "image", "tag"]'
+          file-path: "./chart/values.yaml"
 
       - name: Build infra-repo image
         id: build
@@ -86,7 +85,7 @@ jobs:
           push: false
           load: true
           tags: ghcr.io/th2-net/infra-repo:e2e
-          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.infraRepo__image__tag }}
 
       - name: Init test schema
         run: |
