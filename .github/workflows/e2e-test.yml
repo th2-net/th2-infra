@@ -7,7 +7,7 @@ on:
       - "example-values/**"
       - "chart/**"
       - "box-chart/**"
-      - ".github/workflows/e2e-test.yml"
+      - ".github/workflows/**"
   workflow_dispatch:
     inputs:
       infraNamespace:
