@@ -58,7 +58,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.3.0
+        uses: helm/kind-action@v1.7.0
         with:
           config: ./ci/kind-cluster.yaml
           node_image: ${{ matrix.k8s-version }}
@@ -72,21 +72,20 @@ jobs:
 
       - name: Read infra-repo version
         id: chart
-        uses: KJ002/read-yaml@main
+        uses: actions-tools/yaml-outputs@v2
         with:
-          file: "./chart/values.yaml"
-          key-path: '["infraRepo", "image", "tag"]'
+          file-path: "./chart/values.yaml"
 
       - name: Build infra-repo image
         id: build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4
         with:
           file: ./infra-repo/Dockerfile
           context: ./infra-repo/
           push: false
           load: true
           tags: ghcr.io/th2-net/infra-repo:e2e
-          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.infraRepo__image__tag }}
 
       - name: Init test schema
         run: |
@@ -97,7 +96,7 @@ jobs:
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
-          docker exec chart-testing-control-plane mkdir -p /opt/git/
+          docker exec chart-testing-control-plane mkdir -p /opt/git/  /opt/jupiter_users /opt/jupiter_db
           docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/
           kind load docker-image --name chart-testing ghcr.io/th2-net/infra-repo:e2e
 
@@ -129,7 +128,6 @@ jobs:
           echo -e "\n\033[0;31m[Pods]\033[0m" && kubectl get pods -o wide --all-namespaces || true
           echo -e "\n\033[0;31m[Services]\033[0m" && kubectl get svc --all-namespaces || true
           echo -e "\n\033[0;31m[Ingresses]\033[0m" && kubectl describe ingress --all-namespaces || true
-          echo -e "\n\033[0;31m[HelmRepositories]\033[0m" && kubectl get helmrepo --all-namespaces || true
           echo -e "\n\033[0;31m[HelmReleases]\033[0m" && kubectl get hr --all-namespaces || true
           echo -e "\n\033[0;31m[Nodes]\033[0m" && kubectl describe nodes || true
           echo -e "\n\033[0;31m[Configmaps]\033[0m" && kubectl get configmaps --all-namespaces || true

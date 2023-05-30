@@ -16,7 +16,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 2.0.0
+version: 2.0.1
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -34,12 +34,18 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   name: cassandra
   version: 9.7.3
+- alias: jupyterhub
+  condition: jupyterhub.custom.internal
+  repository: https://jupyterhub.github.io/helm-chart/
+  name: jupyterhub
+  version: 2.0.0
 - alias: dashboard
   condition: dashboard.internal
   repository: https://kubernetes.github.io/dashboard/
   name: kubernetes-dashboard
   version: 5.11.0
-- alias: helmController
-  condition: helmController.internal
-  name: helm-controller
-  version: 0.1.0
+- alias: helmoperator
+  condition: helmoperator.internal
+  repository: https://charts.fluxcd.io
+  name: helm-operator
+  version: 1.4.2

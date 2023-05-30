@@ -52,9 +52,6 @@ tests:
               port: 9752
               protocol: TCP
               targetPort: metrics
-      - equal:
-          path: spec.type
-          value: ClusterIP
 
   - it: Service enabled - Common check
     set:
@@ -133,7 +130,7 @@ tests:
               nodePort: 30017
             - name: ui
               protocol: TCP
-              port: 8090
+              port: 8080
               targetPort: 8090
               nodePort: 30018
 
@@ -163,7 +160,7 @@ tests:
               targetPort: 8080
             - name: ui
               protocol: TCP
-              port: 8090
+              port: 8080
               targetPort: 8090
 
   - it: Service enabled - NodePort + Prometheus
@@ -205,7 +202,7 @@ tests:
               nodePort: 30017
             - name: ui
               protocol: TCP
-              port: 8090
+              port: 8080
               targetPort: 8090
               nodePort: 30018
 
@@ -235,7 +232,7 @@ tests:
               targetPort: 8080
             - name: ui
               protocol: TCP
-              port: 8090
+              port: 8080
               targetPort: 8090
 
   - it: Service enabled - ClusterIP + Prometheus
@@ -274,5 +271,5 @@ tests:
               targetPort: 8080
             - name: ui
               protocol: TCP
-              port: 8090
+              port: 8080
               targetPort: 8090

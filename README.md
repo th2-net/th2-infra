@@ -74,7 +74,7 @@ _Note: Examples below use HostPath type of [Persistent Volume(PV)](https://kuber
 
 * the following command can require root permissions, create directory on th2 node:
 ```
-$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq
+$ mkdir /opt/grafana /opt/prometheus /opt/loki /opt/rabbitmq /opt/jupiter_users /opt/jupiter_db /opt/jupiter_shared
 ```
 * set node name in `pvs.yaml`
 * create PVs and PVCs:
@@ -156,12 +156,29 @@ $ ssh-keygen -t rsa -m pem -f ./infra-mgr-rsa.key
 ```
 $ base64 -w 0 ./infra-mgr-rsa.key
 ```
-* [Add a new deploy key to your schema repository on GitHub ](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
+* [Add a new deploy key to your schema repository on GitHub with read and write permissions](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 
 #### Set up __https__ access
 
 * [Generate access token for schema repository with read and write permissions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 * Set up values in secrets.yaml file (described below)
+
+### Access for converter th2 schema git repository:
+
+`ssh` or `https` access with write permissions is required by **th2-converter** component
+
+#### Set up __ssh__ access
+
+* Generate keys without passphrase  
+```
+$ ssh-keygen -t ed25519 -m pem -f ./converter-ed25519.key
+```
+
+* Get key in base64 format and put in converter.git.privateKey
+```
+$ base64 -w 0 ./converter-ed25519.key
+```
+* [Add a new deploy key to your schema repository on GitHub with read and write permissions](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
 
 ### Set the repository with schema configuration
 set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to link of your schema repository, `ssh` or `https`:
@@ -170,10 +187,16 @@ set `infraMgr.git.repository` value in the [service.values.yaml](./example-value
 infraMgr:
   git:
     repository: git@github.com:th2-net/th2-infra-demo-configuration.git
+converter:
+  git:
+    repository: git@github.com:th2-net/th2-infra-demo-configuration.git
 ```
 * **https**
 ```
 infraMgr:
+  git:
+    repository: https://github.com/th2-net/th2-infra-schema-demo.git
+converter:
   git:
     repository: https://github.com/th2-net/th2-infra-schema-demo.git
 ```
@@ -241,6 +264,31 @@ rabbitmq:
 #    # authentication password
 #    # when using token auth for GitLab it should be equal to token itself
 #    # when using token auth for GitHub it should be equal to empty string
+
+# required if http(s) access to gitlab/github repositories is used
+#converter:
+#  git:
+#    privateKey: <private key in base64>
+#    httpAuthUsername: username
+#    # authentication username
+#    # when using token auth for GitLab it should be equal to "oauth2"
+#    # when using token auth for GitHub it should be equal to token itself
+#    httpAuthPassword: 
+#    # authentication password
+#    # when using token auth for GitLab it should be equal to token itself
+#    # when using token auth for GitHub it should be equal to empty string
+
+jupyterhub:
+# set credentials for admin and other users
+  hub:
+    config:
+      Authenticator:
+        admin_users:
+          - <admin-username>
+        allowed_users:
+          - <username>
+      DummyAuthenticator:
+        password: <password>
 ```
 ### infra-git deployment
 
@@ -251,10 +299,17 @@ If you have any restrictions to get access to any external repositories from the
 ```
 $ kubectl -n service create configmap keys-repo --from-file=authorized_keys=./infra-mgr-rsa.pub
 ```
+*  Create configmap "keys-repo-converter" from public part of key from point "Access for converter th2 schema git repository":
+```
+$ kubectl -n service create configmap keys-repo-converter --from-file=authorized_keys=./converter-ed25519.pub
+```
 *  Define configs for infra-git in services.values.yaml
-*  set `infraMgr.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
+*  set `infraMgr.git.repository` and `converter.git.repository` value in the service.values.yaml file to **ssh** link of your repository, e.g:
 ```
 infraMgr:
+  git:
+    repository: ssh://git@infra-git/home/git/repo/schema.git
+converter:
   git:
     repository: ssh://git@infra-git/home/git/repo/schema.git
 ```
@@ -385,3 +440,5 @@ Expose services as LoadBalancer if available.
 
 ## Migration to v2.0.0 th2-infra chart 
 Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
+
+## Test
