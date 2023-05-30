@@ -6,6 +6,7 @@ on:
       - "example-values/**"
       - "chart/**"
       - ".github/workflows/**"
+      - "docs/**"
   workflow_dispatch:
 
 jobs:
