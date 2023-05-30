@@ -62,7 +62,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          token: "${{ secrets.TH2_NET_CI_PRIVATE_ACTION }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
           commit-message: Bump infra-repo
           committer: GitHub <noreply@github.com>
           author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"

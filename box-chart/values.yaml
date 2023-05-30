@@ -65,4 +65,4 @@ component:
   grpc:
     # sprod:
     #   value: 3333
-  dictionaries: {} 
+  dictionaries: {}
