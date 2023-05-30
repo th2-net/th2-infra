@@ -11,9 +11,6 @@ metadata:
   annotations:
   {{- include "common-annotations" .Values | nindent 4  }}
 spec:
-  selector:
-    matchLabels:
-      app: {{ .Values.component.name }}
   parallelism: {{ .Values.component.extendedSettings.parallelism }}
   completions: {{ .Values.component.extendedSettings.completions }}
   template:
