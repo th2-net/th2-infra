@@ -373,7 +373,7 @@ dashboard:
     hosts: [*host]
 
 jupyterhub:
-  # -- jupiterhub values. If true - will be deployed as dependency
+  # -- jupyterhub values. If true - will be deployed as dependency
   custom:
     internal: true
   proxy:
@@ -416,7 +416,7 @@ jupyterhub:
           mountPath: /home/jovyan/shared
       capacity: 200Mi
       static:
-        pvcName: jupiter-users-volume
+        pvcName: jupyter-users-volume
         subPath: '{username}'
       type: static
 
