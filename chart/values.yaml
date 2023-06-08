@@ -379,11 +379,16 @@ jupyterhub:
   proxy:
     secretToken: 65589277c5c121351c9a15199b67f8a52c651dd636e5c3f727f7a00df88a7c9c
     service:
-      type: NodePort
+      type: ClusterIP
       nodePorts:
-        http: 30080
-        https: 30443
+        http:
+        https: 
+  ingress:
+    pathSuffix: ?(.*) 
+    enabled: true
+    ingressClassName: nginx
   hub:
+    baseUrl: /jupyterhub
     config:
       Authenticator:
         admin_users: []
