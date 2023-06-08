@@ -17,6 +17,19 @@
     ```
   </details>
 
+* HTTPS authentication option has been removed from converter
+  <details>
+    <summary>Editing secrets.yaml file</summary>
+
+    ### httpAuthUsername and httpAuthPassword shouldn't be passed
+    * remove the variables from secrets and leave only privateKey option
+    ```
+    converter:
+      git:
+        privateKey: <private key in base64>
+    ```
+  </details>
+
 ## Migration to RELEASE v2.0.0
 
 * jupyterhub is now included as a dependency and should not be deployed separately. All its values are under jhub parent value.

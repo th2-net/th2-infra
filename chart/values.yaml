@@ -186,10 +186,6 @@ converter:
     sshDir: /home/service/keys
     repository: https://github.com/th2-net/th2-demo-configuration.git
     repositoryLocalCache: /home/service/repository
-    # -- Required for Git repository via HTTPS
-    httpAuthUsername: ""
-    # -- Required for Git repository via HTTPS
-    httpAuthPassword: ""
   livenessProbe:
     initialDelaySeconds: 30
     timeoutSeconds: 5

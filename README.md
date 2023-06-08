@@ -269,14 +269,6 @@ rabbitmq:
 #converter:
 #  git:
 #    privateKey: <private key in base64>
-#    httpAuthUsername: username
-#    # authentication username
-#    # when using token auth for GitLab it should be equal to "oauth2"
-#    # when using token auth for GitHub it should be equal to token itself
-#    httpAuthPassword: 
-#    # authentication password
-#    # when using token auth for GitLab it should be equal to token itself
-#    # when using token auth for GitHub it should be equal to empty string
 
 jupyterhub:
 # set credentials for admin and other users
