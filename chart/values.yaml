@@ -384,7 +384,7 @@ jupyterhub:
         http:
         https: 
   ingress:
-    pathSuffix: ?(.*) 
+    pathSuffix: "?(.*)"
     enabled: true
     ingressClassName: nginx
   hub:

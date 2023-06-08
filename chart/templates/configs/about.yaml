@@ -19,5 +19,7 @@ data:
       {"link": "grafana", "description": "Grafana"},
       {"link": "rabbitmq", "description": "RabbitMQ"},
       {"link": "editor", "description": "Infra editor"},
+      {{- if .Values.jupyterhub.custom.internal }}
       {"link": "jupyterhub", "description": "Jupyterhub"}
+      {{- end }} 
     ]
