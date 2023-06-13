@@ -66,6 +66,20 @@ spec:
                 type: object
                 description: section for extended settings
                 properties:
+                  entryPoint:
+                    description: allows user to pass custom ENTRYPOINT into the docker container
+                    type: object
+                    properties:
+                      command:
+                        description: allows user to pass custom command for the docker container entrypoint
+                        type: array
+                        items:
+                          type: string
+                      args:
+                        description: allows user to pass custom arguments for the docker container entrypoint
+                        type: array
+                        items:
+                          type: string
                   replicas:
                     description: number of replicas
                     type: integer
