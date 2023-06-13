@@ -71,9 +71,18 @@ spec:
                 properties:
                   entryPoint:
                     description: allows user to pass custom ENTRYPOINT into the docker container
-                    type: array
-                    items:
-                      type: string
+                    type: object
+                    properties:
+                      command:
+                        description: allows user to pass custom command for the docker container entrypoint
+                        type: array
+                        items:
+                          type: string
+                      args:
+                        description: allows user to pass custom arguments for the docker container entrypoint
+                        type: array
+                        items:
+                          type: string
                   envVariables:
                     description: allows us to pass specific environment variables that are going to be set into the pods.
                     type: object
