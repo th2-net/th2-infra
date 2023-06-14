@@ -55,7 +55,7 @@ jobs:
 
       - name: Update values
         run: |
-          updated=$(yq '.infraRepo.image.tag = "${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"' chart/values.yaml)
+          updated=$(yq '.infraRepo.image.tag = "${{ steps.chart.outputs.version }}@${{ steps.build.outputs.digest }}"' chart/values.yaml)
           noBlanks=$(yq '.' chart/values.yaml)
           patch --no-backup-if-mismatch chart/values.yaml <(diff -B <(echo "$noBlanks") <(echo "$updated"))
 
@@ -71,5 +71,5 @@ jobs:
           milestone: "${{ github.event.pull_request.milestone.title }}"
           delete-branch: true
           title: "[${{ github.event.pull_request.milestone.title }}][Auto] Build and bump infra-repo"
-          body: "Bump infra-repo to ${{ steps.chart.outputs.data }}@${{ steps.build.outputs.digest }}"
+          body: "Bump infra-repo to ${{ steps.chart.outputs.version }}@${{ steps.build.outputs.digest }}"
           labels: automated

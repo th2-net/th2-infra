@@ -32,6 +32,9 @@ spec:
     spec:
       containers:
       - image: {{ .Values.component.image }}
+        {{- if .Values.component.extendedSettings.entryPoint }}
+          {{ .Values.component.extendedSettings.entryPoint | toYaml | nindent 8 }}
+        {{- end }}
         {{- include "probes-deploy" .Values }}
         {{- if .Values.component.rootless.enabled }}
         securityContext:
