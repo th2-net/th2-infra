@@ -12,7 +12,7 @@ crd:
   technical_name: th2boxes.th2.exactpro.com
   scope: Namespaced
   source_repository: https://github.com/th2-net/th2-infra
-  source_repository_ref: release-v2.0.x-repo-update
+  source_repository_ref: release-v2.0.1
   versions:
     - v2
 layout: crd
@@ -22,7 +22,7 @@ aliases:
   - /reference/cp-k8s-api/th2boxes.th2.exactpro.com/
 technical_name: th2boxes.th2.exactpro.com
 source_repository: https://github.com/th2-net/th2-infra
-source_repository_ref: release-v2.0.x-repo-update
+source_repository_ref: release-v2.0.1
 ---
 
 # Th2Box
@@ -195,6 +195,86 @@ source_repository_ref: release-v2.0.x-repo-update
 
 <div class="property-description">
 <p>section for extended settings</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint">.spec.extendedSettings.entryPoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+<div class="property-description">
+<p>allows user to pass custom ENTRYPOINT into the docker container</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint.args">.spec.extendedSettings.entryPoint.args</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>allows user to pass custom arguments for the docker container entrypoint</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint.args[*]">.spec.extendedSettings.entryPoint.args[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint.command">.spec.extendedSettings.entryPoint.command</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>allows user to pass custom command for the docker container entrypoint</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint.command[*]">.spec.extendedSettings.entryPoint.command[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
 
 </div>
 
