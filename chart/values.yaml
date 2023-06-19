@@ -82,7 +82,7 @@ infraEditorV2:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: '2.0.1@sha256:d928c916ca644ebce3197c5b4fe511c12cde78048340d034bc71a722e18786da'
+    tag: '2.0.1@sha256:9c0382645f6f0460e95f0ddf9e512c537d0ab4a4c158008de35b69e0994a5324'
 
 infraOperator:
   prometheusConfiguration:
@@ -128,7 +128,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 2.3.6
+    tag: 2.3.6-vulnerability-fix-5277958554-ca743eb
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
