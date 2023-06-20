@@ -105,7 +105,7 @@ th2 service Helm chart
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"2.3.4-remove-job-fix-5001194826-815ac9e"` |  |
+| infraMgr.image.tag | string | `"2.3.6"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -141,7 +141,7 @@ th2 service Helm chart
 | infraOperator.config.rabbitMQManagement.schemaPermissions.read | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"4.5.6"` |  |
+| infraOperator.image.tag | string | `"4.6.2-th2-4959-5269579429-a7ff9d2"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraOperator.livenessProbe.periodSeconds | int | `30` |  |
@@ -160,7 +160,8 @@ th2 service Helm chart
 | ingress.host | string | `""` | Hostname for th2 namespace services |
 | ingress.infraHost | string | `""` | Hostname for infra services. If not set, than host will be used |
 | ingress.ingressClass | string | `"nginx"` | Hostname to access ingress |
-| jupyterhub.custom | object | `{"internal":true}` | jupiterhub values. If true - will be deployed as dependency |
+| jupyterhub.custom | object | `{"internal":true}` | jupyterhub values. If true - will be deployed as dependency |
+| jupyterhub.hub.baseUrl | string | `"/jupyterhub"` |  |
 | jupyterhub.hub.config.Authenticator.admin_users | list | `[]` |  |
 | jupyterhub.hub.config.Authenticator.allowed_users | list | `[]` |  |
 | jupyterhub.hub.config.DummyAuthenticator.password | string | `""` |  |
@@ -172,16 +173,17 @@ th2 service Helm chart
 | jupyterhub.hub.db.type | string | `"sqlite-pvc"` |  |
 | jupyterhub.hub.service.ports.nodePort | int | `30081` |  |
 | jupyterhub.hub.service.type | string | `"NodePort"` |  |
+| jupyterhub.ingress.enabled | bool | `true` |  |
+| jupyterhub.ingress.ingressClassName | string | `""` |  |
+| jupyterhub.ingress.pathSuffix | string | `"?(.*)"` |  |
 | jupyterhub.proxy.secretToken | string | `"65589277c5c121351c9a15199b67f8a52c651dd636e5c3f727f7a00df88a7c9c"` |  |
-| jupyterhub.proxy.service.nodePorts.http | int | `30080` |  |
-| jupyterhub.proxy.service.nodePorts.https | int | `30443` |  |
-| jupyterhub.proxy.service.type | string | `"NodePort"` |  |
+| jupyterhub.proxy.service.type | string | `"ClusterIP"` |  |
 | jupyterhub.singleuser.storage.capacity | string | `"200Mi"` |  |
 | jupyterhub.singleuser.storage.extraVolumeMounts[0].mountPath | string | `"/home/jovyan/shared"` |  |
 | jupyterhub.singleuser.storage.extraVolumeMounts[0].name | string | `"jupyterhub-shared"` |  |
 | jupyterhub.singleuser.storage.extraVolumes[0].name | string | `"jupyterhub-shared"` |  |
 | jupyterhub.singleuser.storage.extraVolumes[0].persistentVolumeClaim.claimName | string | `"jupyterhub-shared-volume"` |  |
-| jupyterhub.singleuser.storage.static.pvcName | string | `"jupiter-users-volume"` |  |
+| jupyterhub.singleuser.storage.static.pvcName | string | `"jupyter-users-volume"` |  |
 | jupyterhub.singleuser.storage.static.subPath | string | `"{username}"` |  |
 | jupyterhub.singleuser.storage.type | string | `"static"` |  |
 | logging.th2 | string | `"INFO"` |  |
