@@ -114,7 +114,7 @@ spec:
     - alert: InfraOperatorResourceCacheErrors
       annotations:
         description: 
-          th2_infra_operator_resource_cache_errors == {{ $value }} 
+          th2_infra_operator_resource_cache_errors == {{`{{ $value }}`}} 
         summary: 
           th2_infra_operator_resource_cache_errors > 0
       expr: th2_infra_operator_resource_cache_errors > 0
