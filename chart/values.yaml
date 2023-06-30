@@ -423,7 +423,7 @@ jupyterhub:
       type: static
 
 logging:
-  th2: INFO
+  th2: INFO 
 
 #development feature for k8s clusters, if you need to run without root priveleges for boxes
 #please be aware that mentioned option is in development phase
