@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: th2-infra
+spec:
+  destination:
+    namespace: argo-service
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+  - repoURL: https://github.com/th2-net/th2-infra.git
+    targetRevision: release-v2.1.0-argocd
+    path: chart
+    helm:
+      valueFiles:
+      - $values/argocd/openshift/values/service.values.yaml
+  - repoURL: https://github.com/th2-net/th2-infra.git
+    targetRevision: release-v2.1.0-argocd
+    ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: th2-secrets
+spec:
+  destination:
+    namespace: argo-service
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    directory:
+      recurse: false
+    path: argocd/openshift/values/secrets
+    repoURL: https://github.com/th2-net/th2-infra.git
+    targetRevision: release-v2.1.0-argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
