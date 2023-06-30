@@ -47,6 +47,7 @@ The _`service`_ namespace is used for infrastructure services:
 * [RabbitMQ](https://www.rabbitmq.com/)
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Helm Operator](https://github.com/fluxcd/helm-operator)
+* [JupyterHub](https://github.com/jupyterhub/jupyterhub)
 
 and for th2-infra components:
 * [th2-infra-editor](https://github.com/th2-net/th2-infra-editor-v2)
@@ -179,6 +180,7 @@ $ ssh-keygen -t ed25519 -m pem -f ./converter-ed25519.key
 $ base64 -w 0 ./converter-ed25519.key
 ```
 * [Add a new deploy key to your schema repository on GitHub with read and write permissions](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
+* Write permission are required by infra-manager to complete Dynamic Resource Monitoring and by converter to be able to push converted schemas on git
 
 ### Set the repository with schema configuration
 set `infraMgr.git.repository` value in the [service.values.yaml](./example-values/service.values.yaml) file to link of your schema repository, `ssh` or `https`:
