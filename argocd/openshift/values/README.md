@@ -75,7 +75,7 @@ oc adm policy add-scc-to-user anyuid -n argo-service -z hub
 ## ArgoCD Application deployment
 Create application in ArgoCD GUI and fill the form as in [argo-th2.yaml](./argo-th2.yaml)
 
-Or perform CLI command to deploy cassandra:
+Or perform CLI command to deploy:
 ```console
 oc -n <namespace-with-argocd-instance> apply -f argo-th2.yaml
 ```
