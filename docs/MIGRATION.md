@@ -1,6 +1,20 @@
 # Migrations
 
-## Migration to RELEASE v2.0.1
+## Migration to RELEASE v2.1.0
+* jupyterhub UI is now accessable through same port as other components
+  <details>
+    <summary>Enabling jhub ingress</summary>
+
+    ### Enabling host and ingressClassName
+    * host and ingressClassName should be added in values
+    ```
+    jupyterhub:
+      ingress:
+        ingressClassName: nginx
+        hosts:
+        - <hostname>
+    ```
+  </details>
 
 * cassandra dashboard has been corrected by th2 team
   <details>
