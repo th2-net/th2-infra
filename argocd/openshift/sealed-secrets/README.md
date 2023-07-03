@@ -1,6 +1,3 @@
-### TO;DO - Sealed Secrets deployment requires CRD creation - clusterrole has been added for SA to do so. Test with manual CRD creation for LME case.
-### Do not forget: "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "sealedsecrets" in API group "bitnami.com" in the namespace "argo-service"
-
 # Sealed Secrets deployment
 ## Create namespace
 
