@@ -1,6 +1,6 @@
 # Cassandra deployment
 
-### [Cass-operator](https://github.com/k8ssandra/cass-operator)r should be installed beforehand e.g. from OperatorHub
+### [Cass-operator](https://github.com/k8ssandra/cass-operator) should be installed beforehand e.g. from OperatorHub
 
 ## Create namespace
 
