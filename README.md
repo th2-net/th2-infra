@@ -2,16 +2,18 @@
 
 ## Prerequisites
 Before you begin, please check the following prerequisites:
-* Fully functioning Kubernetes cluster suitable for your bussiness needs, please refer to [technical requirements](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements) and [version compatibility](https://github.com/th2-net/th2-infra/blob/compatibility-docs/docs/COMPATIBILITY.md)
+* Fully functioning Kubernetes cluster suitable for your bussiness needs, please refer to [technical requirements](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements) and [version compatibility](https://github.com/th2-net/th2-documentation/wiki/Software-compatibility-matrix)
 * Operator-box that meets [hardware](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements) and [software](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements#software-requirements) requirements
 * Installed [Apache Cassandra](https://cassandra.apache.org/) - [technical requirements](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements#apache-cassandra-cluster-hardware-requirements)
 
-All th2 components could be deployed by one of the following options:
-1. Helm charts by [Helm](https://helm.sh/) and [Helm Operator](https://docs.fluxcd.io/projects/helm-operator/en/stable/).
+### All th2 components could be deployed by one of the following options:
+1. Helm charts by [Helm](https://helm.sh/) and [Helm Operator](https://docs.fluxcd.io/projects/helm-operator/en/stable/). Please follow [steps](./README.md#installation-steps-for-th2-via-helm-chart).
 2. If you have an openshift cluster installed you can use [ArgoCD](https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html). Steps are described into a separate [folder](./argocd/openshift).
 
+***  
+***  
 
-## Steps
+## Installation steps for th2 via Helm chart
 The following steps should be performed on the operator-box for th2-infra deployment:
 <!--ts-->
    * [Download th2 git repositories](#th2-git-repository)
@@ -443,12 +445,12 @@ and similar Ingress options for dependency charts.
 Expose services as LoadBalancer if available.
 
 ## th2 infra links:
+- Main page http://your-host:30000/
 - Kubernetes dashboard http://your-host:30000/dashboard/
 - Grafana http://your-host:30000/grafana/
-- th2-infra-editor http://your-host:30000/editor/
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
-- Jupiter hub 
+- Jupiter hub http://your-host:30000/jupyterhub/
 
-## Migration to v2.* th2-infra chart 
+## Migration to v2.1.0 th2-infra chart 
 Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
