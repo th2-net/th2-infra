@@ -228,6 +228,12 @@ kubernetes-dashboard:
 rabbitmq:
   ingress:
     hostname: example.com
+...
+jupyterhub:
+  ingress:
+    ingressClassName: nginx
+    hosts:
+    - example.com
 ```
 
 ### Create secret with th2 credentials

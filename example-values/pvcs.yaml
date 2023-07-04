@@ -33,11 +33,10 @@ spec:
     matchLabels:
       app: "grafana"
 ---
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: jupiter-users-volume
+  name: jupyter-users-volume
   namespace: service
 spec:
   accessModes:
