@@ -385,7 +385,7 @@ $ helm -n service uninstall th2-infra
 ```
 * Delete CRDs:
 ```
-$ kubectl delete customresourcedefinitions th2boxes.th2.exactpro.com th2coreboxes.th2.exactpro.com th2dictionaries.th2.exactpro.com th2estores.th2.exactpro.com th2links.th2.exactpro.com th2mstores.th2.exactpro.com
+$ kubectl delete customresourcedefinitions th2boxes.th2.exactpro.com th2coreboxes.th2.exactpro.com th2dictionaries.th2.exactpro.com th2estores.th2.exactpro.com th2jobs.th2.exactpro.com th2mstores.th2.exactpro.com
 ```
  _Note_: the list can be various, see the full list in documentation or in k8s with the following command:
 ```
