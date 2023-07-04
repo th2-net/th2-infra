@@ -103,7 +103,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: storage-jupiter-users
+  name: storage-jupyter-users
   labels:
     app: jupiter-users
 spec:
