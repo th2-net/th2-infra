@@ -1,0 +1,12 @@
+image:
+  registry: custom.registry:443
+  pullSecrets:
+  - nexus-proxy
+
+podSecurityContext:
+  fsGroup:
+
+containerSecurityContext:
+  runAsUser:
+  
+keyrenewperiod: "0"

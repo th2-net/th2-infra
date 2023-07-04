@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana-prometheus-access
+  namespace: argo-monitoring
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grafana-prometheus-access
+  namespace: argo-monitoring
+  annotations:
+    kubernetes.io/service-account.name: grafana-prometheus-access
+type: kubernetes.io/service-account-token
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: grafana-prometheus-access
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-monitoring-view
+subjects:
+- kind: ServiceAccount
+  name: grafana-prometheus-access
+  namespace: argo-monitoring
+
+# Or we can to create access token for SA grafana-prometheus-access:
+# kubectl create token grafana-prometheus-access
