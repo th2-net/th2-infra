@@ -416,34 +416,6 @@ $ kubectl -n <th2-namespace> apply -f ./pvc.yaml
 ```
 _Note_: replace <th2-namespace> with th2 namespace you use
 
-## th2 in Openshift
-Steps with Ingress controller and Monitoring deployment should be skipped
-
-To support Openshift environment and Ingress controller, set the following value:
-```
-# -- Enable th2 for Openshift, impacts on Ingress.
-openshift:
-  enabled: true
-```
-
-Ingress related, e.g:
-```
-ingress:
-  # -- Ingress class
-  ingressClass: ""
-  # -- Hostname for th2 namespace services
-  host: "th2.<domain>"
-  # -- Hostname for infra services. If not set, than host will be used
-  infraHost: "th2-infra.<domain>"
-  annotations:
-    default:
-      route.openshift.io/termination: "edge"
-      haproxy.router.openshift.io/rewrite-target: /
-```
-and similar Ingress options for dependency charts.
-
-Expose services as LoadBalancer if available.
-
 ## th2 infra links:
 - Main page http://your-host:30000/
 - Kubernetes dashboard http://your-host:30000/dashboard/
