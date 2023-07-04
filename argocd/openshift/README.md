@@ -1,4 +1,4 @@
-# Installation steps with argoCD  
+# Installation steps for th2 via ArgoCD 
 NOTE: files could be found in an appropriate folders
 1. ### [Preparation for cassandra installation](https://github.com/th2-net/th2-infra/tree/master/argocd/openshift/cassandra-instance)
     <details>
