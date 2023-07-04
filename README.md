@@ -6,7 +6,10 @@ Before you begin, please check the following prerequisites:
 * Operator-box that meets [hardware](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements) and [software](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements#software-requirements) requirements
 * Installed [Apache Cassandra](https://cassandra.apache.org/) - [technical requirements](https://github.com/th2-net/th2-documentation/wiki/Technical-Requirements#apache-cassandra-cluster-hardware-requirements)
 
-All th2 components are deployed via Helm charts by [Helm](https://helm.sh/) and [Helm Operator](https://docs.fluxcd.io/projects/helm-operator/en/stable/).
+All th2 components could be deployed by one of the following options:
+1. Helm charts by [Helm](https://helm.sh/) and [Helm Operator](https://docs.fluxcd.io/projects/helm-operator/en/stable/).
+2. If you have an openshift cluster installed you can use [ArgoCD](https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html). Steps are described into a separate [folder](./argocd/openshift).
+
 
 ## Steps
 The following steps should be performed on the operator-box for th2-infra deployment:
@@ -439,8 +442,7 @@ Expose services as LoadBalancer if available.
 - th2-infra-editor http://your-host:30000/editor/
 - RabbitMQ http://your-host:30000/rabbitmq/
 - th2-reports http://your-host:30000/your-namespace/
+- Jupiter hub 
 
-## Migration to v2.0.0 th2-infra chart 
+## Migration to v2.* th2-infra chart 
 Follow to migration guide with link above [MIGRATION](docs/MIGRATION.md)
-
-## Test
