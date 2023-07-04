@@ -9,13 +9,13 @@ spec:
   project: default
   sources:
   - repoURL: https://github.com/th2-net/th2-infra.git
-    targetRevision: release-v2.1.0-argocd
+    targetRevision: master
     path: chart
     helm:
       valueFiles:
       - $values/argocd/openshift/values/service.values.yaml
   - repoURL: https://github.com/th2-net/th2-infra.git
-    targetRevision: release-v2.1.0-argocd
+    targetRevision: master
     ref: values
   syncPolicy:
     automated:
@@ -36,7 +36,7 @@ spec:
       recurse: false
     path: argocd/openshift/values/secrets
     repoURL: https://github.com/th2-net/th2-infra.git
-    targetRevision: release-v2.1.0-argocd
+    targetRevision: master
   syncPolicy:
     automated:
       prune: true

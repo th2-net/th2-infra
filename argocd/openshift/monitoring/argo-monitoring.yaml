@@ -16,7 +16,7 @@ spec:
       valueFiles:
       - $values/argocd/openshift/monitoring/loki-values.yaml
   - repoURL: https://github.com/th2-net/th2-infra.git
-    targetRevision: release-v2.1.0-argocd
+    targetRevision: master
     ref: values
   syncPolicy:
     automated:
@@ -37,7 +37,7 @@ spec:
       recurse: false
     path: argocd/openshift/monitoring/grafana-access
     repoURL: https://github.com/th2-net/th2-infra.git
-    targetRevision: release-v2.1.0-argocd
+    targetRevision: master
   syncPolicy:
     automated:
       prune: true
