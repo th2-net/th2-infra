@@ -13,7 +13,14 @@ rabbitmq:
 
 cassandra:
   internal: false
-  host: <cassandra-host>
+  host: <cassandra-server>
 
-rootless:
-  enabled: false
+jupyterhub:
+  # -- jupyterhub values. If true - will be deployed as dependency
+  custom:
+    internal: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+    - <hostname>

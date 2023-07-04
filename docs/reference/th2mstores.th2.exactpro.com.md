@@ -12,7 +12,7 @@ crd:
   technical_name: th2mstores.th2.exactpro.com
   scope: Namespaced
   source_repository: https://github.com/th2-net/th2-infra
-  source_repository_ref: 2.0-docs
+  source_repository_ref: release-v2.1.0
   versions:
     - v2
 layout: crd
@@ -22,7 +22,7 @@ aliases:
   - /reference/cp-k8s-api/th2mstores.th2.exactpro.com/
 technical_name: th2mstores.th2.exactpro.com
 source_repository: https://github.com/th2-net/th2-infra
-source_repository_ref: 2.0-docs
+source_repository_ref: release-v2.1.0
 ---
 
 # Th2Mstore
@@ -195,6 +195,86 @@ source_repository_ref: 2.0-docs
 
 <div class="property-description">
 <p>section for extended settings</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint">.spec.extendedSettings.entryPoint</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+<div class="property-description">
+<p>allows user to pass custom ENTRYPOINT into the docker container</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint.args">.spec.extendedSettings.entryPoint.args</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>allows user to pass custom arguments for the docker container entrypoint</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint.args[*]">.spec.extendedSettings.entryPoint.args[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint.command">.spec.extendedSettings.entryPoint.command</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>allows user to pass custom command for the docker container entrypoint</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.extendedSettings.entryPoint.command[*]">.spec.extendedSettings.entryPoint.command[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
 
 </div>
 
@@ -1142,6 +1222,1305 @@ Selector which must match a node&rsquo;s labels for the pod to be scheduled on t
 
 <div class="property-description">
 <p>value of parameter</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-1">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins">.spec.pins</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+<div class="property-description">
+<p>consists of grpc(server, client) and mq pin sections</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc">.spec.pins.grpc</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+<div class="property-description">
+<p>pin section for grpc</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client">.spec.pins.grpc.client</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>grpc client subsection</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*]">.spec.pins.grpc.client[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].attributes">.spec.pins.grpc.client[*].attributes</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>attributes of grpc client</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].attributes[*]">.spec.pins.grpc.client[*].attributes[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters">.spec.pins.grpc.client[*].filters</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>filters for grpc client</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*]">.spec.pins.grpc.client[*].filters[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties">.spec.pins.grpc.client[*].filters[*].properties</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-8">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties[*]">.spec.pins.grpc.client[*].filters[*].properties[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties[*].expectedValue">.spec.pins.grpc.client[*].filters[*].properties[*].expectedValue</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties[*].fieldName">.spec.pins.grpc.client[*].filters[*].properties[*].fieldName</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].filters[*].properties[*].operation">.spec.pins.grpc.client[*].filters[*].properties[*].operation</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].linkTo">.spec.pins.grpc.client[*].linkTo</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].linkTo[*]">.spec.pins.grpc.client[*].linkTo[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].linkTo[*].box">.spec.pins.grpc.client[*].linkTo[*].box</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>name of the box</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].linkTo[*].pin">.spec.pins.grpc.client[*].linkTo[*].pin</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>represents the pin of the box that we want to connect</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].name">.spec.pins.grpc.client[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+<div class="property-description">
+<p>name for the pin. must follow the regex pattern ^<a href="[-a-z0-9]*[a-z0-9]*[_a-z0-9]">a-z0-9</a>+$ and max length of 71 characters</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].serviceClass">.spec.pins.grpc.client[*].serviceClass</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+<div class="property-description">
+<p>name of the service class used supported by the grpc client</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.client[*].strategy">.spec.pins.grpc.client[*].strategy</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+<div class="property-description">
+<p>strategy to be used for grpc communication. default value is set to robin</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.server">.spec.pins.grpc.server</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>grpc server subsection</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.server[*]">.spec.pins.grpc.server[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.server[*].name">.spec.pins.grpc.server[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>name for the pin. must follow the regex pattern ^<a href="[-a-z0-9]*[a-z0-9]*[_a-z0-9]">a-z0-9</a>+$ and max length of 71 characters</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.server[*].serviceClasses">.spec.pins.grpc.server[*].serviceClasses</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>list of the service classes supported by the grpc server</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.grpc.server[*].serviceClasses[*]">.spec.pins.grpc.server[*].serviceClasses[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-2">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq">.spec.pins.mq</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers">.spec.pins.mq.publishers</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>section for subscriber mq pins</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*]">.spec.pins.mq.publishers[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].attributes">.spec.pins.mq.publishers[*].attributes</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>attributes for mq</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].attributes[*]">.spec.pins.mq.publishers[*].attributes[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters">.spec.pins.mq.publishers[*].filters</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>filters for mq</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*]">.spec.pins.mq.publishers[*].filters[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].message">.spec.pins.mq.publishers[*].filters[*].message</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-8">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].message[*]">.spec.pins.mq.publishers[*].filters[*].message[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].message[*].expectedValue">.spec.pins.mq.publishers[*].filters[*].message[*].expectedValue</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].message[*].fieldName">.spec.pins.mq.publishers[*].filters[*].message[*].fieldName</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].message[*].operation">.spec.pins.mq.publishers[*].filters[*].message[*].operation</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].metadata">.spec.pins.mq.publishers[*].filters[*].metadata</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>metadata for mq pin</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-8">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].metadata[*]">.spec.pins.mq.publishers[*].filters[*].metadata[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].metadata[*].expectedValue">.spec.pins.mq.publishers[*].filters[*].metadata[*].expectedValue</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].metadata[*].fieldName">.spec.pins.mq.publishers[*].filters[*].metadata[*].fieldName</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].metadata[*].operation">.spec.pins.mq.publishers[*].filters[*].metadata[*].operation</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].properties">.spec.pins.mq.publishers[*].filters[*].properties</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-8">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].properties[*]">.spec.pins.mq.publishers[*].filters[*].properties[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].properties[*].expectedValue">.spec.pins.mq.publishers[*].filters[*].properties[*].expectedValue</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].properties[*].fieldName">.spec.pins.mq.publishers[*].filters[*].properties[*].fieldName</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].filters[*].properties[*].operation">.spec.pins.mq.publishers[*].filters[*].properties[*].operation</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.publishers[*].name">.spec.pins.mq.publishers[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>name for the pin. must follow the regex pattern ^<a href="[-a-z0-9]*[a-z0-9]*[_a-z0-9]">a-z0-9</a>+$ and max length of 71 characters</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-3">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers">.spec.pins.mq.subscribers</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>section for subscriber mq pins</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-4">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*]">.spec.pins.mq.subscribers[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].attributes">.spec.pins.mq.subscribers[*].attributes</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>attributes for mq</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].attributes[*]">.spec.pins.mq.subscribers[*].attributes[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters">.spec.pins.mq.subscribers[*].filters</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>filters for mq</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*]">.spec.pins.mq.subscribers[*].filters[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].message">.spec.pins.mq.subscribers[*].filters[*].message</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-8">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].message[*]">.spec.pins.mq.subscribers[*].filters[*].message[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].message[*].expectedValue">.spec.pins.mq.subscribers[*].filters[*].message[*].expectedValue</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].message[*].fieldName">.spec.pins.mq.subscribers[*].filters[*].message[*].fieldName</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].message[*].operation">.spec.pins.mq.subscribers[*].filters[*].message[*].operation</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].metadata">.spec.pins.mq.subscribers[*].filters[*].metadata</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>metadata for mq pin</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-8">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].metadata[*]">.spec.pins.mq.subscribers[*].filters[*].metadata[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].metadata[*].expectedValue">.spec.pins.mq.subscribers[*].filters[*].metadata[*].expectedValue</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].metadata[*].fieldName">.spec.pins.mq.subscribers[*].filters[*].metadata[*].fieldName</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].metadata[*].operation">.spec.pins.mq.subscribers[*].filters[*].metadata[*].operation</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].properties">.spec.pins.mq.subscribers[*].filters[*].properties</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-8">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].properties[*]">.spec.pins.mq.subscribers[*].filters[*].properties[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].properties[*].expectedValue">.spec.pins.mq.subscribers[*].filters[*].properties[*].expectedValue</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].properties[*].fieldName">.spec.pins.mq.subscribers[*].filters[*].properties[*].fieldName</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-9">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].filters[*].properties[*].operation">.spec.pins.mq.subscribers[*].filters[*].properties[*].operation</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].linkTo">.spec.pins.mq.subscribers[*].linkTo</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">array</span>
+
+</div>
+
+<div class="property-description">
+<p>DESCRIPTION NEEDED</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].linkTo[*]">.spec.pins.mq.subscribers[*].linkTo[*]</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].linkTo[*].box">.spec.pins.mq.subscribers[*].linkTo[*].box</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>name of the box</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-7">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].linkTo[*].pin">.spec.pins.mq.subscribers[*].linkTo[*].pin</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>represents the pin of the box that we want to connect</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].name">.spec.pins.mq.subscribers[*].name</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+<span class="property-required">Required</span>
+</div>
+
+<div class="property-description">
+<p>name for the pin. must follow the regex pattern ^<a href="[-a-z0-9]*[a-z0-9]*[_a-z0-9]">a-z0-9</a>+$ and max length of 71 characters</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-5">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].settings">.spec.pins.mq.subscribers[*].settings</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">object</span>
+
+</div>
+
+<div class="property-description">
+<p>settings for rabbitMq queue configuration</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].settings.overloadStrategy">.spec.pins.mq.subscribers[*].settings.overloadStrategy</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">string</span>
+
+</div>
+
+<div class="property-description">
+<p>configuration for rabbit mq queue. default is set to “drop-head”.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].settings.queueLength">.spec.pins.mq.subscribers[*].settings.queueLength</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">integer</span>
+
+</div>
+
+<div class="property-description">
+<p>configuration for rabbit mq queue. default is set to 1000 msg. queueLength isn&rsquo;t used if storageOnDemand is set to true.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="property depth-6">
+<div class="property-header">
+<h3 class="property-path" id="v2-.spec.pins.mq.subscribers[*].settings.storageOnDemand">.spec.pins.mq.subscribers[*].settings.storageOnDemand</h3>
+</div>
+<div class="property-body">
+<div class="property-meta">
+<span class="property-type">boolean</span>
+
+</div>
+
+<div class="property-description">
+<p>configuration for rabbit mq queue. default value is set to false</p>
 
 </div>
 

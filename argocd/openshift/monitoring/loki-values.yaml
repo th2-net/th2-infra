@@ -1,0 +1,169 @@
+loki:
+  rbac:
+    # create: false
+    pspEnabled: false
+  securityContext:
+    fsGroup: 1000780000
+    runAsGroup: 1000780000
+    runAsUser: 1000780000
+  # image:
+  #   repository: custom.registry:443/grafana/loki
+  #   pullSecrets:
+  #   - th2-artifactory
+  resources:
+    limits:
+      cpu: 400m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  persistence:
+    enabled: true
+    size: 15Gi # should be 150 in production
+  #   existingClaim: loki
+  config:
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 168h
+    chunk_store_config:
+      max_look_back_period: 168h
+
+promtail:
+  # rbac:
+  #   create: false
+  # podSecurityContext:
+  #   runAsUser: 1000730000
+  #   runAsGroup: 1000730000
+  # image:
+  #   registry: custom.registry:443
+  #   repository: grafana/promtail
+  # imagePullSecrets:
+  # - name: th2-artifactory
+  resources:
+    limits:
+      cpu: 500m
+      memory: 400Mi
+    requests:
+      cpu: 200m
+      memory: 200Mi
+  containerSecurityContext:
+    allowPrivilegeEscalation: true
+    privileged: true
+  config:
+    snippets:
+      pipelineStages:
+      - cri: {}
+      - docker: {}
+      - multiline:
+          firstline: '^[\w :]+,\d+ \w+\s.*'
+      - regex:
+          expression: '^[\w :]+,\d+ (?P<level>[IEWDT]\w+)\s.*'
+      - labels:
+          level:
+
+grafana:
+  enabled: true
+  rbac:
+    # create: false
+    pspEnabled: false
+    namespaced: true
+  testFramework:
+    enabled: false
+  image:
+    repository: custom.registry:443/grafana/grafana
+    pullSecrets:
+    - nexus-proxy
+  ingress:
+    enabled: true
+    hosts:
+    - argo-grafana.apps.okd.exp.exactpro.com
+    annotations:
+      # route.openshift.io/termination: "edge"
+      haproxy.router.openshift.io/rewrite-target: /
+  resources:
+    limits:
+      cpu: 400m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  downloadDashboardsImage:
+    repository: custom.registry:443/curlimages/curl
+  dashboards:
+    default:  
+      Cassandra-dashboard:
+        url: http://infra-repo.argo-service.svc.cluster.local:8080/dashboards/Cassandra-Dashboard(corrected-by-th2-team).json
+      Rabbitmq-dashboard:
+        url: http://infra-repo.argo-service.svc.cluster.local:8080/dashboards/rabbitmq-overview_rev11.json
+      Node-monitoring:
+        url: http://infra-repo.argo-service.svc.cluster.local:8080/dashboards/nodes-monitoring-v1.0.0.json
+      Namespace-health:
+        url: http://infra-repo.argo-service.svc.cluster.local:8080/dashboards/namespace_health-v1.0.2.json
+      Components-logs:
+        url: http://infra-repo.argo-service.svc.cluster.local:8080/dashboards/components-logs.json
+      Monitoring:
+        url: http://infra-repo.argo-service.svc.cluster.local:8080/dashboards/Monitoring.json
+      Infra-dashboard:
+        url: http://infra-repo.argo-service.svc.cluster.local:8080/dashboards/infra-dashboard.json
+      JVM-dashboard:
+        url: http://infra-repo.argo-service.svc.cluster.local:8080/dashboards/JVM-dashboard(for-Prometheus-Operator).json
+      Diagnostic-dashboard:
+        url: http://infra-repo.argo-service.svc.cluster.local:8080/dashboards/diagnostic-dashboard-v1.0.2.json
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Loki
+        access: proxy
+        type: loki
+        url: http://{{ .Release.Name }}:3100
+        jsonData:
+          maxLines: 5000
+        editable: true
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: https://prometheus-k8s.openshift-monitoring.svc.cluster.local:9091
+        basicAuth: false
+        withCredentials: false
+        isDefault: true
+        jsonData:
+          tlsSkipVerify: true
+          httpHeaderName1: "Authorization"
+        secureJsonData:
+          httpHeaderValue1: "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkppcS1yMThyUTZ1SkNTdnVVZzFmZ0JqT0p4SFhEaE1UeUtrMHMzeHlkekkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJhcmdvLW1vbml0b3JpbmciLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiZ3JhZmFuYS1wcm9tZXRoZXVzLWFjY2Vzcy10b2tlbi0yZ2c5ZyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJncmFmYW5hLXByb21ldGhldXMtYWNjZXNzIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiZjE4ZmFmYWUtNGQ2Zi00M2YzLTg3MmMtMDlmMGU2ODE5ZGNlIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmFyZ28tbW9uaXRvcmluZzpncmFmYW5hLXByb21ldGhldXMtYWNjZXNzIn0.fqTytXaFKRkpXnXPk1u_kXau41Ph1Fel8eYtLxF5TRI5bonSAj7SniuQn1x5A6xmHb57jxKqDm5jK2rTBf6H8DFZ0tFSt_2nnKsO0XBLOEkyK8DHeL-ZjzDpw2Inoq7j5CVvltdyHb11dUbtvIsr-jfkCVE47-ULaXB6Bf3u1QU7EYBYqAJGFI1mbmGivM-IpIaevf1pgs1UK3jck7R0fzAev3pjO05UNQmhDgmx2rDmTcfZ_lJLMHbBsLm-UNePTZVU4UJmV476eqB5-3Kgps2dc998wArhXDFXU63dhmAs4FRl3Xv46WScJadPEw7mZ_9ozEOrF3bndtVebRygWZo9vUfqqqrrufVOgQmXCGuE03_NXGzxcz2NQxLejRExuaYhTeWORyttFYJgj02abTWgUZqCasJV5tJ3osUi1ay4AYAgKZ8pljA5_c4-jqcXJ2lCa9lRytjIr4sP8pB2tCDQw5_VA9DaMEtyNx5ZejkPEv0APbAwJoJW9e2ZBnwtblfnLFnvLknmKeFA-f5J7qbT64do5Au0kUndDldKUOuNhaRMDDh8FxWbq4V8k4ephMO1Ikazs2gaIv6tmcsTpeCEIF5EdXEyck5C459eu0vEPzCUQ0wsnZYW1qh3MEPrPdpL3XRVVpvI36x_--Mx4XI4aq3pxCneAeBAaXUOa4U"
+        editable: true
+  persistence:
+    enabled: true
+    size: 5Gi
+  plugins:
+    - http://infra-repo.argo-service.svc.cluster.local:8080/plugins/flant-statusmap-panel-0.4.2.zip;flant-statusmap-panel
+    - http://infra-repo.argo-service.svc.cluster.local:8080/plugins/vonage-status-panel-1.0.11.zip;vonage-status-panel
+    - http://infra-repo.argo-service.svc.cluster.local:8080/plugins/blackmirror1-statusbygroup-panel-1.1.2.zip;blackmirror1-statusbygroup-panel
+    - http://infra-repo.argo-service.svc.cluster.local:8080/plugins/grafana-polystat-panel-1.2.8.any.zip;grafana-polystat-panel
+    - http://infra-repo.argo-service.svc.cluster.local:8080/plugins/briangann-gauge-panel-0.0.9.zip;briangann-gauge-panel
+    - http://infra-repo.argo-service.svc.cluster.local:8080/plugins/yesoreyeram-boomtable-panel-1.4.1.zip;yesoreyeram-boomtable-panel
+  initChownData:
+    enabled: false
+  sidecar:
+    image:
+      repository: custom.registry:443/kiwigrid/k8s-sidecar
+    resources:
+      limits:
+        cpu: 100m
+        memory: 100Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi

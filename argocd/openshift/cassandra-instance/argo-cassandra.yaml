@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cassandra
+spec:
+  destination:
+    namespace: argo-cassandra
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    directory:
+      recurse: false
+    path: argocd/openshift/cassandra-instance
+    repoURL: https://github.com/th2-net/th2-infra.git
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -103,7 +103,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: storage-jupiter-users
+  name: storage-jupyter-users
   labels:
     app: jupiter-users
 spec:
@@ -175,7 +175,7 @@ spec:
           values:
           - <node-name>
 ---
-#if you neeed to deploy infra-git
+#if you neeed to deploy onfra-git
 #apiVersion: v1
 #kind: PersistentVolume
 #metadata:

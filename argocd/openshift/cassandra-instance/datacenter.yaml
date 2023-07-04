@@ -1,0 +1,134 @@
+apiVersion: cassandra.datastax.com/v1beta1
+kind: CassandraDatacenter
+metadata:
+  name: th2
+# namespace: my-argo
+
+spec:
+  clusterName: argo-cassandra
+  serverType: cassandra
+  serverVersion: 3.11.14
+  managementApiAuth:
+    insecure: {}
+  size: 1
+  serviceAccount: cassandra
+  racks:
+  - name: rack1
+  resources:
+    requests:
+      memory: 4Gi
+      cpu: "2"
+    limits:
+      memory: 8Gi
+      cpu: "4"
+  # networking:
+  #   nodePort:
+  #     internode: 32501
+  #     native: 32500
+  storageConfig:
+    cassandraDataVolumeClaimSpec:
+      storageClassName: cstor-retain
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+
+### medusa ###
+    additionalVolumes:
+      - mountPath: /mnt/backups
+        name: medusa-backups
+        pvcSpec:
+          storageClassName: cstor-retain
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+  superuserSecretName: cassandra-secret
+  
+### medusa ###
+  config:
+    cassandra-yaml:
+#      num_tokens: 8
+      authenticator: org.apache.cassandra.auth.PasswordAuthenticator
+      authorizer: org.apache.cassandra.auth.CassandraAuthorizer
+      role_manager: org.apache.cassandra.auth.CassandraRoleManager
+    jvm-options:
+      initial_heap_size: 2G
+      max_heap_size: 2G
+#      additional-jvm-opts:
+#      - -Dcassandra.system_distributed_replication_dc_names=dc1
+#      - -Dcassandra.system_distributed_replication_per_dc=1
+
+## in case of out of internet access:
+  podTemplateSpec:
+    spec:
+      # imagePullSecrets:
+      # - name: th2-artifactory
+      # initContainers:
+      # - name: server-config-init
+      #   image: custom.registry:443/datastax/cass-config-builder:1.0-ubi7
+      # containers:
+      # - name: cassandra
+      #   image: custom.registry:443/k8ssandra/cass-management-api:3.11.14
+      # - name: server-system-logger
+      #   image: custom.registry:443/k8ssandra/system-logger:v1.13.1
+
+### medusa ###
+      containers:
+      - name: medusa
+        command: ["/etc/medusa/medusa.sh"]
+        # image: custom.registry:443/k8ssandra/medusa:0.14.0
+        image: k8ssandra/medusa:0.14.0
+        ports:
+          - containerPort: 50051
+        env:
+        - name: MEDUSA_MODE
+          value: GRPC
+        - name: MEDUSA_CQL_USERNAME  
+          valueFrom:  
+            secretKeyRef:  
+              name: cassandra-secret  
+              key: username
+        - name: MEDUSA_CQL_PASSWORD
+          valueFrom:  
+            secretKeyRef:  
+              name: cassandra-secret
+              key: password
+        readinessProbe:
+          exec:
+            command: [ "/bin/grpc_health_probe", "-addr=:50051" ]
+          initialDelaySeconds: 5
+        livenessProbe:
+          exec:
+            command: [ "/bin/grpc_health_probe", "-addr=:50051" ]
+          initialDelaySeconds: 10
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 500m
+        volumeMounts:
+          - name: medusa-config
+            mountPath: /etc/medusa
+          - name: server-config
+            mountPath: /etc/cassandra
+          - name: server-data
+            mountPath: /var/lib/cassandra            
+          - name:  medusa-backups
+            mountPath: /mnt/backups
+
+      volumes:
+      - name: medusa-config
+        configMap:
+          name: medusa-config
+          defaultMode: 0500
+          items:
+            - key: medusa.ini
+              path: medusa.ini
+            - key: medusa.sh
+              path: medusa.sh
+### medusa ###

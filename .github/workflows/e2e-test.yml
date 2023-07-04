@@ -7,7 +7,8 @@ on:
       - "example-values/**"
       - "chart/**"
       - "box-chart/**"
-      - ".github/workflows/e2e-test.yml"
+      - ".github/workflows/**"
+      - "docs/**"
   workflow_dispatch:
     inputs:
       infraNamespace:
@@ -35,7 +36,7 @@ jobs:
     strategy:
       matrix:
         k8s-version:
-        - kindest/node:v1.20.15@sha256:a32bf55309294120616886b5338f95dd98a2f7231519c7dedcec32ba29699394
+        - kindest/node:v1.22.17@sha256:9af784f45a584f6b28bce2af84c494d947a05bd709151466489008f80a9ce9d5
         - kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
         - kindest/node:v1.26.0@sha256:691e24bd2417609db7e589e1a479b902d2e209892a10ce375fab60a8407c7352
       max-parallel: 3
@@ -58,7 +59,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.3.0
+        uses: helm/kind-action@v1.7.0
         with:
           config: ./ci/kind-cluster.yaml
           node_image: ${{ matrix.k8s-version }}
@@ -72,21 +73,20 @@ jobs:
 
       - name: Read infra-repo version
         id: chart
-        uses: jbutcher5/read-yaml@main
+        uses: actions-tools/yaml-outputs@v2
         with:
-          file: "./chart/values.yaml"
-          key-path: '["infraRepo", "image", "tag"]'
+          file-path: "./chart/values.yaml"
 
       - name: Build infra-repo image
         id: build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           file: ./infra-repo/Dockerfile
           context: ./infra-repo/
           push: false
           load: true
           tags: ghcr.io/th2-net/infra-repo:e2e
-          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.data }}
+          cache-from: type=registry,ref=ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.infraRepo__image__tag }}
 
       - name: Init test schema
         run: |
@@ -97,7 +97,7 @@ jobs:
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ add .
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ commit -m "Init repo"
           git --git-dir=./e2e-test-schema.git/ --work-tree=./ci/e2e-test-schema/ branch schema
-          docker exec chart-testing-control-plane mkdir -p /opt/git/ /opt/jupiter_users /opt/jupiter_db
+          docker exec chart-testing-control-plane mkdir -p /opt/git/  /opt/jupiter_users /opt/jupiter_db
           docker cp ./e2e-test-schema.git/ chart-testing-control-plane:/opt/git/
           kind load docker-image --name chart-testing ghcr.io/th2-net/infra-repo:e2e
 

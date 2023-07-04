@@ -26,7 +26,7 @@ Generating envVariables for k8
         {{- end }} {{/* end if envVariables */}}
         {{- range $envName, $secKey := .component.secretPathsConfig }}
         - name: {{ $envName }}
-          value: /var/th2/config/secrets/{{ $secKey }}/{{ $secKey }}
+          value: /var/th2/config/secrets/{{ $secKey }}
         {{- end }}
         {{- range $envName, $envValue := .component.secretValuesConfig }}
         - name: {{ $envName }}

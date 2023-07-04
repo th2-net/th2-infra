@@ -7,6 +7,8 @@ registries: {}
 #     username: user
 #     password: password
 
+existingRegistrySecrets: false
+
 ingress:
   # -- Hostname to access ingress
   ingressClass: "nginx"
@@ -38,12 +40,6 @@ hostAliases:
 # -- Enable th2 for Openshift, impacts on Ingress.
 openshift:
   enabled: false
-
-# -- Enable non root user 
-rootless:
-  enabled: false
-  userId: 65535
-  groupId: 65535
 
 # -- Annotations will be added to all deployments, configMaps and ingresses that are created by th2-infra.
 commonAnnotations: {}
@@ -88,7 +84,7 @@ infraEditorV2:
 infraRepo:
   image:
     repository: ghcr.io/th2-net/infra-repo
-    tag: 2.0.0@sha256:8680ccec206d6a9cb3f9910031a13b402acfc13497fead69106505bd9a8ebfe8
+    tag: '2.1.0@sha256:893f0357a113e219ae70dfd9740f30841b00d9f313fed61291da1e2cb091d60a'
 
 infraOperator:
   prometheusConfiguration:
@@ -96,7 +92,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 4.5.4
+    tag: 4.6.3
   config:
     chart:
       repository: http://infra-repo:8080
@@ -134,7 +130,7 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 2.3.3
+    tag: 2.3.7
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
@@ -186,7 +182,7 @@ converter:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-cr-converter
-    tag: 1.3.5
+    tag: 1.3.6
   git:
     secretName: converter
     sshDir: /home/service/keys
@@ -379,17 +375,19 @@ dashboard:
     hosts: [*host]
 
 jupyterhub:
-  # -- jupiterhub values. If true - will be deployed as dependency
+  # -- jupyterhub values. If true - will be deployed as dependency
   custom:
     internal: true
   proxy:
     secretToken: 65589277c5c121351c9a15199b67f8a52c651dd636e5c3f727f7a00df88a7c9c
     service:
-      type: NodePort
-      nodePorts:
-        http: 30080
-        https: 30443
+      type: ClusterIP
+  ingress:
+    pathSuffix: "?(.*)"
+    enabled: true
+    ingressClassName: ""
   hub:
+    baseUrl: /jupyterhub
     config:
       Authenticator:
         admin_users: []
@@ -422,9 +420,14 @@ jupyterhub:
           mountPath: /home/jovyan/shared
       capacity: 200Mi
       static:
-        pvcName: jupiter-users-volume
+        pvcName: jupyter-users-volume
         subPath: '{username}'
       type: static
 
 logging:
-  th2: INFO
+  th2: INFO 
+
+#development feature for k8s clusters, if you need to run without root priveleges for boxes
+#please be aware that mentioned option is in development phase
+rootless:
+  enabled: false

@@ -14,7 +14,7 @@
         repo_url: "{{ item.value }}"
       with_dict:
         ingress-nginx: https://kubernetes.github.io/ingress-nginx
-        loki: https://grafana.github.io/loki/charts
+        loki: https://grafana.github.io/helm-charts
 
     - name: Ensure k8s namespaces exist
       kubernetes.core.k8s:
@@ -30,7 +30,7 @@
       kubernetes.core.helm:
         name: ingress
         chart_ref: ingress-nginx/ingress-nginx
-        chart_version: 4.1.2
+        chart_version: 4.3.0
         release_namespace: "{{ infra_namespace }}"
         values_files: "{{ playbook_dir }}/../example-values/ingress.values.yaml"
         create_namespace: true

@@ -1,0 +1,194 @@
+---
+registries:
+  nexus-proxy:
+  nexus-private:
+
+existingRegistrySecrets: true
+
+openshift:
+  enabled: true
+
+rootless:
+  enabled: false
+
+infraEditor:
+  image:
+    repository: custom.registry:443/th2-net/th2-infra-editor
+
+infraRepo:
+  image:
+    repository: custom.registry:443/th2-net/infra-repo
+
+infraOperator:
+  image:
+    repository: custom.registry:443/th2-net/th2-infra-operator
+
+infraMgr:
+  image:
+    repository: custom.registry:443/th2-net/th2-infra-mgr
+  git:
+    repository: git@github.com:th2-net/th2-infra-demo-configuration.git
+    secretName: inframgr-secret
+
+converter:
+  image:
+    repository: custom.registry:443/th2-net/th2-cr-converter
+
+storageService:
+  image:
+    repository: custom.registry:443/th2-net/th2-storage-services
+
+helmoperator:
+  image:
+    repository: custom.registry:443/fluxcd/helm-operator
+    # pullSecret: th2-artifactory
+    pullSecret: nexus-proxy
+  # rbac:
+  #   create: false
+
+rabbitmq:
+  auth:
+    username: th2
+    existingPasswordSecret: rabbitmq
+    existingErlangSecret: rabbitmq
+  podSecurityContext:
+    fsGroup: 1000770000
+  containerSecurityContext:
+    runAsUser: 1000770000
+  # rbac:
+  #   create: false
+  # networkPolicy:
+  #   enabled: true
+  global:
+    imageRegistry: custom.registry:443
+    imagePullSecrets:
+    # - th2-artifactory
+    - nexus-proxy
+  ingress:
+    enabled: true
+    hostname: <fqdn.openshift.hostname>
+    annotations:
+      haproxy.router.openshift.io/rewrite-target: /
+      kubernetes.io/ingress.class: openshift-default
+    path: /rabbitmq/
+    
+  persistence:
+    enabled: true
+    storageClass: cstor-csi-disk #default is local-storage
+
+cassandra:
+  cluster:
+    datacenter: th2
+  host: argo-cassandra-th2-service.argo-cassandra.svc.cluster.local
+  internal: false
+  dbUser:
+    existingSecret: cassandra
+
+ingress:
+  host: <fqdn.openshift.hostname>
+  # infraHost: <fqdn.openshift.hostname>
+  ingressClass: openshift-default
+  annotations:
+    infraNamespace:
+      haproxy.router.openshift.io/rewrite-target: /
+    th2Namespace:
+      haproxy.router.openshift.io/rewrite-target: /
+
+dashboard:
+  internal: false
+
+jupyterhub:
+  imagePullSecrets:
+  - nexus-proxy
+  # - th2-artifactory
+  # rbac:
+  #   create: false
+  hub:
+    # config:
+    #   Authenticator:
+    #     admin_users:
+    #     - admin_lme
+    #     allowed_users:
+    #     - user1
+    #     - user2
+    #     - user3
+    #   DummyAuthenticator:
+    #     password: ""
+    #   JupyterHub:
+    #     authenticator_class: dummy
+    baseUrl: /jupyterhub
+    containerSecurityContext:
+      runAsGroup: 1000770000
+      runAsUser: 1000770000
+    db:
+      type: sqlite-pvc
+      pvc:
+        selector: null
+        annotations: {}
+        accessModes:
+          - ReadWriteOnce
+        storage: 200Mi
+        storageClassName: cstor-csi-disk
+    image:
+      name: custom.registry:443/jupyterhub/k8s-hub
+    networkPolicy:
+      enabled: false
+    podSecurityContext:
+      fsGroup: 1000770000
+  ingress:
+    annotations:
+    enabled: true
+    pathSuffix: ""
+    hosts:
+    - <fqdn.openshift.hostname>
+    ingressClassName: openshift-default
+  prePuller:
+    hook:
+      enabled: false
+    containerSecurityContext:
+      runAsUser: 1000770000 # nobody user
+      runAsGroup: 1000770000 # nobody group
+    pause:
+      containerSecurityContext:
+        runAsUser: 1000770000 # nobody user
+        runAsGroup: 1000770000 # nobody group
+      image:
+        name: custom.registry:443/pause
+  proxy:
+    chp:
+      containerSecurityContext:
+        runAsGroup: 1000770000
+        runAsUser: 1000770000
+      image:
+        name: custom.registry:443/jupyterhub/configurable-http-proxy
+      networkPolicy:
+        enabled: false
+  scheduling:
+    userScheduler:
+      containerSecurityContext:
+        runAsGroup: 1000770000
+        runAsUser: 1000770000
+      image:
+        name: custom.registry:443/kube-scheduler
+      replicas: 5
+  singleuser:
+    cloudMetadata:
+      blockWithIptables: false
+    cpu:
+      guarantee: 0.05
+      limit: 2
+    image:
+      name: custom.registry:443/jupyterhub/k8s-singleuser-sample
+    memory:
+      guarantee: 512M
+      limit: 2G
+    networkPolicy:
+      enabled: false
+    networkTools:
+      image:
+        name: custom.registry:443/jupyterhub/k8s-network-tools
+    serviceAccountName: null
+    storage:
+      dynamic:
+        storageClass: cstor-csi-disk
+      type: dynamic

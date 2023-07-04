@@ -323,12 +323,12 @@ tests:
           path: spec.template.spec.containers[0].env
           content:
             name: env1
-            value: /var/th2/config/secrets/key1/key1
+            value: /var/th2/config/secrets/key1
       - contains:
           path: spec.template.spec.containers[0].env
           content:
             name: env2
-            value: /var/th2/config/secrets/key2/key2
+            value: /var/th2/config/secrets/key2
       - contains:
           path: spec.template.spec.containers[0].volumeMounts
           content:
