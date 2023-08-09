@@ -87,6 +87,8 @@ infraRepo:
     tag: '2.1.0@sha256:893f0357a113e219ae70dfd9740f30841b00d9f313fed61291da1e2cb091d60a'
 
 infraOperator:
+  rbac:
+    create: true
   prometheusConfiguration:
     enabled: true
     port: 9752
@@ -125,6 +127,8 @@ infraOperator:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
 infraMgr:
+  rbac:
+    create: true
   prometheusConfiguration:
     enabled: true
     port: 9752
