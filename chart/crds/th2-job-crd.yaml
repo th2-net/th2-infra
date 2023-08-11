@@ -29,7 +29,7 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v2
+    name: v2-2
     schema:
       openAPIV3Schema:
         description: Th2Jox defines a resource for single execution tasks
