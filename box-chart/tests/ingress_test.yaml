@@ -21,9 +21,10 @@ tests:
         name: testservice
         extendedSettings:
           service:
-            ingress:
-              urlPaths:
-                - /test/path/
+            clusterIP: 
+            - name: IP
+              containerPort: 8081
+              urlPaths: /test/path/
     asserts:
       - isKind:
           of: Ingress

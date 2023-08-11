@@ -25,14 +25,36 @@ spec:
   - http:
   {{- end }}
       paths:
-      {{- range $path := .Values.component.extendedSettings.service.ingress.urlPaths }}
+      {{- if and (.Values.component.extendedSettings.service.nodePort) (eq .Values.component.extendedSettings.service.enabled true) }}
+      {{- range $path := .Values.component.extendedSettings.service.nodePort }}
       - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
         pathType: Prefix
         backend:
           service:
             name: {{ $.Values.component.name }}
             port:
-              number: 8080
+              number: {{ default "8080" $path.containerPort }}
+      {{- end }}
+      {{ else if and (.Values.component.extendedSettings.service.loadBalancer) (eq .Values.component.extendedSettings.service.enabled true) }}
+      {{- range $path := .Values.component.extendedSettings.service.loadBalancer }}
+      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ $.Values.component.name }}
+            port:
+              number: {{ default "8080" $path.containerPort }}
+      {{- end }}
+      {{ else if and (.Values.component.extendedSettings.service.clusterIP) (eq .Values.component.extendedSettings.service.enabled true) }}
+      {{- range $path := .Values.component.extendedSettings.service.clusterIP }}
+      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ $.Values.component.name }}
+            port:
+              number: {{ default "8080" $path.containerPort }}
+      {{- end }}
       {{ end }}
 {{ else if has .Values.component.name (list "rpt-data-viewer" "rpt-data-provider") }}
 apiVersion: networking.k8s.io/v1
@@ -66,6 +88,18 @@ spec:
           service:
             name: {{ $.Values.component.name }}
             port:
-              number: 8080
+            {{- if .Values.component.extendedSettings.service.nodePort }}
+              {{- range $path := .Values.component.extendedSettings.service.nodePort }}
+              number: {{ default "8080" $path.containerPort }}
+            {{- end }}
+            {{ else if .Values.component.extendedSettings.service.loadBalancer }}
+              {{- range $path := .Values.component.extendedSettings.service.loadBalancer }}
+              number: {{ default "8080" $path.containerPort }}
+            {{- end }}
+            {{ else if .Values.component.extendedSettings.service.clusterIP }}
+              {{- range $path := .Values.component.extendedSettings.service.clusterIP }}
+              number: {{ default "8080" $path.containerPort }}
+            {{- end }}
+            {{- end }}
 {{- end }}
 {{- end }}
