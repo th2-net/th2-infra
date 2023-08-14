@@ -3,7 +3,7 @@ Generating ingress rules for pod
 */}}
 {{- define "ingress" }}
 ---
-{{- if or (gt (len .Values.component.extendedSettings.service.ingress.urlPaths) 0) }}
+{{- if or (gt (len .Values.component.extendedSettings.service.clusterIP) 0)}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -27,7 +27,7 @@ spec:
       paths:
       {{- if and (.Values.component.extendedSettings.service.nodePort) (eq .Values.component.extendedSettings.service.enabled true) }}
       {{- range $path := .Values.component.extendedSettings.service.nodePort }}
-      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
+      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path.urlPath }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
         pathType: Prefix
         backend:
           service:
@@ -37,7 +37,7 @@ spec:
       {{- end }}
       {{ else if and (.Values.component.extendedSettings.service.loadBalancer) (eq .Values.component.extendedSettings.service.enabled true) }}
       {{- range $path := .Values.component.extendedSettings.service.loadBalancer }}
-      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
+      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path.urlPath }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
         pathType: Prefix
         backend:
           service:
@@ -47,7 +47,7 @@ spec:
       {{- end }}
       {{ else if and (.Values.component.extendedSettings.service.clusterIP) (eq .Values.component.extendedSettings.service.enabled true) }}
       {{- range $path := .Values.component.extendedSettings.service.clusterIP }}
-      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
+      - path: /{{ $.Release.Namespace }}/{{ trimAll "/" $path.urlPath }}/{{ ternary "" "(.*)" $.Values.openshift.enabled }}
         pathType: Prefix
         backend:
           service:
@@ -100,6 +100,8 @@ spec:
               {{- range $path := .Values.component.extendedSettings.service.clusterIP }}
               number: {{ default "8080" $path.containerPort }}
             {{- end }}
+            {{ else }}
+              number: 8080
             {{- end }}
 {{- end }}
 {{- end }}
