@@ -29,8 +29,6 @@ component:
     service:
       enabled: false
       clusterIP: []
-      ingress:
-        urlPaths: []
     resources:
       limits:
         memory: 200Mi

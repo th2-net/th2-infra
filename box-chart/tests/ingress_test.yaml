@@ -21,6 +21,7 @@ tests:
         name: testservice
         extendedSettings:
           service:
+            enabled: true
             clusterIP: 
             - name: IP
               containerPort: 8081
