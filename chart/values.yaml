@@ -1,6 +1,6 @@
 ---
 # Default values for th2-infra.
-
+# default pass for admin user - "th2", used in infrMgr
 # -- Registries are attached as pull secrets to pods
 registries: {}
 #   myregistry.com:
@@ -130,7 +130,12 @@ infraMgr:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 2.3.7
+    tag: 2.4.0-TH2-5132-7057309681-d1796c6
+  behaviour:
+    permittedToRemoveNamespace: true
+  http:
+      adminAccounts:
+        admin: $2a$10$MAPTPX12NwxtwBxRB47ZHODCUWwgwKqdMPzNtmRUZ.NH.5UBrR5u2
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
