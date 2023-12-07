@@ -134,8 +134,8 @@ infraMgr:
   behaviour:
     permittedToRemoveNamespace: true
   http:
-      adminAccounts:
-        admin: $2a$10$MAPTPX12NwxtwBxRB47ZHODCUWwgwKqdMPzNtmRUZ.NH.5UBrR5u2
+    adminAccounts:
+      admin: $2a$10$MAPTPX12NwxtwBxRB47ZHODCUWwgwKqdMPzNtmRUZ.NH.5UBrR5u2
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
