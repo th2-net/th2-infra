@@ -32,6 +32,15 @@ data:
       httpAuthUsername: "${HTTPS_AUTH_USERNAME}"
       httpAuthPassword: "${HTTPS_AUTH_PASSWORD}"
 
+    behaviour:
+      permittedToRemoveNamespace: {{ .Values.infraMgr.behaviour.permittedToRemoveNamespace }}
+
+    http:
+      adminAccounts:
+      {{- with .Values.infraMgr.http.adminAccounts }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
     rabbitmq:
       vhostName: {{ .Values.rabbitmq.rabbitmqVhost | quote }}
       secret: {{ default .Values.infraMgr.rabbitmq.secret .Values.rabbitmq.fullnameOverride }}
