@@ -1,4 +1,4 @@
----
+{{- if and .Values.infraOperator.rbac.create -}}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -30,14 +30,6 @@ rules:
       - customresourcedefinitions
     verbs: ["*"]
 ---
-
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: infra-operator-service
-  annotations:
-  {{- include "common-annotations" . | nindent 4  }}
----
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -52,3 +44,12 @@ subjects:
   - kind: ServiceAccount
     name: infra-operator-service
     namespace: {{ .Release.Namespace }}
+{{ end }}
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: infra-operator-service
+  annotations:
+  {{- include "common-annotations" . | nindent 4  }}

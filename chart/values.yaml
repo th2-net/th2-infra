@@ -1,6 +1,6 @@
 ---
 # Default values for th2-infra.
-
+# default pass for admin user - "th2", used in infrMgr
 # -- Registries are attached as pull secrets to pods
 registries: {}
 #   myregistry.com:
@@ -87,6 +87,8 @@ infraRepo:
     tag: '2.1.0@sha256:4bf425dd957330aaeac52772144f58d303b065da82253c88b7280a316ed88823'
 
 infraOperator:
+  rbac:
+    create: true
   prometheusConfiguration:
     enabled: true
     port: 9752
@@ -125,12 +127,19 @@ infraOperator:
     javaToolOptions: "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"
 
 infraMgr:
+  rbac:
+    create: true
   prometheusConfiguration:
     enabled: true
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-mgr
-    tag: 2.3.7-th2-5018-validator-5867911343-991f81b
+    tag: 2.4.0-TH2-5132-7057309681-d1796c6
+  behaviour:
+    permittedToRemoveNamespace: true
+  http:
+    adminAccounts:
+      admin: $2a$10$MAPTPX12NwxtwBxRB47ZHODCUWwgwKqdMPzNtmRUZ.NH.5UBrR5u2
   git:
     secretName: infra-mgr
     sshDir: /home/service/keys
