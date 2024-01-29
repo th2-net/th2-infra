@@ -45,7 +45,7 @@ th2 service Helm chart
 | converter.git.secretName | string | `"converter"` |  |
 | converter.git.sshDir | string | `"/home/service/keys"` |  |
 | converter.image.repository | string | `"ghcr.io/th2-net/th2-cr-converter"` |  |
-| converter.image.tag | string | `"1.3.5"` |  |
+| converter.image.tag | string | `"1.3.6"` |  |
 | converter.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | converter.livenessProbe.initialDelaySeconds | int | `30` |  |
 | converter.livenessProbe.periodSeconds | int | `30` |  |
@@ -69,6 +69,7 @@ th2 service Helm chart
 | dashboard.rbac.create | bool | `true` |  |
 | dashboard.serviceAccount.create | bool | `false` |  |
 | dashboard.serviceAccount.name | string | `"th2infra-kubernetes-dashboard"` |  |
+| existingRegistrySecrets | bool | `false` |  |
 | helmoperator.chartsSyncInterval | string | `"300m"` |  |
 | helmoperator.fullnameOverride | string | `"helm-operator"` |  |
 | helmoperator.helm.versions | string | `"v3"` |  |
@@ -105,7 +106,7 @@ th2 service Helm chart
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"2.3.6"` |  |
+| infraMgr.image.tag | string | `"2.3.7"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -141,7 +142,7 @@ th2 service Helm chart
 | infraOperator.config.rabbitMQManagement.schemaPermissions.read | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"4.6.2-th2-4959-5269579429-a7ff9d2"` |  |
+| infraOperator.image.tag | string | `"4.6.3"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraOperator.livenessProbe.periodSeconds | int | `30` |  |
@@ -153,7 +154,7 @@ th2 service Helm chart
 | infraOperator.resources.requests.cpu | string | `"100m"` |  |
 | infraOperator.resources.requests.memory | string | `"200Mi"` |  |
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
-| infraRepo.image.tag | string | `"2.0.1@sha256:d928c916ca644ebce3197c5b4fe511c12cde78048340d034bc71a722e18786da"` |  |
+| infraRepo.image.tag | string | `"2.1.0@sha256:893f0357a113e219ae70dfd9740f30841b00d9f313fed61291da1e2cb091d60a"` |  |
 | ingress.annotations.infraNamespace | object | `{"nginx.ingress.kubernetes.io/configuration-snippet":"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;","nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for infra services |
 | ingress.annotations.root | object | `{}` | Annotations for th2 root URL |
 | ingress.annotations.th2Namespace | object | `{"nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for th2 schema services |
