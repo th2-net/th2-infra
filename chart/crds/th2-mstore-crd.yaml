@@ -340,6 +340,7 @@ spec:
                                             - EMPTY
                                             - NOT_EMPTY
                                             - WILDCARD
+                                            - NOT_WILDCARD
                                           type: string
                                       required:
                                         - fieldName
@@ -415,6 +416,7 @@ spec:
                                             - EMPTY
                                             - NOT_EMPTY
                                             - WILDCARD
+                                            - NOT_WILDCARD
                                           type: string
                                       required:
                                         - fieldName
@@ -440,6 +442,7 @@ spec:
                                             - EMPTY
                                             - NOT_EMPTY
                                             - WILDCARD
+                                            - NOT_WILDCARD
                                           type: string
                                       required:
                                         - fieldName
@@ -465,6 +468,7 @@ spec:
                                             - EMPTY
                                             - NOT_EMPTY
                                             - WILDCARD
+                                            - NOT_WILDCARD
                                           type: string
                                       required:
                                         - fieldName
@@ -548,6 +552,7 @@ spec:
                                             - EMPTY
                                             - NOT_EMPTY
                                             - WILDCARD
+                                            - NOT_WILDCARD
                                           type: string
                                       required:
                                         - fieldName
@@ -573,6 +578,7 @@ spec:
                                             - EMPTY
                                             - NOT_EMPTY
                                             - WILDCARD
+                                            - NOT_WILDCARD
                                           type: string
                                       required:
                                         - fieldName
@@ -598,6 +604,7 @@ spec:
                                             - EMPTY
                                             - NOT_EMPTY
                                             - WILDCARD
+                                            - NOT_WILDCARD
                                           type: string
                                       required:
                                         - fieldName
