@@ -420,6 +420,10 @@ jupyterhub:
         storage: 200Mi
         storageClassName: local-storage
   singleuser:
+    extraLabels: {}
+    extraNodeAffinity: {}
+    extraPodAffinity: {}
+    extraPodAntiAffinity: {}
     storage:
       extraVolumes:
         - name: jupyterhub-shared
