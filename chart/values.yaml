@@ -302,8 +302,8 @@ rabbitmq:
       enabled: true
   ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
-      kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/rewrite-target: $1
       nginx.ingress.kubernetes.io/configuration-snippet: |
         rewrite ^/([a-z\-0-9]+)$ $scheme://$http_host/$1/ redirect;
@@ -364,8 +364,8 @@ dashboard:
     name: th2infra-kubernetes-dashboard
   ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
-      kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/rewrite-target: $1
       nginx.ingress.kubernetes.io/configuration-snippet: rewrite ^/([a-z\-0-9]+)$ $scheme://$http_host/$1/ redirect;
     paths:
@@ -385,7 +385,7 @@ jupyterhub:
   ingress:
     pathSuffix: "?(.*)"
     enabled: true
-    ingressClassName: ""
+    ingressClassName: nginx
   hub:
     baseUrl: /jupyterhub
     config:
