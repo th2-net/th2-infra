@@ -21,6 +21,5 @@ jupyterhub:
     internal: true
   ingress:
     enabled: true
-    ingressClassName: nginx
     hosts:
     - <hostname>
