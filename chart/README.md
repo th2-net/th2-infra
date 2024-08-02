@@ -45,7 +45,7 @@ th2 service Helm chart
 | converter.git.secretName | string | `"converter"` |  |
 | converter.git.sshDir | string | `"/home/service/keys"` |  |
 | converter.image.repository | string | `"ghcr.io/th2-net/th2-cr-converter"` |  |
-| converter.image.tag | string | `"1.3.5"` |  |
+| converter.image.tag | string | `"1.3.6"` |  |
 | converter.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | converter.livenessProbe.initialDelaySeconds | int | `30` |  |
 | converter.livenessProbe.periodSeconds | int | `30` |  |
@@ -57,11 +57,11 @@ th2 service Helm chart
 | converter.resources.requests.cpu | string | `"100m"` |  |
 | converter.resources.requests.memory | string | `"700Mi"` |  |
 | dashboard.image.repository | string | `"kubernetesui/dashboard"` |  |
-| dashboard.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | dashboard.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;"` |  |
 | dashboard.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | dashboard.ingress.enabled | bool | `true` |  |
 | dashboard.ingress.hosts[0] | string | `""` |  |
+| dashboard.ingress.ingressClassName | string | `"nginx"` |  |
 | dashboard.ingress.paths[0] | string | `"/dashboard($\|/.*)"` | dashboard UI ingess path |
 | dashboard.internal | bool | `true` | Kubernetes dashboard values. If true - will be deployed as dependency |
 | dashboard.protocolHttp | bool | `true` |  |
@@ -69,6 +69,7 @@ th2 service Helm chart
 | dashboard.rbac.create | bool | `true` |  |
 | dashboard.serviceAccount.create | bool | `false` |  |
 | dashboard.serviceAccount.name | string | `"th2infra-kubernetes-dashboard"` |  |
+| existingRegistrySecrets | bool | `false` |  |
 | helmoperator.chartsSyncInterval | string | `"300m"` |  |
 | helmoperator.fullnameOverride | string | `"helm-operator"` |  |
 | helmoperator.helm.versions | string | `"v3"` |  |
@@ -105,7 +106,7 @@ th2 service Helm chart
 | infraMgr.git.secretName | string | `"infra-mgr"` |  |
 | infraMgr.git.sshDir | string | `"/home/service/keys"` |  |
 | infraMgr.image.repository | string | `"ghcr.io/th2-net/th2-infra-mgr"` |  |
-| infraMgr.image.tag | string | `"2.3.6"` |  |
+| infraMgr.image.tag | string | `"2.3.7"` |  |
 | infraMgr.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraMgr.kubernetes.configMaps.cassandra | string | `"cradle"` |  |
 | infraMgr.kubernetes.configMaps.cassandra-ext | string | `"cradle-external"` |  |
@@ -141,7 +142,7 @@ th2 service Helm chart
 | infraOperator.config.rabbitMQManagement.schemaPermissions.read | string | `".*"` |  |
 | infraOperator.config.rabbitMQManagement.schemaPermissions.write | string | `".*"` |  |
 | infraOperator.image.repository | string | `"ghcr.io/th2-net/th2-infra-operator"` |  |
-| infraOperator.image.tag | string | `"4.6.2-th2-4959-5269579429-a7ff9d2"` |  |
+| infraOperator.image.tag | string | `"4.6.3"` |  |
 | infraOperator.jvm.javaToolOptions | string | `"-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85"` |  |
 | infraOperator.livenessProbe.initialDelaySeconds | int | `30` |  |
 | infraOperator.livenessProbe.periodSeconds | int | `30` |  |
@@ -153,7 +154,7 @@ th2 service Helm chart
 | infraOperator.resources.requests.cpu | string | `"100m"` |  |
 | infraOperator.resources.requests.memory | string | `"200Mi"` |  |
 | infraRepo.image.repository | string | `"ghcr.io/th2-net/infra-repo"` |  |
-| infraRepo.image.tag | string | `"2.0.1@sha256:d928c916ca644ebce3197c5b4fe511c12cde78048340d034bc71a722e18786da"` |  |
+| infraRepo.image.tag | string | `"2.1.0@sha256:893f0357a113e219ae70dfd9740f30841b00d9f313fed61291da1e2cb091d60a"` |  |
 | ingress.annotations.infraNamespace | object | `{"nginx.ingress.kubernetes.io/configuration-snippet":"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;","nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for infra services |
 | ingress.annotations.root | object | `{}` | Annotations for th2 root URL |
 | ingress.annotations.th2Namespace | object | `{"nginx.ingress.kubernetes.io/enable-cors":"true","nginx.ingress.kubernetes.io/rewrite-target":"/$1","nginx.ingress.kubernetes.io/use-regex":"true"}` | Annotations for th2 schema services |
@@ -174,7 +175,7 @@ th2 service Helm chart
 | jupyterhub.hub.service.ports.nodePort | int | `30081` |  |
 | jupyterhub.hub.service.type | string | `"NodePort"` |  |
 | jupyterhub.ingress.enabled | bool | `true` |  |
-| jupyterhub.ingress.ingressClassName | string | `""` |  |
+| jupyterhub.ingress.ingressClassName | string | `"nginx"` |  |
 | jupyterhub.ingress.pathSuffix | string | `"?(.*)"` |  |
 | jupyterhub.proxy.secretToken | string | `"65589277c5c121351c9a15199b67f8a52c651dd636e5c3f727f7a00df88a7c9c"` |  |
 | jupyterhub.proxy.service.type | string | `"ClusterIP"` |  |
@@ -197,11 +198,11 @@ th2 service Helm chart
 | rabbitmq.auth.username | string | `"th2"` |  |
 | rabbitmq.extraConfiguration | string | `"default_vhost = th2\ndisk_free_limit.absolute = 10GB\nprometheus.return_per_object_metrics=true"` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
-| rabbitmq.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet" | string | `"rewrite ^/([a-z\\-0-9]+)$ $scheme://$http_host/$1/ redirect;\nif ($request_uri ~ \"^/rabbitmq(/.*)\") {\n  proxy_pass http://upstream_balancer$1;\n  break;\n}\n"` |  |
 | rabbitmq.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"$1"` |  |
 | rabbitmq.ingress.enabled | bool | `true` |  |
 | rabbitmq.ingress.hostname | string | `" "` |  |
+| rabbitmq.ingress.ingressClassName | string | `"nginx"` |  |
 | rabbitmq.ingress.path | string | `"/rabbitmq($\|/.*)"` | RabbitmMQ management UI ingess path |
 | rabbitmq.internal | bool | `true` |  |
 | rabbitmq.memoryHighWatermark.enabled | bool | `true` |  |
