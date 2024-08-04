@@ -26,6 +26,9 @@ spec:
       imagePullSecrets:
       {{- include "imagePullSecret" .Values.registries | trim | nindent 6 }}
       serviceAccountName: infra-operator-service
+      {{- if .Values.infraOperator.affinity }}
+      affinity: {{- toYaml .Values.infraOperator.affinity | nindent 8 }}
+      {{- end }}
       containers:
       - name: infra-operator
         image: "{{ .Values.infraOperator.image.repository }}:{{ .Values.infraOperator.image.tag }}"
