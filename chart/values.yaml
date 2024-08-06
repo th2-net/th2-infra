@@ -262,6 +262,7 @@ infraGit:
 rabbitmq:
   # -- If service not internal - ExternalName service will be created, credentials will be mapped to secrets / config maps
   # otherwise service will be deployed as a chart dependency
+  affinity: {}
   statefulsetLabels:
     app: rabbitmq   
   internal: true
@@ -419,6 +420,10 @@ jupyterhub:
         storage: 200Mi
         storageClassName: local-storage
   singleuser:
+    extraLabels: {}
+    extraNodeAffinity: {}
+    extraPodAffinity: {}
+    extraPodAntiAffinity: {}
     storage:
       extraVolumes:
         - name: jupyterhub-shared
