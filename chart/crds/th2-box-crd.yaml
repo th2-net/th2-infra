@@ -29,7 +29,7 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v2
+    name: v2-2
     schema:
       openAPIV3Schema:
         description: Th2Box defines generic Th2 component instance
@@ -201,6 +201,17 @@ spec:
                             containerPort:
                               description: allows to specify Kubernetes port for the pod.
                               type: integer
+                            urlPath:
+                              description: |
+                                Creates Ingress for the Box
+                                Path is a suffix, it is appended to namespace url, e.g for th2-test namespace:
+                                
+                                urlPaths:
+                                - /my-box/
+                                
+                                service will be available at /th2-test/my-box/
+                              type: string
+                              pattern: "^[-a-zA-Z0-9_/]+$"
                         required:
                           - name
                       nodePort:
@@ -218,6 +229,17 @@ spec:
                             containerPort:
                               description: allows to specify Kubernetes port for the pod.
                               type: integer
+                            urlPath:
+                              description: |
+                                Creates Ingress for the Box
+                                Path is a suffix, it is appended to namespace url, e.g for th2-test namespace:
+
+                                urlPaths:
+                                - /my-box/
+
+                                service will be available at /th2-test/my-box/
+                              type: string
+                              pattern: "^[-a-zA-Z0-9_/]+$"
                         required:
                           - name
                           - exposedPort
@@ -233,24 +255,19 @@ spec:
                             containerPort:
                               description: allows to specify Kubernetes port for the pod.
                               type: integer
-                        required:
-                          - name
-                      ingress:
-                        description: Creates Ingress for the Box
-                        type: object
-                        properties:
-                          urlPaths:
-                            description: |
-                              Path is a suffix, it is appended to namespace url, e.g for th2-test namespace:
+                            urlPath:
+                              description: |
+                                Creates Ingress for the Box
+                                Path is a suffix, it is appended to namespace url, e.g for th2-test namespace:
 
-                              urlPaths:
-                              - /my-box/
+                                urlPaths:
+                                - /my-box/
 
-                              service will be available at /th2-test/my-box/
-                            type: array
-                            items:
+                                service will be available at /th2-test/my-box/
                               type: string
                               pattern: "^[-a-zA-Z0-9_/]+$"
+                        required:
+                          - name
               disabled:
                 description: if set to true resource will act as if it is removed from schema without actually deleting the file. The default value is false.
                 type: boolean

@@ -94,7 +94,7 @@ infraOperator:
     port: 9752
   image:
     repository: ghcr.io/th2-net/th2-infra-operator
-    tag: 4.6.3
+    tag: 4.6.4-th2-5018-crd-update-5832542702-0a1f403
   config:
     chart:
       repository: http://infra-repo:8080

@@ -14,7 +14,7 @@ spec:
     singular: th2dictionary
   scope: Namespaced
   versions:
-  - name: v2
+  - name: v2-2
     schema:
       openAPIV3Schema:
         description: Th2Dictionary defines th2 dictionary instance

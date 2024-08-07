@@ -21,9 +21,11 @@ tests:
         name: testservice
         extendedSettings:
           service:
-            ingress:
-              urlPaths:
-                - /test/path/
+            enabled: true
+            clusterIP: 
+            - name: IP
+              containerPort: 8081
+              urlPath: /test/path/
     asserts:
       - isKind:
           of: Ingress
@@ -43,7 +45,7 @@ tests:
               service:
                 name: testservice
                 port:
-                  number: 8080
+                  number: 8081
   - it: rpt-data-provider - common check
     documentIndex: 2
     set:
