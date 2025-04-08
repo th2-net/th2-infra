@@ -13,6 +13,7 @@ data:
     {{- else }}
     "host": {{ .Values.infraOperator.config.k8sUrl | quote }},
     "port": {{ .Values.rabbitmq.service.nodePorts.amqp | quote }},
+    "managementPort": {{ .Values.rabbitmq.service.nodePorts.manager | quote }},
     {{- end }}
     "vHost": "",
     "username": "",
